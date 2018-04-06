@@ -1,5 +1,9 @@
 package agartha.site
 
+import agartha.data.db.conn.Database
+import agartha.data.db.conn.MongoConnection
+import agartha.data.objects.MonitorDBO
+import agartha.data.services.MonitorService
 import io.schinzel.basicutils.configvar.ConfigVar
 import spark.Spark
 
@@ -11,6 +15,10 @@ import spark.Spark
 fun startServer(args: Array<String>) {
     val port: Int = ConfigVar.create(".env").getValue("PORT").toInt()
 
+    // Set Connection to database
+    MongoConnection.setConnection(Database.RUNTIME)
+
+
     // Port where Spark Server is running
     spark.kotlin.port(port)
 
@@ -19,7 +27,20 @@ fun startServer(args: Array<String>) {
 
     }
 
-    Spark.get("/monitoring") { _, _ -> "Still alive" }
+    Spark.path("/monitoring") {
+        Spark.get("/status") { _, _ -> "Still alive" }
+        Spark.path("/db") {
+            Spark.get("/write") { _, _ ->
+                val insert = MonitorService().insert(MonitorDBO("Item to insert"))
+                insert._id?.isNotEmpty().toString()
+            }
+            Spark.get("/read") { _, _ ->
+                val list = MonitorService().getAll()
+                list.isNotEmpty().toString()
+            }
+        }
+    }
+
 
     // Init server
     Spark.init()

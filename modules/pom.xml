@@ -17,9 +17,15 @@
     </modules>
 
 
+    <repositories>
+        <repository>
+            <id>maven-repo.schinzel.io</id>
+            <url>${schinzel.repo.url}</url>
+        </repository>
+    </repositories>
+
 
     <dependencies>
-
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
