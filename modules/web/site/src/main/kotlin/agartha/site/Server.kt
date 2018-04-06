@@ -19,6 +19,8 @@ fun startServer(args: Array<String>) {
 
     }
 
+    Spark.get("/monitoring") { _, _ -> "Still alive" }
+
     // Init server
     Spark.init()
 }
