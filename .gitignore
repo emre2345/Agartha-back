@@ -1,0 +1,23 @@
+node_modules
+
+# Package Files #
+*.jar
+
+# OS X system file
+.DS_Store
+
+# virtual machine crash logs
+hs_err_pid*
+target/
+
+##### IntelliJ files ######
+*.iml
+# Also IntelliJ. Use this format to be able un-ignore code style settings below
+.idea/*
+# Do not ingore code style settings
+!.idea/codeStyleSettings.xml
+# Do not ignore shared run-debug configurations
+!.idea/runConfigurations
+
+##### scss build cache files ######
+.sass-cache/*
