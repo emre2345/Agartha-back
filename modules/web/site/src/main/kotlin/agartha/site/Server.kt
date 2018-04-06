@@ -2,8 +2,8 @@ package agartha.site
 
 import agartha.data.db.conn.Database
 import agartha.data.db.conn.MongoConnection
-import agartha.data.objects.MonitorDBO
 import agartha.data.services.MonitorService
+import agartha.site.controllers.MonitorController
 import io.schinzel.basicutils.configvar.ConfigVar
 import spark.Spark
 
@@ -27,20 +27,8 @@ fun startServer(args: Array<String>) {
 
     }
 
-    Spark.path("/monitoring") {
-        Spark.get("/status") { _, _ -> "Still alive" }
-        Spark.path("/db") {
-            Spark.get("/write") { _, _ ->
-                val insert = MonitorService().insert(MonitorDBO("Item to insert"))
-                insert._id?.isNotEmpty().toString()
-            }
-            Spark.get("/read") { _, _ ->
-                val list = MonitorService().getAll()
-                list.isNotEmpty().toString()
-            }
-        }
-    }
-
+    // Add Paths for Monitoring
+    MonitorController(MonitorService())
 
     // Init server
     Spark.init()
