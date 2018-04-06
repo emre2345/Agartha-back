@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>web</artifactId>
+        <groupId>se.agartha</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>site</artifactId>
+
+
+    <repositories>
+        <repository>
+            <id>maven-repo.schinzel.io</id>
+            <url>${schinzel.repo.url}</url>
+        </repository>
+    </repositories>
+
+
+    <dependencies>
+        <!-- EXTERNAL -->
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib-jdk8</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
+        <!-- For handling Config Variables -->
+        <dependency>
+            <groupId>io.schinzel</groupId>
+            <artifactId>basic-utils</artifactId>
+            <version>${schinzel.version}</version>
+        </dependency>
+        <!-- Spark WebServer -->
+        <dependency>
+            <groupId>com.sparkjava</groupId>
+            <artifactId>spark-kotlin</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+        <!-- Mapper for turning Data objects into Database objects. Jackson used by KMongo (see data project) and therefore used here too -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-kotlin</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <!-- TEST -->
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-test</artifactId>
+            <version>${kotlin.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Spark Web Framework Test Library -->
+        <dependency>
+            <groupId>com.despegar</groupId>
+            <artifactId>spark-test</artifactId>
+            <version>${spark.test.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>
