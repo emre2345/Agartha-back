@@ -9,10 +9,12 @@ import agartha.site.ServerKt;
  * Created by Jorgen Andersson on 2018-04-06.
  */
 public class StarterMain {
+
     public static void main(String[] args) {
         ServerKt.startServer(args);
         System.out.println("***************************************************");
         System.out.println("**              Agartha Site                     **");
         System.out.println("***************************************************");
     }
+
 }
