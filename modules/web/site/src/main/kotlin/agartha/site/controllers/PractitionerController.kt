@@ -15,12 +15,14 @@ import java.util.*
  * Created by Jorgen Andersson on 2018-04-09.
  */
 class PractitionerController {
+    // Practitioner data service
     val mService : IPractitionerService
+    // For mapping objects to string
     val mMapper = jacksonObjectMapper()
 
     constructor(service : IPractitionerService) {
         mService = service
-
+        // API path for session
         Spark.path("/session") {
             // Where we have no userId set yet
             Spark.get("/", ::getInformation)
@@ -40,8 +42,6 @@ class PractitionerController {
     private fun getInformation(request: Request, response: Response) : String {
         // Get current userid or generate new
         val userId = request.params(":userid") ?: HashUtils.sha1(Date().hashCode().toString())
-        println("Jörgen debug")
-        println(userId)
         // Read data to be returned
         val activeCount = mService.getActiveCount()
         // Return data
