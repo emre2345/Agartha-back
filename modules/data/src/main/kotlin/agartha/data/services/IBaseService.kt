@@ -19,20 +19,6 @@ interface IBaseService<T : Any> {
     fun insert(item: T): T
 
     /**
-     * Function to upsert (insert if id is null, else replaceOne with id) document in database collection
-     * @param object to be upserted
-     * @return upserted document as object
-     */
-    fun upsert(item: T): T
-
-    /**
-     * Function to remove item from database
-     * @param database id as string for item to remove
-     * @return true if item found and removed else false
-     */
-    fun delete(id: String?): Boolean
-
-    /**
      * Function to get list of all documents as object in collection
      * @return all objects in collection
      */

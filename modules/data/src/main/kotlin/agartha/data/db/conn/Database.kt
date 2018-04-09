@@ -15,7 +15,7 @@ enum class Database constructor(val hostUrl: String) {
     RUNTIME(ConfigVar.create(".env").getValue("MONGOHQ_URL")),
     /**
      * The database used for tests.
-     * Randomize database name with 9 characters so it can never be same as runtime name ghostpanda (10 chars)
+     * Randomize database name with 9 characters so it can never be same as runtime name agartha (7 chars)
      */
     TEST("mongodb://localhost:27017/${RandomUtil.getRandomString(9)}");
 }

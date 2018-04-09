@@ -32,7 +32,7 @@ abstract class DatabaseHandler {
          */
         @AfterClass
         @JvmStatic fun teardownAfterClass() {
-            mMongoConnectionHelper!!.dropDatabase()
+            //mMongoConnectionHelper!!.dropDatabase()
         }
     }
 

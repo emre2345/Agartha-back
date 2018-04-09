@@ -6,5 +6,6 @@ package agartha.data.services
  * Created by Jorgen Andersson on 2018-03-20.
  */
 enum class CollectionNames(val collectionName : String) {
-    MONITOR_SERVICE ("monitor")
+    MONITOR_SERVICE ("monitor"),
+    PRACTITIONER_SERVICE("practitioner")
 }

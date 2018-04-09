@@ -27,26 +27,6 @@ open class MongoBaseService<T : Any>(collectionName: CollectionNames) : IBaseSer
     }
 
     /**
-     * Insert/Replace item in database depending on items database id exists or is null
-     */
-    override fun upsert(item: T): T {
-        return item.apply {
-            collection.save(item)
-        }
-    }
-
-    /**
-     * Delete from database by Id as string
-     */
-    override fun delete(id: String?): Boolean {
-        if (id != null) {
-            val deleteOneById = collection.deleteOneById(id)
-            return deleteOneById.deletedCount.equals(1L)
-        }
-        return false
-    }
-
-    /**
      * Get all items from database
      */
     override fun getAll(): List<T> {
