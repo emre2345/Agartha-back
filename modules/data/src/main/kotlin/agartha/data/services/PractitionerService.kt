@@ -20,8 +20,8 @@ class PractitionerService : MongoBaseService<PractitionerDBO>(CollectionNames.PR
      */
     override fun getActiveCount(): Int {
         return collection
-                // Find all where any of the sessions has active is true
-                .find("{sessions.active:true}")
+                // Find all people where any of the sessions has active is true
+                .find(Document("sessions", Document("${MongoOperator.elemMatch}", Document("active", true))))
                 // Count 'em
                 .count()
     }

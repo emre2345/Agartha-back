@@ -22,7 +22,11 @@ class PractitionerController {
         mService = service
 
         Spark.path("/session") {
+            // Where we have no userId set yet
+            Spark.get("/", ::getInformation)
+            // Where userId has been set
             Spark.get("/:userid", ::getInformation)
+            // Start new session with practice
             Spark.post("/:userid/:practice", ::insertSession)
         }
 
@@ -36,6 +40,8 @@ class PractitionerController {
     private fun getInformation(request: Request, response: Response) : String {
         // Get current userid or generate new
         val userId = request.params(":userid") ?: HashUtils.sha1(Date().hashCode().toString())
+        println("Jörgen debug")
+        println(userId)
         // Read data to be returned
         val activeCount = mService.getActiveCount()
         // Return data
