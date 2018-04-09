@@ -8,7 +8,13 @@ import java.util.Date
  * Created by Jorgen Andersson on 2018-04-09.
  */
 data class SessionDBO(
+        // Session index for this user
+        val index: Int,
+        // Type of practitioning
         val practition: String,
+        // Is this still active
         val active: Boolean = true,
+        // Time when started
         val startTime: Date = Date(),
+        // Time when ended
         val endTime: Date? = null)
