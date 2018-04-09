@@ -24,14 +24,6 @@ class MockedMonitorService : IBaseService<MonitorDBO> {
         return createdItem
     }
 
-    override fun upsert(item: MonitorDBO): MonitorDBO {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun delete(id: String?): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun getAll(): List<MonitorDBO> {
         return monitorList
     }

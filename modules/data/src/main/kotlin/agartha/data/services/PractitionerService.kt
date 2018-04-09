@@ -12,13 +12,13 @@ import org.litote.kmongo.updateOneById
  *
  * Created by Jorgen Andersson on 2018-04-09.
  */
-class PractitionerService : MongoBaseService<PractitionerDBO>(CollectionNames.PRACTITIONER_SERVICE) {
+class PractitionerService : MongoBaseService<PractitionerDBO>(CollectionNames.PRACTITIONER_SERVICE), IPractitionerService {
 
     /**
      * Get current number of people practicing
      * @return
      */
-    fun getActiveCount(): Int {
+    override fun getActiveCount(): Int {
         return collection
                 // Find all where any of the sessions has active is true
                 .find("{sessions.active:true}")
@@ -29,7 +29,7 @@ class PractitionerService : MongoBaseService<PractitionerDBO>(CollectionNames.PR
     /**
      * Start a new user session
      */
-    fun startSession(userId: String, practition: String): Int {
+    override fun startSession(userId: String, practition: String): Int {
         // Get current user
         val user = getById(userId)
         // Calculate next index (if any of user or user.sessions is null: rtn 0)
@@ -44,7 +44,7 @@ class PractitionerService : MongoBaseService<PractitionerDBO>(CollectionNames.PR
         return nextIndex
     }
 
-    fun endSession(userId: String, sessionId: Int) {
+    override fun endSession(userId: String, sessionId: Int) {
 
     }
 
