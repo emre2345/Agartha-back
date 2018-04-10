@@ -2,8 +2,7 @@ package agartha.site.controllers.mocks
 
 import agartha.data.objects.MonitorDBO
 import agartha.data.services.IBaseService
-import java.util.UUID
-
+import java.util.*
 
 
 /**
@@ -30,6 +29,9 @@ class MockedMonitorService : IBaseService<MonitorDBO> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    /**
+     * Clear database
+     */
     fun clear() {
         monitorList.clear()
     }

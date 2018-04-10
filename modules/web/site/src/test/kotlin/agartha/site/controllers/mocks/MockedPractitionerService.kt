@@ -3,8 +3,6 @@ package agartha.site.controllers.mocks
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
-import agartha.site.objects.HashUtils
-import java.util.*
 
 /**
  * Purpose of this file is Mocked service for testing Controller
@@ -31,7 +29,6 @@ class MockedPractitionerService : IPractitionerService {
         val nextIndex = first.sessions.count() + 1
         first.sessions.plus(SessionDBO(nextIndex, practition))
         return nextIndex
-        return 1
     }
 
     override fun endSession(userId: String, sessionId: Int) {
@@ -56,6 +53,9 @@ class MockedPractitionerService : IPractitionerService {
         }?.first()
     }
 
+    /**
+     * Clear database
+     */
     fun clear() {
         practitionerList.clear()
     }

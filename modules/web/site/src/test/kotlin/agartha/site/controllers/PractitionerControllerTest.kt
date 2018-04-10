@@ -38,6 +38,9 @@ class PractitionerControllerTest {
         mockedService.clear()
     }
 
+    /**
+     *
+     */
     @Test
     fun practitionerController_testEmptyUserId_status200() {
         val getRequest = testController.testServer.get("/session/", false)
@@ -45,6 +48,9 @@ class PractitionerControllerTest {
         assertThat(httpResponse.code()).isEqualTo(200)
     }
 
+    /**
+     *
+     */
     @Test
     fun practitionerController_testEmptyUserId_userCreated() {
         val getRequest = testController.testServer.get("/session/", false)
@@ -55,6 +61,9 @@ class PractitionerControllerTest {
         assertThat(data.userId.length).isEqualTo(40)
     }
 
+    /**
+     *
+     */
     @Test
     fun practitionerController_testUserId_userExists() {
         // Setup
@@ -68,6 +77,9 @@ class PractitionerControllerTest {
         assertThat(data.userId).isEqualTo("abc")
     }
 
+    /**
+     *
+     */
     @Test
     fun practitionerController_insertSession_sessionIdIs1() {
         // Setup
