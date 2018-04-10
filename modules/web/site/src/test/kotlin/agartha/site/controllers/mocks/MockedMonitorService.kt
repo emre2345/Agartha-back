@@ -2,14 +2,11 @@ package agartha.site.controllers.mocks
 
 import agartha.data.objects.MonitorDBO
 import agartha.data.services.IBaseService
-import java.util.UUID
-
+import java.util.*
 
 
 /**
- * Purpose of this file is ...
- *
- * Created by Jorgen Andersson on 2018-04-06.
+ * Purpose of this file is Mocked service for testing Monitor Controllers
  */
 class MockedMonitorService : IBaseService<MonitorDBO> {
     val monitorList: MutableList<MonitorDBO> = mutableListOf()
@@ -24,14 +21,6 @@ class MockedMonitorService : IBaseService<MonitorDBO> {
         return createdItem
     }
 
-    override fun upsert(item: MonitorDBO): MonitorDBO {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun delete(id: String?): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun getAll(): List<MonitorDBO> {
         return monitorList
     }
@@ -40,4 +29,10 @@ class MockedMonitorService : IBaseService<MonitorDBO> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    /**
+     * Clear database
+     */
+    fun clear() {
+        monitorList.clear()
+    }
 }

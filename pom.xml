@@ -102,8 +102,9 @@
                     </dependency>
                 </dependencies>
                 <configuration>
-                    <forkCount>5</forkCount>
-                    <reuseForks>true</reuseForks>
+                    <!-- Spark can only have one instance running at each moment. Parallell tests is not possible unless re-writing all Controller tests in Site package -->
+                    <forkCount>1</forkCount>
+                    <reuseForks>false</reuseForks>
                 </configuration>
             </plugin>
         </plugins>

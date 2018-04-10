@@ -3,7 +3,9 @@ package agartha.site
 import agartha.data.db.conn.Database
 import agartha.data.db.conn.MongoConnection
 import agartha.data.services.MonitorService
+import agartha.data.services.PractitionerService
 import agartha.site.controllers.MonitorController
+import agartha.site.controllers.PractitionerController
 import io.schinzel.basicutils.configvar.ConfigVar
 import spark.Spark
 
@@ -24,7 +26,7 @@ fun startServer(args: Array<String>) {
 
     // Handling the API
     Spark.path("/v1") {
-
+        PractitionerController(PractitionerService())
     }
 
     // Add Paths for Monitoring
