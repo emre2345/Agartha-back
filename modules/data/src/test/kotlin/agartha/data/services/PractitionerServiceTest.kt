@@ -5,6 +5,7 @@ import agartha.data.objects.SessionDBO
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
+import java.util.*
 
 /**
  * Purpose of this file is to test practitioner service
@@ -47,5 +48,16 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Get user and Count sessions
         val practitioner = PractitionerService().getById(item._id as String)
         assertThat(practitioner?.sessions?.size).isEqualTo(3)
+    }
+
+
+    @Test
+    fun hovno() {
+        // Test to insert two items with same id
+        PractitionerService().insert(PractitionerDBO(listOf<SessionDBO>(), Date(), "5ac754e920696f14cbdfa3e5"))
+        PractitionerService().insert(PractitionerDBO(listOf<SessionDBO>(), Date(), "5ac754e920696f14cbdfa3e5"))
+
+        val allUsers = PractitionerService().getAll()
+        assertThat(allUsers.size).isEqualTo(1)
     }
 }

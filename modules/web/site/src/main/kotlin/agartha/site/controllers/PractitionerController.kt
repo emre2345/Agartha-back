@@ -1,5 +1,6 @@
 package agartha.site.controllers
 
+import agartha.data.objects.PractitionerDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.objects.HashUtils
 import agartha.site.objects.PracticeData
@@ -42,10 +43,12 @@ class PractitionerController {
     private fun getInformation(request: Request, response: Response) : String {
         // Get current userid or generate new
         val userId = request.params(":userid") ?: HashUtils.sha1(Date().hashCode().toString())
+        // Get user from data source if exists or create
+        val user = mService.getById(userId) ?:  mService.insert(PractitionerDBO(mutableListOf(), Date(), userId))
         // Read data to be returned
         val activeCount = mService.getActiveCount()
         // Return data
-        return mMapper.writeValueAsString(PracticeData(userId, activeCount))
+        return mMapper.writeValueAsString(PracticeData(user._id as String, activeCount))
     }
 
 

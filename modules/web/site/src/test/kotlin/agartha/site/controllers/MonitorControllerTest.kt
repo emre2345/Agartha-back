@@ -1,9 +1,9 @@
 package agartha.site.controllers
 
-import agartha.data.objects.MonitorDBO
-import agartha.data.services.IBaseService
 import agartha.site.controllers.mocks.MockedMonitorService
 import org.assertj.core.api.Assertions
+import org.junit.After
+import org.junit.BeforeClass
 import org.junit.Test
 
 /**
@@ -11,17 +11,31 @@ import org.junit.Test
  */
 class MonitorControllerTest {
 
-    private fun setupStuff(service: IBaseService<MonitorDBO>): ControllerServer {
+
+    companion object {
+        val mockedService = MockedMonitorService()
         val testController = ControllerServer()
-        MonitorController(service)
-        spark.Spark.awaitInitialization()
-        return testController
+
+        @BeforeClass
+        @JvmStatic
+        fun setupClass() {
+            MonitorController(mockedService)
+            spark.Spark.awaitInitialization()
+        }
+    }
+
+
+    /**
+     * Clear Mock after each test
+     */
+    @After
+    fun afterTest() {
+        mockedService.clear()
     }
 
 
     @Test
     fun monitorController_monitorStatus_StillAlive() {
-        val testController = setupStuff(MockedMonitorService())
         //
         val getRequest = testController.testServer.get("/monitoring/status", false)
         val httpResponse = testController.testServer.execute(getRequest)
@@ -33,7 +47,6 @@ class MonitorControllerTest {
 
     @Test
     fun monitorController_monitorDbWrite_true() {
-        val testController = setupStuff(MockedMonitorService())
         //
         val getRequest = testController.testServer.get("/monitoring/db/write", false)
         val httpResponse = testController.testServer.execute(getRequest)
@@ -44,7 +57,6 @@ class MonitorControllerTest {
 
     @Test
     fun monitorController_monitorDbRead_true() {
-        val testController = setupStuff(MockedMonitorService())
         //
         testController.testServer.execute(testController.testServer.get("/monitoring/db/write", false))
         //

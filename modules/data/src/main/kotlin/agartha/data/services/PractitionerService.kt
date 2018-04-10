@@ -4,7 +4,6 @@ import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import org.bson.Document
 import org.litote.kmongo.MongoOperator
-import org.litote.kmongo.find
 import org.litote.kmongo.updateOneById
 
 /**

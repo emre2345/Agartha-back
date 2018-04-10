@@ -16,7 +16,7 @@ class MockedPractitionerService : IPractitionerService {
 
 
     override fun getActiveCount(): Int {
-        return practitionerList.filter {
+        return this.practitionerList.filter {
             it.sessions.any {
                 it.active
             }
@@ -24,13 +24,14 @@ class MockedPractitionerService : IPractitionerService {
     }
 
     override fun startSession(userId: String, practition: String): Int {
-
         val first = practitionerList.filter {
             it._id.equals(userId)
         }.first()
+
         val nextIndex = first.sessions.count() + 1
         first.sessions.plus(SessionDBO(nextIndex, practition))
         return nextIndex
+        return 1
     }
 
     override fun endSession(userId: String, sessionId: Int) {
@@ -38,9 +39,8 @@ class MockedPractitionerService : IPractitionerService {
     }
 
     override fun insert(item: PractitionerDBO): PractitionerDBO {
-        val newItem = PractitionerDBO(mutableListOf(), Date(), HashUtils.sha1(Date().hashCode().toString()))
-        practitionerList.add(newItem)
-        return newItem
+        practitionerList.add(item)
+        return item
     }
 
     override fun getAll(): List<PractitionerDBO> {
@@ -48,9 +48,17 @@ class MockedPractitionerService : IPractitionerService {
     }
 
     override fun getById(id: String?): PractitionerDBO? {
+        if (practitionerList.isEmpty()) {
+            return null
+        }
         return practitionerList.filter {
             it._id.equals(id)
-        }.first()
+        }?.first()
     }
+
+    fun clear() {
+        practitionerList.clear()
+    }
+
 
 }
