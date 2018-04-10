@@ -7,9 +7,7 @@ import java.util.UUID
 
 
 /**
- * Purpose of this file is ...
- *
- * Created by Jorgen Andersson on 2018-04-06.
+ * Purpose of this file is Mocked service for testing Monitor Controllers
  */
 class MockedMonitorService : IBaseService<MonitorDBO> {
     val monitorList: MutableList<MonitorDBO> = mutableListOf()

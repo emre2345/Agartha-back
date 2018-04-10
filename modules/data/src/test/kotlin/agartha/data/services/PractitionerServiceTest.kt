@@ -50,14 +50,4 @@ class PractitionerServiceTest : DatabaseHandler() {
         assertThat(practitioner?.sessions?.size).isEqualTo(3)
     }
 
-
-    @Test
-    fun hovno() {
-        // Test to insert two items with same id
-        PractitionerService().insert(PractitionerDBO(listOf<SessionDBO>(), Date(), "5ac754e920696f14cbdfa3e5"))
-        PractitionerService().insert(PractitionerDBO(listOf<SessionDBO>(), Date(), "5ac754e920696f14cbdfa3e5"))
-
-        val allUsers = PractitionerService().getAll()
-        assertThat(allUsers.size).isEqualTo(1)
-    }
 }

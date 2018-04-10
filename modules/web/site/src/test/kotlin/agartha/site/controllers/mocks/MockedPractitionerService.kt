@@ -7,7 +7,7 @@ import agartha.site.objects.HashUtils
 import java.util.*
 
 /**
- * Purpose of this file is ...
+ * Purpose of this file is Mocked service for testing Controller
  *
  * Created by Jorgen Andersson on 2018-04-09.
  */
