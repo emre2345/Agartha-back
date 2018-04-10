@@ -10,7 +10,7 @@ import org.junit.Test
 import java.util.*
 
 /**
- * Purpose of this file is ...
+ * Purpose of this file is to test the Practitioner controller
  *
  * Created by Jorgen Andersson on 2018-04-09.
  */
