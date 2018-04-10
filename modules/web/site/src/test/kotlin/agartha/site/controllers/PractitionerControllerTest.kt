@@ -58,7 +58,7 @@ class PractitionerControllerTest {
         val body = String(httpResponse.body())
         // Map to Data object
         val data: PracticeData = jacksonObjectMapper().readValue(body, PracticeData::class.java)
-        assertThat(data.userId.length).isEqualTo(40)
+        assertThat(data.userId.length).isEqualTo(36)
     }
 
     /**
