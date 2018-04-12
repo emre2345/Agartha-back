@@ -1,6 +1,8 @@
 package agartha.site.controllers
 
+import agartha.data.objects.SettingsDBO
 import agartha.site.controllers.mocks.MockedSettingService
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.BeforeClass
@@ -48,6 +50,19 @@ class SettingControllerTest {
      */
     @Test
     fun settingController_settings_defaultIntentionCount() {
+        val getRequest = testController.testServer.get("/settings", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+
+        val item = jacksonObjectMapper().readValue(body, SettingsDBO::class.java)
+        assertThat(item.intentions.size).isEqualTo(10)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun settingsController_settings_defaultIntentions() {
         val getRequest = testController.testServer.get("/settings", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())

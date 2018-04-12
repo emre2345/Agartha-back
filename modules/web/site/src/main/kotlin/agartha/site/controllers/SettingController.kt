@@ -21,11 +21,12 @@ class SettingController {
 
         get("/settings") { _, _ ->
             val list = mService.getAll()
-            //
             if (list.isNotEmpty()) {
-                mMapper.convertValue(list[0], SettingsDBO::class.java)
+                // If Settings data source is not empty, return first item
+                mMapper.writeValueAsString(list[0])
             } else {
-                mService.insert(getDefaultSettings())
+                // If Settings data source is empty, get default
+                mMapper.writeValueAsString(mService.insert(getDefaultSettings()))
             }
         }
     }
