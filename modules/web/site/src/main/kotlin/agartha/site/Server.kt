@@ -7,7 +7,7 @@ import agartha.data.services.PractitionerService
 import agartha.data.services.SettingsService
 import agartha.site.controllers.MonitorController
 import agartha.site.controllers.PractitionerController
-import agartha.site.controllers.SettingsController
+import agartha.site.controllers.SettingController
 import io.schinzel.basicutils.configvar.ConfigVar
 import spark.Spark
 
@@ -28,7 +28,7 @@ fun startServer(args: Array<String>) {
 
     // Handling the API
     Spark.path("/v1") {
-        SettingsController(SettingsService())
+        SettingController(SettingsService())
         PractitionerController(PractitionerService())
     }
 
