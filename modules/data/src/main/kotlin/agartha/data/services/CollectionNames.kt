@@ -7,5 +7,6 @@ package agartha.data.services
  */
 enum class CollectionNames(val collectionName : String) {
     MONITOR_SERVICE ("monitor"),
-    PRACTITIONER_SERVICE("practitioner")
+    PRACTITIONER_SERVICE("practitioner"),
+    SETTINGS_SERVICE("settings")
 }

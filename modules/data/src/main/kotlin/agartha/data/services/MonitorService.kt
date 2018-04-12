@@ -7,6 +7,4 @@ import agartha.data.objects.MonitorDBO
  *
  * Created by Jorgen Andersson on 2018-04-06.
  */
-class MonitorService : MongoBaseService<MonitorDBO>(CollectionNames.MONITOR_SERVICE) {
-
-}
+class MonitorService : MongoBaseService<MonitorDBO>(CollectionNames.MONITOR_SERVICE)
