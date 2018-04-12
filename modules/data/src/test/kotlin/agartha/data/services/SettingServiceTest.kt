@@ -27,7 +27,7 @@ class SettingServiceTest : DatabaseHandler() {
     @Test
     fun practitionerService_insert_collectionSize1() {
         val settings = SettingsService().insert(SettingsDBO(listOf(
-                IntentionDBO("The Title", "The Description", "")
+                IntentionDBO("The Title", "The Description")
         )))
         val allSettings = SettingsService().getAll()
         assertThat(allSettings.size).isEqualTo(1)
@@ -39,7 +39,7 @@ class SettingServiceTest : DatabaseHandler() {
     @Test
     fun practitionerService_insert_insertedReturned() {
         val settings = SettingsService().insert(SettingsDBO(listOf(
-                IntentionDBO("The Title", "The Description", "")
+                IntentionDBO("The Title", "The Description")
         )))
         assertThat(settings.intentions.first().title).isEqualTo("The Title")
         assertThat(settings._id).isNotNull()
@@ -51,11 +51,11 @@ class SettingServiceTest : DatabaseHandler() {
     @Test
     fun practitionerService_mutipleInsert_onlyOneGetsSaved() {
         SettingsService().insert(SettingsDBO(listOf(
-                IntentionDBO("The Title 1", "The Description 1", ""))))
+                IntentionDBO("The Title 1", "The Description 1"))))
         SettingsService().insert(SettingsDBO(listOf(
-                IntentionDBO("The Title 2", "The Description 2", ""))))
+                IntentionDBO("The Title 2", "The Description 2"))))
         SettingsService().insert(SettingsDBO(listOf(
-                IntentionDBO("The Title 3", "The Description 3", ""))))
+                IntentionDBO("The Title 3", "The Description 3"))))
 
         val allSettings = SettingsService().getAll()
         assertThat(allSettings.size).isEqualTo(1)

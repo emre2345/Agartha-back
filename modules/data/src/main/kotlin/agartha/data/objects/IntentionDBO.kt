@@ -7,5 +7,4 @@ package agartha.data.objects
  */
 data class IntentionDBO(
         val title : String,
-        val description : String,
-        val imageUrl: String)
+        val description : String)
