@@ -28,11 +28,22 @@ fun startServer(args: Array<String>) {
 
     // Handling the API
     Spark.path("/v1") {
+        /**
+         * CORS (Cross Origin stuff)
+         * Allow requests from any origin, needed to be able to access this path
+         */
+        Spark.options("/*") { request, response ->
+            response.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
+            response.header("Access-Control-Allow-Origin", "*")
+            response.header("Access-Control-Allow-Credentials", "true")
+            "OK"
+        }
+        //
         SettingController(SettingsService())
         PractitionerController(PractitionerService())
     }
 
-    // Add Paths for Monitoring
+    // Add Paths for Monitoring - No need to have CORS since this should be called from Monitoring tool fx Pingdom
     MonitorController(MonitorService())
 
     // Init server

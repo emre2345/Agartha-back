@@ -4,7 +4,7 @@ import agartha.data.objects.IntentionDBO
 import agartha.data.objects.SettingsDBO
 import agartha.data.services.IBaseService
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import spark.Spark.get
+import spark.Spark.*
 
 /**
  * Purpose of this file is handling API requests for settings
@@ -19,7 +19,10 @@ class SettingController {
     constructor(service: IBaseService<SettingsDBO>) {
         mService = service
 
-        get("/settings") { _, _ ->
+        get("/settings") { request, response ->
+            // Allow requests from all origins
+            response.header("Access-Control-Allow-Origin", "*")
+            //
             val list = mService.getAll()
             if (list.isNotEmpty()) {
                 // If Settings data source is not empty, return first item
