@@ -62,7 +62,7 @@ class SettingControllerTest {
      *
      */
     @Test
-    fun settingsController_settings_defaultIntentions() {
+    fun settingController_settings_defaultIntentions() {
         val getRequest = testController.testServer.get("/settings", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
@@ -77,5 +77,29 @@ class SettingControllerTest {
         assertThat(body).contains("LOVE")
         assertThat(body).contains("CELEBRATION")
         assertThat(body).contains("TRANSFORMATION")
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun settingController_settings_defaultPracticesCount() {
+        val getRequest = testController.testServer.get("/settings", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+
+        val item = jacksonObjectMapper().readValue(body, SettingsDBO::class.java)
+        assertThat(item.practices.size).isEqualTo(2)
+    }
+
+
+    @Test
+    fun settingController_settings_defaultPractices() {
+        val getRequest = testController.testServer.get("/settings", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+        // Validate first level practices
+        assertThat(body).contains("Meditation")
+        assertThat(body).contains("Yoga")
     }
 }
