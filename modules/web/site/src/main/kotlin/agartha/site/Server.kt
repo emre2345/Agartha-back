@@ -26,11 +26,11 @@ fun startServer(args: Array<String>) {
     // Port where Spark Server is running
     spark.kotlin.port(port)
 
-    // Enable CORS
-    Spark.before ("/*", {_, response -> response.header("Access-Control-Allow-Origin", "*") })
-
     // Handling the API
     Spark.path("/v1") {
+        // Enable CORS - First version remove one of these when the FE ApiFetch is verified
+        // Spark.before ("/*", {_, response -> response.header("Access-Control-Allow-Origin", "*") })
+
         /**
          * CORS (Cross Origin stuff)
          * Allow requests from any origin, needed to be able to access this path
