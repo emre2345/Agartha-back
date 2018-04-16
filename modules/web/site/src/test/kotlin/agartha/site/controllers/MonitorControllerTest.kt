@@ -41,7 +41,7 @@ class MonitorControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         Assertions.assertThat(httpResponse.code()).isEqualTo(200)
         val body = String(httpResponse.body())
-        Assertions.assertThat(body).isEqualTo("Still alive")
+        Assertions.assertThat(body).isEqualTo("{\"text\": \"Still alive\"}")
     }
 
 
