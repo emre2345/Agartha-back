@@ -5,8 +5,7 @@ import agartha.data.services.IBaseService
 import java.util.*
 
 /**
- * Purpose of this class ...
- *
+ * Mocked service for settings for testing SettingController
  * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-04-12.
  */
 class MockedSettingService : IBaseService<SettingsDBO> {
