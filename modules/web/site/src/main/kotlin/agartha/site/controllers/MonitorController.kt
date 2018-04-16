@@ -3,6 +3,8 @@ package agartha.site.controllers
 import agartha.data.objects.MonitorDBO
 import agartha.data.services.IBaseService
 import agartha.data.services.MonitorService
+import agartha.site.objects.PracticeData
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import spark.Spark
 
 /**
@@ -12,12 +14,16 @@ import spark.Spark
  */
 class MonitorController {
     val mService : IBaseService<MonitorDBO>
+    // For mapping objects to string
+    val mMapper = jacksonObjectMapper()
 
     constructor(service: IBaseService<MonitorDBO>) {
         mService = service
 
         Spark.path("/monitoring") {
-            Spark.get("/status") { _, _ -> "Still alive" }
+            Spark.get("/status") { _, _ ->
+                "{\"text\": \"Still alive\"}"
+            }
             // Monitoring DB is read/writeable
             Spark.path("/db") {
                 // Write monitoring
