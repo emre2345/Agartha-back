@@ -5,8 +5,7 @@ import agartha.data.services.IBaseService
 import java.util.*
 
 /**
- * Purpose of this class ...
- *
+ * Mocked service for settings for testing SettingController
  * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-04-12.
  */
 class MockedSettingService : IBaseService<SettingsDBO> {
@@ -16,7 +15,7 @@ class MockedSettingService : IBaseService<SettingsDBO> {
     override fun insert(item: SettingsDBO): SettingsDBO {
         if (settingList.isEmpty()) {
             val uuid = UUID.randomUUID()
-            val createdItem = SettingsDBO(item.intentions, uuid.toString())
+            val createdItem = SettingsDBO(item.intentions, item.practices, uuid.toString())
             settingList.add(createdItem)
             return createdItem
         }

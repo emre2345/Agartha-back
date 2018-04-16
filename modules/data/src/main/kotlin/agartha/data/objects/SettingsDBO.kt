@@ -6,5 +6,9 @@ package agartha.data.objects
  * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-04-12.
  */
 data class SettingsDBO(
-        val intentions : List<IntentionDBO>,
+        // List of intentions
+        val intentions : List<IntentionDBO> = emptyList(),
+        // List of practices
+        val practices : List<PracticeDBO> = emptyList(),
+        // Database id
         val _id: String? = null)
