@@ -17,4 +17,14 @@ data class SessionDBO(
         // Time when started
         val startTime: Date = Date(),
         // Time when ended
-        val endTime: Date? = null)
+        val endTime: Date? = null) {
+
+    fun calculateSessionDuration() : Long {
+        // If the session has been abandoned, inactive for too long for user to still be active
+        if (endTime == null && !active) {
+            return 0
+        }
+        // If session is ended return diff between end and start time, else diff between now and start time
+        return endTime?.time?.minus(startTime.time) ?: Date().time.minus(startTime.time)
+    }
+}

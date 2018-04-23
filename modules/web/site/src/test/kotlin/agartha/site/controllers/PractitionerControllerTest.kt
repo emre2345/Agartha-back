@@ -2,7 +2,7 @@ package agartha.site.controllers
 
 import agartha.data.objects.PractitionerDBO
 import agartha.site.controllers.mocks.MockedPractitionerService
-import agartha.site.objects.PracticeData
+import agartha.site.objects.Practitioner
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
@@ -56,9 +56,10 @@ class PractitionerControllerTest {
         val getRequest = testController.testServer.get("/session/", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
+        println(body)
         // Map to Data object
-        val data: PracticeData = jacksonObjectMapper().readValue(body, PracticeData::class.java)
-        assertThat(data.userId.length).isEqualTo(36)
+        val data: Practitioner = jacksonObjectMapper().readValue(body, Practitioner::class.java)
+        assertThat(data.userId?.length).isEqualTo(36)
     }
 
     /**
@@ -73,7 +74,7 @@ class PractitionerControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: PracticeData = jacksonObjectMapper().readValue(body, PracticeData::class.java)
+        val data: Practitioner = jacksonObjectMapper().readValue(body, Practitioner::class.java)
         assertThat(data.userId).isEqualTo("abc")
     }
 

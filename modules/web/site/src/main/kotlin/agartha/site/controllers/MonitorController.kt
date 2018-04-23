@@ -2,8 +2,6 @@ package agartha.site.controllers
 
 import agartha.data.objects.MonitorDBO
 import agartha.data.services.IBaseService
-import agartha.data.services.MonitorService
-import agartha.site.objects.PracticeData
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import spark.Spark
 
@@ -13,7 +11,7 @@ import spark.Spark
  * Created by Jorgen Andersson on 2018-04-06.
  */
 class MonitorController {
-    val mService : IBaseService<MonitorDBO>
+    val mService: IBaseService<MonitorDBO>
     // For mapping objects to string
     val mMapper = jacksonObjectMapper()
 
