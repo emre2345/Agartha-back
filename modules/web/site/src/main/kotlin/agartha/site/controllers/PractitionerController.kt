@@ -1,6 +1,7 @@
 package agartha.site.controllers
 
 import agartha.data.objects.PractitionerDBO
+import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.objects.Practitioner
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -34,9 +35,6 @@ class PractitionerController {
             //
             // Start new session with practice
             Spark.post("/:userid/:practice", ::insertSession)
-            //
-            // Session report, feedback after completed session
-            Spark.get("/report/:userid", ::sessionReport)
         }
     }
 
@@ -67,22 +65,6 @@ class PractitionerController {
         val practice = request.params(":practice")
         // Start a session
         return mService.startSession(userId, practice)
-    }
-
-    /**
-     *
-     */
-    private fun sessionReport(request: Request, response: Response) : String {
-        // Get current userid
-        val userId = request.params(":userid")
-        // Get user from data source
-        val user: PractitionerDBO = getUserFromUserId(userId)
-        // Map to Practitoner
-        val practitioner = Practitioner(user)
-        // Map to Contribution
-
-
-        return "HOVNO"
     }
 
 
