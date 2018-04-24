@@ -1,6 +1,7 @@
 package agartha.site.objects
 
 import agartha.data.objects.PractitionerDBO
+import agartha.data.objects.SessionDBO
 
 /**
  * Purpose of this file is response object for the current Practitioner
@@ -13,18 +14,14 @@ import agartha.data.objects.PractitionerDBO
 data class Practitioner(val userId: String?, val lastSessionTime: Long = 0, val totalSessionTime: Long = 0) {
 
     /**
-     * @param practitioner datbase users
+     * @param practitioner database users
      */
-    constructor(practitioner: PractitionerDBO) : this(
-            practitioner._id,
-            practitioner
-                    // For each session
-                    .sessions
+    constructor(userId: String?, sessions: List<SessionDBO>) : this(
+            userId,
+            sessions
                     // Get the last session duration time or zero if non exists
                     .lastOrNull()?.sessionDurationMinutes() ?: 0,
-            practitioner
-                    // For each session
-                    .sessions
+            sessions
                     // Map to session duration
                     .map { it.sessionDurationMinutes() }
                     // Sum it

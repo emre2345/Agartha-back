@@ -55,7 +55,7 @@ class PractitionerController {
         // Get user from data source
         val user: PractitionerDBO = getUserFromUserId(userId)
         // Return info about current user
-        return mMapper.writeValueAsString(Practitioner(user))
+        return mMapper.writeValueAsString(Practitioner(userId, user.sessions))
     }
 
 
@@ -81,7 +81,7 @@ class PractitionerController {
         // Get user from data source
         val user: PractitionerDBO = getUserFromUserId(userId)
         // Map to Practitoner
-        val practitioner = Practitioner(user)
+        val practitioner = Practitioner(userId, user.sessions)
         // Map to Contribution
         val companion = getSessionCompanions(user.sessions.last())
 
