@@ -1,6 +1,5 @@
 package agartha.site.objects
 
-import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 
 /**

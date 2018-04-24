@@ -38,6 +38,12 @@ class PractitionerService : MongoBaseService<PractitionerDBO>(CollectionNames.PR
 
     }
 
+    /**
+     *
+     * @param startDateTime
+     * @param endDateTime
+     * @return
+     */
     override fun getPractitionersWithSessionBetween(startDateTime: LocalDateTime, endDateTime: LocalDateTime) : List<PractitionerDBO> {
         //
         val mongoFormattedStart = DateTimeFormat.formatDateTimeAsMongoString(startDateTime)

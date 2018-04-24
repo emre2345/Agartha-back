@@ -3,6 +3,7 @@ package agartha.site.controllers.mocks
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
+import java.time.LocalDateTime
 
 /**
  * Purpose of this file is Mocked service for testing Controller
@@ -43,6 +44,10 @@ class MockedPractitionerService : IPractitionerService {
         return practitionerList.filter {
             it._id.equals(id)
         }?.first()
+    }
+
+    override fun getPractitionersWithSessionBetween(startDate: LocalDateTime, endDate: LocalDateTime): List<PractitionerDBO> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     /**

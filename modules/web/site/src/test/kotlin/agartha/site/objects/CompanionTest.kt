@@ -4,16 +4,15 @@ import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.SessionDBO
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import java.time.LocalDateTime
 
 /**
- * Purpose of this file is Test for Practitioner response object
+ * Purpose of this file is Test for Companion response object
  *
- * Created by Jorgen Andersson on 2018-04-23.
+ * Created by Jorgen Andersson on 2018-04-24.
  */
-class PractitionerTest {
+class CompanionTest {
 
-    fun generateSessions() : List<SessionDBO> {
+    fun generateSessions(): List<SessionDBO> {
         return listOf(
                 SessionDBO(0, "Yoga", false,
                         DateTimeFormat.stringToLocalDateTime("2018-04-18 12:00:00"),
@@ -28,26 +27,26 @@ class PractitionerTest {
     }
 
     @Test
-    fun practitionerLastSessionTime_WithNoSessions_zero() {
-        val user = Practitioner(null)
-        assertThat(user.lastSessionTime).isEqualTo(0)
+    fun companionSessionCount_emptyList_0() {
+        val companion = Companion(emptyList())
+        assertThat(companion.count).isEqualTo(0)
     }
 
     @Test
-    fun practitionerLastSessionTime_WithSessions_20() {
-        val user = Practitioner("abc", generateSessions())
-        assertThat(user.lastSessionTime).isEqualTo(20)
+    fun compaionSessionCount_existingList_3() {
+        val companion = Companion(generateSessions())
+        assertThat(companion.count).isEqualTo(3)
     }
 
     @Test
-    fun practitionerTotalSessionTime_WithNoSessions_zero() {
-        val user = Practitioner(null)
-        assertThat(user.totalSessionTime).isEqualTo(0)
+    fun compaionSessionMinutes_emptyList_0() {
+        val companion = Companion(emptyList())
+        assertThat(companion.minutes).isEqualTo(0)
     }
 
     @Test
-    fun practitionerTotalSessionTime_WithSessions_80() {
-        val user = Practitioner("abc", generateSessions())
-        assertThat(user.totalSessionTime).isEqualTo(90)
+    fun compaionSessionMinutes_existingList_3() {
+        val companion = Companion(generateSessions())
+        assertThat(companion.minutes).isEqualTo(90)
     }
 }
