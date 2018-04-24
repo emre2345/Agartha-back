@@ -1,11 +1,13 @@
 package agartha.data.services
 
+import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import org.bson.Document
 import org.litote.kmongo.MongoOperator
-import org.litote.kmongo.findOneById
+import org.litote.kmongo.find
 import org.litote.kmongo.updateOneById
+import java.time.LocalDateTime
 
 /**
  * Purpose of this file is manipulating data for a practitioner in data storage
@@ -15,25 +17,13 @@ import org.litote.kmongo.updateOneById
 class PractitionerService : MongoBaseService<PractitionerDBO>(CollectionNames.PRACTITIONER_SERVICE), IPractitionerService {
 
     /**
-     * Get current number of people practicing
-     * @return
-     */
-    override fun getActiveCount(): Int {
-        return collection
-                // Find all people where any of the sessions has active is true
-                .find(Document("sessions", Document("${MongoOperator.elemMatch}", Document("active", true))))
-                // Count 'em
-                .count()
-    }
-
-    /**
      * Start a new user session
      */
     override fun startSession(userId: String, practition: String): Int {
         // Get current user
-        val user : PractitionerDBO? = getById(userId)
+        val user: PractitionerDBO? = getById(userId)
         // Calculate next index (if any of user or user.sessions is null: rtn 0)
-        val nextIndex = (user?.sessions?.count() ?: 0) + 1
+        val nextIndex = user?.sessions?.count() ?: 0
         // Create a new Session
         val session = SessionDBO(nextIndex, practition)
         // Create Mongo Document to be added to sessions list
@@ -48,4 +38,21 @@ class PractitionerService : MongoBaseService<PractitionerDBO>(CollectionNames.PR
 
     }
 
+
+    override fun getPractitionersWithSessionBetween(startDateTime: LocalDateTime, endDateTime: LocalDateTime) : List<PractitionerDBO> {
+        //
+        val mongoFormattedStart = DateTimeFormat.formatDateTimeAsMongoString(startDateTime)
+        val mongoFormattedEnd = DateTimeFormat.formatDateTimeAsMongoString(endDateTime)
+        //
+        // Find practitioners with session start time between argument dates
+        val strStart = """{sessions: {${MongoOperator.elemMatch}: { startTime: { ${MongoOperator.gte}: ISODate('${mongoFormattedStart}'), ${MongoOperator.lt}: ISODate('${mongoFormattedEnd}') } } } }"""
+        // Find practitioners with session end time between argument dates
+        val strEnd = """{sessions: {${MongoOperator.elemMatch}: { endTime: { ${MongoOperator.gte}: ISODate('${mongoFormattedStart}'), ${MongoOperator.lt}: ISODate('${mongoFormattedEnd}') } } } }"""
+        // Join the two for getting practitioners with start or end time in argument date, ie find overlapping sessions
+        val together = """{${MongoOperator.or}: [${strStart},${strEnd}]}"""
+
+        return collection
+                .find(together)
+                .toList() as List<PractitionerDBO>
+    }
 }

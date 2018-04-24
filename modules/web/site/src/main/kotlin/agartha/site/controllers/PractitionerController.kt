@@ -25,12 +25,18 @@ class PractitionerController {
         mService = service
         // API path for session
         Spark.path("/session") {
+            //
             // Where we have no userId set yet
             Spark.get("/", ::getInformation)
+            //
             // Where userId has been set
             Spark.get("/:userid", ::getInformation)
+            //
             // Start new session with practice
             Spark.post("/:userid/:practice", ::insertSession)
+            //
+            // Session report, feedback after completed session
+            Spark.get("/report/:userid", ::sessionReport)
         }
     }
 
@@ -61,6 +67,22 @@ class PractitionerController {
         val practice = request.params(":practice")
         // Start a session
         return mService.startSession(userId, practice)
+    }
+
+    /**
+     *
+     */
+    private fun sessionReport(request: Request, response: Response) : String {
+        // Get current userid
+        val userId = request.params(":userid")
+        // Get user from data source
+        val user: PractitionerDBO = getUserFromUserId(userId)
+        // Map to Practitoner
+        val practitioner = Practitioner(user)
+        // Map to Contribution
+
+
+        return "HOVNO"
     }
 
 
