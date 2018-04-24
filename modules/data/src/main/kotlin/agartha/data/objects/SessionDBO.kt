@@ -22,6 +22,10 @@ data class SessionDBO(
         val endTime: LocalDateTime? = null) {
 
 
+    /**
+     * Function to calculate duration for a session
+     * @return number of minutes for session
+     */
     fun sessionDurationMinutes() : Long {
         // If the session has been abandoned, inactive for too long for user to still be active
         if (endTime == null && !active) {

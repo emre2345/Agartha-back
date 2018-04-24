@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 /**
- * Purpose of this file is ...
+ * Purpose of this file is DateTime utilities
  *
  * Created by Jorgen Andersson on 2018-04-24.
  */
@@ -16,14 +16,20 @@ class DateTimeFormat {
         private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         private val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
 
+        /**
+         * Format a string to datetime object
+         * @param dateTimeAsString
+         * @return
+         */
         fun stringToLocalDateTime(dateTimeAsString: String): LocalDateTime {
             return LocalDateTime.parse(dateTimeAsString, dateTimeFormatter)
         }
 
-        fun formatDateTimeAsString(localDateTime: LocalDateTime) : String {
-            return localDateTime.format(dateTimeFormatter)
-        }
-
+        /**
+         * Format a LocalDateTime object to use as Mongo Query
+         * @param localDateTime object to format
+         * @return String for Mongo Query
+         */
         fun formatDateTimeAsMongoString(localDateTime: LocalDateTime) : String {
             val dateAsString = localDateTime.toLocalDate().format(dateFormatter)
             val timeAsString = localDateTime.toLocalTime().format(timeFormatter)
