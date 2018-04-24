@@ -38,4 +38,29 @@ data class SessionDBO(
         // If session is ended return diff between end and start time
         return Duration.between(startTime, endTime).toMinutes()
     }
+
+    fun sessionOverlap(startTime : LocalDateTime, endTime : LocalDateTime) : Boolean {
+        if (this.isAbandoned()) {
+            return false
+        }
+
+        if (this.startTime.isAfter(startTime) && this.startTime.isBefore(endTime)) {
+            return true
+        }
+
+        if (this.endTime != null && this.endTime.isAfter(startTime) && this.endTime.isBefore(endTime)) {
+            return true
+        }
+        return false
+    }
+
+    /**
+     * A session is considered abandon if user has not finshed session within this number of minutes
+     * @return true if session is considered abandon, otherwise false
+     */
+    private fun isAbandoned() : Boolean {
+        // If end time is null (session not finshed) and session started more than 3 hours ago
+        return this.endTime == null &&
+                this.startTime.isBefore(LocalDateTime.now().minusMinutes(180))
+    }
 }

@@ -35,6 +35,10 @@ class PractitionerController {
             //
             // Start new session with practice
             Spark.post("/:userid/:practice", ::insertSession)
+            //
+            // Session report, feedback after completed session
+            Spark.get("/report/:userid", ::sessionReport)
+
         }
     }
 
@@ -67,6 +71,22 @@ class PractitionerController {
         return mService.startSession(userId, practice)
     }
 
+    /**
+     *
+     */
+    private fun sessionReport(request: Request, response: Response): String {
+        // Get current userid
+        val userId = request.params(":userid")
+        // Get user from data source
+        val user: PractitionerDBO = getUserFromUserId(userId)
+        // Map to Practitoner
+        val practitioner = Practitioner(user)
+        // Map to Contribution
+
+
+        return "HOVNO"
+    }
+
 
     /**
      * Get a practitioner from its userId from datasource or create if it does not exists
@@ -80,4 +100,20 @@ class PractitionerController {
                 ?: mService.insert(PractitionerDBO(mutableListOf(), LocalDateTime.now(), userId))
     }
 
+
+    private fun doSomething(pracitionerSession: SessionDBO) {
+        val startTime = pracitionerSession.startTime
+        val endTime: LocalDateTime = pracitionerSession.endTime ?: LocalDateTime.now()
+        //
+        val listOfSessions = mService
+                // Get practitioners with overlapping sessions
+                .getPractitionersWithSessionBetween(startTime, endTime)
+                // Get the overlapping sessions from these practitioners
+                .map {
+                    it.sessions.filter {
+                        // Start time should be between
+                        it.sessionOverlap(startTime, endTime)
+                    }
+                }
+    }
 }
