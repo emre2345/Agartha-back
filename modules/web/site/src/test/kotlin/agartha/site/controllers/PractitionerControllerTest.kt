@@ -56,7 +56,6 @@ class PractitionerControllerTest {
         val getRequest = testController.testServer.get("/session/", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
-        println(body)
         // Map to Data object
         val data: Practitioner = jacksonObjectMapper().readValue(body, Practitioner::class.java)
         assertThat(data.userId?.length).isEqualTo(36)
