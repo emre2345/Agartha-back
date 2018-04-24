@@ -3,6 +3,7 @@ package agartha.site.controllers
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
+import agartha.site.objects.Companion
 import agartha.site.objects.Practitioner
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import spark.Request
@@ -82,7 +83,7 @@ class PractitionerController {
         // Map to Practitoner
         val practitioner = Practitioner(user)
         // Map to Contribution
-
+        val companion = getSessionCompanions(user.sessions.last())
 
         return "HOVNO"
     }
@@ -101,19 +102,31 @@ class PractitionerController {
     }
 
 
-    private fun doSomething(pracitionerSession: SessionDBO) {
+    private fun getSessionCompanions(pracitionerSession: SessionDBO): Companion {
         val startTime = pracitionerSession.startTime
         val endTime: LocalDateTime = pracitionerSession.endTime ?: LocalDateTime.now()
         //
+        var psq = mutableListOf<SessionDBO>()
+        val praq = mService
+                // Get practitioners with overlapping sessions
+                .getPractitionersWithSessionBetween(startTime, endTime)
+
+
         val listOfSessions = mService
                 // Get practitioners with overlapping sessions
                 .getPractitionersWithSessionBetween(startTime, endTime)
                 // Get the overlapping sessions from these practitioners
                 .map {
+                    // Filter out overlapping sessions
                     it.sessions.filter {
                         // Start time should be between
                         it.sessionOverlap(startTime, endTime)
                     }
+                            // Return first overlapping session for each practitioner
+                            .first()
                 }
+                .toList()
+
+        return Companion(listOfSessions)
     }
 }
