@@ -3,7 +3,6 @@ package agartha.site.controllers
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
-import agartha.site.objects.Companion
 import agartha.site.objects.Practitioner
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import spark.Request
@@ -53,7 +52,7 @@ class PractitionerController {
         // Get current userid or generate new
         val userId = request.params(":userid") ?: UUID.randomUUID().toString()
         // Get user from data source
-        val user: PractitionerDBO = getUserFromUserId(userId)
+        val user: PractitionerDBO = getPractitionerFromDataSource(userId)
         // Return info about current user
         return mMapper.writeValueAsString(Practitioner(userId, user.sessions))
     }
@@ -79,7 +78,7 @@ class PractitionerController {
         // Get current userid
         val userId = request.params(":userid")
         // Get user from data source
-        val user: PractitionerDBO = getUserFromUserId(userId)
+        val user: PractitionerDBO = getPractitionerFromDataSource(userId)
         // Map to Practitoner
         val practitioner = Practitioner(userId, user.sessions)
         // Map to Contribution
@@ -95,24 +94,23 @@ class PractitionerController {
      * @param userId database id for user
      * @return Database representation of practitioner
      */
-    private fun getUserFromUserId(userId: String): PractitionerDBO {
+    private fun getPractitionerFromDataSource(userId: String): PractitionerDBO {
         // If user exists in database, return it otherwise create, store and return
         return mService.getById(userId)
                 ?: mService.insert(PractitionerDBO(mutableListOf(), LocalDateTime.now(), userId))
     }
 
 
-    private fun getSessionCompanions(pracitionerSession: SessionDBO): Companion {
+    /**
+     *
+     * @param pracitionerSession
+     * @return
+     */
+    private fun getSessionCompanions(pracitionerSession: SessionDBO): List<SessionDBO> {
         val startTime = pracitionerSession.startTime
         val endTime: LocalDateTime = pracitionerSession.endTime ?: LocalDateTime.now()
-        //
-        var psq = mutableListOf<SessionDBO>()
-        val praq = mService
-                // Get practitioners with overlapping sessions
-                .getPractitionersWithSessionBetween(startTime, endTime)
 
-
-        val listOfSessions = mService
+        return mService
                 // Get practitioners with overlapping sessions
                 .getPractitionersWithSessionBetween(startTime, endTime)
                 // Get the overlapping sessions from these practitioners
@@ -126,7 +124,5 @@ class PractitionerController {
                             .first()
                 }
                 .toList()
-
-        return Companion(listOfSessions)
     }
 }
