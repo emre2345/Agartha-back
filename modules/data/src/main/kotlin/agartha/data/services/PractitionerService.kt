@@ -14,25 +14,13 @@ import org.litote.kmongo.updateOneById
 class PractitionerService : MongoBaseService<PractitionerDBO>(CollectionNames.PRACTITIONER_SERVICE), IPractitionerService {
 
     /**
-     * Get current number of people practicing
-     * @return
-     */
-    override fun getActiveCount(): Int {
-        return collection
-                // Find all people where any of the sessions has active is true
-                .find(Document("sessions", Document("${MongoOperator.elemMatch}", Document("active", true))))
-                // Count 'em
-                .count()
-    }
-
-    /**
      * Start a new user session
      */
     override fun startSession(userId: String, practition: String): Int {
         // Get current user
-        val user = getById(userId)
+        val user: PractitionerDBO? = getById(userId)
         // Calculate next index (if any of user or user.sessions is null: rtn 0)
-        val nextIndex = (user?.sessions?.count() ?: 0) + 1
+        val nextIndex = user?.sessions?.count() ?: 0
         // Create a new Session
         val session = SessionDBO(nextIndex, practition)
         // Create Mongo Document to be added to sessions list

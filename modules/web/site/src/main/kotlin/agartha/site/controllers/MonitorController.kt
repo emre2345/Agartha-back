@@ -2,20 +2,20 @@ package agartha.site.controllers
 
 import agartha.data.objects.MonitorDBO
 import agartha.data.services.IBaseService
-import agartha.data.services.MonitorService
-import agartha.site.objects.PracticeData
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import spark.Spark
 
 /**
- * Purpose of this file is ...
+ * Purpose of this file is for Monitoring.
+ * This file holds API for monitoring service to request to see if
+ * a. Site is up
+ * b. It is possible to write to database
+ * c. It is possible to read from database
  *
  * Created by Jorgen Andersson on 2018-04-06.
  */
 class MonitorController {
-    val mService : IBaseService<MonitorDBO>
-    // For mapping objects to string
-    val mMapper = jacksonObjectMapper()
+    val mService: IBaseService<MonitorDBO>
+
 
     constructor(service: IBaseService<MonitorDBO>) {
         mService = service

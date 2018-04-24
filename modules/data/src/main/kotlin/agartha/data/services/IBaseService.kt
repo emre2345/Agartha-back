@@ -29,5 +29,5 @@ interface IBaseService<T : Any> {
      * @param id database id as string for item to retrieve
      * @return object if id exists or null
      */
-    fun getById(id: String?): T?
+    fun getById(id: String): T?
 }

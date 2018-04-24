@@ -1,12 +1,14 @@
 package agartha.site.controllers
 
 import agartha.data.objects.PractitionerDBO
+import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
-import agartha.site.objects.PracticeData
+import agartha.site.objects.Practitioner
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import spark.Request
 import spark.Response
 import spark.Spark
+import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -16,38 +18,39 @@ import java.util.*
  */
 class PractitionerController {
     // Practitioner data service
-    val mService: IPractitionerService
+    private val mService: IPractitionerService
     // For mapping objects to string
-    val mMapper = jacksonObjectMapper()
+    private val mMapper = jacksonObjectMapper()
 
     constructor(service: IPractitionerService) {
         mService = service
         // API path for session
         Spark.path("/session") {
+            //
             // Where we have no userId set yet
             Spark.get("/", ::getInformation)
+            //
             // Where userId has been set
             Spark.get("/:userid", ::getInformation)
+            //
             // Start new session with practice
             Spark.post("/:userid/:practice", ::insertSession)
         }
-
     }
 
 
     /**
-     * Get initial information about current user and other active users
+     * Get information about current practitioner
+     *
      * @return Object with general information
      */
     private fun getInformation(request: Request, response: Response): String {
         // Get current userid or generate new
         val userId = request.params(":userid") ?: UUID.randomUUID().toString()
-        // Get user from data source if exists or create
-        val user = mService.getById(userId) ?: mService.insert(PractitionerDBO(mutableListOf(), Date(), userId))
-        // Read data to be returned
-        val activeCount = mService.getActiveCount()
-        // Return data
-        return mMapper.writeValueAsString(PracticeData(user._id ?: "", activeCount))
+        // Get user from data source
+        val user: PractitionerDBO = getUserFromUserId(userId)
+        // Return info about current user
+        return mMapper.writeValueAsString(Practitioner(user))
     }
 
 
@@ -63,4 +66,18 @@ class PractitionerController {
         // Start a session
         return mService.startSession(userId, practice)
     }
+
+
+    /**
+     * Get a practitioner from its userId from datasource or create if it does not exists
+     *
+     * @param userId database id for user
+     * @return Database representation of practitioner
+     */
+    private fun getUserFromUserId(userId: String): PractitionerDBO {
+        // If user exists in database, return it otherwise create, store and return
+        return mService.getById(userId)
+                ?: mService.insert(PractitionerDBO(mutableListOf(), LocalDateTime.now(), userId))
+    }
+
 }

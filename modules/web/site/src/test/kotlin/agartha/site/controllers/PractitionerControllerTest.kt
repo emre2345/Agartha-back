@@ -2,13 +2,13 @@ package agartha.site.controllers
 
 import agartha.data.objects.PractitionerDBO
 import agartha.site.controllers.mocks.MockedPractitionerService
-import agartha.site.objects.PracticeData
+import agartha.site.objects.Practitioner
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.BeforeClass
 import org.junit.Test
-import java.util.*
+import java.time.LocalDateTime
 
 /**
  * Purpose of this file is to test the Practitioner controller
@@ -57,8 +57,8 @@ class PractitionerControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: PracticeData = jacksonObjectMapper().readValue(body, PracticeData::class.java)
-        assertThat(data.userId.length).isEqualTo(36)
+        val data: Practitioner = jacksonObjectMapper().readValue(body, Practitioner::class.java)
+        assertThat(data.userId?.length).isEqualTo(36)
     }
 
     /**
@@ -67,13 +67,13 @@ class PractitionerControllerTest {
     @Test
     fun practitionerController_testUserId_userExists() {
         // Setup
-        mockedService.insert(PractitionerDBO(mutableListOf(), Date(), "abc"))
+        mockedService.insert(PractitionerDBO(mutableListOf(), LocalDateTime.now(), "abc"))
         //
         val getRequest = testController.testServer.get("/session/abc", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: PracticeData = jacksonObjectMapper().readValue(body, PracticeData::class.java)
+        val data: Practitioner = jacksonObjectMapper().readValue(body, Practitioner::class.java)
         assertThat(data.userId).isEqualTo("abc")
     }
 
@@ -83,7 +83,7 @@ class PractitionerControllerTest {
     @Test
     fun practitionerController_insertSession_sessionIdIs1() {
         // Setup
-        mockedService.insert(PractitionerDBO(mutableListOf(), Date(), "abc"))
+        mockedService.insert(PractitionerDBO(mutableListOf(), LocalDateTime.now(), "abc"))
         //
         val postRequest = testController.testServer.post("/session/abc/MyPractice", "", false)
         val httpResponse = testController.testServer.execute(postRequest)

@@ -13,14 +13,6 @@ class MockedPractitionerService : IPractitionerService {
     val practitionerList: MutableList<PractitionerDBO> = mutableListOf()
 
 
-    override fun getActiveCount(): Int {
-        return this.practitionerList.filter {
-            it.sessions.any {
-                it.active
-            }
-        }.count()
-    }
-
     override fun startSession(userId: String, practition: String): Int {
         val first = practitionerList.filter {
             it._id.equals(userId)
@@ -44,7 +36,7 @@ class MockedPractitionerService : IPractitionerService {
         return practitionerList
     }
 
-    override fun getById(id: String?): PractitionerDBO? {
+    override fun getById(id: String): PractitionerDBO? {
         if (practitionerList.isEmpty()) {
             return null
         }

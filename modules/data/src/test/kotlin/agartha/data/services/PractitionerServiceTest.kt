@@ -1,10 +1,13 @@
 package agartha.data.services
 
+import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 /**
  * Purpose of this file is to test practitioner service
@@ -22,11 +25,40 @@ class PractitionerServiceTest : DatabaseHandler() {
     }
 
     /**
+     * Insert a user with single session in database
+     */
+    private fun putUserInDatabase(sessionStart: String, sessionEnd: String) {
+        PractitionerService().insert(
+                PractitionerDBO(listOf(
+                        SessionDBO(0, "Yoga", false, DateTimeFormat.stringToLocalDateTime(sessionStart), DateTimeFormat.stringToLocalDateTime(sessionEnd)))))
+    }
+
+    /**
      *
      */
     @Test
-    fun practitionerService_insertUser_1() {
-        val user = PractitionerService().insert(PractitionerDBO(listOf<SessionDBO>()))
+    fun insertUser_collectionSize_1() {
+        PractitionerService().insert(PractitionerDBO())
+        val allUsers = PractitionerService().getAll()
+        assertThat(allUsers.size).isEqualTo(1)
+    }
+
+    @Test
+    fun insertUser_dateSavedCorrect_18() {
+        val date = LocalDateTime.parse("2018-04-18 12:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        PractitionerService().insert(PractitionerDBO(listOf(), date))
+        val firstUser : PractitionerDBO? = PractitionerService().getAll().firstOrNull()
+        // Throw exception if firstUser is null
+        assertThat(firstUser!!.created.dayOfMonth).isEqualTo(18)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun insertUserWithSessions_collectionSize_1() {
+        PractitionerService().insert(PractitionerDBO(listOf(
+                SessionDBO(0, "Yoga"), SessionDBO(1, "Meditation"))))
         val allUsers = PractitionerService().getAll()
         assertThat(allUsers.size).isEqualTo(1)
     }
@@ -35,8 +67,8 @@ class PractitionerServiceTest : DatabaseHandler() {
      *
      */
     @Test
-    fun practitionerService_insertSessionIndexReturned_1() {
-        val user = PractitionerDBO(listOf<SessionDBO>())
+    fun addSessionToUser_IndexReturned_1() {
+        val user = PractitionerDBO(listOf(SessionDBO(0, "Test")))
         // Insert a new practisioning user
         val item = PractitionerService().insert(user)
         // Insert session
@@ -48,8 +80,8 @@ class PractitionerServiceTest : DatabaseHandler() {
      *
      */
     @Test
-    fun practitionerService_insertSessionCount_3() {
-        val user = PractitionerDBO(listOf<SessionDBO>())
+    fun addSessionsToUser_sessionsSize_3() {
+        val user = PractitionerDBO()
         // Insert a new practising user
         val item = PractitionerService().insert(user)
         // Insert sessions

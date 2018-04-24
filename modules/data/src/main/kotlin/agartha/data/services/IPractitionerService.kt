@@ -10,12 +10,6 @@ import agartha.data.objects.PractitionerDBO
 interface IPractitionerService : IBaseService<PractitionerDBO> {
 
     /**
-     * Get number of active sessions
-     * @return number of users with active session
-     */
-    fun getActiveCount(): Int
-
-    /**
      * Start a new session
      * @param userId id for user starting the session
      * @param practition type of practice
@@ -29,4 +23,5 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      * @param sessionId id for session to stop
      */
     fun endSession(userId: String, sessionId: Int)
+
 }

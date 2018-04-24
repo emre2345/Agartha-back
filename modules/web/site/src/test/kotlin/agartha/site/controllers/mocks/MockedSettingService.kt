@@ -26,7 +26,7 @@ class MockedSettingService : IBaseService<SettingsDBO> {
         return settingList
     }
 
-    override fun getById(id: String?): SettingsDBO? {
+    override fun getById(id: String): SettingsDBO? {
         TODO("Never is or will be used")
     }
 
