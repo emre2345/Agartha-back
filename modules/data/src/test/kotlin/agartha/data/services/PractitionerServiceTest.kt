@@ -26,7 +26,18 @@ class PractitionerServiceTest : DatabaseHandler() {
      */
     @Test
     fun practitionerService_insertUser_1() {
-        val user = PractitionerService().insert(PractitionerDBO(listOf<SessionDBO>()))
+        PractitionerService().insert(PractitionerDBO())
+        val allUsers = PractitionerService().getAll()
+        assertThat(allUsers.size).isEqualTo(1)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun practitionerService_insertUserWithSessions_1() {
+        PractitionerService().insert(PractitionerDBO(listOf(
+                SessionDBO(0, "Yoga"), SessionDBO(1, "Meditation"))))
         val allUsers = PractitionerService().getAll()
         assertThat(allUsers.size).isEqualTo(1)
     }
@@ -36,7 +47,7 @@ class PractitionerServiceTest : DatabaseHandler() {
      */
     @Test
     fun practitionerService_insertSessionIndexReturned_1() {
-        val user = PractitionerDBO(listOf<SessionDBO>())
+        val user = PractitionerDBO(listOf(SessionDBO(0, "Test")))
         // Insert a new practisioning user
         val item = PractitionerService().insert(user)
         // Insert session
@@ -49,7 +60,7 @@ class PractitionerServiceTest : DatabaseHandler() {
      */
     @Test
     fun practitionerService_insertSessionCount_3() {
-        val user = PractitionerDBO(listOf<SessionDBO>())
+        val user = PractitionerDBO()
         // Insert a new practising user
         val item = PractitionerService().insert(user)
         // Insert sessions

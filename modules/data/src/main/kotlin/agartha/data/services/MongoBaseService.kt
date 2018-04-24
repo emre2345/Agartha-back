@@ -1,6 +1,7 @@
 package agartha.data.services
 
 import agartha.data.db.conn.MongoConnection
+import org.bson.Document
 import org.litote.kmongo.*
 
 /**
@@ -36,11 +37,8 @@ open class MongoBaseService<T : Any>(collectionName: CollectionNames) : IBaseSer
     /**
      * Get single item from database
      */
-    override fun getById(id: String?): T? {
-        if (id != null) {
-            return collection.findOneById(id) as? T
-        }
-        return null
+    override fun getById(id: String): T? {
+        return collection.findOneById(id) as T?
     }
 
 }

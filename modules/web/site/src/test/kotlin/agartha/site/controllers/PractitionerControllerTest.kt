@@ -8,7 +8,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.BeforeClass
 import org.junit.Test
-import java.util.*
+import java.time.LocalDateTime
 
 /**
  * Purpose of this file is to test the Practitioner controller
@@ -68,7 +68,7 @@ class PractitionerControllerTest {
     @Test
     fun practitionerController_testUserId_userExists() {
         // Setup
-        mockedService.insert(PractitionerDBO(mutableListOf(), Date(), "abc"))
+        mockedService.insert(PractitionerDBO(mutableListOf(), LocalDateTime.now(), "abc"))
         //
         val getRequest = testController.testServer.get("/session/abc", false)
         val httpResponse = testController.testServer.execute(getRequest)
@@ -84,7 +84,7 @@ class PractitionerControllerTest {
     @Test
     fun practitionerController_insertSession_sessionIdIs1() {
         // Setup
-        mockedService.insert(PractitionerDBO(mutableListOf(), Date(), "abc"))
+        mockedService.insert(PractitionerDBO(mutableListOf(), LocalDateTime.now(), "abc"))
         //
         val postRequest = testController.testServer.post("/session/abc/MyPractice", "", false)
         val httpResponse = testController.testServer.execute(postRequest)

@@ -1,6 +1,8 @@
 package agartha.data.objects
 
-import java.util.Date
+import java.time.Duration
+import java.time.LocalDateTime
+
 
 /**
  * Purpose of this file is data object for a practitioner's session
@@ -15,16 +17,21 @@ data class SessionDBO(
         // Is this still active
         val active: Boolean = true,
         // Time when started
-        val startTime: Date = Date(),
+        val startTime: LocalDateTime = LocalDateTime.now(),
         // Time when ended
-        val endTime: Date? = null) {
+        val endTime: LocalDateTime? = null) {
 
-    fun calculateSessionDuration() : Long {
+
+    fun sessionDurationMinutes() : Long {
         // If the session has been abandoned, inactive for too long for user to still be active
         if (endTime == null && !active) {
             return 0
         }
-        // If session is ended return diff between end and start time, else diff between now and start time
-        return endTime?.time?.minus(startTime.time) ?: Date().time.minus(startTime.time)
+        // If the session has not ended yet, return diff between now and start time
+        if (endTime == null) {
+            return Duration.between(startTime, LocalDateTime.now()).toMinutes()
+        }
+        // If session is ended return diff between end and start time
+        return Duration.between(startTime, endTime).toMinutes()
     }
 }

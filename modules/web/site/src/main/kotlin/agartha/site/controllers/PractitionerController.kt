@@ -7,6 +7,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import spark.Request
 import spark.Response
 import spark.Spark
+import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -69,9 +70,10 @@ class PractitionerController {
      * @param userId database id for user
      * @return Database representation of practitioner
      */
-    private fun getUserFromUserId(userId : String) : PractitionerDBO {
+    private fun getUserFromUserId(userId: String): PractitionerDBO {
         // If user exists in database, return it otherwise create, store and return
-        return mService.getById(userId) ?: mService.insert(PractitionerDBO(mutableListOf(), Date(), userId))
+        return mService.getById(userId)
+                ?: mService.insert(PractitionerDBO(mutableListOf(), LocalDateTime.now(), userId))
     }
 
 }

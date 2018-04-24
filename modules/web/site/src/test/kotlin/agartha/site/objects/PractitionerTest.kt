@@ -4,7 +4,8 @@ import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import java.util.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 /**
  * Purpose of this file is Test for Practitioner response object
@@ -13,9 +14,13 @@ import java.util.*
  */
 class PractitionerTest {
 
+    fun createDate(dayOfMonth: String, minutesOfHour: String): LocalDateTime {
+        return LocalDateTime.parse("2018-04-${dayOfMonth} 12:${minutesOfHour}:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+    }
+
     @Test
     fun practitionerLastSessionTime_WithNoSessions_zero() {
-        val user = Practitioner(null, null, null)
+        val user = Practitioner(null)
         assertThat(user.lastSessionTime).isEqualTo(0)
     }
 
@@ -23,11 +28,11 @@ class PractitionerTest {
     fun practitionerLastSessionTime_WithSessions_20() {
         val user = Practitioner(PractitionerDBO(
                 listOf(
-                        SessionDBO(0, "Yoga", false, Date(2018, 4, 18, 12, 0, 0), Date(2018, 4, 18, 12, 40, 0)),
-                        SessionDBO(1, "Mindfulness", false, Date(2018, 4, 19, 12, 0, 0), Date(2018, 4, 19, 12, 30, 0)),
-                        SessionDBO(2, "Yes", false, Date(2018, 4, 20, 12, 0, 0), Date(2018, 4, 20, 12, 20, 0))
+                        SessionDBO(0, "Yoga", false, createDate("18", "00"), createDate("18", "40")),
+                        SessionDBO(1, "Mindfulness", false, createDate("19", "00"), createDate("19", "30")),
+                        SessionDBO(2, "Yes", false, createDate("20", "00"), createDate("20", "20"))
                 ),
-                Date(),
+                LocalDateTime.now(),
                 "abc"
 
         ))
@@ -36,7 +41,7 @@ class PractitionerTest {
 
     @Test
     fun practitionerTotalSessionTime_WithNoSessions_zero() {
-        val user = Practitioner(null, null, null)
+        val user = Practitioner(null)
         assertThat(user.totalSessionTime).isEqualTo(0)
     }
 
@@ -44,14 +49,14 @@ class PractitionerTest {
     fun practitionerTotalSessionTime_WithSessions_80() {
         val user = Practitioner(PractitionerDBO(
                 listOf(
-                        SessionDBO(0, "Yoga", false, Date(2018, 4, 18, 12, 0, 0), Date(2018, 4, 18, 12, 40, 0)),
-                        SessionDBO(1, "Mindfulness", false, Date(2018, 4, 19, 12, 0, 0), Date(2018, 4, 19, 12, 30, 0)),
-                        SessionDBO(2, "Yes", false, Date(2018, 4, 20, 12, 0, 0), Date(2018, 4, 20, 12, 20, 0))
+                        SessionDBO(0, "Yoga", false, createDate("18", "00"), createDate("18", "40")),
+                        SessionDBO(1, "Mindfulness", false, createDate("19", "00"), createDate("19", "30")),
+                        SessionDBO(2, "Yes", false, createDate("20", "00"), createDate("20", "20"))
                 ),
-                Date(),
+                LocalDateTime.now(),
                 "abc"
 
         ))
-        assertThat(user.totalSessionTime).isEqualTo(80)
+        assertThat(user.totalSessionTime).isEqualTo(90)
     }
 }

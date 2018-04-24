@@ -25,7 +25,7 @@ class MockedMonitorService : IBaseService<MonitorDBO> {
         return monitorList
     }
 
-    override fun getById(id: String?): MonitorDBO? {
+    override fun getById(id: String): MonitorDBO? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

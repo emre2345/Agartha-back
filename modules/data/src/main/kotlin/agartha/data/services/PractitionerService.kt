@@ -4,6 +4,7 @@ import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import org.bson.Document
 import org.litote.kmongo.MongoOperator
+import org.litote.kmongo.findOneById
 import org.litote.kmongo.updateOneById
 
 /**
@@ -30,7 +31,7 @@ class PractitionerService : MongoBaseService<PractitionerDBO>(CollectionNames.PR
      */
     override fun startSession(userId: String, practition: String): Int {
         // Get current user
-        val user = getById(userId)
+        val user : PractitionerDBO? = getById(userId)
         // Calculate next index (if any of user or user.sessions is null: rtn 0)
         val nextIndex = (user?.sessions?.count() ?: 0) + 1
         // Create a new Session

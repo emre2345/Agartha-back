@@ -44,7 +44,7 @@ class MockedPractitionerService : IPractitionerService {
         return practitionerList
     }
 
-    override fun getById(id: String?): PractitionerDBO? {
+    override fun getById(id: String): PractitionerDBO? {
         if (practitionerList.isEmpty()) {
             return null
         }
