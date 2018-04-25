@@ -48,7 +48,7 @@ class SessionControllerTest {
     @Test
     fun practitionerController_insertSession_sessionIdIs1() {
         // Setup
-        mockedService.insert(PractitionerDBO(mutableListOf(), LocalDateTime.now(), "abc"))
+        mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
         //
         val postRequest = testController.testServer.post("/session/abc/MyPractice", "", false)
         val httpResponse = testController.testServer.execute(postRequest)
@@ -58,29 +58,29 @@ class SessionControllerTest {
 
     private fun setupReport() {
         // Setup, create 5 practitioner
-        mockedService.insert(PractitionerDBO(mutableListOf(SessionDBO(0, "Yoga", false,
+        mockedService.insert(PractitionerDBO("a", LocalDateTime.now(), mutableListOf(SessionDBO(0, "Yoga", false,
                 DateTimeFormat.stringToLocalDateTime("2018-04-18 12:00:00"),
-                DateTimeFormat.stringToLocalDateTime("2018-04-18 12:40:00"))), LocalDateTime.now(), "a"))
+                DateTimeFormat.stringToLocalDateTime("2018-04-18 12:40:00")))))
         //
-        mockedService.insert(PractitionerDBO(mutableListOf(SessionDBO(0, "Mindfulness", false,
+        mockedService.insert(PractitionerDBO("b", LocalDateTime.now(), mutableListOf(SessionDBO(0, "Mindfulness", false,
                 DateTimeFormat.stringToLocalDateTime("2018-04-18 12:00:00"),
-                DateTimeFormat.stringToLocalDateTime("2018-04-18 12:15:00"))), LocalDateTime.now(), "b"))
+                DateTimeFormat.stringToLocalDateTime("2018-04-18 12:15:00")))))
         //
-        mockedService.insert(PractitionerDBO(mutableListOf(
+        mockedService.insert(PractitionerDBO("c", LocalDateTime.now(), mutableListOf(
                 SessionDBO(0, "Yoga", false,
                         DateTimeFormat.stringToLocalDateTime("2018-04-15 12:00:00"),
                         DateTimeFormat.stringToLocalDateTime("2018-04-15 12:45:00")),
                 SessionDBO(1, "Meditation", false,
                         DateTimeFormat.stringToLocalDateTime("2018-04-18 11:59:59"),
-                        DateTimeFormat.stringToLocalDateTime("2018-04-18 12:20:00"))), LocalDateTime.now(), "c"))
+                        DateTimeFormat.stringToLocalDateTime("2018-04-18 12:20:00")))))
         //
-        mockedService.insert(PractitionerDBO(mutableListOf(SessionDBO(0, "Mindfulness", false,
+        mockedService.insert(PractitionerDBO("d", LocalDateTime.now(), mutableListOf(SessionDBO(0, "Mindfulness", false,
                 DateTimeFormat.stringToLocalDateTime("2018-04-18 12:00:00"),
-                DateTimeFormat.stringToLocalDateTime("2018-04-18 12:30:00"))), LocalDateTime.now(), "d"))
+                DateTimeFormat.stringToLocalDateTime("2018-04-18 12:30:00")))))
         //
-        mockedService.insert(PractitionerDBO(mutableListOf(SessionDBO(0, "Mindfulness", false,
+        mockedService.insert(PractitionerDBO("e", LocalDateTime.now(), mutableListOf(SessionDBO(0, "Mindfulness", false,
                 DateTimeFormat.stringToLocalDateTime("2018-04-18 12:00:00"),
-                DateTimeFormat.stringToLocalDateTime("2018-04-18 12:30:00"))), LocalDateTime.now(), "e"))
+                DateTimeFormat.stringToLocalDateTime("2018-04-18 12:30:00")))))
     }
 
     /**
@@ -147,7 +147,7 @@ class SessionControllerTest {
      *
      */
     @Test
-    fun practitionerController_compaionReport_minutesIs115() {
+    fun practitionerController_companionReport_minutesIs115() {
         setupReport()
         // Assume second (id b) is current user
         val getRequest = testController.testServer.get("/session/report/c", false)

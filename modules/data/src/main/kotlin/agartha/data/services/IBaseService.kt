@@ -13,7 +13,7 @@ package agartha.data.services
 interface IBaseService<T : Any> {
     /**
      * Function to insert a document into database collection
-     * @param object to be inserted
+     * @param item to be inserted
      * @return inserted document as object
      */
     fun insert(item: T): T

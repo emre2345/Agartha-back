@@ -70,7 +70,7 @@ class PractitionerControllerTest {
     @Test
     fun practitionerController_testUserId_userExists() {
         // Setup
-        mockedService.insert(PractitionerDBO(mutableListOf(), LocalDateTime.now(), "abc"))
+        mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
         //
         val getRequest = testController.testServer.get("/practitioner/abc", false)
         val httpResponse = testController.testServer.execute(getRequest)

@@ -29,12 +29,12 @@ class PractitionerAndSessionServiceTest : DatabaseHandler() {
      */
     private fun putUserInDatabase(sessionStart: String, sessionEnd: String) {
         PractitionerAndSessionService().insert(
-                PractitionerDBO(listOf(
+                PractitionerDBO(sessions = listOf(
                         SessionDBO(0, "Yoga", false, DateTimeFormat.stringToLocalDateTime(sessionStart), DateTimeFormat.stringToLocalDateTime(sessionEnd)))))
     }
 
     /**
-     *
+     * Find
      */
     @Test
     fun findUser_userId_findUserId() {
@@ -44,7 +44,7 @@ class PractitionerAndSessionServiceTest : DatabaseHandler() {
     }
 
     /**
-     *
+     * Insert
      */
     @Test
     fun insertUser_collectionSize_1() {
@@ -59,7 +59,7 @@ class PractitionerAndSessionServiceTest : DatabaseHandler() {
     @Test
     fun insertUser_dateSavedCorrect_18() {
         val date = LocalDateTime.parse("2018-04-18 12:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-        PractitionerAndSessionService().insert(PractitionerDBO(listOf(), date))
+        PractitionerAndSessionService().insert(PractitionerDBO(created = date, sessions = listOf()))
         val firstUser : PractitionerDBO? = PractitionerAndSessionService().getAll().firstOrNull()
         // Throw exception if firstUser is null
         assertThat(firstUser!!.created.dayOfMonth).isEqualTo(18)
@@ -70,18 +70,34 @@ class PractitionerAndSessionServiceTest : DatabaseHandler() {
      */
     @Test
     fun insertUserWithSessions_collectionSize_1() {
-        PractitionerAndSessionService().insert(PractitionerDBO(listOf(
+        PractitionerAndSessionService().insert(PractitionerDBO(sessions = listOf(
                 SessionDBO(0, "Yoga"), SessionDBO(1, "Meditation"))))
         val allUsers = PractitionerAndSessionService().getAll()
         assertThat(allUsers.size).isEqualTo(1)
     }
 
     /**
-     *
+     * Update
+     */
+    @Test
+    fun updateUserWithNewInvolvedData_updatedUser_insertedUser() {
+        // Insert a new user
+        val insertedUser = PractitionerAndSessionService().insert(PractitionerDBO())
+        // Create a new user with the inserted users information an change some data
+        val updatedUser = PractitionerDBO(insertedUser._id, insertedUser.created, fullName = "Rebecca Fransson", email = "rebecca@kollektiva.se", description = "Hej, jag gillar också yoga!")
+        // Update inserted user
+        PractitionerAndSessionService().update(insertedUser._id!!, updatedUser)
+        // Find the inserted user
+        val newUpdatedUser = PractitionerAndSessionService().getById(insertedUser._id.toString())
+        assertThat(newUpdatedUser).isEqualTo(updatedUser)
+    }
+
+    /**
+     * Add session
      */
     @Test
     fun addSessionToUser_IndexReturned_1() {
-        val user = PractitionerDBO(listOf(SessionDBO(0, "Test")))
+        val user = PractitionerDBO(sessions = listOf(SessionDBO(0, "Test")))
         // Insert a new practisioning user
         val item = PractitionerAndSessionService().insert(user)
         // Insert session

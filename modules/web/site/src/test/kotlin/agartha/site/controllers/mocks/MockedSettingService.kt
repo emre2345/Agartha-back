@@ -22,6 +22,7 @@ class MockedSettingService : IBaseService<SettingsDBO> {
         return settingList.first()
     }
 
+
     override fun getAll(): List<SettingsDBO> {
         return settingList
     }

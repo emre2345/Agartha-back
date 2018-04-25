@@ -79,7 +79,7 @@ class PractitionerController {
     private fun getPractitionerFromDataSource(userId: String): PractitionerDBO {
         // If user exists in database, return it otherwise create, store and return
         return mService.getById(userId)
-                ?: mService.insert(PractitionerDBO(mutableListOf(), LocalDateTime.now(), userId))
+                ?: mService.insert(PractitionerDBO(userId,LocalDateTime.now(), mutableListOf()))
     }
 
 }
