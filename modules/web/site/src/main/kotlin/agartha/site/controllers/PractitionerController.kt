@@ -101,6 +101,12 @@ class PractitionerController {
     }
 
 
+    /**
+     * Get or create User Id
+     *
+     * @param request API request object
+     * @return user id from request or generated if missing
+     */
     private fun getUserIdFromRequest(request: Request) : String {
         return request.params(":userid") ?: UUID.randomUUID().toString()
     }
