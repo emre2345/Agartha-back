@@ -14,7 +14,7 @@ import java.time.LocalDateTime
  *
  * Created by Jorgen Andersson on 2018-04-09.
  */
-class PractitionerService : MongoBaseService<PractitionerDBO>(CollectionNames.PRACTITIONER_SERVICE), IPractitionerService {
+class PractitionerAndSessionService : MongoBaseService<PractitionerDBO>(CollectionNames.PRACTITIONER_SERVICE), IPractitionerService {
 
     /**
      * Start a new user session

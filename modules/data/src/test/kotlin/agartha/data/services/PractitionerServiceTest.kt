@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter
  *
  * Created by Jorgen Andersson on 2018-04-09.
  */
-class PractitionerServiceTest : DatabaseHandler() {
+class PractitionerAndSessionServiceTest : DatabaseHandler() {
 
     /**
      *
@@ -28,7 +28,7 @@ class PractitionerServiceTest : DatabaseHandler() {
      * Insert a user with single session in database
      */
     private fun putUserInDatabase(sessionStart: String, sessionEnd: String) {
-        PractitionerService().insert(
+        PractitionerAndSessionService().insert(
                 PractitionerDBO(listOf(
                         SessionDBO(0, "Yoga", false, DateTimeFormat.stringToLocalDateTime(sessionStart), DateTimeFormat.stringToLocalDateTime(sessionEnd)))))
     }
@@ -37,17 +37,30 @@ class PractitionerServiceTest : DatabaseHandler() {
      *
      */
     @Test
+    fun findUser_userId_findUserId() {
+        val user = PractitionerAndSessionService().insert(PractitionerDBO())
+        val findUser = PractitionerAndSessionService().getById(user._id!!)
+        assertThat(user._id).isEqualTo(findUser!!._id)
+    }
+
+    /**
+     *
+     */
+    @Test
     fun insertUser_collectionSize_1() {
-        PractitionerService().insert(PractitionerDBO())
-        val allUsers = PractitionerService().getAll()
+        PractitionerAndSessionService().insert(PractitionerDBO())
+        val allUsers = PractitionerAndSessionService().getAll()
         assertThat(allUsers.size).isEqualTo(1)
     }
 
+    /**
+     *
+     */
     @Test
     fun insertUser_dateSavedCorrect_18() {
         val date = LocalDateTime.parse("2018-04-18 12:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-        PractitionerService().insert(PractitionerDBO(listOf(), date))
-        val firstUser : PractitionerDBO? = PractitionerService().getAll().firstOrNull()
+        PractitionerAndSessionService().insert(PractitionerDBO(listOf(), date))
+        val firstUser : PractitionerDBO? = PractitionerAndSessionService().getAll().firstOrNull()
         // Throw exception if firstUser is null
         assertThat(firstUser!!.created.dayOfMonth).isEqualTo(18)
     }
@@ -57,9 +70,9 @@ class PractitionerServiceTest : DatabaseHandler() {
      */
     @Test
     fun insertUserWithSessions_collectionSize_1() {
-        PractitionerService().insert(PractitionerDBO(listOf(
+        PractitionerAndSessionService().insert(PractitionerDBO(listOf(
                 SessionDBO(0, "Yoga"), SessionDBO(1, "Meditation"))))
-        val allUsers = PractitionerService().getAll()
+        val allUsers = PractitionerAndSessionService().getAll()
         assertThat(allUsers.size).isEqualTo(1)
     }
 
@@ -70,9 +83,9 @@ class PractitionerServiceTest : DatabaseHandler() {
     fun addSessionToUser_IndexReturned_1() {
         val user = PractitionerDBO(listOf(SessionDBO(0, "Test")))
         // Insert a new practisioning user
-        val item = PractitionerService().insert(user)
+        val item = PractitionerAndSessionService().insert(user)
         // Insert session
-        val sessionId = PractitionerService().startSession(item._id!!, "Test")
+        val sessionId = PractitionerAndSessionService().startSession(item._id!!, "Test")
         assertThat(sessionId).isEqualTo(1)
     }
 
@@ -83,13 +96,13 @@ class PractitionerServiceTest : DatabaseHandler() {
     fun addSessionsToUser_sessionsSize_3() {
         val user = PractitionerDBO()
         // Insert a new practising user
-        val item = PractitionerService().insert(user)
+        val item = PractitionerAndSessionService().insert(user)
         // Insert sessions
-        PractitionerService().startSession(item._id!!, "Test 1")
-        PractitionerService().startSession(item._id!!, "Test 2")
-        PractitionerService().startSession(item._id!!, "Test 3")
+        PractitionerAndSessionService().startSession(item._id!!, "Test 1")
+        PractitionerAndSessionService().startSession(item._id!!, "Test 2")
+        PractitionerAndSessionService().startSession(item._id!!, "Test 3")
         // Get user and Count sessions
-        val practitioner = PractitionerService().getById(item._id!!)
+        val practitioner = PractitionerAndSessionService().getById(item._id!!)
         assertThat(practitioner?.sessions?.size).isEqualTo(3)
     }
 
@@ -107,7 +120,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         putUserInDatabase("2018-04-15 22:00:00", "2018-04-15 23:00:00")
 
 
-        val list = PractitionerService().getPractitionersWithSessionBetween(
+        val list = PractitionerAndSessionService().getPractitionersWithSessionBetween(
                 DateTimeFormat.stringToLocalDateTime("2018-04-15 19:00:00"),
                 DateTimeFormat.stringToLocalDateTime("2018-04-15 21:00:00"))
 

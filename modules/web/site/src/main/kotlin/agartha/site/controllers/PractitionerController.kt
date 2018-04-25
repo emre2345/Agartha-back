@@ -27,7 +27,7 @@ class PractitionerController {
         Spark.path("/practitioner") {
             //
             // Where we have no userId set yet - return info for user
-            Spark.get("/", ::getInformation)
+            Spark.get("", ::getInformation)
             //
             // Where userId has been set - return info for user and about user
             Spark.get("/:userid", ::getInformation)
@@ -57,8 +57,16 @@ class PractitionerController {
      * @return id/index for started session
      */
     private fun updatePractitioner(request: Request, response: Response): String {
-        println("updating practitioner")
-        return "hey"
+        val userId = request.params(":userid")
+        var user: PractitionerDBO? = null
+        println("updating practitioner: $userId")
+        try {
+            user = mService.getById(userId)
+        } catch (e: Exception) {
+            println(e)
+        }
+        return mMapper.writeValueAsString(user)
+
     }
 
 

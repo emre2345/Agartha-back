@@ -3,7 +3,7 @@ package agartha.site
 import agartha.data.db.conn.Database
 import agartha.data.db.conn.MongoConnection
 import agartha.data.services.MonitorService
-import agartha.data.services.PractitionerService
+import agartha.data.services.PractitionerAndSessionService
 import agartha.data.services.SettingsService
 import agartha.site.controllers.MonitorController
 import agartha.site.controllers.PractitionerController
@@ -30,22 +30,22 @@ fun startServer(args: Array<String>) {
     // Handling the API
     Spark.path("/v1") {
         // Enable CORS - First version remove one of these when the FE ApiFetch is verified
-        // Spark.before ("/*", {_, response -> response.header("Access-Control-Allow-Origin", "*") })
+        Spark.before ("/*", {_, response -> response.header("Access-Control-Allow-Origin", "*") })
 
         /**
          * CORS (Cross Origin stuff)
          * Allow requests from any origin, needed to be able to access this path
          */
-        Spark.options("/*") { request, response ->
-            response.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
-            response.header("Access-Control-Allow-Origin", "*")
-            response.header("Access-Control-Allow-Credentials", "true")
-            "OK"
-        }
+//        Spark.options("/*") { request, response ->
+//            response.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
+//            response.header("Access-Control-Allow-Origin", "*")
+//            response.header("Access-Control-Allow-Credentials", "true")
+//            "OK"
+//        }
         //
         SettingController(SettingsService())
-        PractitionerController(PractitionerService())
-        SessionController(PractitionerService())
+        PractitionerController(PractitionerAndSessionService())
+        SessionController(PractitionerAndSessionService())
     }
 
     // Add Paths for Monitoring - No need to have CORS since this should be called from Monitoring tool fx Pingdom
