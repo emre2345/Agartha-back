@@ -22,7 +22,9 @@ data class PractitionerReport(val userId: String?, val lastSessionTime: Long = 0
                     .lastOrNull()?.sessionDurationMinutes() ?: 0,
             sessions
                     // Map to session duration
-                    .map { it.sessionDurationMinutes() }
+                    .map {
+                        it.sessionDurationMinutes()
+                    }
                     // Sum it
                     .sum())
 

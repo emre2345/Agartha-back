@@ -46,8 +46,11 @@ class MockedPractitionerService : IPractitionerService {
         }?.first()
     }
 
+    /**
+     * Return all with no logic (logic is not what we are testing here)
+     */
     override fun getPractitionersWithSessionBetween(startDate: LocalDateTime, endDate: LocalDateTime): List<PractitionerDBO> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return practitionerList
     }
 
     /**

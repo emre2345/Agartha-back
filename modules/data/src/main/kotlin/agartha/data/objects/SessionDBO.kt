@@ -39,6 +39,12 @@ data class SessionDBO(
         return Duration.between(startTime, endTime).toMinutes()
     }
 
+    /**
+     * Function to see if this session was ongoing between these dates
+     * @param startTime
+     * @param endTime
+     * @return true if session was active during these timestamps
+     */
     fun sessionOverlap(startTime : LocalDateTime, endTime : LocalDateTime) : Boolean {
         if (this.isAbandoned()) {
             return false

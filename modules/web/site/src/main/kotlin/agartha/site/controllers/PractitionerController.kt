@@ -40,7 +40,6 @@ class PractitionerController {
             //
             // Session report, feedback after completed session
             Spark.get("/report/:userid", ::sessionReport)
-
         }
     }
 
@@ -81,10 +80,11 @@ class PractitionerController {
         val userId : String = request.params(":userid")
         // Get user from data source
         val user : PractitionerDBO = getPractitionerFromDataSource(userId)
-        // Create
+        // Create Report for current user
         val practitionerReport : PractitionerReport = PractitionerReport(userId, user.sessions)
         // Map to Contribution
-        val companionSessions : List<SessionDBO> = getSessionCompanions(user.sessions.last())
+        val companionSessions : List<SessionDBO> = getSessionCompanions(userId, user.sessions.last())
+        // Create Report for overlapping users
         val companionReport : CompanionReport = CompanionReport(companionSessions)
         // Return the report
         return mMapper.writeValueAsString(SessionReport(practitionerReport, companionReport))
@@ -110,13 +110,17 @@ class PractitionerController {
      * @param pracitionerSession session for a practitioner from which we use start and end time
      * @return List of overlapping sessions
      */
-    private fun getSessionCompanions(pracitionerSession: SessionDBO): List<SessionDBO> {
+    private fun getSessionCompanions(userId: String, pracitionerSession: SessionDBO): List<SessionDBO> {
         val startTime : LocalDateTime = pracitionerSession.startTime
         val endTime : LocalDateTime = pracitionerSession.endTime ?: LocalDateTime.now()
 
         return mService
                 // Get practitioners with overlapping sessions
                 .getPractitionersWithSessionBetween(startTime, endTime)
+                // Filter out the current user
+                .filter {
+                    it._id != userId
+                }
                 // Get the overlapping sessions from these practitioners
                 .map {
                     // Filter out overlapping sessions
