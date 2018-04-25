@@ -3,10 +3,12 @@ package agartha.site.controllers
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
+import agartha.site.objects.Companion
 import agartha.site.objects.Practitioner
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import spark.Request
 import spark.Response
+import spark.Session
 import spark.Spark
 import java.time.LocalDateTime
 import java.util.*
@@ -64,9 +66,9 @@ class PractitionerController {
      */
     private fun insertSession(request: Request, response: Response): Int {
         // Get current userid
-        val userId = request.params(":userid")
+        val userId : String = request.params(":userid")
         // Type of practice
-        val practice = request.params(":practice")
+        val practice : String = request.params(":practice")
         // Start a session
         return mService.startSession(userId, practice)
     }
@@ -76,13 +78,14 @@ class PractitionerController {
      */
     private fun sessionReport(request: Request, response: Response): String {
         // Get current userid
-        val userId = request.params(":userid")
+        val userId : String = request.params(":userid")
         // Get user from data source
-        val user: PractitionerDBO = getPractitionerFromDataSource(userId)
+        val user : PractitionerDBO = getPractitionerFromDataSource(userId)
         // Map to Practitoner
-        val practitioner = Practitioner(userId, user.sessions)
+        val practitioner : Practitioner = Practitioner(userId, user.sessions)
         // Map to Contribution
-        val companion = getSessionCompanions(user.sessions.last())
+        val companionSessions : List<SessionDBO> = getSessionCompanions(user.sessions.last())
+        val companion : Companion = Companion(companionSessions)
 
         return "HOVNO"
     }
@@ -102,13 +105,14 @@ class PractitionerController {
 
 
     /**
+     * Get sessions from other user with overlapping start/end time as argument session
      *
-     * @param pracitionerSession
-     * @return
+     * @param pracitionerSession session for a practitioner from which we use start and end time
+     * @return List of overlapping sessions
      */
     private fun getSessionCompanions(pracitionerSession: SessionDBO): List<SessionDBO> {
-        val startTime = pracitionerSession.startTime
-        val endTime: LocalDateTime = pracitionerSession.endTime ?: LocalDateTime.now()
+        val startTime : LocalDateTime = pracitionerSession.startTime
+        val endTime : LocalDateTime = pracitionerSession.endTime ?: LocalDateTime.now()
 
         return mService
                 // Get practitioners with overlapping sessions

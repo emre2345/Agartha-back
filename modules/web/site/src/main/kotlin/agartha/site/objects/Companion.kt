@@ -9,12 +9,15 @@ import agartha.data.objects.SessionDBO
  * @param count number of sessions
  * @param minutes duration in minutes for these sessions
  */
-data class Companion(val count: Int, val minutes: Long) {
+data class Companion(val count: Int, val minutes: Long, val practices : Map<String, Int>) {
 
     constructor(sessions: List<SessionDBO>) : this(
             // Count number of session
             sessions.count(),
             // Sum duration for sessions
-            sessions.map { it.sessionDurationMinutes() }.sum())
+            sessions.map { it.sessionDurationMinutes() }.sum(),
+            // map session count to each practice
+            sessions.groupBy { it.practition }.map { it.key to it.value.size }.toMap()
+    )
 
 }
