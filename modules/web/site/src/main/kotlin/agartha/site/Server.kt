@@ -7,6 +7,7 @@ import agartha.data.services.PractitionerService
 import agartha.data.services.SettingsService
 import agartha.site.controllers.MonitorController
 import agartha.site.controllers.PractitionerController
+import agartha.site.controllers.SessionController
 import agartha.site.controllers.SettingController
 import io.schinzel.basicutils.configvar.ConfigVar
 import spark.Spark
@@ -44,6 +45,7 @@ fun startServer(args: Array<String>) {
         //
         SettingController(SettingsService())
         PractitionerController(PractitionerService())
+        SessionController(PractitionerService())
     }
 
     // Add Paths for Monitoring - No need to have CORS since this should be called from Monitoring tool fx Pingdom
