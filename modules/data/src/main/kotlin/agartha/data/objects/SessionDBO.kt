@@ -26,7 +26,7 @@ data class SessionDBO(
      * Function to calculate duration for a session
      * @return number of minutes for session
      */
-    fun sessionDurationMinutes() : Long {
+    fun sessionDurationMinutes(): Long {
         // If the session has been abandoned, inactive for too long for user to still be active
         if (endTime == null && !active) {
             return 0
@@ -37,5 +37,39 @@ data class SessionDBO(
         }
         // If session is ended return diff between end and start time
         return Duration.between(startTime, endTime).toMinutes()
+    }
+
+    /**
+     * Function to see if this session was ongoing between these dates
+     *
+     * @param startTime
+     * @param endTime
+     * @return true if session was active during these timestamps
+     */
+    fun sessionOverlap(startTime: LocalDateTime, endTime: LocalDateTime): Boolean {
+        // If session has an end time and it is between these dates
+        if (this.endTime != null && this.endTime.isAfter(startTime) && this.endTime.isBefore(endTime)) {
+            return true
+        }
+        // If session has a start time between these dates and is not condistered abandoned
+        if (this.startTime.isAfter(startTime) && this.startTime.isBefore(endTime) && !isAbandoned()) {
+            return true
+        }
+        // I session not have an end time (ongoing) and not abandoned
+        if (this.endTime == null && !isAbandoned()) {
+            return true
+        }
+        // Session has an end time and not in between start and stop
+        return false
+    }
+
+    /**
+     * A session is considered abandon if user has not finshed session within this number of minutes
+     * @return true if session is considered abandon, otherwise false
+     */
+    private fun isAbandoned(): Boolean {
+        // If end time is null (session not finshed) and session started more than 3 hours ago
+        return this.endTime == null &&
+                this.startTime.isBefore(LocalDateTime.now().minusMinutes(180))
     }
 }

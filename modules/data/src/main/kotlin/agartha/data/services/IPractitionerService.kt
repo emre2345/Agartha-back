@@ -1,6 +1,7 @@
 package agartha.data.services
 
 import agartha.data.objects.PractitionerDBO
+import java.time.LocalDateTime
 
 /**
  * Purpose of this file is inteface for Practitioner datasource service
@@ -24,4 +25,11 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      */
     fun endSession(userId: String, sessionId: Int)
 
+    /**
+     * Get all practitioners with session between sessions
+     *
+     * @param startDate
+     * @param endDate
+     */
+    fun getPractitionersWithSessionBetween(startDate : LocalDateTime, endDate : LocalDateTime): List<PractitionerDBO>
 }
