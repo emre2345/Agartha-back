@@ -41,22 +41,25 @@ data class SessionDBO(
 
     /**
      * Function to see if this session was ongoing between these dates
+     *
      * @param startTime
      * @param endTime
      * @return true if session was active during these timestamps
      */
     fun sessionOverlap(startTime : LocalDateTime, endTime : LocalDateTime) : Boolean {
-        if (this.isAbandoned()) {
-            return false
-        }
-
-        if (this.startTime.isAfter(startTime) && this.startTime.isBefore(endTime)) {
-            return true
-        }
-
+        // If session has an end time and it is between these dates
         if (this.endTime != null && this.endTime.isAfter(startTime) && this.endTime.isBefore(endTime)) {
             return true
         }
+        // If session has a start time between these dates and is not condistered abandoned
+        if (this.startTime.isAfter(startTime) && this.startTime.isBefore(endTime) && !isAbandoned()) {
+            return true
+        }
+            // I session not have an end time (ongoing) and not abandoned
+        if (this.endTime == null && !isAbandoned()) {
+            return true
+        }
+        // Session has an end time and not in between start and stop
         return false
     }
 
