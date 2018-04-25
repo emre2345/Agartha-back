@@ -12,9 +12,9 @@ import java.time.LocalDateTime
 /**
  * Purpose of this file is manipulating data for a practitioner in data storage
  *
- * Created by Jorgen Andersson on 2018-04-09.
+ * Created by Jorgen Andersson on 2018-04-25.
  */
-class PractitionerAndSessionService : MongoBaseService<PractitionerDBO>(CollectionNames.PRACTITIONER_SERVICE), IPractitionerService {
+class SessionService : MongoBaseService<PractitionerDBO>(CollectionNames.PRACTITIONER_SERVICE), ISessionService {
 
     /**
      * Start a new user session
@@ -34,9 +34,14 @@ class PractitionerAndSessionService : MongoBaseService<PractitionerDBO>(Collecti
         return nextIndex
     }
 
+
+    /**
+     * End users session
+     */
     override fun endSession(userId: String, sessionId: Int) {
 
     }
+
 
     /**
      * Get all practitioners with session ongoing between these dates

@@ -3,6 +3,7 @@ package agartha.site.controllers
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
+import agartha.data.services.ISessionService
 import agartha.site.objects.CompanionReport
 import agartha.site.objects.PractitionerReport
 import agartha.site.objects.SessionReport
@@ -19,11 +20,11 @@ import java.time.LocalDateTime
  */
 class SessionController {
     // Practitioner data service
-    private val mService: IPractitionerService
+    private val mService: ISessionService
     // For mapping objects to string
     private val mMapper = jacksonObjectMapper()
 
-    constructor(service: IPractitionerService) {
+    constructor(service: ISessionService) {
         mService = service
         // API path for session
         Spark.path("/session") {

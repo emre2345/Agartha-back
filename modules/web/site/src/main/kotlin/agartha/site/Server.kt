@@ -3,7 +3,8 @@ package agartha.site
 import agartha.data.db.conn.Database
 import agartha.data.db.conn.MongoConnection
 import agartha.data.services.MonitorService
-import agartha.data.services.PractitionerAndSessionService
+import agartha.data.services.PractitionerService
+import agartha.data.services.SessionService
 import agartha.data.services.SettingsService
 import agartha.site.controllers.MonitorController
 import agartha.site.controllers.PractitionerController
@@ -44,8 +45,8 @@ fun startServer(args: Array<String>) {
 //        }
         //
         SettingController(SettingsService())
-        PractitionerController(PractitionerAndSessionService())
-        SessionController(PractitionerAndSessionService())
+        PractitionerController(PractitionerService())
+        SessionController(SessionService())
     }
 
     // Add Paths for Monitoring - No need to have CORS since this should be called from Monitoring tool fx Pingdom

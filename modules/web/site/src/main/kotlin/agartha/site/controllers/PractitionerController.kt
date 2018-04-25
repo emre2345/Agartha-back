@@ -57,16 +57,10 @@ class PractitionerController {
      * @return id/index for started session
      */
     private fun updatePractitioner(request: Request, response: Response): String {
-        val userId = request.params(":userid")
-        var user: PractitionerDBO? = null
-        println("updating practitioner: $userId")
-        try {
-            user = mService.getById(userId)
-        } catch (e: Exception) {
-            println(e)
-        }
-        return mMapper.writeValueAsString(user)
-
+        /*val userId = request.params(":userid")
+        mService.update(insertedUser._id!!, updatedUser)
+        return mMapper.writeValueAsString(user)*/
+        return ""
     }
 
 

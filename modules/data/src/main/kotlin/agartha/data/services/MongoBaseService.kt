@@ -26,14 +26,6 @@ open class MongoBaseService<T : Any>(collectionName: CollectionNames) : IBaseSer
             collection.insertOne(item)
         }
     }
-    /**
-     * Update item in database
-     */
-    fun update(id: String, item: T): T {
-        return item.apply {
-            collection.updateOneById(id, item)
-        }
-    }
 
     /**
      * Get all items from database
