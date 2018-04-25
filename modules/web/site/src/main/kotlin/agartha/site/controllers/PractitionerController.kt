@@ -3,7 +3,7 @@ package agartha.site.controllers
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
-import agartha.site.objects.Companion
+import agartha.site.objects.CompanionReport
 import agartha.site.objects.PractitionerReport
 import agartha.site.objects.SessionReport
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -82,12 +82,12 @@ class PractitionerController {
         // Get user from data source
         val user : PractitionerDBO = getPractitionerFromDataSource(userId)
         // Create
-        val PractitionerReport : PractitionerReport = PractitionerReport(userId, user.sessions)
+        val practitionerReport : PractitionerReport = PractitionerReport(userId, user.sessions)
         // Map to Contribution
         val companionSessions : List<SessionDBO> = getSessionCompanions(user.sessions.last())
-        val companion : Companion = Companion(companionSessions)
+        val companionReport : CompanionReport = CompanionReport(companionSessions)
         // Return the report
-        return mMapper.writeValueAsString(SessionReport(PractitionerReport, companion))
+        return mMapper.writeValueAsString(SessionReport(practitionerReport, companionReport))
     }
 
 

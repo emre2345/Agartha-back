@@ -6,4 +6,4 @@ package agartha.site.objects
  *
  * Created by Jorgen Andersson on 2018-04-25.
  */
-data class SessionReport(val userSession : PractitionerReport, val companionSession: Companion)
+data class SessionReport(val practitionerReport : PractitionerReport, val companionReport: CompanionReport)

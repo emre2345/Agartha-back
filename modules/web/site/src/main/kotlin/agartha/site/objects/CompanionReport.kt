@@ -9,7 +9,7 @@ import agartha.data.objects.SessionDBO
  * @param count number of sessions
  * @param minutes duration in minutes for these sessions
  */
-data class Companion(val count: Int, val minutes: Long, val practices : Map<String, Int>) {
+data class CompanionReport(val count: Int, val minutes: Long, val practices : Map<String, Int>) {
 
     constructor(sessions: List<SessionDBO>) : this(
             // Count number of session

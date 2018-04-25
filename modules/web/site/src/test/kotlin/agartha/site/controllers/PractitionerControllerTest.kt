@@ -15,7 +15,7 @@ import java.time.LocalDateTime
  *
  * Created by Jorgen Andersson on 2018-04-09.
  */
-class practitionerReportControllerTest {
+class PractitionerControllerTest {
 
     companion object {
         val mockedService = MockedPractitionerService()
