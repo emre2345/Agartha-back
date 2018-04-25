@@ -196,4 +196,48 @@ class PractitionerControllerTest {
         assertThat(data.companionReport.minutes).isEqualTo(115)
     }
 
+    /**
+     * 
+     */
+    @Test
+    fun practitionerController_companionReport_practicesHasYoga() {
+        setupReport()
+        // Assume second (id b) is current user
+        val getRequest = testController.testServer.get("/session/report/c", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+        // Map to Data object
+        val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
+        assertThat(data.companionReport.practices.containsKey("Yoga")).isTrue()
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun practitionerController_companionReport_practicesHasMindful() {
+        setupReport()
+        // Assume second (id b) is current user
+        val getRequest = testController.testServer.get("/session/report/c", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+        // Map to Data object
+        val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
+        assertThat(data.companionReport.practices.containsKey("Mindfulness")).isTrue()
+    }
+
+    /**
+     * Current users practition should not be included
+     */
+    @Test
+    fun practitionerController_companionReport_practicesHasNotMeditation() {
+        setupReport()
+        // Assume second (id b) is current user
+        val getRequest = testController.testServer.get("/session/report/c", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+        // Map to Data object
+        val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
+        assertThat(data.companionReport.practices.containsKey("Meditation")).isFalse()
+    }
 }
