@@ -26,7 +26,7 @@ data class SessionDBO(
      * Function to calculate duration for a session
      * @return number of minutes for session
      */
-    fun sessionDurationMinutes() : Long {
+    fun sessionDurationMinutes(): Long {
         // If the session has been abandoned, inactive for too long for user to still be active
         if (endTime == null && !active) {
             return 0
@@ -46,7 +46,7 @@ data class SessionDBO(
      * @param endTime
      * @return true if session was active during these timestamps
      */
-    fun sessionOverlap(startTime : LocalDateTime, endTime : LocalDateTime) : Boolean {
+    fun sessionOverlap(startTime: LocalDateTime, endTime: LocalDateTime): Boolean {
         // If session has an end time and it is between these dates
         if (this.endTime != null && this.endTime.isAfter(startTime) && this.endTime.isBefore(endTime)) {
             return true
@@ -55,7 +55,7 @@ data class SessionDBO(
         if (this.startTime.isAfter(startTime) && this.startTime.isBefore(endTime) && !isAbandoned()) {
             return true
         }
-            // I session not have an end time (ongoing) and not abandoned
+        // I session not have an end time (ongoing) and not abandoned
         if (this.endTime == null && !isAbandoned()) {
             return true
         }
@@ -67,7 +67,7 @@ data class SessionDBO(
      * A session is considered abandon if user has not finshed session within this number of minutes
      * @return true if session is considered abandon, otherwise false
      */
-    private fun isAbandoned() : Boolean {
+    private fun isAbandoned(): Boolean {
         // If end time is null (session not finshed) and session started more than 3 hours ago
         return this.endTime == null &&
                 this.startTime.isBefore(LocalDateTime.now().minusMinutes(180))

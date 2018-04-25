@@ -39,6 +39,7 @@ class PractitionerService : MongoBaseService<PractitionerDBO>(CollectionNames.PR
     }
 
     /**
+     * Get all practitioners with session ongoing between these dates
      *
      * @param startDateTime
      * @param endDateTime

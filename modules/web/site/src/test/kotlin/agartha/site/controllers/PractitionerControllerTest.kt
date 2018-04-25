@@ -14,7 +14,7 @@ import org.junit.Test
 import java.time.LocalDateTime
 
 /**
- * Purpose of this file is to test the PractitionerReport controller
+ * Purpose of this file is to test the Practitioner controller
  *
  * Created by Jorgen Andersson on 2018-04-09.
  */

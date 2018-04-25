@@ -19,7 +19,7 @@ import java.util.*
  * Created by Jorgen Andersson on 2018-04-09.
  */
 class PractitionerController {
-    // PractitionerReport data service
+    // Practitioner data service
     private val mService: IPractitionerService
     // For mapping objects to string
     private val mMapper = jacksonObjectMapper()
