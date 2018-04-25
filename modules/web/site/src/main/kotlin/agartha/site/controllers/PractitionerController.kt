@@ -4,11 +4,11 @@ import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.objects.Companion
-import agartha.site.objects.Practitioner
+import agartha.site.objects.PractitionerReport
+import agartha.site.objects.SessionReport
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import spark.Request
 import spark.Response
-import spark.Session
 import spark.Spark
 import java.time.LocalDateTime
 import java.util.*
@@ -19,7 +19,7 @@ import java.util.*
  * Created by Jorgen Andersson on 2018-04-09.
  */
 class PractitionerController {
-    // Practitioner data service
+    // PractitionerReport data service
     private val mService: IPractitionerService
     // For mapping objects to string
     private val mMapper = jacksonObjectMapper()
@@ -56,7 +56,7 @@ class PractitionerController {
         // Get user from data source
         val user: PractitionerDBO = getPractitionerFromDataSource(userId)
         // Return info about current user
-        return mMapper.writeValueAsString(Practitioner(userId, user.sessions))
+        return mMapper.writeValueAsString(PractitionerReport(userId, user.sessions))
     }
 
 
@@ -81,13 +81,13 @@ class PractitionerController {
         val userId : String = request.params(":userid")
         // Get user from data source
         val user : PractitionerDBO = getPractitionerFromDataSource(userId)
-        // Map to Practitoner
-        val practitioner : Practitioner = Practitioner(userId, user.sessions)
+        // Create
+        val PractitionerReport : PractitionerReport = PractitionerReport(userId, user.sessions)
         // Map to Contribution
         val companionSessions : List<SessionDBO> = getSessionCompanions(user.sessions.last())
         val companion : Companion = Companion(companionSessions)
-
-        return "HOVNO"
+        // Return the report
+        return mMapper.writeValueAsString(SessionReport(PractitionerReport, companion))
     }
 
 

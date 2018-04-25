@@ -4,14 +4,13 @@ import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.SessionDBO
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import java.time.LocalDateTime
 
 /**
- * Purpose of this file is Test for Practitioner response object
+ * Purpose of this file is Test for PractitionerReport response object
  *
  * Created by Jorgen Andersson on 2018-04-23.
  */
-class PractitionerTest {
+class practitionerReportTest {
 
     fun generateSessions() : List<SessionDBO> {
         return listOf(
@@ -29,25 +28,25 @@ class PractitionerTest {
 
     @Test
     fun practitionerLastSessionTime_WithNoSessions_zero() {
-        val user = Practitioner(null)
+        val user = PractitionerReport(null)
         assertThat(user.lastSessionTime).isEqualTo(0)
     }
 
     @Test
     fun practitionerLastSessionTime_WithSessions_20() {
-        val user = Practitioner("abc", generateSessions())
+        val user = PractitionerReport("abc", generateSessions())
         assertThat(user.lastSessionTime).isEqualTo(20)
     }
 
     @Test
     fun practitionerTotalSessionTime_WithNoSessions_zero() {
-        val user = Practitioner(null)
+        val user = PractitionerReport(null)
         assertThat(user.totalSessionTime).isEqualTo(0)
     }
 
     @Test
     fun practitionerTotalSessionTime_WithSessions_80() {
-        val user = Practitioner("abc", generateSessions())
+        val user = PractitionerReport("abc", generateSessions())
         assertThat(user.totalSessionTime).isEqualTo(90)
     }
 }

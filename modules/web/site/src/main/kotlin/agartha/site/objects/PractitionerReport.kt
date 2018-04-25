@@ -3,14 +3,14 @@ package agartha.site.objects
 import agartha.data.objects.SessionDBO
 
 /**
- * Purpose of this file is response object for the current Practitioner
+ * Purpose of this file is response object for the current PractitionerReport
  *
  * Created by Jorgen Andersson on 2018-04-23.
  * @param userId database user id
  * @param lastSessionTime number of minutes for last session
  * @param totalSessionTime total number of minutes for user sessions
  */
-data class Practitioner(val userId: String?, val lastSessionTime: Long = 0, val totalSessionTime: Long = 0) {
+data class PractitionerReport(val userId: String?, val lastSessionTime: Long = 0, val totalSessionTime: Long = 0) {
 
     /**
      * @param practitioner database users
