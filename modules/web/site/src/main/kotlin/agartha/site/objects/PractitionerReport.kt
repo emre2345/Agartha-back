@@ -3,7 +3,7 @@ package agartha.site.objects
 import agartha.data.objects.SessionDBO
 
 /**
- * Purpose of this file is response object for the current PractitionerReport
+ * Purpose of this file holding information about the current user/practitioner
  *
  * Created by Jorgen Andersson on 2018-04-23.
  * @param userId database user id

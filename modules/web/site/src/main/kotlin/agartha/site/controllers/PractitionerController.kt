@@ -51,11 +51,19 @@ class PractitionerController {
      */
     private fun getInformation(request: Request, response: Response): String {
         // Get current userid or generate new
-        val userId = request.params(":userid") ?: UUID.randomUUID().toString()
+        val userId = getUserIdFromRequest(request)
         // Get user from data source
         val user: PractitionerDBO = getPractitionerFromDataSource(userId)
-        // Return info about current user
-        return mMapper.writeValueAsString(PractitionerReport(userId, user.sessions))
+        // Create Report for current user
+        val practitionerReport : PractitionerReport = PractitionerReport(userId, user.sessions)
+        val startTime : LocalDateTime = LocalDateTime.now().minusMinutes(30)
+        val endTime : LocalDateTime = LocalDateTime.now()
+        // Map to Companions
+        val companionSessions : List<SessionDBO> = getSessionCompanions(userId, startTime, endTime)
+        // Create Report for session ongoing during last x minutes
+        val companionReport : CompanionReport = CompanionReport(companionSessions)
+        // Return the report
+        return mMapper.writeValueAsString(SessionReport(practitionerReport, companionReport))
     }
 
 
@@ -65,7 +73,7 @@ class PractitionerController {
      */
     private fun insertSession(request: Request, response: Response): Int {
         // Get current userid
-        val userId : String = request.params(":userid")
+        val userId : String = getUserIdFromRequest(request)
         // Type of practice
         val practice : String = request.params(":practice")
         // Start a session
@@ -77,19 +85,25 @@ class PractitionerController {
      */
     private fun sessionReport(request: Request, response: Response): String {
         // Get current userid
-        val userId : String = request.params(":userid")
+        val userId : String = getUserIdFromRequest(request)
         // Get user from data source
         val user : PractitionerDBO = getPractitionerFromDataSource(userId)
         // Create Report for current user
         val practitionerReport : PractitionerReport = PractitionerReport(userId, user.sessions)
-        // Map to Contribution
-        val companionSessions : List<SessionDBO> = getSessionCompanions(userId, user.sessions.last())
-        // Create Report for overlapping users
+        val startTime : LocalDateTime = user.sessions.last().startTime
+        val endTime : LocalDateTime = user.sessions.last().endTime ?: LocalDateTime.now()
+        // Map to Companions
+        val companionSessions : List<SessionDBO> = getSessionCompanions(userId, startTime, endTime)
+        // Create Report for overlapping user(s) sessions
         val companionReport : CompanionReport = CompanionReport(companionSessions)
         // Return the report
         return mMapper.writeValueAsString(SessionReport(practitionerReport, companionReport))
     }
 
+
+    private fun getUserIdFromRequest(request: Request) : String {
+        return request.params(":userid") ?: UUID.randomUUID().toString()
+    }
 
     /**
      * Get a practitioner from its userId from datasource or create if it does not exists
@@ -107,13 +121,11 @@ class PractitionerController {
     /**
      * Get sessions from other user with overlapping start/end time as argument session
      *
-     * @param pracitionerSession session for a practitioner from which we use start and end time
+     * @param startTime start time for sessions we are looking for
+     * @param endTime end time for sessions we are looking for
      * @return List of overlapping sessions
      */
-    private fun getSessionCompanions(userId: String, pracitionerSession: SessionDBO): List<SessionDBO> {
-        val startTime : LocalDateTime = pracitionerSession.startTime
-        val endTime : LocalDateTime = pracitionerSession.endTime ?: LocalDateTime.now()
-
+    private fun getSessionCompanions(userId: String, startTime : LocalDateTime, endTime : LocalDateTime): List<SessionDBO> {
         return mService
                 // Get practitioners with overlapping sessions
                 .getPractitionersWithSessionBetween(startTime, endTime)
