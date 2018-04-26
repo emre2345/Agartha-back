@@ -9,6 +9,7 @@ import agartha.site.objects.response.SessionReport
 import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.controllers.utils.SessionUtil
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import org.bson.types.ObjectId
 import spark.Request
 import spark.Response
 import spark.Spark
@@ -124,7 +125,7 @@ class PractitionerController {
      * @return user id from request or generated if missing
      */
     private fun getUserIdFromRequest(request: Request): String {
-        return request.params(":userid") ?: UUID.randomUUID().toString()
+        return request.params(":userid") ?: ObjectId().toHexString()
     }
 
 }
