@@ -55,4 +55,5 @@ class PractitionerService : MongoBaseService<PractitionerDBO>(CollectionNames.PR
                 .find(sessionsWithOverlappingStartAndEndTime)
                 .toList() as List<PractitionerDBO>
     }
+
 }

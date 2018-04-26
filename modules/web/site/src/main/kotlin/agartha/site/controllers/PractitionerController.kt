@@ -3,6 +3,7 @@ package agartha.site.controllers
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
+import agartha.site.controllers.utils.SessionUtil
 import agartha.site.objects.CompanionReport
 import agartha.site.objects.PractitionerReport
 import agartha.site.objects.SessionReport
@@ -46,8 +47,6 @@ class PractitionerController {
      * @return Object with general information
      */
     private fun getInformation(request: Request, response: Response): String {
-        // Allow requests from all origins
-        response.header("Access-Control-Allow-Origin", "*")
         // Get current userid or generate new
         val userId = getUserIdFromRequest(request)
         // Get user from data source
@@ -73,24 +72,13 @@ class PractitionerController {
      * @return List of overlapping sessions
      */
     private fun getSessionCompanions(userId: String, startTime: LocalDateTime, endTime: LocalDateTime): List<SessionDBO> {
-        return mService
+
+        return SessionUtil.filterSessionsBetween(
                 // Get practitioners with overlapping sessions
-                .getPractitionersWithSessionBetween(startTime, endTime)
-                // Filter out the current user
-                .filter {
-                    it._id != userId
-                }
-                // Get the overlapping sessions from these practitioners
-                .map {
-                    // Filter out overlapping sessions
-                    it.sessions.filter {
-                        // Start time should be between
-                        it.sessionOverlap(startTime, endTime)
-                    }
-                            // Return first overlapping session for each practitioner
-                            .first()
-                }
-                .toList()
+                mService.getPractitionersWithSessionBetween(startTime, endTime),
+                startTime,
+                endTime)
+
     }
 
     /**
@@ -105,15 +93,12 @@ class PractitionerController {
                 ?: mService.insert(PractitionerDBO(userId, LocalDateTime.now(), mutableListOf()))
     }
 
-
     private fun updatePractitioner(request: Request, response: Response): String {
         /*val userId = request.params(":userid")
         mService.update(insertedUser._id!!, updatedUser)
         return mMapper.writeValueAsString(user)*/
         return ""
     }
-
-
 
     /**
      * Get or create User Id
