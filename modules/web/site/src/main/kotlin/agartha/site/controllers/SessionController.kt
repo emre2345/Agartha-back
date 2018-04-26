@@ -60,7 +60,7 @@ class SessionController {
         // Get user from data source
         val user : PractitionerDBO = getPractitionerFromDataSource(userId)
         // Create Report for current user
-        val practitionerReport : PractitionerReport = PractitionerReport(userId, user.sessions)
+        val practitionerReport : PractitionerReport = PractitionerReport(userId, user.sessions, user)
         // Map to Contribution
         val companionSessions : List<SessionDBO> = getSessionCompanions(userId, user.sessions.last())
         // Create Report for overlapping users
