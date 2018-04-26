@@ -16,10 +16,6 @@ import java.time.LocalDateTime
  */
 class PractitionerService : MongoBaseService<PractitionerDBO>(CollectionNames.PRACTITIONER_SERVICE), IPractitionerService {
 
-    override fun getOrCreate(userId: String): PractitionerDBO {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     /**
      * Start a new user session
      */

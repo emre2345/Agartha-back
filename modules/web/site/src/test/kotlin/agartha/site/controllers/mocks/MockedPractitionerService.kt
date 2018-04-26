@@ -13,10 +13,6 @@ import java.time.LocalDateTime
 class MockedPractitionerService : IPractitionerService {
     val practitionerList: MutableList<PractitionerDBO> = mutableListOf()
 
-    override fun getOrCreate(userId: String): PractitionerDBO {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
 
     override fun startSession(userId: String, practition: String): Int {
         val first = practitionerList.filter {
