@@ -30,7 +30,9 @@ class DevelopmentController {
             //
             Spark.before("/*", { request, _ ->
                 val isDev: Boolean = ConfigVar.create(".env").getValue("A_ENVIRONMENT").equals("development")
-                val isAllowed: Boolean = request.cookie("xyz")?.equals("blaha") ?: false
+                val isAllowed: Boolean = true //request.cookie("xyz")?.equals("blaha") ?: false
+
+                println(request.cookies())
 
                 if (!(isDev && isAllowed)) {
                     Spark.halt(401, "Not Authenticated")
@@ -118,6 +120,6 @@ class DevelopmentController {
                 )
         ))
         // Return the Id
-        return id
+        return "{\"id\":\"${id}\"}"
     }
 }
