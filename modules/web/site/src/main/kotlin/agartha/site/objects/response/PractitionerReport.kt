@@ -6,7 +6,7 @@ import agartha.data.objects.SessionDBO
  * Purpose of this file holding information about the current user/practitioner
  *
  * Created by Jorgen Andersson on 2018-04-23.
- * @param userId database user id
+ * @param practitionerId database user id
  * @param lastSessionTime number of minutes for last session
  * @param totalSessionTime total number of minutes for user sessions
  */
