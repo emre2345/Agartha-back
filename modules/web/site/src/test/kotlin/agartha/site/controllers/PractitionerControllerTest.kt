@@ -1,10 +1,7 @@
 package agartha.site.controllers
 
-import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.PractitionerDBO
-import agartha.data.objects.SessionDBO
 import agartha.site.controllers.mocks.MockedPractitionerService
-import agartha.site.objects.PractitionerReport
 import agartha.site.objects.SessionReport
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.assertj.core.api.Assertions.assertThat
