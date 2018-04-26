@@ -2,6 +2,7 @@ package agartha.site.objects
 
 import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.SessionDBO
+import agartha.site.objects.response.CompanionReport
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 

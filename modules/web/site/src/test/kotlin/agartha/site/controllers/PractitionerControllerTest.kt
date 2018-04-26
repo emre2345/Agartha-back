@@ -1,11 +1,9 @@
 package agartha.site.controllers
 
-import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.PractitionerDBO
-import agartha.data.objects.SessionDBO
 import agartha.site.controllers.mocks.MockedPractitionerService
-import agartha.site.objects.PractitionerReport
-import agartha.site.objects.SessionReport
+import agartha.site.objects.request.PractitionerInvolvedInformation
+import agartha.site.objects.response.SessionReport
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
@@ -78,5 +76,25 @@ class PractitionerControllerTest {
         // Map to Data object
         val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
         assertThat(data.practitionerReport.userId).isEqualTo("abc")
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun practitionerControllerUpdatePractitioner_insertedUser_updatedUserWithInvolvedInformation() {
+        // Setup
+        mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
+        val involvedInformation = PractitionerInvolvedInformation(
+                "Rebecca",
+                "rebecca@kollektiva.se",
+                "Jag gillar yoga!")
+        //
+        val getRequest = testController.testServer.put("/practitioner/abc", jacksonObjectMapper().writeValueAsString(involvedInformation), false)
+        val httpResponse = testController.testServer.execute(getRequest)
+
+        // Map to Data object
+        //val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
+        assertThat("abc").isEqualTo("abc")
     }
 }

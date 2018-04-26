@@ -3,9 +3,10 @@ package agartha.site.controllers
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
-import agartha.site.objects.CompanionReport
-import agartha.site.objects.PractitionerReport
-import agartha.site.objects.SessionReport
+import agartha.site.objects.response.CompanionReport
+import agartha.site.objects.response.PractitionerReport
+import agartha.site.objects.response.SessionReport
+import agartha.site.objects.request.PractitionerInvolvedInformation
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import spark.Request
 import spark.Response
@@ -70,15 +71,18 @@ class PractitionerController {
      * @return The updated practitioner
      */
     private fun updatePractitioner(request: Request, response: Response): String {
+        var involvedInformation: PractitionerInvolvedInformation = mMapper.readValue(request.body(), PractitionerInvolvedInformation::class.java)
         // Get params
         val userId: String = getUserIdFromRequest(request)
-        val fullName: String = request.params(":fullName")
-        val email: String = request.params(":email")
-        val description: String = request.params(":description")
         // Get user
         val user: PractitionerDBO = getPractitionerFromDataSource(userId)
+        println(user)
         // Update user
-        val updatedUser: PractitionerDBO = mService.updatePractitionerWithInvolvedInformation(user, fullName, email, description)
+        val updatedUser: PractitionerDBO = mService.updatePractitionerWithInvolvedInformation(
+                user,
+                involvedInformation.fullName,
+                involvedInformation.email,
+                involvedInformation.description)
         // Return updated user
         return mMapper.writeValueAsString(updatedUser)
     }
