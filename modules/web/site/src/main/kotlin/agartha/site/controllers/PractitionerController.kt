@@ -31,10 +31,10 @@ class PractitionerController {
         // API path for session
         Spark.path("/practitioner") {
             //
-            // Where we have no userId set yet - return info for user
+            // Where we have no practitionerId set yet - return info for user
             Spark.get("", ::getInformation)
             //
-            // Where userId has been set - return info for user and about user
+            // Where practitionerId has been set - return info for user and about user
             Spark.get("/:userid", ::getInformation)
             //
             // Start new session with practice
@@ -105,7 +105,7 @@ class PractitionerController {
     }
 
     /**
-     * Get a practitioner from its userId from datasource or create if it does not exists
+     * Get a practitioner from its practitionerId from datasource or create if it does not exists
      *
      * @param userId database id for user
      * @return Database representation of practitioner

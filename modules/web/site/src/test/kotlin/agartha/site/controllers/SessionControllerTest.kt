@@ -94,7 +94,7 @@ class SessionControllerTest {
         val body = String(httpResponse.body())
         // Map to Data object
         val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
-        Assertions.assertThat(data.practitionerReport.userId).isEqualTo("c")
+        Assertions.assertThat(data.practitionerReport.practitionerId).isEqualTo("c")
     }
 
     /**

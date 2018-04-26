@@ -59,7 +59,7 @@ class PractitionerControllerTest {
         val body = String(httpResponse.body())
         // Map to Data object
         val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
-        assertThat(data.practitionerReport.userId?.length).isEqualTo(36)
+        assertThat(data.practitionerReport.practitionerId?.length).isEqualTo(36)
     }
 
     /**
@@ -75,7 +75,7 @@ class PractitionerControllerTest {
         val body = String(httpResponse.body())
         // Map to Data object
         val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
-        assertThat(data.practitionerReport.userId).isEqualTo("abc")
+        assertThat(data.practitionerReport.practitionerId).isEqualTo("abc")
     }
 
     /**
