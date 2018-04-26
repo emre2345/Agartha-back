@@ -39,7 +39,7 @@ class PractitionerController {
             Spark.get("/:userid", ::getInformation)
             //
             // Start new session with practice
-            Spark.put("/:userid", ::updatePractitioner)
+            Spark.post("/:userid", ::updatePractitioner)
         }
     }
 
@@ -76,7 +76,6 @@ class PractitionerController {
         val userId: String = getUserIdFromRequest(request)
         // Get user
         val user: PractitionerDBO = getPractitionerFromDataSource(userId)
-        println(user)
         // Update user
         val updatedUser: PractitionerDBO = mService.updatePractitionerWithInvolvedInformation(
                 user,

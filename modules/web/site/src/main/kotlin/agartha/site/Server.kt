@@ -8,6 +8,7 @@ import agartha.data.services.SessionService
 import agartha.data.services.SettingsService
 import agartha.site.controllers.*
 import io.schinzel.basicutils.configvar.ConfigVar
+import spark.Response
 import spark.Spark
 
 /**
