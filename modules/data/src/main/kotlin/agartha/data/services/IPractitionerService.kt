@@ -10,6 +10,8 @@ import java.time.LocalDateTime
  */
 interface IPractitionerService : IBaseService<PractitionerDBO> {
 
+    fun getOrCreate(userId: String) : PractitionerDBO
+
     /**
      * Start a new session
      * @param userId id for user starting the session

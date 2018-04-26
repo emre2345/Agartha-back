@@ -50,6 +50,8 @@ class PractitionerController {
      * @return Object with general information
      */
     private fun getInformation(request: Request, response: Response): String {
+        // Allow requests from all origins
+        response.header("Access-Control-Allow-Origin", "*")
         // Get current userid or generate new
         val userId = getUserIdFromRequest(request)
         // Get user from data source
@@ -72,6 +74,8 @@ class PractitionerController {
      * @return id/index for started session
      */
     private fun insertSession(request: Request, response: Response): Int {
+        // Allow requests from all origins
+        response.header("Access-Control-Allow-Origin", "*")
         // Get current userid
         val userId : String = getUserIdFromRequest(request)
         // Type of practice
@@ -84,6 +88,8 @@ class PractitionerController {
      *
      */
     private fun sessionReport(request: Request, response: Response): String {
+        // Allow requests from all origins
+        response.header("Access-Control-Allow-Origin", "*")
         // Get current userid
         val userId : String = getUserIdFromRequest(request)
         // Get user from data source
