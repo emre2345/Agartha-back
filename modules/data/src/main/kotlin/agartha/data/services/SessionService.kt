@@ -12,24 +12,36 @@ import java.time.LocalDateTime
 /**
  * Purpose of this file is manipulating data for a practitioner in data storage
  *
- * Created by Jorgen Andersson on 2018-04-09.
+ * Created by Jorgen Andersson on 2018-04-25.
  */
-class PractitionerService : MongoBaseService<PractitionerDBO>(CollectionNames.PRACTITIONER_SERVICE), IPractitionerService {
+class SessionService : MongoBaseService<PractitionerDBO>(CollectionNames.PRACTITIONER_SERVICE), ISessionService {
 
     /**
-     * Update item in database
+     * Start a new user session
      */
-    override fun updatePractitioner(id: String, practitioner: PractitionerDBO): PractitionerDBO {
-        //collection.updateOneById(id, PractitionerDBO)
-        // TODO: implement!
-        return practitioner
-        /*
-        fun update(id: String, item: T): T {
-            return item.apply {
-                collection.updateOneById(id, item)
-            }
-        }*/
+    override fun startSession(userId: String, practition: String): Int {
+        // Get current user
+        val user: PractitionerDBO? = getById(userId)
+        // Calculate next index (if any of user or user.sessions is null: rtn 0)
+        val nextIndex = user?.sessions?.count() ?: 0
+        // Create a new Session
+        val session = SessionDBO(nextIndex, practition)
+        // Create Mongo Document to be added to sessions list
+        val sessionDoc = Document("sessions", session)
+        // Update first document found by Id, push the new document
+        collection.updateOneById(userId, Document("${MongoOperator.push}", sessionDoc))
+        // return next index
+        return nextIndex
     }
+
+
+    /**
+     * End users session
+     */
+    override fun endSession(userId: String, sessionId: Int) {
+
+    }
+
 
     /**
      * Get all practitioners with session ongoing between these dates
@@ -38,7 +50,7 @@ class PractitionerService : MongoBaseService<PractitionerDBO>(CollectionNames.PR
      * @param endDateTime
      * @return
      */
-    override fun getPractitionersWithSessionBetween(startDateTime: LocalDateTime, endDateTime: LocalDateTime): List<PractitionerDBO> {
+    override fun getPractitionersWithSessionBetween(startDateTime: LocalDateTime, endDateTime: LocalDateTime) : List<PractitionerDBO> {
         //
         val mongoFormattedStart = DateTimeFormat.formatDateTimeAsMongoString(startDateTime)
         val mongoFormattedEnd = DateTimeFormat.formatDateTimeAsMongoString(endDateTime)

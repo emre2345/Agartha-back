@@ -27,26 +27,22 @@ class PractitionerController {
     constructor(service: IPractitionerService) {
         mService = service
         // API path for session
-        Spark.path("/session") {
+        Spark.path("/practitioner") {
             //
-            // Where we have no userId set yet
-            Spark.get("/", ::getInformation)
+            // Where we have no userId set yet - return info for user
+            Spark.get("", ::getInformation)
             //
-            // Where userId has been set
+            // Where userId has been set - return info for user and about user
             Spark.get("/:userid", ::getInformation)
             //
             // Start new session with practice
-            Spark.post("/:userid/:practice", ::insertSession)
-            //
-            // Session report, feedback after completed session
-            Spark.get("/report/:userid", ::sessionReport)
+            Spark.put("/:userid", ::updatePractitioner)
         }
     }
 
 
     /**
      * Get information about current practitioner
-     *
      * @return Object with general information
      */
     private fun getInformation(request: Request, response: Response): String {
@@ -57,76 +53,15 @@ class PractitionerController {
         // Get user from data source
         val user: PractitionerDBO = getPractitionerFromDataSource(userId)
         // Create Report for current user
-        val practitionerReport : PractitionerReport = PractitionerReport(userId, user.sessions)
-        val startTime : LocalDateTime = LocalDateTime.now().minusMinutes(30)
-        val endTime : LocalDateTime = LocalDateTime.now()
+        val practitionerReport: PractitionerReport = PractitionerReport(userId, user.sessions)
+        val startTime: LocalDateTime = LocalDateTime.now().minusMinutes(30)
+        val endTime: LocalDateTime = LocalDateTime.now()
         // Map to Companions
-        val companionSessions : List<SessionDBO> = getSessionCompanions(userId, startTime, endTime)
+        val companionSessions: List<SessionDBO> = getSessionCompanions(userId, startTime, endTime)
         // Create Report for session ongoing during last x minutes
-        val companionReport : CompanionReport = CompanionReport(companionSessions)
+        val companionReport: CompanionReport = CompanionReport(companionSessions)
         // Return the report
         return mMapper.writeValueAsString(SessionReport(practitionerReport, companionReport))
-    }
-
-
-    /**
-     * Start a new user session
-     * @return id/index for started session
-     */
-    private fun insertSession(request: Request, response: Response): Int {
-        // Allow requests from all origins
-        response.header("Access-Control-Allow-Origin", "*")
-        // Get current userid
-        val userId : String = getUserIdFromRequest(request)
-        // Type of practice
-        val practice : String = request.params(":practice")
-        // Start a session
-        return mService.startSession(userId, practice)
-    }
-
-    /**
-     *
-     */
-    private fun sessionReport(request: Request, response: Response): String {
-        // Allow requests from all origins
-        response.header("Access-Control-Allow-Origin", "*")
-        // Get current userid
-        val userId : String = getUserIdFromRequest(request)
-        // Get user from data source
-        val user : PractitionerDBO = getPractitionerFromDataSource(userId)
-        // Create Report for current user
-        val practitionerReport : PractitionerReport = PractitionerReport(userId, user.sessions)
-        val startTime : LocalDateTime = user.sessions.last().startTime
-        val endTime : LocalDateTime = user.sessions.last().endTime ?: LocalDateTime.now()
-        // Map to Companions
-        val companionSessions : List<SessionDBO> = getSessionCompanions(userId, startTime, endTime)
-        // Create Report for overlapping user(s) sessions
-        val companionReport : CompanionReport = CompanionReport(companionSessions)
-        // Return the report
-        return mMapper.writeValueAsString(SessionReport(practitionerReport, companionReport))
-    }
-
-
-    /**
-     * Get or create User Id
-     *
-     * @param request API request object
-     * @return user id from request or generated if missing
-     */
-    private fun getUserIdFromRequest(request: Request) : String {
-        return request.params(":userid") ?: UUID.randomUUID().toString()
-    }
-
-    /**
-     * Get a practitioner from its userId from datasource or create if it does not exists
-     *
-     * @param userId database id for user
-     * @return Database representation of practitioner
-     */
-    private fun getPractitionerFromDataSource(userId: String): PractitionerDBO {
-        // If user exists in database, return it otherwise create, store and return
-        return mService.getById(userId)
-                ?: mService.insert(PractitionerDBO(mutableListOf(), LocalDateTime.now(), userId))
     }
 
 
@@ -137,7 +72,7 @@ class PractitionerController {
      * @param endTime end time for sessions we are looking for
      * @return List of overlapping sessions
      */
-    private fun getSessionCompanions(userId: String, startTime : LocalDateTime, endTime : LocalDateTime): List<SessionDBO> {
+    private fun getSessionCompanions(userId: String, startTime: LocalDateTime, endTime: LocalDateTime): List<SessionDBO> {
         return mService
                 // Get practitioners with overlapping sessions
                 .getPractitionersWithSessionBetween(startTime, endTime)
@@ -157,4 +92,37 @@ class PractitionerController {
                 }
                 .toList()
     }
+
+    /**
+     * Get a practitioner from its userId from datasource or create if it does not exists
+     *
+     * @param userId database id for user
+     * @return Database representation of practitioner
+     */
+    private fun getPractitionerFromDataSource(userId: String): PractitionerDBO {
+        // If user exists in database, return it otherwise create, store and return
+        return mService.getById(userId)
+                ?: mService.insert(PractitionerDBO(userId, LocalDateTime.now(), mutableListOf()))
+    }
+
+
+    private fun updatePractitioner(request: Request, response: Response): String {
+        /*val userId = request.params(":userid")
+        mService.update(insertedUser._id!!, updatedUser)
+        return mMapper.writeValueAsString(user)*/
+        return ""
+    }
+
+
+
+    /**
+     * Get or create User Id
+     *
+     * @param request API request object
+     * @return user id from request or generated if missing
+     */
+    private fun getUserIdFromRequest(request: Request): String {
+        return request.params(":userid") ?: UUID.randomUUID().toString()
+    }
+
 }

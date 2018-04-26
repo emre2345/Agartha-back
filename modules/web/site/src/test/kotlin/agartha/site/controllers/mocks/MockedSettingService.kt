@@ -11,7 +11,6 @@ import java.util.*
 class MockedSettingService : IBaseService<SettingsDBO> {
     val settingList: MutableList<SettingsDBO> = mutableListOf()
 
-
     override fun insert(item: SettingsDBO): SettingsDBO {
         if (settingList.isEmpty()) {
             val uuid = UUID.randomUUID()

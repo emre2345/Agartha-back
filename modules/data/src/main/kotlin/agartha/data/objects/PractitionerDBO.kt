@@ -8,6 +8,10 @@ import java.time.LocalDateTime
  * Created by Jorgen Andersson on 2018-04-09.
  */
 data class PractitionerDBO(
-        val sessions: List<SessionDBO> = listOf(),
+        val _id: String? = null,
         val created: LocalDateTime = LocalDateTime.now(),
-        val _id: String? = null)
+        val sessions: List<SessionDBO> = listOf(),
+        val fullName: String? = null,
+        val email: String? = null,
+        val description: String? = null
+        )

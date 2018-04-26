@@ -13,24 +13,13 @@ import java.time.LocalDateTime
 class MockedPractitionerService : IPractitionerService {
     val practitionerList: MutableList<PractitionerDBO> = mutableListOf()
 
-
-    override fun startSession(userId: String, practition: String): Int {
-        val first = practitionerList.filter {
-            it._id.equals(userId)
-        }.first()
-
-        val nextIndex = first.sessions.count() + 1
-        first.sessions.plus(SessionDBO(nextIndex, practition))
-        return nextIndex
-    }
-
-    override fun endSession(userId: String, sessionId: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun insert(item: PractitionerDBO): PractitionerDBO {
         practitionerList.add(item)
         return item
+    }
+
+    override fun updatePractitioner(id: String, item: PractitionerDBO): PractitionerDBO {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun getAll(): List<PractitionerDBO> {
