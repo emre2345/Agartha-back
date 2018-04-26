@@ -11,7 +11,13 @@ data class PractitionerDBO(
         val _id: String? = null,
         val created: LocalDateTime = LocalDateTime.now(),
         val sessions: List<SessionDBO> = listOf(),
-        val fullName: String? = null,
-        val email: String? = null,
-        val description: String? = null
-        )
+        var fullName: String? = null,
+        var email: String? = null,
+        var description: String? = null
+) {
+    fun addInvolvedInformation(fullName: String, email: String, description: String) {
+        this.fullName = fullName
+        this.email = email
+        this.description = description
+    }
+}

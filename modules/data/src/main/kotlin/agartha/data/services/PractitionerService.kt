@@ -6,6 +6,7 @@ import agartha.data.objects.SessionDBO
 import org.bson.Document
 import org.litote.kmongo.MongoOperator
 import org.litote.kmongo.find
+import org.litote.kmongo.updateOne
 import org.litote.kmongo.updateOneById
 import java.time.LocalDateTime
 
@@ -17,18 +18,15 @@ import java.time.LocalDateTime
 class PractitionerService : MongoBaseService<PractitionerDBO>(CollectionNames.PRACTITIONER_SERVICE), IPractitionerService {
 
     /**
-     * Update item in database
+     * Update practitioner in database with 'Get involved'-information
      */
-    override fun updatePractitioner(id: String, practitioner: PractitionerDBO): PractitionerDBO {
-        //collection.updateOneById(id, PractitionerDBO)
-        // TODO: implement!
-        return practitioner
-        /*
-        fun update(id: String, item: T): T {
-            return item.apply {
-                collection.updateOneById(id, item)
-            }
-        }*/
+    override fun updatePractitionerWithInvolvedInformation(user: PractitionerDBO, fullName: String, email: String, description: String): PractitionerDBO {
+        // Add the new 'Get involved'-information
+        user.addInvolvedInformation(fullName, email, description)
+        // Update the user
+        return user.apply {
+            collection.updateOne(user)
+        }
     }
 
     /**

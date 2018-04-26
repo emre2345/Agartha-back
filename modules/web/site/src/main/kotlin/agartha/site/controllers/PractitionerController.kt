@@ -66,6 +66,25 @@ class PractitionerController {
 
 
     /**
+     * Update practitioner with 'Get involved'-information
+     * @return The updated practitioner
+     */
+    private fun updatePractitioner(request: Request, response: Response): String {
+        // Get params
+        val userId: String = getUserIdFromRequest(request)
+        val fullName: String = request.params(":fullName")
+        val email: String = request.params(":email")
+        val description: String = request.params(":description")
+        // Get user
+        val user: PractitionerDBO = getPractitionerFromDataSource(userId)
+        // Update user
+        val updatedUser: PractitionerDBO = mService.updatePractitionerWithInvolvedInformation(user, fullName, email, description)
+        // Return updated user
+        return mMapper.writeValueAsString(updatedUser)
+    }
+
+
+    /**
      * Get sessions from other user with overlapping start/end time as argument session
      *
      * @param startTime start time for sessions we are looking for
@@ -104,15 +123,6 @@ class PractitionerController {
         return mService.getById(userId)
                 ?: mService.insert(PractitionerDBO(userId, LocalDateTime.now(), mutableListOf()))
     }
-
-
-    private fun updatePractitioner(request: Request, response: Response): String {
-        /*val userId = request.params(":userid")
-        mService.update(insertedUser._id!!, updatedUser)
-        return mMapper.writeValueAsString(user)*/
-        return ""
-    }
-
 
 
     /**
