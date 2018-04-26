@@ -62,10 +62,11 @@ class SessionController {
         val user : PractitionerDBO = getPractitionerFromDataSource(userId)
         // Create Report for current user
         val practitionerReport : PractitionerReport = PractitionerReport(userId, user.sessions)
-        // Start and End time ought not to be null here, but for test/dev purpose they might
-        // This is a fallback
-        val startTime: LocalDateTime = user.sessions?.lastOrNull()?.startTime ?: LocalDateTime.now().minusMinutes(30)
-        val endTime: LocalDateTime = user.sessions?.lastOrNull()?.endTime ?: LocalDateTime.now()
+        // user.sessions ought not to be empty array here, since this is a report for completed session
+        // However we might end up here in dev!
+        // If you are in dev mode, use the DevelopmentController for setup
+        val startTime: LocalDateTime = user.sessions.last().startTime
+        val endTime: LocalDateTime = user.sessions.last().endTime ?: LocalDateTime.now()
         // Map to Contribution
         val companionSessions : List<SessionDBO> = SessionUtil.filterSessionsBetween(
                 // Get practitioners with overlapping sessions
