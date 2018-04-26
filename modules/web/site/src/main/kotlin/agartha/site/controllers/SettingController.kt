@@ -21,8 +21,6 @@ class SettingController {
         mService = service
 
         get("/settings") { request, response ->
-            // Allow requests from all origins
-            response.header("Access-Control-Allow-Origin", "*")
             //
             val list = mService.getAll()
             if (list.isNotEmpty()) {

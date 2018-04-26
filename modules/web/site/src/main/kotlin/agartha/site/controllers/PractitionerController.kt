@@ -7,6 +7,7 @@ import agartha.site.objects.response.CompanionReport
 import agartha.site.objects.response.PractitionerReport
 import agartha.site.objects.response.SessionReport
 import agartha.site.objects.request.PractitionerInvolvedInformation
+import agartha.site.controllers.utils.SessionUtil
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import spark.Request
 import spark.Response
@@ -47,8 +48,6 @@ class PractitionerController {
      * @return Object with general information
      */
     private fun getInformation(request: Request, response: Response): String {
-        // Allow requests from all origins
-        response.header("Access-Control-Allow-Origin", "*")
         // Get current userid or generate new
         val userId = getUserIdFromRequest(request)
         // Get user from data source
@@ -71,7 +70,7 @@ class PractitionerController {
      * @return The updated practitioner
      */
     private fun updatePractitioner(request: Request, response: Response): String {
-        var involvedInformation: PractitionerInvolvedInformation = mMapper.readValue(request.body(), PractitionerInvolvedInformation::class.java)
+        val involvedInformation: PractitionerInvolvedInformation = mMapper.readValue(request.body(), PractitionerInvolvedInformation::class.java)
         // Get params
         val userId: String = getUserIdFromRequest(request)
         // Get user
@@ -96,24 +95,13 @@ class PractitionerController {
      * @return List of overlapping sessions
      */
     private fun getSessionCompanions(userId: String, startTime: LocalDateTime, endTime: LocalDateTime): List<SessionDBO> {
-        return mService
+
+        return SessionUtil.filterSessionsBetween(
                 // Get practitioners with overlapping sessions
-                .getPractitionersWithSessionBetween(startTime, endTime)
-                // Filter out the current user
-                .filter {
-                    it._id != userId
-                }
-                // Get the overlapping sessions from these practitioners
-                .map {
-                    // Filter out overlapping sessions
-                    it.sessions.filter {
-                        // Start time should be between
-                        it.sessionOverlap(startTime, endTime)
-                    }
-                            // Return first overlapping session for each practitioner
-                            .first()
-                }
-                .toList()
+                mService.getPractitionersWithSessionBetween(startTime, endTime),
+                startTime,
+                endTime)
+
     }
 
     /**

@@ -1,6 +1,7 @@
 package agartha.data.services
 
 import agartha.data.objects.PractitionerDBO
+import agartha.data.objects.SessionDBO
 import java.time.LocalDateTime
 
 /**
@@ -17,7 +18,6 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      * @param endDate
      */
     fun getPractitionersWithSessionBetween(startDate : LocalDateTime, endDate : LocalDateTime): List<PractitionerDBO>
-
 
     /**
      * Function to update a document in database collection

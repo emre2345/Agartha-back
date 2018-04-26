@@ -1,13 +1,9 @@
 package agartha.data.services
 
 import agartha.common.utils.DateTimeFormat
+import agartha.data.db.conn.MongoConnection
 import agartha.data.objects.PractitionerDBO
-import agartha.data.objects.SessionDBO
-import org.bson.Document
-import org.litote.kmongo.MongoOperator
-import org.litote.kmongo.find
-import org.litote.kmongo.updateOne
-import org.litote.kmongo.updateOneById
+import org.litote.kmongo.*
 import java.time.LocalDateTime
 
 /**
@@ -15,7 +11,26 @@ import java.time.LocalDateTime
  *
  * Created by Jorgen Andersson on 2018-04-09.
  */
-class PractitionerService : MongoBaseService<PractitionerDBO>(CollectionNames.PRACTITIONER_SERVICE), IPractitionerService {
+class PractitionerService : IPractitionerService {
+    // Get MongoDatabase
+    private val database = MongoConnection.getDatabase()
+    // MongoCollection
+    protected val collection = database.getCollection<PractitionerDBO>(CollectionNames.PRACTITIONER_SERVICE.collectionName)
+
+
+    override fun insert(item: PractitionerDBO): PractitionerDBO {
+        return item.apply {
+            collection.insertOne(item)
+        }
+    }
+
+    override fun getById(id: String): PractitionerDBO? {
+        return collection.findOneById(id)
+    }
+
+    override fun getAll(): List<PractitionerDBO> {
+        return collection.find().toList()
+    }
 
     /**
      * Update practitioner in database with 'Get involved'-information

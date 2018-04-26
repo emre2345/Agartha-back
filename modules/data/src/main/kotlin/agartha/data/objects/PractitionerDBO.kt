@@ -11,13 +11,36 @@ data class PractitionerDBO(
         val _id: String? = null,
         val created: LocalDateTime = LocalDateTime.now(),
         val sessions: List<SessionDBO> = listOf(),
+
         var fullName: String? = null,
         var email: String? = null,
         var description: String? = null
 ) {
+    /**
+     * Adds the 'get involved'-information to the practitioner
+     *
+     * @param fullName
+     * @param email
+     * @param description
+     * @return true if user has at least one session in this timespan
+     */
     fun addInvolvedInformation(fullName: String, email: String, description: String) {
         this.fullName = fullName
         this.email = email
         this.description = description
+    }
+    /**
+     * Check if practitioner has at least one session considered active in this timespan
+     *
+     * @param startDateTime
+     * @param endDateTime
+     * @return true if user has at least one session in this timespan
+     */
+    fun hasSessionBetween(startDateTime: LocalDateTime, endDateTime: LocalDateTime): Boolean {
+        return this.sessions
+                .filter {
+                    it.sessionOverlap(startDateTime, endDateTime)
+                }
+                .isNotEmpty()
     }
 }
