@@ -35,8 +35,7 @@ fun startServer(args: Array<String>) {
          * CORS (Cross Origin stuff)
          * Allow requests from any origin, needed to be able to access this path
          */
-        //Spark.before ("/*", {_, response -> response.header("Access-Control-Allow-Origin", "*") })
-        Spark.before ("/*", {_, response -> setCORS(response) })
+        Spark.before ("/*", {_, response -> response.header("Access-Control-Allow-Origin", "*") })
         //
         SettingController(SettingsService())
         PractitionerController(PractitionerService())
@@ -48,10 +47,4 @@ fun startServer(args: Array<String>) {
 
     // Init server
     Spark.init()
-}
-
-fun setCORS(res: Response) {
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
-    res.header("Access-Control-Allow-Headers", "Content-Type")
 }
