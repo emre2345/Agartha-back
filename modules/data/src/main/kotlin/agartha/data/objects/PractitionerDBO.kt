@@ -13,5 +13,20 @@ data class PractitionerDBO(
         val sessions: List<SessionDBO> = listOf(),
         val fullName: String? = null,
         val email: String? = null,
-        val description: String? = null
-        )
+        val description: String? = null) {
+
+    /**
+     * Check if practitioner has at least one session considered active in this timespan
+     *
+     * @param startDateTime
+     * @param endDateTime
+     * @return true if user has at least one session in this timespan
+     */
+    fun hasSessionBetween(startDateTime: LocalDateTime, endDateTime: LocalDateTime): Boolean {
+        return this.sessions
+                .filter {
+                    it.sessionOverlap(startDateTime, endDateTime)
+                }
+                .isNotEmpty()
+    }
+}

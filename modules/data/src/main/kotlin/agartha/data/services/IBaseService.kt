@@ -1,7 +1,7 @@
 package agartha.data.services
 
 /**
- * Purpose of this file is ...
+ * Purpose of this file is Base interface for all Services
  *
  * Created by Jorgen Andersson on 2018-04-06.
  */
@@ -10,7 +10,7 @@ package agartha.data.services
  *
  * Created by Jorgen Andersson on 2018-03-20.
  */
-interface IBaseService<T : Any> {
+interface IBaseService<T> {
     /**
      * Function to insert a document into database collection
      * @param item to be inserted
