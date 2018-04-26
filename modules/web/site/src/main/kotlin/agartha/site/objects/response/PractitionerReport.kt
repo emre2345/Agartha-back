@@ -10,7 +10,7 @@ import agartha.data.objects.SessionDBO
  * @param lastSessionTime number of minutes for last session
  * @param totalSessionTime total number of minutes for user sessions
  */
-data class PractitionerReport(val userId: String?, val lastSessionTime: Long = 0, val totalSessionTime: Long = 0) {
+data class PractitionerReport(val practitionerId: String?, val lastSessionTime: Long = 0, val totalSessionTime: Long = 0) {
 
     /**
      * @param practitioner database users
