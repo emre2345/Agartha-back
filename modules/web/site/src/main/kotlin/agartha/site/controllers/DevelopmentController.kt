@@ -9,10 +9,13 @@ import spark.Request
 import spark.Response
 import spark.Spark
 import java.time.LocalDateTime
-import java.util.*
 
 /**
- * Purpose of this file is ...
+ * Purpose of this file is Generate Test users in database
+ * Usage:
+ * 1. set cookie xyz=blaha in browser
+ * 2. call [server]/v1/dev/tjohej
+ * 3. read the response user id
  *
  * Created by Jorgen Andersson on 2018-04-26.
  */
