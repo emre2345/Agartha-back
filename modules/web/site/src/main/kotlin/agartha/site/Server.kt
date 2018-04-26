@@ -11,6 +11,7 @@ import agartha.site.controllers.PractitionerController
 import agartha.site.controllers.SessionController
 import agartha.site.controllers.SettingController
 import io.schinzel.basicutils.configvar.ConfigVar
+import spark.Response
 import spark.Spark
 
 /**
