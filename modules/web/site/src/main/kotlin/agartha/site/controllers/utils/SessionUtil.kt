@@ -2,6 +2,7 @@ package agartha.site.controllers.utils
 
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
+import agartha.data.services.IPractitionerService
 import java.time.LocalDateTime
 
 /**
@@ -15,17 +16,27 @@ class SessionUtil {
      * Statics
      */
     companion object {
+
         /**
          * Extract sessions from practitioner based on their start/end time
          * Max one session can be counted per practitioner since it is not possible have two concurrent sessions
          *
          * @param practitioners list of practitioner
+         * @param practitionerId current practitioner
          * @param startDateTime
          * @param endDateTime
          * @return Sessions with overlapping start/end time
          */
-        fun filterSessionsBetween(practitioners: List<PractitionerDBO>, startDateTime: LocalDateTime, endDateTime: LocalDateTime): List<SessionDBO> {
+        fun filterSessionsBetween(
+                practitioners: List<PractitionerDBO>,
+                practitionerId: String,
+                startDateTime: LocalDateTime,
+                endDateTime: LocalDateTime): List<SessionDBO> {
             return practitioners
+                    // Filter out current user id
+                    .filter {
+                        it._id != practitionerId
+                    }
                     // Filter out those with overlapping sessions
                     .filter {
                         it.hasSessionBetween(startDateTime, endDateTime)

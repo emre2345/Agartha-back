@@ -3,6 +3,7 @@ package agartha.site.controllers
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.ISessionService
+import agartha.site.controllers.utils.SessionUtil
 import agartha.site.objects.response.CompanionReport
 import agartha.site.objects.response.PractitionerReport
 import agartha.site.objects.response.SessionReport
@@ -52,7 +53,7 @@ class SessionController {
 
 
     /**
-     * Get session report from a users latest session
+     * Get session report after completed session
      */
     private fun sessionReport(request: Request, response: Response): String {
         // Get current userid
@@ -61,8 +62,17 @@ class SessionController {
         val user : PractitionerDBO = getPractitionerFromDataSource(userId)
         // Create Report for current user
         val practitionerReport : PractitionerReport = PractitionerReport(userId, user.sessions)
+        // Start and End time ought not to be null here, but for test/dev purpose they might
+        // This is a fallback
+        val startTime: LocalDateTime = user.sessions?.lastOrNull()?.startTime ?: LocalDateTime.now().minusMinutes(30)
+        val endTime: LocalDateTime = user.sessions?.lastOrNull()?.endTime ?: LocalDateTime.now()
         // Map to Contribution
-        val companionSessions : List<SessionDBO> = getSessionCompanions(userId, user.sessions.last())
+        val companionSessions : List<SessionDBO> = SessionUtil.filterSessionsBetween(
+                // Get practitioners with overlapping sessions
+                mService.getPractitionersWithSessionBetween(startTime, endTime),
+                userId,
+                startTime,
+                endTime)
         // Create Report for overlapping users
         val companionReport : CompanionReport = CompanionReport(companionSessions)
         // Return the report
@@ -80,36 +90,5 @@ class SessionController {
         // If user exists in database, return it otherwise create, store and return
         return mService.getById(userId)
                 ?: mService.insert(PractitionerDBO(userId, LocalDateTime.now(), mutableListOf()))
-    }
-
-
-    /**
-     * Get sessions from other user with overlapping start/end time as argument session
-     *
-     * @param pracitionerSession session for a practitioner from which we use start and end time
-     * @return List of overlapping sessions
-     */
-    private fun getSessionCompanions(userId: String, pracitionerSession: SessionDBO): List<SessionDBO> {
-        val startTime : LocalDateTime = pracitionerSession.startTime
-        val endTime : LocalDateTime = pracitionerSession.endTime ?: LocalDateTime.now()
-
-        return mService
-                // Get practitioners with overlapping sessions
-                .getPractitionersWithSessionBetween(startTime, endTime)
-                // Filter out the current user
-                .filter {
-                    it._id != userId
-                }
-                // Get the overlapping sessions from these practitioners
-                .map {
-                    // Filter out overlapping sessions
-                    it.sessions.filter {
-                        // Start time should be between
-                        it.sessionOverlap(startTime, endTime)
-                    }
-                            // Return first overlapping session for each practitioner
-                            .first()
-                }
-                .toList()
     }
 }
