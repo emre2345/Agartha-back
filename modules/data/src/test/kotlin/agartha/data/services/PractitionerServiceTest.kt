@@ -77,18 +77,22 @@ class PractitionerServiceTest : DatabaseHandler() {
     }
 
     /**
-     * Update
+     * updatePractitioner
      */
     @Test
-    fun updateUserWithNewInvolvedData_updatedUser_insertedUser() {
+    fun updateUserWithNewInvolvedInformation_updatedUser_insertedUser() {
         // Insert a new user
-        val insertedUser = PractitionerService().insert(PractitionerDBO())
-        // Create a new user with the inserted users information an change some data
-        val updatedUser = PractitionerDBO(insertedUser._id, insertedUser.created, fullName = "Rebecca Fransson", email = "rebecca@kollektiva.se", description = "Hej, jag gillar också yoga!")
-        // Update inserted user
-        PractitionerService().updatePractitioner(insertedUser._id!!, updatedUser)
+        val insertedUser: PractitionerDBO = PractitionerService().insert(PractitionerDBO())
+        // Update user
+        val updatedUser: PractitionerDBO = PractitionerService()
+                .updatePractitionerWithInvolvedInformation(
+                        insertedUser,
+                        "Rebecca Fransson",
+                        "rebecca@kollektiva.se",
+                        "Jag gillar yoga!")
+
         // Find the inserted user
-        val newUpdatedUser = PractitionerService().getById(insertedUser._id.toString())
+        val newUpdatedUser: PractitionerDBO? = PractitionerService().getById(insertedUser._id.toString())
         assertThat(newUpdatedUser).isEqualTo(updatedUser)
     }
 }

@@ -18,8 +18,11 @@ class MockedPractitionerService : IPractitionerService {
         return item
     }
 
-    override fun updatePractitioner(id: String, item: PractitionerDBO): PractitionerDBO {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun updatePractitionerWithInvolvedInformation(user: PractitionerDBO, fullName: String, email: String, description: String): PractitionerDBO {
+        val index = practitionerList.indexOf(user)
+        user.addInvolvedInformation(fullName, email, description)
+        practitionerList[index] = user
+        return user
     }
 
     override fun getAll(): List<PractitionerDBO> {

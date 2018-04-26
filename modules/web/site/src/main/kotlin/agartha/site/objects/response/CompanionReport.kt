@@ -1,4 +1,4 @@
-package agartha.site.objects
+package agartha.site.objects.response
 
 import agartha.data.objects.SessionDBO
 

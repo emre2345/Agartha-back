@@ -2,11 +2,10 @@ package agartha.site.controllers
 
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
-import agartha.data.services.IPractitionerService
 import agartha.data.services.ISessionService
-import agartha.site.objects.CompanionReport
-import agartha.site.objects.PractitionerReport
-import agartha.site.objects.SessionReport
+import agartha.site.objects.response.CompanionReport
+import agartha.site.objects.response.PractitionerReport
+import agartha.site.objects.response.SessionReport
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import spark.Request
 import spark.Response

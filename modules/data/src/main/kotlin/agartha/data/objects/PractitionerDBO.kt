@@ -11,10 +11,24 @@ data class PractitionerDBO(
         val _id: String? = null,
         val created: LocalDateTime = LocalDateTime.now(),
         val sessions: List<SessionDBO> = listOf(),
-        val fullName: String? = null,
-        val email: String? = null,
-        val description: String? = null) {
 
+        var fullName: String? = null,
+        var email: String? = null,
+        var description: String? = null
+) {
+    /**
+     * Adds the 'get involved'-information to the practitioner
+     *
+     * @param fullName
+     * @param email
+     * @param description
+     * @return true if user has at least one session in this timespan
+     */
+    fun addInvolvedInformation(fullName: String, email: String, description: String) {
+        this.fullName = fullName
+        this.email = email
+        this.description = description
+    }
     /**
      * Check if practitioner has at least one session considered active in this timespan
      *

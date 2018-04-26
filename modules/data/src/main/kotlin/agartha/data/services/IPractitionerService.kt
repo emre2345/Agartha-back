@@ -24,5 +24,5 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      * @param item to be inserted
      * @return inserted document as object
      */
-    fun updatePractitioner(id: String, item: PractitionerDBO): PractitionerDBO
+    fun updatePractitionerWithInvolvedInformation(user: PractitionerDBO, fullName: String, email: String, description: String): PractitionerDBO
 }

@@ -3,10 +3,11 @@ package agartha.site.controllers
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
+import agartha.site.objects.response.CompanionReport
+import agartha.site.objects.response.PractitionerReport
+import agartha.site.objects.response.SessionReport
+import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.controllers.utils.SessionUtil
-import agartha.site.objects.CompanionReport
-import agartha.site.objects.PractitionerReport
-import agartha.site.objects.SessionReport
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import spark.Request
 import spark.Response
@@ -65,6 +66,28 @@ class PractitionerController {
 
 
     /**
+     * Update practitioner with 'Get involved'-information
+     * @return The updated practitioner
+     */
+    private fun updatePractitioner(request: Request, response: Response): String {
+        val involvedInformation: PractitionerInvolvedInformation = mMapper.readValue(request.body(), PractitionerInvolvedInformation::class.java)
+        // Get params
+        val userId: String = getUserIdFromRequest(request)
+        // Get user
+        val user: PractitionerDBO = getPractitionerFromDataSource(userId)
+        println(user)
+        // Update user
+        val updatedUser: PractitionerDBO = mService.updatePractitionerWithInvolvedInformation(
+                user,
+                involvedInformation.fullName,
+                involvedInformation.email,
+                involvedInformation.description)
+        // Return updated user
+        return mMapper.writeValueAsString(updatedUser)
+    }
+
+
+    /**
      * Get sessions from other user with overlapping start/end time as argument session
      *
      * @param startTime start time for sessions we are looking for
@@ -93,12 +116,6 @@ class PractitionerController {
                 ?: mService.insert(PractitionerDBO(userId, LocalDateTime.now(), mutableListOf()))
     }
 
-    private fun updatePractitioner(request: Request, response: Response): String {
-        /*val userId = request.params(":userid")
-        mService.update(insertedUser._id!!, updatedUser)
-        return mMapper.writeValueAsString(user)*/
-        return ""
-    }
 
     /**
      * Get or create User Id

@@ -32,20 +32,16 @@ class PractitionerService : IPractitionerService {
         return collection.find().toList()
     }
 
-
     /**
-     * Update item in database
+     * Update practitioner in database with 'Get involved'-information
      */
-    override fun updatePractitioner(id: String, practitioner: PractitionerDBO): PractitionerDBO {
-        //collection.updateOneById(id, PractitionerDBO)
-        // TODO: implement!
-        return practitioner
-        /*
-        fun update(id: String, item: T): T {
-            return item.apply {
-                collection.updateOneById(id, item)
-            }
-        }*/
+    override fun updatePractitionerWithInvolvedInformation(user: PractitionerDBO, fullName: String, email: String, description: String): PractitionerDBO {
+        // Add the new 'Get involved'-information
+        user.addInvolvedInformation(fullName, email, description)
+        // Update the user
+        return user.apply {
+            collection.updateOne(user)
+        }
     }
 
     /**
@@ -70,7 +66,6 @@ class PractitionerService : IPractitionerService {
         // Get the stuff
         return collection
                 .find(sessionsWithOverlappingStartAndEndTime)
-                .toList()
+                .toList() as List<PractitionerDBO>
     }
-
 }
