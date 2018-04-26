@@ -1,4 +1,4 @@
-package agartha.site.objects
+package agartha.site.objects.response
 
 /**
  * Purpose of this file is representing response for a report/feedback for a user session
