@@ -9,6 +9,7 @@ import agartha.site.objects.response.SessionReport
 import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.controllers.utils.SessionUtil
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import org.bson.types.ObjectId
 import spark.Request
 import spark.Response
 import spark.Spark
@@ -57,7 +58,13 @@ class PractitionerController {
         val startTime: LocalDateTime = LocalDateTime.now().minusMinutes(30)
         val endTime: LocalDateTime = LocalDateTime.now()
         // Map to Companions
-        val companionSessions: List<SessionDBO> = getSessionCompanions(userId, startTime, endTime)
+        val companionSessions: List<SessionDBO> = SessionUtil.filterSessionsBetween(
+                // Get practitioners with overlapping sessions
+                mService.getPractitionersWithSessionBetween(startTime, endTime),
+                userId,
+                startTime,
+                endTime)
+        //
         // Create Report for session ongoing during last x minutes
         val companionReport: CompanionReport = CompanionReport(companionSessions)
         // Return the report
@@ -85,24 +92,6 @@ class PractitionerController {
         return mMapper.writeValueAsString(updatedUser)
     }
 
-
-    /**
-     * Get sessions from other user with overlapping start/end time as argument session
-     *
-     * @param startTime start time for sessions we are looking for
-     * @param endTime end time for sessions we are looking for
-     * @return List of overlapping sessions
-     */
-    private fun getSessionCompanions(userId: String, startTime: LocalDateTime, endTime: LocalDateTime): List<SessionDBO> {
-
-        return SessionUtil.filterSessionsBetween(
-                // Get practitioners with overlapping sessions
-                mService.getPractitionersWithSessionBetween(startTime, endTime),
-                startTime,
-                endTime)
-
-    }
-
     /**
      * Get a practitioner from its practitionerId from datasource or create if it does not exists
      *
@@ -115,7 +104,6 @@ class PractitionerController {
                 ?: mService.insert(PractitionerDBO(userId, LocalDateTime.now(), mutableListOf()))
     }
 
-
     /**
      * Get or create User Id
      *
@@ -123,7 +111,7 @@ class PractitionerController {
      * @return user id from request or generated if missing
      */
     private fun getUserIdFromRequest(request: Request): String {
-        return request.params(":userid") ?: UUID.randomUUID().toString()
+        return request.params(":userid") ?: ObjectId().toHexString()
     }
 
 }

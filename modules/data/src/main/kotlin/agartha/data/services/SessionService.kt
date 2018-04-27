@@ -60,29 +60,14 @@ class SessionService : ISessionService {
 
     }
 
-
-    /**
-     * Get all practitioners with session ongoing between these dates
-     *
-     * @param startDateTime
-     * @param endDateTime
-     * @return
-     */
-    override fun getPractitionersWithSessionBetween(startDateTime: LocalDateTime, endDateTime: LocalDateTime) : List<PractitionerDBO> {
-        //
+    override fun getPractitionersWithSessionAfter(startDateTime: LocalDateTime): List<PractitionerDBO> {
         val mongoFormattedStart = DateTimeFormat.formatDateTimeAsMongoString(startDateTime)
-        val mongoFormattedEnd = DateTimeFormat.formatDateTimeAsMongoString(endDateTime)
-        //
-        // Find practitioners with session start time between argument dates
-        val strStart = """{sessions: {${MongoOperator.elemMatch}: { startTime: { ${MongoOperator.gte}: ISODate('${mongoFormattedStart}'), ${MongoOperator.lt}: ISODate('${mongoFormattedEnd}') } } } }"""
-        // Find practitioners with session end time between argument dates
-        val strEnd = """{sessions: {${MongoOperator.elemMatch}: { endTime: { ${MongoOperator.gte}: ISODate('${mongoFormattedStart}'), ${MongoOperator.lt}: ISODate('${mongoFormattedEnd}') } } } }"""
-        // Join the two for getting practitioners with start or end time in argument date, ie find overlapping sessions
-        val sessionsWithOverlappingStartAndEndTime = """{${MongoOperator.or}: [${strStart},${strEnd}]}"""
-        //
+        // Find practitioners with session start time after argument date
+        val strStart = """{sessions: {${MongoOperator.elemMatch}: { startTime: { ${MongoOperator.gte}: ISODate('${mongoFormattedStart}') } } } }"""
         // Get the stuff
         return collection
-                .find(sessionsWithOverlappingStartAndEndTime)
-                .toList() as List<PractitionerDBO>
+                .find(strStart)
+                .toList()
     }
+
 }
