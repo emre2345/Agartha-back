@@ -57,7 +57,7 @@ class SessionController {
 
 
     /**
-     * Get session report after completed session
+     * Generate and get session report after completed session
      */
     private fun sessionReport(request: Request, response: Response): String {
         // Get current userid
@@ -85,12 +85,22 @@ class SessionController {
         return mMapper.writeValueAsString(SessionReport(practitionerReport, companionReport))
     }
 
+    /**
+     * Generate and get a companion report. Report covers what has happened during the last/latest
+     * x number of days
+     */
     private fun companionReport(request: Request, response: Response): String {
+        // Start date from when we should look for sessions
         val startDateTime : LocalDateTime = LocalDateTime.now().minusDays(Settings.COMPAION_NUMBER_OF_DAYS)
+        // End date from when we should look for sessions (now)
         val endDateTime : LocalDateTime = LocalDateTime.now()
+        // Get practitioners
         val practitioners = mService.getAll()
+        // Filter out all sessions matching dates from these practitioners
         val sessions = SessionUtil.filterAllSessionsActiveBetween(practitioners, startDateTime, endDateTime)
+        // Generate report
         val companionReport = CompanionReport(practitioners.count(), sessions)
+        // Return the report
         return mMapper.writeValueAsString(companionReport)
     }
 
