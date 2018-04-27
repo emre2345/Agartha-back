@@ -75,7 +75,7 @@ class CompanionReportTest {
     @Test
     fun compaionSessionMinutes_emptyList_0() {
         val companion = CompanionReport(emptyList())
-        assertThat(companion.sessionMintes).isEqualTo(0)
+        assertThat(companion.sessionMinutes).isEqualTo(0)
     }
 
     /**
@@ -84,7 +84,7 @@ class CompanionReportTest {
     @Test
     fun compaionSessionMinutes_existingList_150() {
         val companion = CompanionReport(generateSessions())
-        assertThat(companion.sessionMintes).isEqualTo(150)
+        assertThat(companion.sessionMinutes).isEqualTo(150)
     }
 
     /**

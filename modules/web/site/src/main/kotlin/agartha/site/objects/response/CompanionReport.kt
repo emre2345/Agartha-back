@@ -8,10 +8,14 @@ import agartha.data.objects.SessionDBO
  * Created by Jorgen Andersson on 2018-04-24.
  * @param practitionerCount number of practitioners
  * @param sessionCount number of sessions
- * @param sessionMintes duration in minutes for these sessions
+ * @param sessionMinutes duration in minutes for these sessions
  * @param practices Map of practices to number of sessions
  */
-data class CompanionReport(val practitionerCount: Int, val sessionCount: Int, val sessionMintes: Long, val practices : Map<String, Int>) {
+data class CompanionReport(
+        val practitionerCount: Int,
+        val sessionCount: Int,
+        val sessionMinutes: Long,
+        val practices : Map<String, Int>) {
 
     /**
      * Constructor where multiple sessions per practitioner can be counted

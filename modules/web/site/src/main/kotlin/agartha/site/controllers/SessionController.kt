@@ -91,7 +91,7 @@ class SessionController {
      */
     private fun companionReport(request: Request, response: Response): String {
         // Start date from when we should look for sessions
-        val startDateTime : LocalDateTime = LocalDateTime.now().minusDays(Settings.COMPAION_NUMBER_OF_DAYS)
+        val startDateTime : LocalDateTime = LocalDateTime.now().minusDays(Settings.COMPAINON_NUMBER_OF_DAYS)
         // End date from when we should look for sessions (now)
         val endDateTime : LocalDateTime = LocalDateTime.now()
         // Get practitioners

@@ -9,11 +9,13 @@ class Settings {
 
     companion object {
         // Time before a Session is considered abandone
-        val ABONDON_SESSION_MINUTES : Long = 3 * 60
+        const val ABONDON_SESSION_MINUTES : Long = 3 * 60
         // For how many hours should we get practitioners in database with ongoing sessions
         // in Session end report
-        val SESSION_HOURS : Long = 24
+        const val SESSION_HOURS : Long = 24
         // For how many days should we count sessions for companion page
-        val COMPAION_NUMBER_OF_DAYS : Long = 10
+        const val COMPAINON_NUMBER_OF_DAYS : Long = 10
+        // What is the goal in hours for companion page
+        const val COMPANION_GOLS_HOURS : Long = 10000
     }
 }

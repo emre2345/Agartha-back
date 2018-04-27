@@ -39,8 +39,8 @@ class SettingController {
      */
     private fun getDefaultSettings(): SettingsDBO {
         return SettingsDBO(
-                getDefaultIntentions(),
-                getDefaultPractices())
+                intentions = getDefaultIntentions(),
+                practices = getDefaultPractices())
     }
 
     /**
