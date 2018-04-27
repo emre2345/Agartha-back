@@ -1,6 +1,7 @@
 package agartha.site.objects
 
 import agartha.common.utils.DateTimeFormat
+import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.site.objects.response.PractitionerReport
 import org.assertj.core.api.Assertions.assertThat
@@ -41,7 +42,7 @@ class PractitionerReportTest {
      */
     @Test
     fun practitionerLastSessionTime_WithSessions_20() {
-        val user = PractitionerReport("abc", generateSessions())
+        val user = PractitionerReport(PractitionerDBO("abc", sessions = generateSessions()))
         assertThat(user.lastSessionTime).isEqualTo(20)
     }
 
@@ -59,7 +60,7 @@ class PractitionerReportTest {
      */
     @Test
     fun practitionerTotalSessionTime_WithSessions_80() {
-        val user = PractitionerReport("abc", generateSessions())
+        val user = PractitionerReport(PractitionerDBO("abc", sessions = generateSessions()))
         assertThat(user.totalSessionTime).isEqualTo(90)
     }
 }
