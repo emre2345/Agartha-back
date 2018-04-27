@@ -51,6 +51,20 @@ class SessionDBOTest {
         assertThat(session.sessionDurationMinutes()).isEqualTo(5)
     }
 
+    @Test
+    fun sessionDuration_abandon_0() {
+        val session = SessionDBO(0, "Yoga", true,
+                LocalDateTime.now().minusMinutes(185))
+        assertThat(session.sessionDurationMinutes()).isEqualTo(0)
+    }
+
+    @Test
+    fun sessionDuration_activeNotAbandon_30() {
+        val session = SessionDBO(0, "Yoga", true,
+                LocalDateTime.now().minusMinutes(30))
+        assertThat(session.sessionDurationMinutes()).isEqualTo(30)
+    }
+
     /**
      *
      */

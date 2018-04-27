@@ -11,7 +11,6 @@ import java.time.LocalDateTime
  * Created by Jorgen Andersson on 2018-04-09.
  */
 class MockedSessionService : ISessionService {
-
     val practitionerList: MutableList<PractitionerDBO> = mutableListOf()
 
 
@@ -48,13 +47,10 @@ class MockedSessionService : ISessionService {
         return practitionerList
     }
 
-
-    /**
-     * Return all with no logic (logic is not what we are testing here)
-     */
-    override fun getPractitionersWithSessionBetween(startDate: LocalDateTime, endDate: LocalDateTime): List<PractitionerDBO> {
+    override fun getPractitionersWithSessionAfter(startDateTime: LocalDateTime): List<PractitionerDBO> {
         return practitionerList
     }
+
 
     /**
      * Clear database

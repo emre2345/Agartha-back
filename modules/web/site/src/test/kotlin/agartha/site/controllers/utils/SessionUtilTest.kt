@@ -17,6 +17,7 @@ class SessionUtilTest {
     fun filterSession_emptyInputList_emptyList() {
         val response = SessionUtil.filterSessionsBetween(
                 listOf(),
+                "abc",
                 LocalDateTime.now().minusMinutes(60),
                 LocalDateTime.now())
         assertThat(response).isEmpty()
@@ -29,6 +30,7 @@ class SessionUtilTest {
                         PractitionerDBO(_id = "aaa"),
                         PractitionerDBO(_id = "bbb")
                 ),
+                "abc",
                 LocalDateTime.now().minusMinutes(60),
                 LocalDateTime.now())
         assertThat(response).isEmpty()
@@ -46,6 +48,7 @@ class SessionUtilTest {
                                         startTime = LocalDateTime.now().minusMinutes(200))
                         ))
                 ),
+                "abc",
                 LocalDateTime.now().minusMinutes(60),
                 LocalDateTime.now())
         assertThat(response).isEmpty()
@@ -64,6 +67,7 @@ class SessionUtilTest {
                                         endTime = LocalDateTime.now().minusMinutes(70))
                         ))
                 ),
+                "abc",
                 LocalDateTime.now().minusMinutes(60),
                 LocalDateTime.now())
         assertThat(response).isEmpty()
@@ -81,6 +85,7 @@ class SessionUtilTest {
                                         startTime = LocalDateTime.now().minusMinutes(175))
                         ))
                 ),
+                "abc",
                 LocalDateTime.now().minusMinutes(60),
                 LocalDateTime.now())
         assertThat(response.size).isEqualTo(1)
@@ -99,6 +104,7 @@ class SessionUtilTest {
                                         endTime = LocalDateTime.now().minusMinutes(50))
                         ))
                 ),
+                "abc",
                 LocalDateTime.now().minusMinutes(60),
                 LocalDateTime.now())
         assertThat(response.size).isEqualTo(1)
@@ -117,6 +123,7 @@ class SessionUtilTest {
                                         endTime = LocalDateTime.now().minusMinutes(20))
                         ))
                 ),
+                "abc",
                 LocalDateTime.now().minusMinutes(60),
                 LocalDateTime.now())
         assertThat(response.size).isEqualTo(1)
@@ -141,6 +148,7 @@ class SessionUtilTest {
                                         endTime = LocalDateTime.now().minusMinutes(20))
                         ))
                 ),
+                "abc",
                 LocalDateTime.now().minusMinutes(60),
                 LocalDateTime.now())
         assertThat(response.size).isEqualTo(1)
@@ -165,8 +173,36 @@ class SessionUtilTest {
                                         endTime = LocalDateTime.now().minusMinutes(20))
                         ))
                 ),
+                "abc",
                 LocalDateTime.now().minusMinutes(60),
                 LocalDateTime.now())
         assertThat(response.get(0).index).isEqualTo(1)
+    }
+
+    @Test
+    fun filterSession_currentUserRemoved_oneSizeList() {
+        val response = SessionUtil.filterSessionsBetween(
+                listOf(
+                        PractitionerDBO(_id = "aaa", sessions = listOf(
+                                SessionDBO(
+                                        index = 0,
+                                        practition = "Yoga",
+                                        active = true,
+                                        startTime = LocalDateTime.now().minusMinutes(30),
+                                        endTime = LocalDateTime.now().minusMinutes(20))
+                        )),
+                        PractitionerDBO(_id = "abc", sessions = listOf(
+                                SessionDBO(
+                                        index = 0,
+                                        practition = "Yoga",
+                                        active = true,
+                                        startTime = LocalDateTime.now().minusMinutes(30),
+                                        endTime = LocalDateTime.now().minusMinutes(20))
+                        ))
+                ),
+                "abc",
+                LocalDateTime.now().minusMinutes(60),
+                LocalDateTime.now())
+        assertThat(response.size).isEqualTo(1)
     }
 }

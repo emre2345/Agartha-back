@@ -28,7 +28,7 @@ data class SessionDBO(
      */
     fun sessionDurationMinutes(): Long {
         // If the session has been abandoned, inactive for too long for user to still be active
-        if (endTime == null && !active) {
+        if (isAbandoned()) {
             return 0
         }
         // If the session has not ended yet, return diff between now and start time
@@ -68,7 +68,7 @@ data class SessionDBO(
      * @return true if session is considered abandon, otherwise false
      */
     private fun isAbandoned(): Boolean {
-        // If end time is null (session not finshed) and session started more than 3 hours ago
+        // If end time is null (session not finished) and session started more than 3 hours ago
         return this.endTime == null &&
                 this.startTime.isBefore(LocalDateTime.now().minusMinutes(180))
     }
