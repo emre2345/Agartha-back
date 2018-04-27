@@ -16,12 +16,12 @@ data class PractitionerReport(val practitionerId: String?, val lastSessionTime: 
     /**
      * @param practitioner database users
      */
-    constructor(userId: String?, sessions: List<SessionDBO>, user: PractitionerDBO) : this(
-            userId,
-            sessions
+    constructor(user: PractitionerDBO) : this(
+            user._id,
+            user.sessions
                     // Get the last session duration time or zero if non exists
                     .lastOrNull()?.sessionDurationMinutes() ?: 0,
-            sessions
+            user.sessions
                     // Map to session duration
                     .map {
                         it.sessionDurationMinutes()

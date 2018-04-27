@@ -61,7 +61,7 @@ class SessionController {
         // Get user from data source
         val user : PractitionerDBO = getPractitionerFromDataSource(userId)
         // Create Report for current user
-        val practitionerReport : PractitionerReport = PractitionerReport(userId, user.sessions, user)
+        val practitionerReport : PractitionerReport = PractitionerReport(user)
         // user.sessions ought not to be empty array here, since this is a report for completed session
         // However we might end up here in dev!
         // If you are in dev mode, use the DevelopmentController for setup
