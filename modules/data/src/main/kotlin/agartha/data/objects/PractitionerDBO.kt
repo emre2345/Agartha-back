@@ -43,4 +43,12 @@ data class PractitionerDBO(
                 }
                 .isNotEmpty()
     }
+    /**
+     * Check if practitioner has left 'get involved'-information
+     *
+     * @return true if user has left information
+     */
+    fun isInvolved(): Boolean {
+        return this.fullName != null && this.email != null && this.description != null
+    }
 }

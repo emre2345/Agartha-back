@@ -1,7 +1,6 @@
 package agartha.site.objects.response
 
 import agartha.data.objects.PractitionerDBO
-import agartha.data.objects.SessionDBO
 
 /**
  * Purpose of this file holding information about the current user/practitioner
@@ -28,6 +27,6 @@ data class PractitionerReport(val practitionerId: String?, val lastSessionTime: 
                     }
                     // Sum it
                     .sum(),
-            user.fullName != null && user.email != null && user.description != null)
+            user.isInvolved())
 
 }
