@@ -18,7 +18,7 @@ class SessionUtil {
     companion object {
 
         /**
-         * Extract sessions from practitioner based on their start/end time
+         * Extract sessions from practitioner based on their session start/end time
          * Max one session can be counted per practitioner since it is not possible have two concurrent sessions
          *
          * @param practitioners list of practitioner
@@ -27,33 +27,46 @@ class SessionUtil {
          * @param endDateTime
          * @return Sessions with overlapping start/end time
          */
-        fun filterSessionsBetween(
+        fun filterSingleSessionActiveBetween(
                 practitioners: List<PractitionerDBO>,
                 practitionerId: String,
                 startDateTime: LocalDateTime,
                 endDateTime: LocalDateTime): List<SessionDBO> {
             return practitioners
                     // Filter out current user id
-                    .filter {
-                        it._id != practitionerId
-                    }
+                    .filter { it._id != practitionerId }
                     // Filter out those with overlapping sessions
-                    .filter {
-                        it.hasSessionBetween(startDateTime, endDateTime)
-                    }
+                    .filter { it.hasSessionBetween(startDateTime, endDateTime) }
                     // Map to first matching overlapping session
                     .map {
                         // Filter out overlapping sessions
                         it.sessions
                                 .filter {
-                                    // Start time should be between
+                                    // Session was active during any time during these dateTimes
                                     it.sessionOverlap(startDateTime, endDateTime)
                                 }
                                 // Return last overlapping session for each practitioner
                                 .last()
                     }
-                    // Convert to list
-                    .toList()
+        }
+
+        /**
+         * Extract all session from practitioner based on session start/end time
+         * No consideration is taken on number of sessions per practitioner
+         *
+         * @param practitioners list of practitioner
+         * @param startDateTime
+         * @param endDateTime
+         * @return Sessions with overlapping start/end time
+         */
+        fun filterAllSessionsActiveBetween(
+                practitioners: List<PractitionerDBO>,
+                startDateTime: LocalDateTime,
+                endDateTime: LocalDateTime): List<SessionDBO> {
+            return practitioners
+                    .flatMap { it.sessions }
+                    // Session was active during any time during these dateTimes
+                    .filter { it.sessionOverlap(startDateTime, endDateTime) }
         }
     }
 }

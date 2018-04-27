@@ -1,5 +1,6 @@
 package agartha.site.controllers
 
+import agartha.common.config.Settings
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.ISessionService
@@ -34,6 +35,9 @@ class SessionController {
             //
             // Session report, feedback after completed session
             Spark.get("/report/:userid", ::sessionReport)
+            //
+            // Companion report
+            Spark.get("/companion", ::companionReport)
         }
     }
 
@@ -68,9 +72,9 @@ class SessionController {
         val startTime: LocalDateTime = user.sessions.last().startTime
         val endTime: LocalDateTime = user.sessions.last().endTime ?: LocalDateTime.now()
         // Filter and map to list of sessions
-        val companionSessions : List<SessionDBO> = SessionUtil.filterSessionsBetween(
+        val companionSessions : List<SessionDBO> = SessionUtil.filterSingleSessionActiveBetween(
                 // Get practitioners sessions started during last 24 hours
-                mService.getPractitionersWithSessionAfter(endTime.minusHours(24)),
+                mService.getPractitionersWithSessionAfter(endTime.minusHours(Settings.SESSION_HOURS)),
                 userId,
                 startTime,
                 endTime)
@@ -81,6 +85,14 @@ class SessionController {
         return mMapper.writeValueAsString(SessionReport(practitionerReport, companionReport))
     }
 
+    private fun companionReport(request: Request, response: Response): String {
+        val startDateTime : LocalDateTime = LocalDateTime.now().minusDays(Settings.COMPAION_NUMBER_OF_DAYS)
+        val endDateTime : LocalDateTime = LocalDateTime.now()
+        val practitioners = mService.getAll()
+        val sessions = SessionUtil.filterAllSessionsActiveBetween(practitioners, startDateTime, endDateTime)
+        val companionReport = CompanionReport(practitioners.count(), sessions)
+        return mMapper.writeValueAsString(companionReport)
+    }
 
     /**
      * Get a practitioner from its practitionerId from datasource or create if it does not exists

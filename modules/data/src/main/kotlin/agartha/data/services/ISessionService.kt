@@ -12,11 +12,11 @@ interface ISessionService : IBaseService<PractitionerDBO> {
 
     /**
      * Start a new session
-     * @param userId id for user starting the session
-     * @param practition type of practice
+     * @param practitionerId id for user starting the session
+     * @param practiceName type of practice
      * @return session id / index for session for this user
      */
-    fun startSession(userId: String, practition: String): Int
+    fun startSession(practitionerId: String, practiceName: String): Int
 
     /**
      * End an ongoing session

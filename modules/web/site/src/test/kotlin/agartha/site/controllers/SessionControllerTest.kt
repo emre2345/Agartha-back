@@ -131,7 +131,7 @@ class SessionControllerTest {
      *
      */
     @Test
-    fun practitionerController_compaionReport_countIs4() {
+    fun practitionerController_compaionReport_practitionerCountIs4() {
         setupReport()
         // Assume second (id b) is current user
         val getRequest = testController.testServer.get("/session/report/c", false)
@@ -139,14 +139,14 @@ class SessionControllerTest {
         val body = String(httpResponse.body())
         // Map to Data object
         val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
-        Assertions.assertThat(data.companionReport.count).isEqualTo(4)
+        Assertions.assertThat(data.companionReport.practitionerCount).isEqualTo(4)
     }
 
     /**
      *
      */
     @Test
-    fun practitionerController_companionReport_minutesIs115() {
+    fun practitionerController_compaionReport_sessionCountIs4() {
         setupReport()
         // Assume second (id b) is current user
         val getRequest = testController.testServer.get("/session/report/c", false)
@@ -154,7 +154,22 @@ class SessionControllerTest {
         val body = String(httpResponse.body())
         // Map to Data object
         val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
-        Assertions.assertThat(data.companionReport.minutes).isEqualTo(115)
+        Assertions.assertThat(data.companionReport.sessionCount).isEqualTo(4)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun practitionerController_companionReport_sessionMinutesIs115() {
+        setupReport()
+        // Assume second (id b) is current user
+        val getRequest = testController.testServer.get("/session/report/c", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+        // Map to Data object
+        val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
+        Assertions.assertThat(data.companionReport.sessionMintes).isEqualTo(115)
     }
 
     /**

@@ -63,7 +63,7 @@ class SessionServiceTest : DatabaseHandler() {
     }
 
     @Test
-    fun practitioners_withMatchingSessions_3() {
+    fun practitioners_withMatchingSessions_4() {
         // User with session before search
         putUserInDatabase("2018-04-15 17:00:00", "2018-04-15 18:00:00")
         // User with session end matching
@@ -74,12 +74,10 @@ class SessionServiceTest : DatabaseHandler() {
         putUserInDatabase("2018-04-15 20:00:00", "2018-04-15 23:00:00")
         // User with session after search
         putUserInDatabase("2018-04-15 22:00:00", "2018-04-15 23:00:00")
-
-
+        //
         val list = SessionService().getPractitionersWithSessionAfter(
                 DateTimeFormat.stringToLocalDateTime("2018-04-15 19:00:00"))
-
         // Count 'em
-        Assertions.assertThat(list.size).isEqualTo(3)
+        Assertions.assertThat(list.size).isEqualTo(4)
     }
 }

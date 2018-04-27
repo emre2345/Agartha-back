@@ -15,7 +15,7 @@ class SessionUtilTest {
 
     @Test
     fun filterSession_emptyInputList_emptyList() {
-        val response = SessionUtil.filterSessionsBetween(
+        val response = SessionUtil.filterSingleSessionActiveBetween(
                 listOf(),
                 "abc",
                 LocalDateTime.now().minusMinutes(60),
@@ -25,7 +25,7 @@ class SessionUtilTest {
 
     @Test
     fun filterSessions_practitionerWithNoSessions_emptyList() {
-        val response = SessionUtil.filterSessionsBetween(
+        val response = SessionUtil.filterSingleSessionActiveBetween(
                 listOf(
                         PractitionerDBO(_id = "aaa"),
                         PractitionerDBO(_id = "bbb")
@@ -38,7 +38,7 @@ class SessionUtilTest {
 
     @Test
     fun filterSessions_practitionerWithAbandonedSession_emptyList() {
-        val response = SessionUtil.filterSessionsBetween(
+        val response = SessionUtil.filterSingleSessionActiveBetween(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -56,7 +56,7 @@ class SessionUtilTest {
 
     @Test
     fun filterSessions_practitionerWithSessionEndedBefore_emptyList() {
-        val response = SessionUtil.filterSessionsBetween(
+        val response = SessionUtil.filterSingleSessionActiveBetween(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -75,7 +75,7 @@ class SessionUtilTest {
 
     @Test
     fun filterSessions_nonFinishedSessionButNotAbandoned_oneSizeList() {
-        val response = SessionUtil.filterSessionsBetween(
+        val response = SessionUtil.filterSingleSessionActiveBetween(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -93,7 +93,7 @@ class SessionUtilTest {
 
     @Test
     fun filterSessions_startedBeforeEndedWithin_oneSizeList() {
-        val response = SessionUtil.filterSessionsBetween(
+        val response = SessionUtil.filterSingleSessionActiveBetween(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -112,7 +112,7 @@ class SessionUtilTest {
 
     @Test
     fun filterSessions_startedAndEndedWithin_oneSizeList() {
-        val response = SessionUtil.filterSessionsBetween(
+        val response = SessionUtil.filterSingleSessionActiveBetween(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -131,7 +131,7 @@ class SessionUtilTest {
 
     @Test
     fun filterSessions_multipleSessions_oneSizeList() {
-        val response = SessionUtil.filterSessionsBetween(
+        val response = SessionUtil.filterSingleSessionActiveBetween(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -156,7 +156,7 @@ class SessionUtilTest {
 
     @Test
     fun filterSessions_multipleSessionsLastSelected_index1() {
-        val response = SessionUtil.filterSessionsBetween(
+        val response = SessionUtil.filterSingleSessionActiveBetween(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -181,7 +181,7 @@ class SessionUtilTest {
 
     @Test
     fun filterSession_currentUserRemoved_oneSizeList() {
-        val response = SessionUtil.filterSessionsBetween(
+        val response = SessionUtil.filterSingleSessionActiveBetween(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(

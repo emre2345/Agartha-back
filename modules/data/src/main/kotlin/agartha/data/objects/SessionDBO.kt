@@ -1,5 +1,6 @@
 package agartha.data.objects
 
+import agartha.common.config.Settings
 import java.time.Duration
 import java.time.LocalDateTime
 
@@ -70,6 +71,6 @@ data class SessionDBO(
     private fun isAbandoned(): Boolean {
         // If end time is null (session not finished) and session started more than 3 hours ago
         return this.endTime == null &&
-                this.startTime.isBefore(LocalDateTime.now().minusMinutes(180))
+                this.startTime.isBefore(LocalDateTime.now().minusMinutes(Settings.ABONDON_SESSION_MINUTES))
     }
 }
