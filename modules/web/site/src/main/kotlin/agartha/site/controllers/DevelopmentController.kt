@@ -63,10 +63,10 @@ class DevelopmentController {
                 description = "I love it when a plan comes together",
                 sessions = listOf(
                         SessionDBO(0, "Meditation", false, LocalDateTime.now().minusDays(5).minusMinutes(400), LocalDateTime.now().minusDays(5).minusMinutes(300)),
-                        SessionDBO(1, "Meditation", false, LocalDateTime.now().minusDays(4).minusMinutes(400), LocalDateTime.now().minusDays(5).minusMinutes(300)),
-                        SessionDBO(2, "Meditation", false, LocalDateTime.now().minusDays(3).minusMinutes(400), LocalDateTime.now().minusDays(5).minusMinutes(300)),
-                        SessionDBO(3, "Meditation", false, LocalDateTime.now().minusDays(2).minusMinutes(400), LocalDateTime.now().minusDays(5).minusMinutes(300)),
-                        SessionDBO(4, "Meditation", false, LocalDateTime.now().minusDays(1).minusMinutes(400), LocalDateTime.now().minusDays(5).minusMinutes(300))
+                        SessionDBO(1, "Meditation", false, LocalDateTime.now().minusDays(4).minusMinutes(400), LocalDateTime.now().minusDays(4).minusMinutes(300)),
+                        SessionDBO(2, "Meditation", false, LocalDateTime.now().minusDays(3).minusMinutes(400), LocalDateTime.now().minusDays(3).minusMinutes(300)),
+                        SessionDBO(3, "Meditation", false, LocalDateTime.now().minusDays(2).minusMinutes(400), LocalDateTime.now().minusDays(2).minusMinutes(300)),
+                        SessionDBO(4, "Meditation", false, LocalDateTime.now().minusDays(1).minusMinutes(400), LocalDateTime.now().minusDays(1).minusMinutes(300))
                 )))
         // Insert user without sessions, created a while ago
         mService.insert(PractitionerDBO(
@@ -80,35 +80,35 @@ class DevelopmentController {
         mService.insert(PractitionerDBO(
                 created = LocalDateTime.now().minusDays(3).minusMinutes(210),
                 sessions = listOf(
-                        SessionDBO(0, "Yoga", false, LocalDateTime.now().minusDays(3).minusMinutes(200), LocalDateTime.now().minusDays(5).minusMinutes(100)),
-                        SessionDBO(1, "Yoga", false, LocalDateTime.now().minusDays(2).minusMinutes(200), LocalDateTime.now().minusDays(5).minusMinutes(100)),
+                        SessionDBO(0, "Yoga", false, LocalDateTime.now().minusDays(3).minusMinutes(200), LocalDateTime.now().minusDays(3).minusMinutes(100)),
+                        SessionDBO(1, "Yoga", false, LocalDateTime.now().minusDays(2).minusMinutes(200), LocalDateTime.now().minusDays(2).minusMinutes(100)),
                         SessionDBO(2, "Yoga", false, LocalDateTime.now().minusDays(1).minusMinutes(200))
                 )))
         // Insert a set of user with ongoing session
         mService.insert(PractitionerDBO(
                 created = LocalDateTime.now().minusDays(2).minusMinutes(202),
                 sessions = listOf(
-                        SessionDBO(0, "Yoga", false, LocalDateTime.now().minusDays(2).minusMinutes(200), LocalDateTime.now().minusDays(5).minusMinutes(100)),
+                        SessionDBO(0, "Yoga", false, LocalDateTime.now().minusDays(2).minusMinutes(200), LocalDateTime.now().minusDays(2).minusMinutes(100)),
                         SessionDBO(1, "Meditation", false, LocalDateTime.now().minusMinutes(40))
                 )
         ))
         mService.insert(PractitionerDBO(
-                created = LocalDateTime.now().minusMinutes(60),
+                created = LocalDateTime.now().minusMinutes(50),
                 sessions = listOf(
-                        SessionDBO(1, "Meditation", false, LocalDateTime.now().minusMinutes(59))
+                        SessionDBO(1, "Meditation", false, LocalDateTime.now().minusMinutes(45))
                 )
         ))
         mService.insert(PractitionerDBO(
                 created = LocalDateTime.now().minusDays(2).minusMinutes(202),
                 sessions = listOf(
-                        SessionDBO(0, "Yoga", false, LocalDateTime.now().minusDays(2).minusMinutes(200), LocalDateTime.now().minusDays(5).minusMinutes(100)),
+                        SessionDBO(0, "Yoga", false, LocalDateTime.now().minusDays(2).minusMinutes(200), LocalDateTime.now().minusDays(2).minusMinutes(100)),
                         SessionDBO(1, "Yoga", false, LocalDateTime.now().minusMinutes(40))
                 )
         ))
         mService.insert(PractitionerDBO(
-                created = LocalDateTime.now().minusMinutes(60),
+                created = LocalDateTime.now().minusMinutes(35),
                 sessions = listOf(
-                        SessionDBO(1, "Meditation", false, LocalDateTime.now().minusMinutes(59))
+                        SessionDBO(1, "Meditation", false, LocalDateTime.now().minusMinutes(30))
                 )
         ))
         // Insert the logged on user
@@ -116,7 +116,8 @@ class DevelopmentController {
         mService.insert(PractitionerDBO(
                 _id = id,
                 sessions = listOf(
-                        SessionDBO(0, "Yoga", false, LocalDateTime.now().minusDays(2).minusMinutes(200), LocalDateTime.now().minusDays(5).minusMinutes(100))
+                        SessionDBO(0, "Yoga", false, LocalDateTime.now().minusDays(2).minusMinutes(200), LocalDateTime.now().minusDays(2).minusMinutes(100)),
+                        SessionDBO(0, "Yoga", false, LocalDateTime.now().minusMinutes(45), LocalDateTime.now())
                 )
         ))
         // Return the Id

@@ -76,9 +76,8 @@ class SessionServiceTest : DatabaseHandler() {
         putUserInDatabase("2018-04-15 22:00:00", "2018-04-15 23:00:00")
 
 
-        val list = SessionService().getPractitionersWithSessionBetween(
-                DateTimeFormat.stringToLocalDateTime("2018-04-15 19:00:00"),
-                DateTimeFormat.stringToLocalDateTime("2018-04-15 21:00:00"))
+        val list = SessionService().getPractitionersWithSessionAfter(
+                DateTimeFormat.stringToLocalDateTime("2018-04-15 19:00:00"))
 
         // Count 'em
         Assertions.assertThat(list.size).isEqualTo(3)

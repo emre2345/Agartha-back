@@ -67,13 +67,14 @@ class SessionController {
         // If you are in dev mode, use the DevelopmentController for setup
         val startTime: LocalDateTime = user.sessions.last().startTime
         val endTime: LocalDateTime = user.sessions.last().endTime ?: LocalDateTime.now()
-        // Map to Contribution
+        // Filter and map to list of sessions
         val companionSessions : List<SessionDBO> = SessionUtil.filterSessionsBetween(
-                // Get practitioners with overlapping sessions
-                mService.getPractitionersWithSessionBetween(startTime, endTime),
+                // Get practitioners sessions started during last 24 hours
+                mService.getPractitionersWithSessionAfter(endTime.minusHours(24)),
                 userId,
                 startTime,
                 endTime)
+        //
         // Create Report for overlapping users
         val companionReport : CompanionReport = CompanionReport(companionSessions)
         // Return the report

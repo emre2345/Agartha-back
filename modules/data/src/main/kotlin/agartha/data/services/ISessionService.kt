@@ -26,10 +26,7 @@ interface ISessionService : IBaseService<PractitionerDBO> {
     fun endSession(userId: String, sessionId: Int)
 
     /**
-     * Get all practitioners with session between sessions
-     *
-     * @param startDate
-     * @param endDate
+     * Get all pracitioners with session started after this date time
      */
-    fun getPractitionersWithSessionBetween(startDate : LocalDateTime, endDate : LocalDateTime): List<PractitionerDBO>
+    fun getPractitionersWithSessionAfter(startDateTime: LocalDateTime): List<PractitionerDBO>
 }
