@@ -205,4 +205,10 @@ class SessionUtilTest {
                 LocalDateTime.now())
         assertThat(response.size).isEqualTo(1)
     }
+
+    @Test
+    fun filterCompanion_tada_fail() {
+        // TODO Make this fail so I do not forget to write tests for filterAllSessionsActiveBetween()
+        assertThat(1).isEqualTo(2)
+    }
 }
