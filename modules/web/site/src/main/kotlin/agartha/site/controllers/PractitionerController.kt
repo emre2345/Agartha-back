@@ -54,7 +54,7 @@ class PractitionerController {
         // Get user from data source
         val user: PractitionerDBO = getPractitionerFromDataSource(userId)
         // Create Report for current user
-        val practitionerReport: PractitionerReport = PractitionerReport(userId, user.sessions, user)
+        val practitionerReport: PractitionerReport = PractitionerReport(user)
         val startTime: LocalDateTime = LocalDateTime.now().minusMinutes(30)
         val endTime: LocalDateTime = LocalDateTime.now()
         // Map to Companions
