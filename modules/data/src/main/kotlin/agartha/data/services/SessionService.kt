@@ -55,7 +55,7 @@ class SessionService : ISessionService {
      * @param intentionName name of intention
      * @return index for created practice
      */
-    override fun startSession(practitionerId: String, disciplineName: String, practiceName: String, intentionName: String): Int {
+    override fun startSession(practitionerId: String, disciplineName: String, practiceName: String?, intentionName: String): Int {
         // Get current user
         val user: PractitionerDBO? = getById(practitionerId)
         // Calculate next index (if any of user or user.sessions is null: rtn 0)

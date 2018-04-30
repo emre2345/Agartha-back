@@ -15,8 +15,8 @@ data class SessionDBO(
         val index: Int,
         // Type of discipline
         val discipline: String,
-        // Type of practice
-        val practice: String,
+        // Type of practice, can be null if no practice is chosen
+        val practice: String? = null,
         // Type of intention on the practice
         val intention: String,
         // Is this still active

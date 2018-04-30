@@ -45,6 +45,19 @@ class SessionServiceTest : DatabaseHandler() {
         val sessionId = SessionService().startSession(item._id!!, "Test", "Testis", "TestIntention")
         assertThat(sessionId).isEqualTo(1)
     }
+
+    /**
+     * Add session
+     */
+    @Test
+    fun addSessionWithoutPracticeToUser_IndexReturned_1() {
+        val user = PractitionerDBO(sessions = listOf(SessionDBO(0, "Test", null, "TestIntention")))
+        // Insert a new practitioning user
+        val item = SessionService().insert(user)
+        // Insert session
+        val sessionId = SessionService().startSession(item._id!!, "Test", null, "TestIntention")
+        assertThat(sessionId).isEqualTo(1)
+    }
     /**
      *
      */

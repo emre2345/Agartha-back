@@ -5,6 +5,7 @@ import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.ISessionService
 import agartha.site.controllers.utils.SessionUtil
+import agartha.site.objects.request.StartSessionInformation
 import agartha.site.objects.response.CompanionReport
 import agartha.site.objects.response.PractitionerReport
 import agartha.site.objects.response.SessionReport
@@ -31,7 +32,7 @@ class SessionController {
         Spark.path("/session") {
             //
             // Start new session with practice
-            Spark.post("/:userid/:discipline/:practice/:intention", ::insertSession)
+            Spark.post("/:userid", ::insertSession)
             //
             // Session report, feedback after completed session
             Spark.get("/report/:userid", ::sessionReport)
@@ -47,16 +48,15 @@ class SessionController {
      * @return id/index for started session
      */
     private fun insertSession(request: Request, response: Response): Int {
+        println("insertSession")
+        println(request.body())
         // Get current userid
         val userId : String = request.params(":userid")
-        // Type of discipline
-        val discipline : String = request.params(":discipline")
-        // Type of practice
-        val practice : String = request.params(":practice")
-        // Type of intention
-        val intention : String = request.params(":intention")
+        // Type of discipline, practice and intention
+        val startSessionInformation: StartSessionInformation = mMapper.readValue(request.body(), StartSessionInformation::class.java)
+
         // Start a session
-        return mService.startSession(userId, discipline, practice, intention)
+        return mService.startSession(userId, startSessionInformation.discipline, startSessionInformation.practice, startSessionInformation.intention)
     }
 
 
