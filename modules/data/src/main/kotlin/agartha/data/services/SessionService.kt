@@ -50,16 +50,18 @@ class SessionService : ISessionService {
     /**
      * Start a new user session
      * @param practitionerId identity for practitioner
+     * @param disciplineName name of discipline
      * @param practiceName name of practice
+     * @param intentionName name of intention
      * @return index for created practice
      */
-    override fun startSession(practitionerId: String, practiceName: String, intentionName: String): Int {
+    override fun startSession(practitionerId: String, disciplineName: String, practiceName: String, intentionName: String): Int {
         // Get current user
         val user: PractitionerDBO? = getById(practitionerId)
         // Calculate next index (if any of user or user.sessions is null: rtn 0)
         val nextIndex = user?.sessions?.count() ?: 0
         // Create a new Session
-        val session = SessionDBO(nextIndex, practiceName, intentionName)
+        val session = SessionDBO(nextIndex, disciplineName, practiceName, intentionName)
         // Create Mongo Document to be added to sessions list
         val sessionDoc = Document("sessions", session)
         // Update first document found by Id, push the new document

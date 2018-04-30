@@ -13,7 +13,9 @@ import java.time.LocalDateTime
 data class SessionDBO(
         // Session index for this user
         val index: Int,
-        // Type of practitioning
+        // Type of discipline
+        val discipline: String,
+        // Type of practice
         val practice: String,
         // Type of intention on the practice
         val intention: String,

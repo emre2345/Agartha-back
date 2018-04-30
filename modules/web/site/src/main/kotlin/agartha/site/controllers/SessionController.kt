@@ -31,7 +31,7 @@ class SessionController {
         Spark.path("/session") {
             //
             // Start new session with practice
-            Spark.post("/:userid/:practice/:intention", ::insertSession)
+            Spark.post("/:userid/:discipline/:practice/:intention", ::insertSession)
             //
             // Session report, feedback after completed session
             Spark.get("/report/:userid", ::sessionReport)
@@ -49,12 +49,14 @@ class SessionController {
     private fun insertSession(request: Request, response: Response): Int {
         // Get current userid
         val userId : String = request.params(":userid")
+        // Type of discipline
+        val discipline : String = request.params(":discipline")
         // Type of practice
         val practice : String = request.params(":practice")
-        // Type of practice
+        // Type of intention
         val intention : String = request.params(":intention")
         // Start a session
-        return mService.startSession(userId, practice, intention)
+        return mService.startSession(userId, discipline, practice, intention)
     }
 
 
