@@ -30,7 +30,7 @@ data class CompanionReport(
             // Sum duration for sessions
             sessions.map { it.sessionDurationMinutes() }.sum(),
             // map session count to each practice
-            sessions.groupBy { it.practition }.map { it.key to it.value.size }.toMap()
+            sessions.groupBy { it.practice }.map { it.key to it.value.size }.toMap()
     )
 
     /**

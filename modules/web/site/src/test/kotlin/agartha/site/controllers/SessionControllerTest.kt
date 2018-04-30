@@ -44,50 +44,50 @@ class SessionControllerTest {
     private fun setupReport() {
         //
         mockedService.insert(PractitionerDBO("a", LocalDateTime.now(), mutableListOf(
-                SessionDBO(0, "Yoga", false,
+                SessionDBO(0, "Yoga", "Transformation", false,
                         LocalDateTime.now().minusDays(13),
                         LocalDateTime.now().minusDays(13)),
-                SessionDBO(1, "Yoga", false,
+                SessionDBO(1, "Yoga", "Empowerment", false,
                         LocalDateTime.now().minusDays(11),
                         LocalDateTime.now().minusDays(11)),
-                SessionDBO(2, "Love", false,
+                SessionDBO(2, "Meditation", "Harmony", false,
                         LocalDateTime.now().minusDays(5),
                         LocalDateTime.now().minusDays(5)),
-                SessionDBO(3, "Yoga", false,
+                SessionDBO(3, "Yoga", "Freedom", false,
                         LocalDateTime.now().minusMinutes(41),
                         LocalDateTime.now().minusMinutes(1)))))
         //
         mockedService.insert(PractitionerDBO("b", LocalDateTime.now(), mutableListOf(
-                SessionDBO(0, "Mindfulness", false,
+                SessionDBO(0, "Mindfulness", "Love", false,
                         LocalDateTime.now().minusMinutes(20),
                         LocalDateTime.now().minusMinutes(5)))))
         //
         mockedService.insert(PractitionerDBO("c", LocalDateTime.now(), mutableListOf(
-                SessionDBO(0, "Yoga", false,
+                SessionDBO(0, "Yoga", "Love", false,
                         LocalDateTime.now().minusDays(13),
                         LocalDateTime.now().minusDays(13)),
-                SessionDBO(1, "Yoga", false,
+                SessionDBO(1, "Yoga", "Freedom", false,
                         LocalDateTime.now().minusDays(11),
                         LocalDateTime.now().minusDays(11)),
-                SessionDBO(2, "Yoga", false,
+                SessionDBO(2, "Yoga", "Love", false,
                         LocalDateTime.now().minusDays(3).minusMinutes(45),
                         LocalDateTime.now().minusDays(3)),
-                SessionDBO(3, "Meditation", false,
+                SessionDBO(3, "Meditation", "Harmony", false,
                         LocalDateTime.now().minusMinutes(20).minusSeconds(10),
                         LocalDateTime.now()))))
         //
         mockedService.insert(PractitionerDBO("d", LocalDateTime.now(), mutableListOf(
-                SessionDBO(0, "Mindfulness", false,
+                SessionDBO(0, "Mindfulness", "Empathy", false,
                         LocalDateTime.now().minusMinutes(35),
                         LocalDateTime.now().minusMinutes(5)))))
         //
         mockedService.insert(PractitionerDBO("e", LocalDateTime.now(), mutableListOf(
-                SessionDBO(0, "Mindfulness", false,
+                SessionDBO(0, "Mindfulness", "Empowerment", false,
                         LocalDateTime.now().minusMinutes(35),
                         LocalDateTime.now().minusMinutes(5)))))
         //
         mockedService.insert(PractitionerDBO("f", LocalDateTime.now(), mutableListOf(
-                SessionDBO(0, "Love", false,
+                SessionDBO(0, "Transendental", "Celebration", false,
                         LocalDateTime.now().minusDays(5),
                         LocalDateTime.now().minusDays(5)))))
     }
@@ -100,7 +100,7 @@ class SessionControllerTest {
         // Setup
         mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
         //
-        val postRequest = testController.testServer.post("/session/abc/MyPractice", "", false)
+        val postRequest = testController.testServer.post("/session/abc/MyPractice/MyIntention", "", false)
         val httpResponse = testController.testServer.execute(postRequest)
         val body = String(httpResponse.body())
         assertThat(body).isEqualTo("1")
@@ -219,7 +219,7 @@ class SessionControllerTest {
     }
 
     /**
-     * Current users practition should not be included
+     * Current users practice should not be included
      */
     @Test
     fun sessionController_sessionReport_practicesHasNotMeditation() {
@@ -293,13 +293,13 @@ class SessionControllerTest {
      *
      */
     @Test
-    fun sessionController_companionReport_practicesHasLove() {
+    fun sessionController_companionReport_practicesHasYoga() {
         setupReport()
         val getRequest = testController.testServer.get("/session/companion", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
         val data: CompanionReport = jacksonObjectMapper().readValue(body, CompanionReport::class.java)
-        assertThat(data.practices.containsKey("Love")).isTrue()
+        assertThat(data.practices.containsKey("Yoga")).isTrue()
     }
 }

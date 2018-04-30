@@ -24,13 +24,13 @@ class MockedSessionService : ISessionService {
     }
 
 
-    override fun startSession(userId: String, practition: String): Int {
+    override fun startSession(userId: String, practition: String, intention: String): Int {
         val first = practitionerList.filter {
             it._id.equals(userId)
         }.first()
 
         val nextIndex = first.sessions.count() + 1
-        first.sessions.plus(SessionDBO(nextIndex, practition))
+        first.sessions.plus(SessionDBO(nextIndex, practition, intention))
         return nextIndex
 
     }
