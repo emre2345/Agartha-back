@@ -1,7 +1,7 @@
 package agartha.common.config
 
 /**
- * Purpose of this class ...
+ * Purpose of this class is holding constants of settings variables
  *
  * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-04-27.
  */
