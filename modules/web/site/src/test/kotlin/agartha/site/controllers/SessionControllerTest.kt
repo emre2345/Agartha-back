@@ -194,56 +194,56 @@ class SessionControllerTest {
      *
      */
     @Test
-    fun sessionController_sessionReport_practicesHasYoga() {
+    fun sessionController_sessionReport_intentionsHasLove() {
         setupReport()
         val getRequest = testController.testServer.get("/session/report/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
         val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
-        assertThat(data.companionReport.practices.containsKey("Yoga")).isTrue()
+        assertThat(data.companionReport.intentions.containsKey("Love")).isTrue()
     }
 
     /**
      *
      */
     @Test
-    fun sessionController_sessionReport_practicesHasMindful() {
+    fun sessionController_sessionReport_intentionsHasFreedom() {
         setupReport()
         val getRequest = testController.testServer.get("/session/report/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
         val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
-        assertThat(data.companionReport.practices.containsKey("Mindfulness")).isTrue()
+        assertThat(data.companionReport.intentions.containsKey("Freedom")).isTrue()
     }
 
     /**
      * Current users practice should not be included
      */
     @Test
-    fun sessionController_sessionReport_practicesHasNotMeditation() {
+    fun sessionController_sessionReport_intentionsHasNotTransformation() {
         setupReport()
         val getRequest = testController.testServer.get("/session/report/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
         val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
-        assertThat(data.companionReport.practices.containsKey("Meditation")).isFalse()
+        assertThat(data.companionReport.intentions.containsKey("Transformation")).isFalse()
     }
 
     /**
      * Older than current session should not be counted
      */
     @Test
-    fun sessionController_sessionReport_practicesHasNotLove() {
+    fun sessionController_sessionReport_intentionsHasNotHarmony() {
         setupReport()
         val getRequest = testController.testServer.get("/session/report/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
         val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
-        assertThat(data.companionReport.practices.containsKey("Love")).isFalse()
+        assertThat(data.companionReport.intentions.containsKey("Harmony")).isFalse()
     }
 
     /**
@@ -293,13 +293,13 @@ class SessionControllerTest {
      *
      */
     @Test
-    fun sessionController_companionReport_practicesHasYoga() {
+    fun sessionController_companionReport_intentionsHasHarmony() {
         setupReport()
         val getRequest = testController.testServer.get("/session/companion", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
         val data: CompanionReport = jacksonObjectMapper().readValue(body, CompanionReport::class.java)
-        assertThat(data.practices.containsKey("Yoga")).isTrue()
+        assertThat(data.intentions.containsKey("Harmony")).isTrue()
     }
 }

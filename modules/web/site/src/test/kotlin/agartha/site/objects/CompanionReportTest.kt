@@ -18,7 +18,7 @@ class CompanionReportTest {
                 SessionDBO(0, "Yoga","Wellbeing",false,
                         DateTimeFormat.stringToLocalDateTime("2018-04-18 12:00:00"),
                         DateTimeFormat.stringToLocalDateTime("2018-04-18 12:40:00")),
-                SessionDBO(1, "Mindfulness","Wellbeing", false,
+                SessionDBO(1, "Mindfulness","Transformation", false,
                         DateTimeFormat.stringToLocalDateTime("2018-04-19 12:00:00"),
                         DateTimeFormat.stringToLocalDateTime("2018-04-19 12:30:00")),
                 SessionDBO(2, "Meditation","Wellbeing",false,
@@ -27,7 +27,7 @@ class CompanionReportTest {
                 SessionDBO(1, "Mindfulness","Wellbeing", false,
                         DateTimeFormat.stringToLocalDateTime("2018-04-19 12:00:00"),
                         DateTimeFormat.stringToLocalDateTime("2018-04-19 12:30:00")),
-                SessionDBO(1, "Mindfulness","Wellbeing", false,
+                SessionDBO(1, "Mindfulness","Empathy", false,
                         DateTimeFormat.stringToLocalDateTime("2018-04-19 12:00:00"),
                         DateTimeFormat.stringToLocalDateTime("2018-04-19 12:30:00"))
                 )
@@ -91,42 +91,42 @@ class CompanionReportTest {
      *
      */
     @Test
-    fun companionPracticeMap_emptyList_0() {
+    fun companionIntentionMap_emptyList_0() {
         val companion = CompanionReport(emptyList())
-        assertThat(companion.practices).isEmpty()
+        assertThat(companion.intentions).isEmpty()
     }
 
     /**
      *
      */
     @Test
-    fun companionPracticeMap_existingList_3items() {
+    fun companionIntentionMap_existingList_3items() {
         val companion = CompanionReport(generateSessions())
-        assertThat(companion.practices.size).isEqualTo(3)
+        assertThat(companion.intentions.size).isEqualTo(3)
     }
 
     @Test
-    fun companionPracticeMap_existingList_mindfulHas3() {
+    fun companionIntentionMap_existingList_wellbeingHas3() {
         val companion = CompanionReport(generateSessions())
-        assertThat(companion.practices.get("Mindfulness")).isEqualTo(3)
+        assertThat(companion.intentions["Wellbeing"]).isEqualTo(3)
     }
 
     /**
      *
      */
     @Test
-    fun companionPracticeMap_existingList_meditationHas1() {
+    fun companionIntentionMap_existingList_transformationHas1() {
         val companion = CompanionReport(generateSessions())
-        assertThat(companion.practices.get("Meditation")).isEqualTo(1)
+        assertThat(companion.intentions["Transformation"]).isEqualTo(1)
     }
 
     /**
      * 
      */
     @Test
-    fun companionPracticeMap_existingList_yogaHas1() {
+    fun companionIntentionMap_existingList_EmpathyHas1() {
         val companion = CompanionReport(generateSessions())
-        assertThat(companion.practices.get("Yoga")).isEqualTo(1)
+        assertThat(companion.intentions["Empathy"]).isEqualTo(1)
     }
 
     /**

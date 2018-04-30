@@ -9,13 +9,13 @@ import agartha.data.objects.SessionDBO
  * @param practitionerCount number of practitioners
  * @param sessionCount number of sessions
  * @param sessionMinutes duration in minutes for these sessions
- * @param practices Map of practices to number of sessions
+ * @param intentions Map of intentions to number of sessions
  */
 data class CompanionReport(
         val practitionerCount: Int,
         val sessionCount: Int,
         val sessionMinutes: Long,
-        val practices : Map<String, Int>) {
+        val intentions : Map<String, Int>) {
 
     /**
      * Constructor where multiple sessions per practitioner can be counted
@@ -30,7 +30,7 @@ data class CompanionReport(
             // Sum duration for sessions
             sessions.map { it.sessionDurationMinutes() }.sum(),
             // map session count to each practice
-            sessions.groupBy { it.practice }.map { it.key to it.value.size }.toMap()
+            sessions.groupBy { it.intention }.map { it.key to it.value.size }.toMap()
     )
 
     /**
