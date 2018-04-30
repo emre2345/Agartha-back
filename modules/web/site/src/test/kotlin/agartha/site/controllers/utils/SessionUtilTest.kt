@@ -14,8 +14,8 @@ import java.time.LocalDateTime
 class SessionUtilTest {
 
     @Test
-    fun filterSession_emptyInputList_emptyList() {
-        val response = SessionUtil.filterSessionsBetween(
+    fun filterSingleSession_emptyInputList_emptyList() {
+        val response = SessionUtil.filterSingleSessionActiveBetween(
                 listOf(),
                 "abc",
                 LocalDateTime.now().minusMinutes(60),
@@ -24,8 +24,8 @@ class SessionUtilTest {
     }
 
     @Test
-    fun filterSessions_practitionerWithNoSessions_emptyList() {
-        val response = SessionUtil.filterSessionsBetween(
+    fun filterSingleSessionPerPractitioner_practitionerWithNoSessions_emptyList() {
+        val response = SessionUtil.filterSingleSessionActiveBetween(
                 listOf(
                         PractitionerDBO(_id = "aaa"),
                         PractitionerDBO(_id = "bbb")
@@ -37,8 +37,8 @@ class SessionUtilTest {
     }
 
     @Test
-    fun filterSessions_practitionerWithAbandonedSession_emptyList() {
-        val response = SessionUtil.filterSessionsBetween(
+    fun filterSingleSessionPerPractitioner_practitionerWithAbandonedSession_emptyList() {
+        val response = SessionUtil.filterSingleSessionActiveBetween(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -55,8 +55,8 @@ class SessionUtilTest {
     }
 
     @Test
-    fun filterSessions_practitionerWithSessionEndedBefore_emptyList() {
-        val response = SessionUtil.filterSessionsBetween(
+    fun filterSingleSessionPerPractitioner_practitionerWithSessionEndedBefore_emptyList() {
+        val response = SessionUtil.filterSingleSessionActiveBetween(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -74,8 +74,8 @@ class SessionUtilTest {
     }
 
     @Test
-    fun filterSessions_nonFinishedSessionButNotAbandoned_oneSizeList() {
-        val response = SessionUtil.filterSessionsBetween(
+    fun filterSingleSessionPerPractitioner_nonFinishedSessionButNotAbandoned_oneSizeList() {
+        val response = SessionUtil.filterSingleSessionActiveBetween(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -92,8 +92,8 @@ class SessionUtilTest {
     }
 
     @Test
-    fun filterSessions_startedBeforeEndedWithin_oneSizeList() {
-        val response = SessionUtil.filterSessionsBetween(
+    fun filterSingleSessionPerPractitioner_startedBeforeEndedWithin_oneSizeList() {
+        val response = SessionUtil.filterSingleSessionActiveBetween(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -111,8 +111,8 @@ class SessionUtilTest {
     }
 
     @Test
-    fun filterSessions_startedAndEndedWithin_oneSizeList() {
-        val response = SessionUtil.filterSessionsBetween(
+    fun filterSingleSessionPerPractitioner_startedAndEndedWithin_oneSizeList() {
+        val response = SessionUtil.filterSingleSessionActiveBetween(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -130,8 +130,8 @@ class SessionUtilTest {
     }
 
     @Test
-    fun filterSessions_multipleSessions_oneSizeList() {
-        val response = SessionUtil.filterSessionsBetween(
+    fun filterSingleSessionPerPractitioner_multipleSessions_oneSizeList() {
+        val response = SessionUtil.filterSingleSessionActiveBetween(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -155,8 +155,8 @@ class SessionUtilTest {
     }
 
     @Test
-    fun filterSessions_multipleSessionsLastSelected_index1() {
-        val response = SessionUtil.filterSessionsBetween(
+    fun filterSingleSessionPerPractitioner_multipleSessionsLastSelected_index1() {
+        val response = SessionUtil.filterSingleSessionActiveBetween(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -180,8 +180,8 @@ class SessionUtilTest {
     }
 
     @Test
-    fun filterSession_currentUserRemoved_oneSizeList() {
-        val response = SessionUtil.filterSessionsBetween(
+    fun filterSingleSessionPerPractitioner_currentUserRemoved_oneSizeList() {
+        val response = SessionUtil.filterSingleSessionActiveBetween(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -204,5 +204,109 @@ class SessionUtilTest {
                 LocalDateTime.now().minusMinutes(60),
                 LocalDateTime.now())
         assertThat(response.size).isEqualTo(1)
+    }
+
+    @Test
+    fun filterAllSessionsPerPractitioner_emptyInputList_emptyList() {
+        val response = SessionUtil.filterAllSessionsActiveBetween(
+                listOf(),
+                LocalDateTime.now().minusMinutes(60),
+                LocalDateTime.now())
+        assertThat(response).isEmpty()
+    }
+
+    @Test
+    fun filterAllSessionsPerPractitioner_practitionerWithNoSessions_emptyList() {
+        val response = SessionUtil.filterAllSessionsActiveBetween(
+                listOf(
+                        PractitionerDBO(_id = "aaa"),
+                        PractitionerDBO(_id = "bbb")
+                ),
+                LocalDateTime.now().minusMinutes(60),
+                LocalDateTime.now())
+        assertThat(response).isEmpty()
+    }
+
+    @Test
+    fun filterAllSessionsPerPractitioner_practitionerWithAbandonedSession_emptyList() {
+        val response = SessionUtil.filterAllSessionsActiveBetween(
+                listOf(
+                        PractitionerDBO(_id = "aaa", sessions = listOf(
+                                SessionDBO(
+                                        index = 0,
+                                        practition = "Yoga",
+                                        active = true,
+                                        startTime = LocalDateTime.now().minusMinutes(200))
+                        ))
+                ),
+                LocalDateTime.now().minusMinutes(60),
+                LocalDateTime.now())
+        assertThat(response).isEmpty()
+    }
+
+    @Test
+    fun filterAllSessionsPerPractitioner_sessionsBeforeAbandonAndMatching_ListOf3() {
+        val response = SessionUtil.filterAllSessionsActiveBetween(
+                listOf(
+                        // No sessions should be included, both sessions ends before time
+                        PractitionerDBO(_id = "aaa", sessions = listOf(
+                                SessionDBO(
+                                        index = 0,
+                                        practition = "Yoga",
+                                        active = true,
+                                        startTime = LocalDateTime.now().minusMinutes(500),
+                                        endTime = LocalDateTime.now().minusMinutes(400)),
+                                SessionDBO(
+                                        index = 0,
+                                        practition = "Yoga",
+                                        active = true,
+                                        startTime = LocalDateTime.now().minusMinutes(400),
+                                        endTime = LocalDateTime.now().minusMinutes(300))
+
+                        )),
+                        // No session should be included, abandon
+                        PractitionerDBO(_id = "bbb", sessions = listOf(
+                                SessionDBO(
+                                        index = 0,
+                                        practition = "Yoga",
+                                        active = true,
+                                        startTime = LocalDateTime.now().minusMinutes(400))
+                        )),
+                        // One session should be included, started but ongoing
+                        PractitionerDBO(_id = "ccc", sessions = listOf(
+                                SessionDBO(
+                                        index = 0,
+                                        practition = "Yoga",
+                                        active = true,
+                                        startTime = LocalDateTime.now().minusMinutes(500),
+                                        endTime = LocalDateTime.now().minusMinutes(400)),
+                                SessionDBO(
+                                        index = 0,
+                                        practition = "Yoga",
+                                        active = true,
+                                        startTime = LocalDateTime.now().minusMinutes(100))
+
+                        )),
+                        // Both sessions should be included
+                        PractitionerDBO(_id = "ddd", sessions = listOf(
+                                SessionDBO(
+                                        index = 0,
+                                        practition = "Yoga",
+                                        active = true,
+                                        startTime = LocalDateTime.now().minusMinutes(200),
+                                        endTime = LocalDateTime.now().minusMinutes(100)),
+                                SessionDBO(
+                                        index = 0,
+                                        practition = "Yoga",
+                                        active = true,
+                                        startTime = LocalDateTime.now().minusMinutes(60),
+                                        endTime = LocalDateTime.now().minusMinutes(10))
+
+                        ))
+                ),
+                LocalDateTime.now().minusMinutes(150),
+                LocalDateTime.now())
+        //
+        assertThat(response.size).isEqualTo(3)
     }
 }

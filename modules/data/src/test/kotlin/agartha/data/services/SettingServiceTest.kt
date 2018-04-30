@@ -29,8 +29,8 @@ class SettingServiceTest : DatabaseHandler() {
     fun settingService_insert_collectionSize1() {
         val settings = SettingsService().insert(
                 SettingsDBO(
-                        listOf(IntentionDBO("The Title", "The Description")),
-                        listOf(PracticeDBO("The Title"))
+                        intentions = listOf(IntentionDBO("The Title", "The Description")),
+                        practices = listOf(PracticeDBO("The Title"))
                 )
         )
         val allSettings = SettingsService().getAll()
@@ -44,8 +44,8 @@ class SettingServiceTest : DatabaseHandler() {
     fun settingService_insert_insertedReturned() {
         val settings = SettingsService().insert(
                 SettingsDBO(
-                        listOf(IntentionDBO("The Title", "The Description")),
-                        listOf(PracticeDBO("The Title"))
+                        intentions = listOf(IntentionDBO("The Title", "The Description")),
+                        practices = listOf(PracticeDBO("The Title"))
                 )
         )
         assertThat(settings._id).isNotNull()
@@ -56,11 +56,11 @@ class SettingServiceTest : DatabaseHandler() {
      */
     @Test
     fun settingService_mutipleInsert_onlyOneGetsSaved() {
-        SettingsService().insert(SettingsDBO(listOf(
+        SettingsService().insert(SettingsDBO(intentions = listOf(
                 IntentionDBO("The Title 1", "The Description 1"))))
-        SettingsService().insert(SettingsDBO(listOf(
+        SettingsService().insert(SettingsDBO(intentions = listOf(
                 IntentionDBO("The Title 2", "The Description 2"))))
-        SettingsService().insert(SettingsDBO(listOf(
+        SettingsService().insert(SettingsDBO(intentions = listOf(
                 IntentionDBO("The Title 3", "The Description 3"))))
 
         val allSettings = SettingsService().getAll()
@@ -71,11 +71,11 @@ class SettingServiceTest : DatabaseHandler() {
     fun settingsService_intentionsTitle_match() {
         val settings = SettingsService().insert(
                 SettingsDBO(
-                        listOf(
+                        intentions = listOf(
                                 IntentionDBO("Intention title 1", "The Description"),
                                 IntentionDBO("Intention title 2", "The Description")
                         ),
-                        listOf(
+                        practices = listOf(
                                 PracticeDBO("Practice title 1"),
                                 PracticeDBO("Practice title 2")
                         )
@@ -87,11 +87,11 @@ class SettingServiceTest : DatabaseHandler() {
     fun settingService_practicesTitle_match() {
         val settings = SettingsService().insert(
                 SettingsDBO(
-                        listOf(
+                        intentions = listOf(
                                 IntentionDBO("Intention title 1", "The Description"),
                                 IntentionDBO("Intention title 2", "The Description")
                         ),
-                        listOf(
+                        practices = listOf(
                                 PracticeDBO("Practice title 1"),
                                 PracticeDBO("Practice title 2")
                         )

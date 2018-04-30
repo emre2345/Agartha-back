@@ -1,5 +1,6 @@
 package agartha.site.controllers
 
+import agartha.common.config.Settings
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.ISessionService
@@ -34,6 +35,9 @@ class SessionController {
             //
             // Session report, feedback after completed session
             Spark.get("/report/:userid", ::sessionReport)
+            //
+            // Companion report
+            Spark.get("/companion", ::companionReport)
         }
     }
 
@@ -53,7 +57,7 @@ class SessionController {
 
 
     /**
-     * Get session report after completed session
+     * Generate and get session report after completed session
      */
     private fun sessionReport(request: Request, response: Response): String {
         // Get current userid
@@ -68,9 +72,9 @@ class SessionController {
         val startTime: LocalDateTime = user.sessions.last().startTime
         val endTime: LocalDateTime = user.sessions.last().endTime ?: LocalDateTime.now()
         // Filter and map to list of sessions
-        val companionSessions : List<SessionDBO> = SessionUtil.filterSessionsBetween(
+        val companionSessions : List<SessionDBO> = SessionUtil.filterSingleSessionActiveBetween(
                 // Get practitioners sessions started during last 24 hours
-                mService.getPractitionersWithSessionAfter(endTime.minusHours(24)),
+                mService.getPractitionersWithSessionAfter(endTime.minusHours(Settings.SESSION_HOURS)),
                 userId,
                 startTime,
                 endTime)
@@ -81,6 +85,24 @@ class SessionController {
         return mMapper.writeValueAsString(SessionReport(practitionerReport, companionReport))
     }
 
+    /**
+     * Generate and get a companion report. Report covers what has happened during the last/latest
+     * x number of days
+     */
+    private fun companionReport(request: Request, response: Response): String {
+        // Start date from when we should look for sessions
+        val startDateTime : LocalDateTime = LocalDateTime.now().minusDays(Settings.COMPAINON_NUMBER_OF_DAYS)
+        // End date from when we should look for sessions (now)
+        val endDateTime : LocalDateTime = LocalDateTime.now()
+        // Get practitioners
+        val practitioners = mService.getAll()
+        // Filter out all sessions matching dates from these practitioners
+        val sessions = SessionUtil.filterAllSessionsActiveBetween(practitioners, startDateTime, endDateTime)
+        // Generate report
+        val companionReport = CompanionReport(practitioners.count(), sessions)
+        // Return the report
+        return mMapper.writeValueAsString(companionReport)
+    }
 
     /**
      * Get a practitioner from its practitionerId from datasource or create if it does not exists

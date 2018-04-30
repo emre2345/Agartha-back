@@ -14,7 +14,6 @@ import spark.Request
 import spark.Response
 import spark.Spark
 import java.time.LocalDateTime
-import java.util.*
 
 /**
  * Purpose of this file is handling API requests for practitioning sessions
@@ -58,7 +57,7 @@ class PractitionerController {
         val startTime: LocalDateTime = LocalDateTime.now().minusMinutes(30)
         val endTime: LocalDateTime = LocalDateTime.now()
         // Map to Companions
-        val companionSessions: List<SessionDBO> = SessionUtil.filterSessionsBetween(
+        val companionSessions: List<SessionDBO> = SessionUtil.filterSingleSessionActiveBetween(
                 // Get practitioners with overlapping sessions
                 mService.getPractitionersWithSessionBetween(startTime, endTime),
                 userId,

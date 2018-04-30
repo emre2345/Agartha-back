@@ -37,9 +37,27 @@ class CompanionReportTest {
      *
      */
     @Test
+    fun companionPractitionerCount_emptyList_0() {
+        val companion = CompanionReport(emptyList())
+        assertThat(companion.practitionerCount).isEqualTo(0)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun compaionPractitionerCount_existingList_5() {
+        val companion = CompanionReport(generateSessions())
+        assertThat(companion.practitionerCount).isEqualTo(5)
+    }
+
+    /**
+     *
+     */
+    @Test
     fun companionSessionCount_emptyList_0() {
         val companion = CompanionReport(emptyList())
-        assertThat(companion.count).isEqualTo(0)
+        assertThat(companion.sessionCount).isEqualTo(0)
     }
 
     /**
@@ -48,7 +66,7 @@ class CompanionReportTest {
     @Test
     fun compaionSessionCount_existingList_5() {
         val companion = CompanionReport(generateSessions())
-        assertThat(companion.count).isEqualTo(5)
+        assertThat(companion.sessionCount).isEqualTo(5)
     }
 
     /**
@@ -57,7 +75,7 @@ class CompanionReportTest {
     @Test
     fun compaionSessionMinutes_emptyList_0() {
         val companion = CompanionReport(emptyList())
-        assertThat(companion.minutes).isEqualTo(0)
+        assertThat(companion.sessionMinutes).isEqualTo(0)
     }
 
     /**
@@ -66,7 +84,7 @@ class CompanionReportTest {
     @Test
     fun compaionSessionMinutes_existingList_150() {
         val companion = CompanionReport(generateSessions())
-        assertThat(companion.minutes).isEqualTo(150)
+        assertThat(companion.sessionMinutes).isEqualTo(150)
     }
 
     /**
@@ -109,5 +127,41 @@ class CompanionReportTest {
     fun companionPracticeMap_existingList_yogaHas1() {
         val companion = CompanionReport(generateSessions())
         assertThat(companion.practices.get("Yoga")).isEqualTo(1)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun companionPractitionerCount_noPractitionerAndEmptyList_0() {
+        val companion = CompanionReport(0, emptyList())
+        assertThat(companion.practitionerCount).isEqualTo(0)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun companionSessionCount_noPractitionerAndEmptyList_0() {
+        val companion = CompanionReport(0, emptyList())
+        assertThat(companion.sessionCount).isEqualTo(0)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun compaionPractitionerCount_PractitionerAndExistingSessionList_3() {
+        val companion = CompanionReport(3, generateSessions())
+        assertThat(companion.practitionerCount).isEqualTo(3)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun compaionSessionCount_PractitionerAndExistingSessionList_5() {
+        val companion = CompanionReport(3, generateSessions())
+        assertThat(companion.sessionCount).isEqualTo(5)
     }
 }

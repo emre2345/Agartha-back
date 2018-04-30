@@ -1,12 +1,12 @@
 package agartha.site.controllers
 
-import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.site.controllers.mocks.MockedSessionService
+import agartha.site.objects.response.CompanionReport
 import agartha.site.objects.response.SessionReport
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.BeforeClass
 import org.junit.Test
@@ -41,164 +41,265 @@ class SessionControllerTest {
     }
 
 
+    private fun setupReport() {
+        //
+        mockedService.insert(PractitionerDBO("a", LocalDateTime.now(), mutableListOf(
+                SessionDBO(0, "Yoga", false,
+                        LocalDateTime.now().minusDays(13),
+                        LocalDateTime.now().minusDays(13)),
+                SessionDBO(1, "Yoga", false,
+                        LocalDateTime.now().minusDays(11),
+                        LocalDateTime.now().minusDays(11)),
+                SessionDBO(2, "Love", false,
+                        LocalDateTime.now().minusDays(5),
+                        LocalDateTime.now().minusDays(5)),
+                SessionDBO(3, "Yoga", false,
+                        LocalDateTime.now().minusMinutes(41),
+                        LocalDateTime.now().minusMinutes(1)))))
+        //
+        mockedService.insert(PractitionerDBO("b", LocalDateTime.now(), mutableListOf(
+                SessionDBO(0, "Mindfulness", false,
+                        LocalDateTime.now().minusMinutes(20),
+                        LocalDateTime.now().minusMinutes(5)))))
+        //
+        mockedService.insert(PractitionerDBO("c", LocalDateTime.now(), mutableListOf(
+                SessionDBO(0, "Yoga", false,
+                        LocalDateTime.now().minusDays(13),
+                        LocalDateTime.now().minusDays(13)),
+                SessionDBO(1, "Yoga", false,
+                        LocalDateTime.now().minusDays(11),
+                        LocalDateTime.now().minusDays(11)),
+                SessionDBO(2, "Yoga", false,
+                        LocalDateTime.now().minusDays(3).minusMinutes(45),
+                        LocalDateTime.now().minusDays(3)),
+                SessionDBO(3, "Meditation", false,
+                        LocalDateTime.now().minusMinutes(20).minusSeconds(10),
+                        LocalDateTime.now()))))
+        //
+        mockedService.insert(PractitionerDBO("d", LocalDateTime.now(), mutableListOf(
+                SessionDBO(0, "Mindfulness", false,
+                        LocalDateTime.now().minusMinutes(35),
+                        LocalDateTime.now().minusMinutes(5)))))
+        //
+        mockedService.insert(PractitionerDBO("e", LocalDateTime.now(), mutableListOf(
+                SessionDBO(0, "Mindfulness", false,
+                        LocalDateTime.now().minusMinutes(35),
+                        LocalDateTime.now().minusMinutes(5)))))
+        //
+        mockedService.insert(PractitionerDBO("f", LocalDateTime.now(), mutableListOf(
+                SessionDBO(0, "Love", false,
+                        LocalDateTime.now().minusDays(5),
+                        LocalDateTime.now().minusDays(5)))))
+    }
+
     /**
      *
      */
     @Test
-    fun practitionerController_insertSession_sessionIdIs1() {
+    fun sessionController_insertSession_sessionIdIs1() {
         // Setup
         mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
         //
         val postRequest = testController.testServer.post("/session/abc/MyPractice", "", false)
         val httpResponse = testController.testServer.execute(postRequest)
         val body = String(httpResponse.body())
-        Assertions.assertThat(body).isEqualTo("1")
-    }
-
-    private fun setupReport() {
-        // Setup, create 5 practitioner
-        mockedService.insert(PractitionerDBO("a", LocalDateTime.now(), mutableListOf(SessionDBO(0, "Yoga", false,
-                DateTimeFormat.stringToLocalDateTime("2018-04-18 12:00:00"),
-                DateTimeFormat.stringToLocalDateTime("2018-04-18 12:40:00")))))
-        //
-        mockedService.insert(PractitionerDBO("b", LocalDateTime.now(), mutableListOf(SessionDBO(0, "Mindfulness", false,
-                DateTimeFormat.stringToLocalDateTime("2018-04-18 12:00:00"),
-                DateTimeFormat.stringToLocalDateTime("2018-04-18 12:15:00")))))
-        //
-        mockedService.insert(PractitionerDBO("c", LocalDateTime.now(), mutableListOf(
-                SessionDBO(0, "Yoga", false,
-                        DateTimeFormat.stringToLocalDateTime("2018-04-15 12:00:00"),
-                        DateTimeFormat.stringToLocalDateTime("2018-04-15 12:45:00")),
-                SessionDBO(1, "Meditation", false,
-                        DateTimeFormat.stringToLocalDateTime("2018-04-18 11:59:59"),
-                        DateTimeFormat.stringToLocalDateTime("2018-04-18 12:20:00")))))
-        //
-        mockedService.insert(PractitionerDBO("d", LocalDateTime.now(), mutableListOf(SessionDBO(0, "Mindfulness", false,
-                DateTimeFormat.stringToLocalDateTime("2018-04-18 12:00:00"),
-                DateTimeFormat.stringToLocalDateTime("2018-04-18 12:30:00")))))
-        //
-        mockedService.insert(PractitionerDBO("e", LocalDateTime.now(), mutableListOf(SessionDBO(0, "Mindfulness", false,
-                DateTimeFormat.stringToLocalDateTime("2018-04-18 12:00:00"),
-                DateTimeFormat.stringToLocalDateTime("2018-04-18 12:30:00")))))
+        assertThat(body).isEqualTo("1")
     }
 
     /**
      *
      */
     @Test
-    fun practitionerController_practitionerReport_userIdIsC() {
+    fun sessionController_sessionReport_userIdIsC() {
         setupReport()
-        // Assume second (id b) is current user
         val getRequest = testController.testServer.get("/session/report/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
         val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
-        Assertions.assertThat(data.practitionerReport.practitionerId).isEqualTo("c")
+        assertThat(data.practitionerReport.practitionerId).isEqualTo("c")
     }
 
     /**
      *
      */
     @Test
-    fun practitionerController_practitionerReport_sessionTime20() {
+    fun sessionController_sessionReport_sessionTime20() {
         setupReport()
-        // Assume second (id b) is current user
         val getRequest = testController.testServer.get("/session/report/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
         val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
-        Assertions.assertThat(data.practitionerReport.lastSessionTime).isEqualTo(20)
+        assertThat(data.practitionerReport.lastSessionTime).isEqualTo(20)
     }
 
     /**
      *
      */
     @Test
-    fun practitionerController_practitionerReport_totalSessionTime65() {
+    fun sessionController_sessionReport_totalSessionTime65() {
         setupReport()
-        // Assume second (id b) is current user
         val getRequest = testController.testServer.get("/session/report/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
         val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
-        Assertions.assertThat(data.practitionerReport.totalSessionTime).isEqualTo(65)
+        assertThat(data.practitionerReport.totalSessionTime).isEqualTo(65)
     }
 
     /**
      *
      */
     @Test
-    fun practitionerController_compaionReport_countIs4() {
+    fun sessionController_sessionReport_practitionerCountIs4() {
         setupReport()
-        // Assume second (id b) is current user
         val getRequest = testController.testServer.get("/session/report/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
         val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
-        Assertions.assertThat(data.companionReport.count).isEqualTo(4)
+        assertThat(data.companionReport.practitionerCount).isEqualTo(4)
     }
 
     /**
      *
      */
     @Test
-    fun practitionerController_companionReport_minutesIs115() {
+    fun sessionController_sessionReport_sessionCountIs4() {
         setupReport()
-        // Assume second (id b) is current user
         val getRequest = testController.testServer.get("/session/report/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
         val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
-        Assertions.assertThat(data.companionReport.minutes).isEqualTo(115)
+        assertThat(data.companionReport.sessionCount).isEqualTo(4)
     }
 
     /**
      *
      */
     @Test
-    fun practitionerController_companionReport_practicesHasYoga() {
+    fun sessionController_sessionReport_sessionMinutesIs115() {
         setupReport()
-        // Assume second (id b) is current user
         val getRequest = testController.testServer.get("/session/report/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
         val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
-        Assertions.assertThat(data.companionReport.practices.containsKey("Yoga")).isTrue()
+        assertThat(data.companionReport.sessionMinutes).isEqualTo(115)
     }
 
     /**
      *
      */
     @Test
-    fun practitionerController_companionReport_practicesHasMindful() {
+    fun sessionController_sessionReport_practicesHasYoga() {
         setupReport()
-        // Assume second (id b) is current user
         val getRequest = testController.testServer.get("/session/report/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
         val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
-        Assertions.assertThat(data.companionReport.practices.containsKey("Mindfulness")).isTrue()
+        assertThat(data.companionReport.practices.containsKey("Yoga")).isTrue()
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun sessionController_sessionReport_practicesHasMindful() {
+        setupReport()
+        val getRequest = testController.testServer.get("/session/report/c", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+        // Map to Data object
+        val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
+        assertThat(data.companionReport.practices.containsKey("Mindfulness")).isTrue()
     }
 
     /**
      * Current users practition should not be included
      */
     @Test
-    fun practitionerController_companionReport_practicesHasNotMeditation() {
+    fun sessionController_sessionReport_practicesHasNotMeditation() {
         setupReport()
-        // Assume second (id b) is current user
         val getRequest = testController.testServer.get("/session/report/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
         val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
-        Assertions.assertThat(data.companionReport.practices.containsKey("Meditation")).isFalse()
+        assertThat(data.companionReport.practices.containsKey("Meditation")).isFalse()
+    }
+
+    /**
+     * Older than current session should not be counted
+     */
+    @Test
+    fun sessionController_sessionReport_practicesHasNotLove() {
+        setupReport()
+        val getRequest = testController.testServer.get("/session/report/c", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+        // Map to Data object
+        val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
+        assertThat(data.companionReport.practices.containsKey("Love")).isFalse()
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun sessionController_companionReport_practitionerCountIs6() {
+        setupReport()
+        val getRequest = testController.testServer.get("/session/companion", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+        // Map to Data object
+        val data: CompanionReport = jacksonObjectMapper().readValue(body, CompanionReport::class.java)
+        assertThat(data.practitionerCount).isEqualTo(6)
+
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun sessionController_companionReport_sessionsCountIs8() {
+        setupReport()
+        val getRequest = testController.testServer.get("/session/companion", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+        // Map to Data object
+        val data: CompanionReport = jacksonObjectMapper().readValue(body, CompanionReport::class.java)
+        assertThat(data.sessionCount).isEqualTo(8)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun sessionController_companionReport_sessionMinutesIs() {
+        setupReport()
+        val getRequest = testController.testServer.get("/session/companion", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+        // Map to Data object
+        val data: CompanionReport = jacksonObjectMapper().readValue(body, CompanionReport::class.java)
+        assertThat(data.sessionMinutes).isEqualTo(180)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun sessionController_companionReport_practicesHasLove() {
+        setupReport()
+        val getRequest = testController.testServer.get("/session/companion", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+        // Map to Data object
+        val data: CompanionReport = jacksonObjectMapper().readValue(body, CompanionReport::class.java)
+        assertThat(data.practices.containsKey("Love")).isTrue()
     }
 }

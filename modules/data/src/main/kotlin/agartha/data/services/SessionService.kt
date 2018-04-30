@@ -19,39 +19,54 @@ class SessionService : ISessionService {
     // MongoCollection
     protected val collection = database.getCollection<PractitionerDBO>(CollectionNames.PRACTITIONER_SERVICE.collectionName)
 
-
+    /**
+     * Create new practitioner in database
+     * @param item practitioner to insert
+     * @return inserted practitioner with database id set
+     */
     override fun insert(item: PractitionerDBO): PractitionerDBO {
         return item.apply {
             collection.insertOne(item)
         }
     }
 
+    /**
+     * Get a practitioner from database
+     * @param id unique Id
+     * @return found practitioner or null
+     */
     override fun getById(id: String): PractitionerDBO? {
         return collection.findOneById(id)
     }
 
+    /**
+     * Get all practitioners from database
+     * @return list of practitioner
+     */
     override fun getAll(): List<PractitionerDBO> {
         return collection.find().toList()
     }
 
     /**
      * Start a new user session
+     * @param practitionerId identity for practitioner
+     * @param practiceName name of practice
+     * @return index for created practice
      */
-    override fun startSession(userId: String, practition: String): Int {
+    override fun startSession(practitionerId: String, practiceName: String): Int {
         // Get current user
-        val user: PractitionerDBO? = getById(userId)
+        val user: PractitionerDBO? = getById(practitionerId)
         // Calculate next index (if any of user or user.sessions is null: rtn 0)
         val nextIndex = user?.sessions?.count() ?: 0
         // Create a new Session
-        val session = SessionDBO(nextIndex, practition)
+        val session = SessionDBO(nextIndex, practiceName)
         // Create Mongo Document to be added to sessions list
         val sessionDoc = Document("sessions", session)
         // Update first document found by Id, push the new document
-        collection.updateOneById(userId, Document("${MongoOperator.push}", sessionDoc))
+        collection.updateOneById(practitionerId, Document("${MongoOperator.push}", sessionDoc))
         // return next index
         return nextIndex
     }
-
 
     /**
      * End users session
@@ -60,13 +75,24 @@ class SessionService : ISessionService {
 
     }
 
-    override fun getPractitionersWithSessionAfter(startDateTime: LocalDateTime): List<PractitionerDBO> {
-        val mongoFormattedStart = DateTimeFormat.formatDateTimeAsMongoString(startDateTime)
-        // Find practitioners with session start time after argument date
-        val strStart = """{sessions: {${MongoOperator.elemMatch}: { startTime: { ${MongoOperator.gte}: ISODate('${mongoFormattedStart}') } } } }"""
+    /**
+     * Get all practitioner with session that has been ongoing any time after argument dateTime
+     * @param dateTime LocalDateTime
+     * @return List of pracitioner with at least one session active after argument dateTime
+     */
+    override fun getPractitionersWithSessionAfter(dateTime: LocalDateTime): List<PractitionerDBO> {
+        val mongoFormattedStart = DateTimeFormat.formatDateTimeAsMongoString(dateTime)
+        // Practitioner should have start dateTime after argument dateTime
+        val start = """{sessions: {${MongoOperator.elemMatch}: { startTime: { ${MongoOperator.gte}: ISODate('${mongoFormattedStart}') } } } }"""
+        // OR
+        // Practitioner should have end dateTime after argument dateTime
+        val end = """{sessions: {${MongoOperator.elemMatch}: { endTime: { ${MongoOperator.gte}: ISODate('${mongoFormattedStart}') } } } }"""
+        //
+        // Join the two for getting practitioners with start or end time in argument date, ie find overlapping sessions
+        val condition = """{${MongoOperator.or}: [${start},${end}]}"""
         // Get the stuff
         return collection
-                .find(strStart)
+                .find(condition)
                 .toList()
     }
 
