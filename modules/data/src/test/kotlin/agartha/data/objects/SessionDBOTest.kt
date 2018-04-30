@@ -7,11 +7,37 @@ import java.time.LocalDateTime
 
 class SessionDBOTest {
 
+    val sessionWithoutTime = SessionDBO(0, "Yoga", "Mindfulness", "Love",true)
+
+    /*************************************************
+     * Variables - discipline + practice + intention *
+     *************************************************/
+    @Test
+    fun discipline_disciplineName_yoga() {
+        assertThat(sessionWithoutTime.discipline).isEqualTo("Yoga")
+    }
+
     /**
      *
      */
     @Test
-    fun sessionDuration_whithNullEndTime_3() {
+    fun discipline_practiceName_mindfulness() {
+        assertThat(sessionWithoutTime.practice).isEqualTo("Mindfulness")
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun discipline_intentionName_love() {
+        assertThat(sessionWithoutTime.intention).isEqualTo("Love")
+    }
+
+    /*******************
+     * sessionDuration *
+     *******************/
+    @Test
+    fun sessionDuration_withNullEndTime_3() {
         val session = SessionDBO(0, "Yoga", "Mindfulness", "Love",true,
                 LocalDateTime.now().minusMinutes(3),
                 null)
@@ -65,9 +91,9 @@ class SessionDBOTest {
         assertThat(session.sessionDurationMinutes()).isEqualTo(30)
     }
 
-    /**
-     *
-     */
+    /******************
+     * sessionOverLap *
+     ******************/
     @Test
     fun sessionOverLap_startAndEndBefore_false() {
         val session = SessionDBO(0, "Yoga", "Mindfulness", "Love",true,
