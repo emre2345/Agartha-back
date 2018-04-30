@@ -30,7 +30,7 @@ class SessionServiceTest : DatabaseHandler() {
     private fun putUserInDatabase(sessionStart: String, sessionEnd: String) {
         SessionService().insert(
                 PractitionerDBO(sessions = listOf(
-                        SessionDBO(0, "Yoga", "Salary raise", false, DateTimeFormat.stringToLocalDateTime(sessionStart), DateTimeFormat.stringToLocalDateTime(sessionEnd)))))
+                        SessionDBO(0, "Yoga", "Mindfulness", "Salary raise", false, DateTimeFormat.stringToLocalDateTime(sessionStart), DateTimeFormat.stringToLocalDateTime(sessionEnd)))))
     }
 
     /**
@@ -38,11 +38,24 @@ class SessionServiceTest : DatabaseHandler() {
      */
     @Test
     fun addSessionToUser_IndexReturned_1() {
-        val user = PractitionerDBO(sessions = listOf(SessionDBO(0, "Test", "TestIntention")))
-        // Insert a new practisioning user
+        val user = PractitionerDBO(sessions = listOf(SessionDBO(0, "Test", "Testis", "TestIntention")))
+        // Insert a new practitioning user
         val item = SessionService().insert(user)
         // Insert session
-        val sessionId = SessionService().startSession(item._id!!, "Test", "TestIntention")
+        val sessionId = SessionService().startSession(item._id!!, "Test", "Testis", "TestIntention")
+        assertThat(sessionId).isEqualTo(1)
+    }
+
+    /**
+     * Add session
+     */
+    @Test
+    fun addSessionWithoutPracticeToUser_IndexReturned_1() {
+        val user = PractitionerDBO(sessions = listOf(SessionDBO(0, "Test", null, "TestIntention")))
+        // Insert a new practitioning user
+        val item = SessionService().insert(user)
+        // Insert session
+        val sessionId = SessionService().startSession(item._id!!, "Test", null, "TestIntention")
         assertThat(sessionId).isEqualTo(1)
     }
     /**
@@ -54,9 +67,9 @@ class SessionServiceTest : DatabaseHandler() {
         // Insert a new practising user
         val item = SessionService().insert(user)
         // Insert sessions
-        SessionService().startSession(item._id!!, "Test 1", "Testing 1")
-        SessionService().startSession(item._id!!, "Test 2", "Testing 2")
-        SessionService().startSession(item._id!!, "Test 3", "Testing 3")
+        SessionService().startSession(item._id!!, "Test 1", "Testis 1", "Testing 1")
+        SessionService().startSession(item._id!!, "Test 2", "Testis 2","Testing 2")
+        SessionService().startSession(item._id!!, "Test 3", "Testis 3","Testing 3")
         // Get user and Count sessions
         val practitioner = SessionService().getById(item._id!!)
         Assertions.assertThat(practitioner?.sessions?.size).isEqualTo(3)

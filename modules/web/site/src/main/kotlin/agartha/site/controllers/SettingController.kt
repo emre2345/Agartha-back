@@ -1,5 +1,6 @@
 package agartha.site.controllers
 
+import agartha.data.objects.DisciplineDBO
 import agartha.data.objects.IntentionDBO
 import agartha.data.objects.PracticeDBO
 import agartha.data.objects.SettingsDBO
@@ -40,7 +41,7 @@ class SettingController {
     private fun getDefaultSettings(): SettingsDBO {
         return SettingsDBO(
                 intentions = getDefaultIntentions(),
-                practices = getDefaultPractices())
+                disciplines = getDefaultDisciplines())
     }
 
     /**
@@ -64,10 +65,10 @@ class SettingController {
     /**
      * Default practices if settings in database is empty
      */
-    private fun getDefaultPractices() : List<PracticeDBO> {
+    private fun getDefaultDisciplines() : List<DisciplineDBO> {
         return listOf(
-                PracticeDBO("Meditation", listOf(PracticeDBO("Mindfulness"), PracticeDBO("Transendental"))),
-                PracticeDBO("Yoga", listOf(PracticeDBO("Tantra"), PracticeDBO("Hatha")))
+                DisciplineDBO("Meditation", listOf(PracticeDBO("Mindfulness"), PracticeDBO("Transendental"))),
+                DisciplineDBO("Yoga", listOf(PracticeDBO("Tantra"), PracticeDBO("Hatha")))
         )
     }
 }

@@ -14,7 +14,7 @@ class MockedSettingService : IBaseService<SettingsDBO> {
     override fun insert(item: SettingsDBO): SettingsDBO {
         if (settingList.isEmpty()) {
             val uuid = UUID.randomUUID()
-            val createdItem = SettingsDBO(uuid.toString(), item.intentions, item.practices)
+            val createdItem = SettingsDBO(uuid.toString(), item.intentions, item.disciplines)
             settingList.add(createdItem)
             return createdItem
         }

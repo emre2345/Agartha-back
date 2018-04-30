@@ -7,6 +7,4 @@ package agartha.data.objects
  */
 data class PracticeDBO(
         // Title of practice
-        val title: String,
-        // Sub-practices
-        val practices : List<PracticeDBO> = emptyList())
+        val title: String)
