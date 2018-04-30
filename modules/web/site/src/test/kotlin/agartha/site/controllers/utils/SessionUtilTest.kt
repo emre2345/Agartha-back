@@ -245,7 +245,7 @@ class SessionUtilTest {
     }
 
     @Test
-    fun filterAllSessionsPerPractitioner_tada_fail() {
+    fun filterAllSessionsPerPractitioner_sessionsBeforeAbandonAndMatching_ListOf3() {
         val response = SessionUtil.filterAllSessionsActiveBetween(
                 listOf(
                         // No sessions should be included, both sessions ends before time
