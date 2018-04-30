@@ -14,7 +14,9 @@ data class SessionDBO(
         // Session index for this user
         val index: Int,
         // Type of practitioning
-        val practition: String,
+        val practice: String,
+        // Type of intention on the practice
+        val intention: String,
         // Is this still active
         val active: Boolean = true,
         // Time when started

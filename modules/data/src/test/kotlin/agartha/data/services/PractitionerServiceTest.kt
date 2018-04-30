@@ -30,7 +30,7 @@ class PractitionerServiceTest : DatabaseHandler() {
     private fun putUserInDatabase(sessionStart: String, sessionEnd: String) {
         PractitionerService().insert(
                 PractitionerDBO(sessions = listOf(
-                        SessionDBO(0, "Yoga", false, DateTimeFormat.stringToLocalDateTime(sessionStart), DateTimeFormat.stringToLocalDateTime(sessionEnd)))))
+                        SessionDBO(0, "Yoga", "Love", false, DateTimeFormat.stringToLocalDateTime(sessionStart), DateTimeFormat.stringToLocalDateTime(sessionEnd)))))
     }
 
     /**
@@ -71,7 +71,7 @@ class PractitionerServiceTest : DatabaseHandler() {
     @Test
     fun insertUserWithSessions_collectionSize_1() {
         PractitionerService().insert(PractitionerDBO(sessions = listOf(
-                SessionDBO(0, "Yoga"), SessionDBO(1, "Meditation"))))
+                SessionDBO(0, "Yoga", "Love"), SessionDBO(1, "Meditation", "Love"))))
         val allUsers = PractitionerService().getAll()
         assertThat(allUsers.size).isEqualTo(1)
     }
