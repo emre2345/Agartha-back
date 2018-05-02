@@ -48,8 +48,6 @@ class SessionController {
      * @return id/index for started session
      */
     private fun insertSession(request: Request, response: Response): Int {
-        println("insertSession")
-        println(request.body())
         // Get current userid
         val userId : String = request.params(":userid")
         // Type of discipline, practice and intention
