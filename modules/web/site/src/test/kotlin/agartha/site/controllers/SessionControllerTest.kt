@@ -92,35 +92,6 @@ class SessionControllerTest {
                         LocalDateTime.now().minusDays(5)))))
     }
 
-    /**
-     *
-     */
-    @Test
-    fun sessionController_insertSession_sessionIdIs1() {
-        val body: String = "{\"discipline\": \"Yoga\",\n\"practice\": \"Hatha\",\n\"intention\": \"Salary raise\"\n}"
-        // Setup
-        mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
-        //
-        val postRequest = testController.testServer.post("/session/abc", body, false)
-        val httpResponse = testController.testServer.execute(postRequest)
-        val responseBody = String(httpResponse.body())
-        assertThat(responseBody).isEqualTo("1")
-    }
-
-    /**
-     *
-     */
-    @Test
-    fun sessionController_insertSessionWithoutPractice_sessionIdIs1() {
-        val body: String = "{\"discipline\": \"Yoga\",\n\"intention\": \"Salary raise\"\n}"
-        // Setup
-        mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
-        //
-        val postRequest = testController.testServer.post("/session/abc", body, false)
-        val httpResponse = testController.testServer.execute(postRequest)
-        val responseBody = String(httpResponse.body())
-        assertThat(responseBody).isEqualTo("1")
-    }
 
     /**
      *
