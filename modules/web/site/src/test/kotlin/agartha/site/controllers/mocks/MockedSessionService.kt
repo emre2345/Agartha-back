@@ -30,7 +30,7 @@ class MockedSessionService : ISessionService {
         }.first()
 
         val nextIndex = first.sessions.count() + 1
-        first.sessions.plus(SessionDBO(nextIndex, discipline, practice, intention))
+        first.sessions.plus(SessionDBO(nextIndex, null, discipline, practice, intention))
         return nextIndex
 
     }

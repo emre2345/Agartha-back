@@ -30,7 +30,8 @@ class SessionServiceTest : DatabaseHandler() {
     private fun putUserInDatabase(sessionStart: String, sessionEnd: String) {
         SessionService().insert(
                 PractitionerDBO(sessions = listOf(
-                        SessionDBO(0, "Yoga", "Mindfulness", "Salary raise", false, DateTimeFormat.stringToLocalDateTime(sessionStart), DateTimeFormat.stringToLocalDateTime(sessionEnd)))))
+                        SessionDBO(0, null,"Yoga", "Mindfulness", "Salary raise",
+                                DateTimeFormat.stringToLocalDateTime(sessionStart), DateTimeFormat.stringToLocalDateTime(sessionEnd)))))
     }
 
     /**
@@ -38,7 +39,7 @@ class SessionServiceTest : DatabaseHandler() {
      */
     @Test
     fun addSessionToUser_IndexReturned_1() {
-        val user = PractitionerDBO(sessions = listOf(SessionDBO(0, "Test", "Testis", "TestIntention")))
+        val user = PractitionerDBO(sessions = listOf(SessionDBO(0, null,"Test", "Testis", "TestIntention")))
         // Insert a new practitioning user
         val item = SessionService().insert(user)
         // Insert session
@@ -51,7 +52,7 @@ class SessionServiceTest : DatabaseHandler() {
      */
     @Test
     fun addSessionWithoutPracticeToUser_IndexReturned_1() {
-        val user = PractitionerDBO(sessions = listOf(SessionDBO(0, "Test", null, "TestIntention")))
+        val user = PractitionerDBO(sessions = listOf(SessionDBO(0, null,"Test", null, "TestIntention")))
         // Insert a new practitioning user
         val item = SessionService().insert(user)
         // Insert session

@@ -44,50 +44,50 @@ class SessionControllerTest {
     private fun setupReport() {
         //
         mockedService.insert(PractitionerDBO("a", LocalDateTime.now(), mutableListOf(
-                SessionDBO(0, "Yoga", "Tantra", "Transformation", false,
+                SessionDBO(0, null,"Yoga", "Tantra", "Transformation",
                         LocalDateTime.now().minusDays(13),
                         LocalDateTime.now().minusDays(13)),
-                SessionDBO(1, "Yoga", "Tantra", "Empowerment", false,
+                SessionDBO(1, null,"Yoga", "Tantra", "Empowerment",
                         LocalDateTime.now().minusDays(11),
                         LocalDateTime.now().minusDays(11)),
-                SessionDBO(2, "Meditation", "Transendental", "Harmony", false,
+                SessionDBO(2, null,"Meditation", "Transendental", "Harmony",
                         LocalDateTime.now().minusDays(5),
                         LocalDateTime.now().minusDays(5)),
-                SessionDBO(3, "Yoga", "Hatha", "Freedom", false,
+                SessionDBO(3, null,"Yoga", "Hatha", "Freedom",
                         LocalDateTime.now().minusMinutes(41),
                         LocalDateTime.now().minusMinutes(1)))))
         //
         mockedService.insert(PractitionerDBO("b", LocalDateTime.now(), mutableListOf(
-                SessionDBO(0, "Meditation","Mindfulness", "Love", false,
+                SessionDBO(0, null,"Meditation","Mindfulness", "Love",
                         LocalDateTime.now().minusMinutes(20),
                         LocalDateTime.now().minusMinutes(5)))))
         //
         mockedService.insert(PractitionerDBO("c", LocalDateTime.now(), mutableListOf(
-                SessionDBO(0, "Yoga", "Hatha", "Love", false,
+                SessionDBO(0, null,"Yoga", "Hatha", "Love",
                         LocalDateTime.now().minusDays(13),
                         LocalDateTime.now().minusDays(13)),
-                SessionDBO(1, "Yoga", "Hatha", "Freedom", false,
+                SessionDBO(1, null,"Yoga", "Hatha", "Freedom",
                         LocalDateTime.now().minusDays(11),
                         LocalDateTime.now().minusDays(11)),
-                SessionDBO(2, "Yoga", "Hatha", "Love", false,
+                SessionDBO(2, null,"Yoga", "Hatha", "Love",
                         LocalDateTime.now().minusDays(3).minusMinutes(45),
                         LocalDateTime.now().minusDays(3)),
-                SessionDBO(3, "Meditation", "Mindfulness","Harmony", false,
+                SessionDBO(3, null,"Meditation", "Mindfulness","Harmony",
                         LocalDateTime.now().minusMinutes(20).minusSeconds(10),
                         LocalDateTime.now()))))
         //
         mockedService.insert(PractitionerDBO("d", LocalDateTime.now(), mutableListOf(
-                SessionDBO(0, "Meditation","Mindfulness", "Empathy", false,
+                SessionDBO(0, null,"Meditation","Mindfulness", "Empathy",
                         LocalDateTime.now().minusMinutes(35),
                         LocalDateTime.now().minusMinutes(5)))))
         //
         mockedService.insert(PractitionerDBO("e", LocalDateTime.now(), mutableListOf(
-                SessionDBO(0, "Meditation","Mindfulness", "Empowerment", false,
+                SessionDBO(0,null, "Meditation","Mindfulness", "Empowerment",
                         LocalDateTime.now().minusMinutes(35),
                         LocalDateTime.now().minusMinutes(5)))))
         //
         mockedService.insert(PractitionerDBO("f", LocalDateTime.now(), mutableListOf(
-                SessionDBO(0, "Meditation","Transendental", "Celebration", false,
+                SessionDBO(0,null, "Meditation","Transendental", "Celebration",
                         LocalDateTime.now().minusDays(5),
                         LocalDateTime.now().minusDays(5)))))
     }

@@ -61,7 +61,7 @@ class SessionService : ISessionService {
         // Calculate next index (if any of user or user.sessions is null: rtn 0)
         val nextIndex = user?.sessions?.count() ?: 0
         // Create a new Session
-        val session = SessionDBO(nextIndex, disciplineName, practiceName, intentionName)
+        val session = SessionDBO(nextIndex, null, disciplineName, practiceName, intentionName)
         // Create Mongo Document to be added to sessions list
         val sessionDoc = Document("sessions", session)
         // Update first document found by Id, push the new document
