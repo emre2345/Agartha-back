@@ -45,27 +45,23 @@ class PractitionerService : IPractitionerService {
     }
 
     /**
-     * Get all practitioners with session ongoing between these dates
-     *
-     * @param startDateTime
-     * @param endDateTime
-     * @return
+     * Get all practitioner with session that has been ongoing any time after argument dateTime
+     * @param dateTime LocalDateTime
+     * @return List of pracitioner with at least one session active after argument dateTime
      */
-    override fun getPractitionersWithSessionBetween(startDateTime: LocalDateTime, endDateTime: LocalDateTime): List<PractitionerDBO> {
+    override fun getPractitionersWithSessionAfter(dateTime: LocalDateTime): List<PractitionerDBO> {
+        val mongoFormattedStart = DateTimeFormat.formatDateTimeAsMongoString(dateTime)
+        // Practitioner should have start dateTime after argument dateTime
+        val start = """{sessions: {${MongoOperator.elemMatch}: { startTime: { ${MongoOperator.gte}: ISODate('${mongoFormattedStart}') } } } }"""
+        // OR
+        // Practitioner should have end dateTime after argument dateTime
+        val end = """{sessions: {${MongoOperator.elemMatch}: { endTime: { ${MongoOperator.gte}: ISODate('${mongoFormattedStart}') } } } }"""
         //
-        val mongoFormattedStart = DateTimeFormat.formatDateTimeAsMongoString(startDateTime)
-        val mongoFormattedEnd = DateTimeFormat.formatDateTimeAsMongoString(endDateTime)
-        //
-        // Find practitioners with session start time between argument dates
-        val strStart = """{sessions: {${MongoOperator.elemMatch}: { startTime: { ${MongoOperator.gte}: ISODate('${mongoFormattedStart}'), ${MongoOperator.lt}: ISODate('${mongoFormattedEnd}') } } } }"""
-        // Find practitioners with session end time between argument dates
-        val strEnd = """{sessions: {${MongoOperator.elemMatch}: { endTime: { ${MongoOperator.gte}: ISODate('${mongoFormattedStart}'), ${MongoOperator.lt}: ISODate('${mongoFormattedEnd}') } } } }"""
         // Join the two for getting practitioners with start or end time in argument date, ie find overlapping sessions
-        val sessionsWithOverlappingStartAndEndTime = """{${MongoOperator.or}: [${strStart},${strEnd}]}"""
-        //
+        val condition = """{${MongoOperator.or}: [${start},${end}]}"""
         // Get the stuff
         return collection
-                .find(sessionsWithOverlappingStartAndEndTime)
-                .toList() as List<PractitionerDBO>
+                .find(condition)
+                .toList()
     }
 }

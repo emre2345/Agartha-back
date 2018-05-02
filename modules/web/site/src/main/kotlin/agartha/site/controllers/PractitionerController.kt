@@ -54,12 +54,12 @@ class PractitionerController {
         val user: PractitionerDBO = getPractitionerFromDataSource(userId)
         // Create Report for current user
         val practitionerReport: PractitionerReport = PractitionerReport(user)
-        val startTime: LocalDateTime = LocalDateTime.now().minusMinutes(30)
+        val startTime: LocalDateTime = LocalDateTime.now().minusMinutes(60)
         val endTime: LocalDateTime = LocalDateTime.now()
-        // Map to Companions
+        // Filter out sessions active during last x minutes and Map to List of Sessions
         val companionSessions: List<SessionDBO> = SessionUtil.filterSingleSessionActiveBetween(
-                // Get practitioners with overlapping sessions
-                mService.getPractitionersWithSessionBetween(startTime, endTime),
+                // Get practitioners sessions last 24 hours
+                mService.getPractitionersWithSessionAfter(LocalDateTime.now().minusHours(24)),
                 userId,
                 startTime,
                 endTime)

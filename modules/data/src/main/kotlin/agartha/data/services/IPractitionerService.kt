@@ -12,12 +12,11 @@ import java.time.LocalDateTime
 interface IPractitionerService : IBaseService<PractitionerDBO> {
 
     /**
-     * Get all practitioners with session between sessions
+     * Get all practitioners with session after a specific datetime
      *
      * @param startDate
-     * @param endDate
      */
-    fun getPractitionersWithSessionBetween(startDate : LocalDateTime, endDate : LocalDateTime): List<PractitionerDBO>
+    fun getPractitionersWithSessionAfter(startDate : LocalDateTime): List<PractitionerDBO>
 
     /**
      * Function to update a document in database collection
