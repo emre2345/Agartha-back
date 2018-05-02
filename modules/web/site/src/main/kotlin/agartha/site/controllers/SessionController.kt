@@ -47,16 +47,20 @@ class SessionController {
      * Start a new user session
      * @return id/index for started session
      */
-    private fun insertSession(request: Request, response: Response): Int {
-        println("insertSession")
-        println(request.body())
+    private fun insertSession(request: Request, response: Response): String {
         // Get current userid
         val userId : String = request.params(":userid")
         // Type of discipline, practice and intention
         val startSessionInformation: StartSessionInformation = mMapper.readValue(request.body(), StartSessionInformation::class.java)
-
         // Start a session
-        return mService.startSession(userId, startSessionInformation.discipline, startSessionInformation.practice, startSessionInformation.intention)
+        val session =  mService.startSession(
+                userId,
+                startSessionInformation.geolocation,
+                startSessionInformation.discipline,
+                startSessionInformation.practice,
+                startSessionInformation.intention)
+        // Return the started session
+        return mMapper.writeValueAsString(session)
     }
 
 
