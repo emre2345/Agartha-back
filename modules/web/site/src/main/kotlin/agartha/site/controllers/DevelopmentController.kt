@@ -50,7 +50,7 @@ class DevelopmentController {
                 }
             })
             // API to push more users to database
-            Spark.get("/tjohej", ::pushSomeUsersInDatabase)
+            Spark.get("/dbsetup", ::pushSomeUsersInDatabase)
         }
     }
 
