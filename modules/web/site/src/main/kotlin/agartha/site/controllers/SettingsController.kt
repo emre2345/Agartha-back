@@ -5,7 +5,11 @@ import agartha.data.objects.IntentionDBO
 import agartha.data.objects.PracticeDBO
 import agartha.data.objects.SettingsDBO
 import agartha.data.services.IBaseService
+import agartha.site.objects.request.PractitionerInvolvedInformation
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import spark.Request
+import spark.Response
+import spark.Spark
 import spark.Spark.*
 
 /**
@@ -32,6 +36,35 @@ class SettingsController {
                 mMapper.writeValueAsString(mService.insert(getDefaultSettings()))
             }
         }
+
+        Spark.path("/settings") {
+            //
+            Spark.get("") { request, response ->
+                //
+                val list = mService.getAll()
+                if (list.isNotEmpty()) {
+                    // If Settings data source is not empty, return first item
+                    mMapper.writeValueAsString(list[0])
+                } else {
+                    // If Settings data source is empty, get default
+                    mMapper.writeValueAsString(mService.insert(getDefaultSettings()))
+                }
+            }
+            // add Intention to the DB
+            Spark.post("/intention", ::addIntention)
+        }
+    }
+
+
+    /**
+     * Adds an intention to the DBO
+     * @return the added intention
+     */
+    private fun addIntention(request: Request, response: Response): String  {
+        println("addIntention")
+        println(request.body())
+        val newIntention: IntentionDBO = mMapper.readValue(request.body(), IntentionDBO::class.java)
+        return mMapper.writeValueAsString(newIntention)
     }
 
     /**
