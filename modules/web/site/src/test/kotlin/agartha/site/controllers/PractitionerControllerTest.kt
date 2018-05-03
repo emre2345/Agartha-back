@@ -90,11 +90,12 @@ class PractitionerControllerTest {
                 "rebecca@kollektiva.se",
                 "Jag gillar yoga!")
         //
-        val getRequest = testController.testServer.put("/practitioner/abc", jacksonObjectMapper().writeValueAsString(involvedInformation), false)
+        val getRequest = testController.testServer.post("/practitioner/abc", jacksonObjectMapper().writeValueAsString(involvedInformation), false)
         val httpResponse = testController.testServer.execute(getRequest)
-
-        // Map to Data object
-        //val data: SessionReport = jacksonObjectMapper().readValue(body, SessionReport::class.java)
-        assertThat("abc").isEqualTo("abc")
+        val body = String(httpResponse.body())
+        // Map to Data object (cannot handle LocalDateTime)
+        // https://stackoverflow.com/questions/27952472/serialize-deserialize-java-8-java-time-with-jackson-json-mapper/27952473
+        //val data: PractitionerDBO = jacksonObjectMapper().readValue(body, PractitionerDBO::class.java)
+        assertThat(body).startsWith("{\"_id\":\"abc\"")
     }
 }
