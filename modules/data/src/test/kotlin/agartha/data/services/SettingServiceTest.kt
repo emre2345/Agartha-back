@@ -15,11 +15,11 @@ import org.junit.Test
  */
 class SettingServiceTest : DatabaseHandler() {
     private val settingsOne = SettingsDBO(
-            intentions = listOf(IntentionDBO("The Title", "The Description")),
+            intentions = mutableListOf(IntentionDBO("The Title", "The Description")),
             disciplines = listOf(DisciplineDBO("The title", listOf(PracticeDBO("The Title"))))
     )
     private val settingsTwo = SettingsDBO(
-            intentions = listOf(
+            intentions = mutableListOf(
                     IntentionDBO("Intention title 1", "The Description"),
                     IntentionDBO("Intention title 2", "The Description")
             ),
@@ -67,11 +67,11 @@ class SettingServiceTest : DatabaseHandler() {
      */
     @Test
     fun settingService_mutipleInsert_onlyOneGetsSaved() {
-        SettingsService().insert(SettingsDBO(intentions = listOf(
+        SettingsService().insert(SettingsDBO(intentions = mutableListOf(
                 IntentionDBO("The Title 1", "The Description 1"))))
-        SettingsService().insert(SettingsDBO(intentions = listOf(
+        SettingsService().insert(SettingsDBO(intentions = mutableListOf(
                 IntentionDBO("The Title 2", "The Description 2"))))
-        SettingsService().insert(SettingsDBO(intentions = listOf(
+        SettingsService().insert(SettingsDBO(intentions = mutableListOf(
                 IntentionDBO("The Title 3", "The Description 3"))))
 
         val allSettings = SettingsService().getAll()

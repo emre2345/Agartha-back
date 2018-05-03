@@ -5,6 +5,8 @@ import agartha.data.objects.IntentionDBO
 import agartha.data.objects.PracticeDBO
 import agartha.data.objects.SettingsDBO
 import agartha.data.services.IBaseService
+import agartha.data.services.ISettingsService
+import agartha.data.services.SettingsService
 import agartha.site.objects.request.PractitionerInvolvedInformation
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import spark.Request
@@ -18,11 +20,11 @@ import spark.Spark.*
  * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-04-12.
  */
 class SettingsController {
-    val mService: IBaseService<SettingsDBO>
+    val mService: ISettingsService
     // For mapping objects to string
     val mMapper = jacksonObjectMapper()
 
-    constructor(service: IBaseService<SettingsDBO>) {
+    constructor(service: ISettingsService) {
         mService = service
 
         get("/settings") { request, response ->
@@ -61,10 +63,12 @@ class SettingsController {
      * @return the added intention
      */
     private fun addIntention(request: Request, response: Response): String  {
-        println("addIntention")
-        println(request.body())
+        // Get the new intention from body
         val newIntention: IntentionDBO = mMapper.readValue(request.body(), IntentionDBO::class.java)
-        return mMapper.writeValueAsString(newIntention)
+        // Update the database
+        val updatedSettingsDBO: SettingsDBO = mService.addIntention(newIntention)
+        // Return the updated SettingsDBO
+        return mMapper.writeValueAsString(updatedSettingsDBO)
     }
 
     /**
@@ -80,8 +84,8 @@ class SettingsController {
     /**
      * Default Intentions is settings in database is empty
      */
-    private fun getDefaultIntentions() : List<IntentionDBO> {
-        return listOf(
+    private fun getDefaultIntentions() : MutableList<IntentionDBO> {
+        return mutableListOf(
                 IntentionDBO("WELLBEING", "This is the wish for Restoration of the optimal state of the receiver, at any level the sender wishes- physical, emotional, mental, energetic, or spiritual. Covers anything from a simple physical injury to soul wounds."),
                 IntentionDBO("HARMONY", "Harmony contains the aspiration towards peace, but activates and uplifts it. This is understood to contain all possibilities for peace and both Inner and Outer, from personal to interpersonal to international."),
                 IntentionDBO("FREEDOM", "This is the ideal human condition unrestricted, and includes both “freedom TO” and “freedom FROM”. Freedom to think, express, move, act. Freedom from suffering, censorship,oppression, imprisonment, addiction."),
