@@ -20,10 +20,15 @@ data class SettingsDBO(
         val companionGoalHours: Long = Settings.COMPANION_GOLS_HOURS
 ){
     /**
-     * Adds a new intention to the intentions list
+     * Adds a new intention to the intentions list if it doesn't already exist
      * @param intention - the new intention that will be added
      */
     fun addIntention(intention: IntentionDBO){
-        this.intentions.add(intention)
+        // Fidn the index of the new intention and see if it already exists in the list
+        val index = this.intentions.indexOf(intention)
+        // If the index is -1 then the intentions does not exist in the list
+        if(index == -1){
+            this.intentions.add(intention)
+        }
     }
 }
