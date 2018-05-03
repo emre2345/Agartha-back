@@ -1,5 +1,6 @@
 package agartha.site.controllers
 
+import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.PractitionerUtil
@@ -26,10 +27,13 @@ class CompanionController {
         mService = service
         // API path for session
         Spark.path("/companion") {
-            //
+            // Get companions for predefined timespan
             Spark.get("", ::companionReport)
-            //
+            // Get companions for last user session
+            Spark.get("/:userid", ::companionSessionReport)
+            // Get companions for ongoing
             Spark.get("/ongoing/:userid", ::companionOngoing)
+
         }
     }
 
@@ -55,6 +59,35 @@ class CompanionController {
         return mMapper.writeValueAsString(companionReport)
     }
 
+    private fun companionSessionReport(request: Request, response: Response) : String {
+        // Get current userid
+        val userId : String = request.params(":userid")
+        // Get user from data source
+        val user : PractitionerDBO? = mService.getById(userId)
+        if (user != null) {
+            val startDateTime: LocalDateTime = user.sessions.last().startTime
+            val endDateTime: LocalDateTime = user.sessions.last().endTime ?: LocalDateTime.now()
+            // Get practitioners with sessions between
+            val practitioners = PractitionerUtil
+                    .filterPracitionerWithSessionsBetween(
+                            mService.getAll(), startDateTime, endDateTime)
+            // Filter out last session for these practitioners
+            val sessions : List<SessionDBO> = SessionUtil
+                    .filterSingleSessionActiveBetween(
+                            practitioners, userId, startDateTime, endDateTime)
+            // Generate report
+            val companionReport = CompanionReport(practitioners.count(), sessions)
+            // Return the report
+            return mMapper.writeValueAsString(companionReport)
+        }
+        // We should not end up here coz user should exist when this request is called
+        // If not we are in test/dev mode
+        return ""
+    }
+
+    /**
+     * Get practitioners with ongoing session/practice
+     */
     private fun companionOngoing(request: Request, response: Response): String {
         // Get current userid
         val userId : String = request.params(":userid") ?: ""

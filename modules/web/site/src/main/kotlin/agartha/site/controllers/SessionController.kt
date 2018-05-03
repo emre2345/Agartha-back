@@ -34,9 +34,6 @@ class SessionController {
             //
             // Start new session with practice
             Spark.post("/:userid", ::insertSession)
-            //
-            // Session report, feedback after completed session
-            Spark.get("/report/:userid", ::sessionReport)
         }
     }
 
@@ -59,48 +56,5 @@ class SessionController {
                 startSessionInformation.intention)
         // Return the started session
         return mMapper.writeValueAsString(session)
-    }
-
-
-    /**
-     * Generate and get session report after completed session
-     */
-    private fun sessionReport(request: Request, response: Response): String {
-        // Get current userid
-        val userId : String = request.params(":userid")
-        // Get user from data source
-        val user : PractitionerDBO = getPractitionerFromDataSource(userId)
-        // Create Report for current user
-        val practitionerReport : PractitionerReport = PractitionerReport(user)
-        // user.sessions ought not to be empty array here, since this is a report for completed session
-        // However we might end up here in dev!
-        // If you are in dev mode, use the DevelopmentController for setup
-        val startTime: LocalDateTime = user.sessions.last().startTime
-        val endTime: LocalDateTime = user.sessions.last().endTime ?: LocalDateTime.now()
-        // Filter and map to list of sessions
-        val companionSessions : List<SessionDBO> = SessionUtil.filterSingleSessionActiveBetween(
-                // Get practitioners sessions started during last 24 hours
-                mService.getPractitionersWithSessionAfter(endTime.minusHours(Settings.SESSION_HOURS)),
-                userId,
-                startTime,
-                endTime)
-        //
-        // Create Report for overlapping users
-        val companionReport : CompanionReport = CompanionReport(companionSessions)
-        // Return the report
-        return mMapper.writeValueAsString(SessionReport(practitionerReport, companionReport))
-    }
-
-
-    /**
-     * Get a practitioner from its practitionerId from datasource or create if it does not exists
-     *
-     * @param userId database id for user
-     * @return Database representation of practitioner
-     */
-    private fun getPractitionerFromDataSource(userId: String): PractitionerDBO {
-        // If user exists in database, return it otherwise create, store and return
-        return mService.getById(userId)
-                ?: mService.insert(PractitionerDBO(userId, LocalDateTime.now(), mutableListOf()))
     }
 }
