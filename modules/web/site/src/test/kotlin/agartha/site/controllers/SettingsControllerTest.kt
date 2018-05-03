@@ -13,7 +13,7 @@ import org.junit.Test
  *
  * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-04-12.
  */
-class SettingControllerTest {
+class SettingsControllerTest {
 
     companion object {
         val mockedService = MockedSettingService()
@@ -22,7 +22,7 @@ class SettingControllerTest {
         @BeforeClass
         @JvmStatic
         fun setupClass() {
-            SettingController(mockedService)
+            SettingsController(mockedService)
             spark.Spark.awaitInitialization()
         }
     }

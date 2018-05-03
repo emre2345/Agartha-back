@@ -13,7 +13,7 @@ import spark.Spark.*
  *
  * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-04-12.
  */
-class SettingController {
+class SettingsController {
     val mService: IBaseService<SettingsDBO>
     // For mapping objects to string
     val mMapper = jacksonObjectMapper()
