@@ -13,7 +13,7 @@ import org.junit.Test
  *
  * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-04-12.
  */
-class SettingServiceTest : DatabaseHandler() {
+class SettingsServiceTest : DatabaseHandler() {
     private val settingsOne = SettingsDBO(
             intentions = mutableListOf(IntentionDBO("The Title", "The Description")),
             disciplines = listOf(DisciplineDBO("The title", listOf(PracticeDBO("The Title"))))
@@ -44,7 +44,7 @@ class SettingServiceTest : DatabaseHandler() {
     }
 
     /**
-     *
+     * Insert
      */
     @Test
     fun settingService_insert_collectionSize1() {
@@ -78,15 +78,32 @@ class SettingServiceTest : DatabaseHandler() {
         assertThat(allSettings.size).isEqualTo(1)
     }
 
+    /**
+     * intentions
+     */
     @Test
     fun settingsService_intentionsTitle_match() {
         val settings = SettingsService().insert(settingsTwo)
         assertThat(settings.intentions.first().title).isEqualTo("Intention title 1")
     }
 
+    /**
+     *
+     */
     @Test
     fun settingService_practicesTitle_match() {
         val settings = SettingsService().insert(settingsTwo)
         assertThat(settings.disciplines.first().title).isEqualTo("Discipline title 1")
+    }
+
+    /**
+     * addIntention
+     */
+    @Test
+    fun settingService_addIntention_updatedIntentionsList() {
+        val newIntention = IntentionDBO("DOGS", "Description about dogs")
+        val updatedSettings = SettingsService().addIntention(newIntention)
+        val newestSettings = SettingsService().getAll()[0].intentions
+        assertThat(updatedSettings.intentions).isEqualTo(newestSettings)
     }
 }

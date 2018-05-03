@@ -24,7 +24,9 @@ class MockedSettingsService : ISettingsService {
     }
 
     override fun addIntention(item: IntentionDBO): SettingsDBO {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val settingsObject = settingsList[0]
+        settingsObject.intentions.add(item)
+        return settingsObject
     }
 
     override fun getAll(): List<SettingsDBO> {
