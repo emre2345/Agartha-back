@@ -1,5 +1,6 @@
 package agartha.data.services
 
+import agartha.data.objects.GeolocationDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import java.time.LocalDateTime
@@ -23,5 +24,25 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      * @param item to be inserted
      * @return inserted document as object
      */
-    fun updatePractitionerWithInvolvedInformation(user: PractitionerDBO, fullName: String, email: String, description: String): PractitionerDBO
+    fun updatePractitionerWithInvolvedInformation(
+            user: PractitionerDBO,
+            fullName: String,
+            email: String,
+            description: String): PractitionerDBO
+
+    /**
+     * Start a new session/practice
+     * @param practitionerId id for user starting the session
+     * @param geolocation geolocation for session/practice
+     * @param disciplineName type of discipline
+     * @param practiceName type of practice
+     * @param intentionName type of intention
+     * @return the started session
+     */
+    fun startSession(
+            practitionerId: String,
+            geolocation: GeolocationDBO?,
+            disciplineName: String,
+            practiceName: String?,
+            intentionName: String): SessionDBO
 }

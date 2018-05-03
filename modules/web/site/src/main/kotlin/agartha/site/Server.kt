@@ -4,11 +4,9 @@ import agartha.data.db.conn.Database
 import agartha.data.db.conn.MongoConnection
 import agartha.data.services.MonitorService
 import agartha.data.services.PractitionerService
-import agartha.data.services.SessionService
 import agartha.data.services.SettingsService
 import agartha.site.controllers.*
 import io.schinzel.basicutils.configvar.ConfigVar
-import spark.Response
 import spark.Spark
 
 /**
@@ -32,14 +30,13 @@ fun startServer(args: Array<String>) {
          * CORS (Cross Origin stuff)
          * Allow requests from any origin, needed to be able to access this path
          */
-        Spark.before ("/*", {_, response -> response.header("Access-Control-Allow-Origin", "*") })
+        Spark.before("/*", { _, response -> response.header("Access-Control-Allow-Origin", "*") })
         //
         SettingController(SettingsService())
         // Controller/Service for current Practitioner
         PractitionerController(PractitionerService())
         // Controller/Service for companion Practitioner
         CompanionController(PractitionerService())
-        SessionController(SessionService())
         // Developer stuff
         DevelopmentController(PractitionerService())
     }

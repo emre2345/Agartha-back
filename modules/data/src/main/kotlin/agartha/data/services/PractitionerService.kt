@@ -2,7 +2,10 @@ package agartha.data.services
 
 import agartha.common.utils.DateTimeFormat
 import agartha.data.db.conn.MongoConnection
+import agartha.data.objects.GeolocationDBO
 import agartha.data.objects.PractitionerDBO
+import agartha.data.objects.SessionDBO
+import org.bson.Document
 import org.litote.kmongo.*
 import java.time.LocalDateTime
 
@@ -43,6 +46,35 @@ class PractitionerService : IPractitionerService {
             collection.updateOne(user)
         }
     }
+
+    /**
+     * Start a new user session
+     * @param practitionerId identity for practitioner
+     * @param disciplineName name of discipline
+     * @param practiceName name of practice
+     * @param intentionName name of intention
+     * @return index for created practice
+     */
+    override fun startSession(
+            practitionerId: String,
+            geolocation: GeolocationDBO?,
+            disciplineName: String,
+            practiceName: String?,
+            intentionName: String): SessionDBO {
+        // Get current user
+        val user: PractitionerDBO? = getById(practitionerId)
+        // Calculate next index (if any of user or user.sessions is null: rtn 0)
+        val nextIndex = user?.sessions?.count() ?: 0
+        // Create a new Session
+        val session = SessionDBO(nextIndex, geolocation, disciplineName, practiceName, intentionName)
+        // Create Mongo Document to be added to sessions list
+        val sessionDoc = Document("sessions", session)
+        // Update first document found by Id, push the new document
+        collection.updateOneById(practitionerId, Document("${MongoOperator.push}", sessionDoc))
+        // return next index
+        return session
+    }
+
 
     /**
      * Get all practitioner with session that has been ongoing any time after argument dateTime

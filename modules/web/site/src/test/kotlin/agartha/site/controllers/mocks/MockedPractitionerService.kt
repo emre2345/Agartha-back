@@ -1,5 +1,6 @@
 package agartha.site.controllers.mocks
 
+import agartha.data.objects.GeolocationDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
@@ -11,6 +12,8 @@ import java.time.LocalDateTime
  * Created by Jorgen Andersson on 2018-04-09.
  */
 class MockedPractitionerService : IPractitionerService {
+
+
     val practitionerList: MutableList<PractitionerDBO> = mutableListOf()
 
     override fun insert(item: PractitionerDBO): PractitionerDBO {
@@ -18,11 +21,33 @@ class MockedPractitionerService : IPractitionerService {
         return item
     }
 
-    override fun updatePractitionerWithInvolvedInformation(user: PractitionerDBO, fullName: String, email: String, description: String): PractitionerDBO {
+    override fun updatePractitionerWithInvolvedInformation(
+            user: PractitionerDBO,
+            fullName: String,
+            email: String,
+            description: String): PractitionerDBO {
         val index = practitionerList.indexOf(user)
         user.addInvolvedInformation(fullName, email, description)
         practitionerList[index] = user
         return user
+    }
+
+    override fun startSession(
+            practitionerId: String,
+            geolocation: GeolocationDBO?,
+            disciplineName: String,
+            practiceName: String?,
+            intentionName: String): SessionDBO {
+        val first = practitionerList
+                .filter {
+                    it._id.equals(practitionerId)
+                }
+                .first()
+
+        val nextIndex = first.sessions.count() + 1
+        val session = SessionDBO(nextIndex, geolocation, disciplineName, practiceName, intentionName)
+        first.sessions.plus(session)
+        return session
     }
 
     override fun getAll(): List<PractitionerDBO> {

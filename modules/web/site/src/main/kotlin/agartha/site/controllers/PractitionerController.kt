@@ -1,13 +1,10 @@
 package agartha.site.controllers
 
 import agartha.data.objects.PractitionerDBO
-import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
-import agartha.site.objects.response.CompanionReport
 import agartha.site.objects.response.PractitionerReport
-import agartha.site.objects.response.SessionReport
 import agartha.site.objects.request.PractitionerInvolvedInformation
-import agartha.site.controllers.utils.SessionUtil
+import agartha.site.objects.request.StartSessionInformation
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.bson.types.ObjectId
 import spark.Request
@@ -37,8 +34,11 @@ class PractitionerController {
             // Where practitionerId has been set - return info for user and about user
             Spark.get("/:userid", ::getInformation)
             //
-            // Start new session with practice
+            // Update practitioner data
             Spark.post("/:userid", ::updatePractitioner)
+            //
+            // Start a new Session
+            Spark.post("/session/:userid", ::insertSession)
         }
     }
 
@@ -99,4 +99,23 @@ class PractitionerController {
         return request.params(":userid") ?: ObjectId().toHexString()
     }
 
+    /**
+     * Start a new user session
+     * @return id/index for started session
+     */
+    private fun insertSession(request: Request, response: Response): String {
+        // Get current userid
+        val userId : String = request.params(":userid")
+        // Type of discipline, practice and intention
+        val startSessionInformation: StartSessionInformation = mMapper.readValue(request.body(), StartSessionInformation::class.java)
+        // Start a session
+        val session =  mService.startSession(
+                userId,
+                startSessionInformation.geolocation,
+                startSessionInformation.discipline,
+                startSessionInformation.practice,
+                startSessionInformation.intention)
+        // Return the started session
+        return mMapper.writeValueAsString(session)
+    }
 }

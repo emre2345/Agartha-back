@@ -14,7 +14,8 @@ class Settings {
         // in Session end report
         const val SESSION_HOURS : Long = 24
         // For how many days should we count sessions for companion page
-        const val COMPAINON_NUMBER_OF_DAYS : Long = 10
+        const val COMPANION_NUMBER_OF_DAYS : Long = 10
+        const val COMPANION_NUMBER_OF_HOURS = COMPANION_NUMBER_OF_DAYS * 24
         // What is the goal in hours for companion page
         const val COMPANION_GOLS_HOURS : Long = 10000
     }

@@ -1,5 +1,6 @@
 package agartha.site.controllers
 
+import agartha.common.config.Settings.Companion.COMPANION_NUMBER_OF_HOURS
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
@@ -42,7 +43,8 @@ class CompanionController {
      */
     private fun companionReport(request: Request, response: Response): String {
         // Start date from when we should look for sessions
-        val startDateTime: LocalDateTime = LocalDateTime.now().minusHours(24)
+        val startDateTime: LocalDateTime = LocalDateTime.now()
+                .minusHours(COMPANION_NUMBER_OF_HOURS)
         // End date from when we should look for sessions (now)
         val endDateTime: LocalDateTime = LocalDateTime.now()
         // Get practitioners with sessions between
@@ -64,6 +66,7 @@ class CompanionController {
         val userId : String = request.params(":userid")
         // Get user from data source
         val user : PractitionerDBO? = mService.getById(userId)
+        //
         if (user != null) {
             val startDateTime: LocalDateTime = user.sessions.last().startTime
             val endDateTime: LocalDateTime = user.sessions.last().endTime ?: LocalDateTime.now()
