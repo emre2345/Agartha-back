@@ -55,7 +55,20 @@ class DevelopmentController {
     }
 
     private fun pushSomeUsersInDatabase(request: Request, response: Response) : String {
-
+        // User that has not been active for a long time and should not be in companion report
+        mService.insert(PractitionerDBO(
+                created = LocalDateTime.now().minusDays(30),
+                sessions = listOf(
+                        SessionDBO(0, GEOLOCATION.NEW_YORK_ESB.geolocationDBO, "Yoga", "Transendental","Harmony",
+                                LocalDateTime.now().minusDays(30).minusMinutes(200),
+                                LocalDateTime.now().minusDays(30).minusMinutes(100)),
+                        // Abandoned session
+                        SessionDBO(1, GEOLOCATION.NEW_YORK_ESB.geolocationDBO, "Yoga", "Mindfulness","Love",
+                                LocalDateTime.now().minusDays(29).minusMinutes(200)),
+                        SessionDBO(2, GEOLOCATION.NEW_YORK_ESB.geolocationDBO, "Yoga", "Transendental","Empowerment",
+                                LocalDateTime.now().minusDays(28).minusMinutes(200),
+                                LocalDateTime.now().minusDays(28).minusMinutes(100))
+                )))
         // Insert a user with multipler sessions but not registered any name
         mService.insert(PractitionerDBO(
                 created = LocalDateTime.now().minusDays(5).minusMinutes(410),
@@ -65,16 +78,16 @@ class DevelopmentController {
                                 LocalDateTime.now().minusDays(5).minusMinutes(300)),
                         SessionDBO(1, null, "Yoga", "Transendental","Love",
                                 LocalDateTime.now().minusDays(4).minusMinutes(400),
-                                LocalDateTime.now().minusDays(5).minusMinutes(300)),
+                                LocalDateTime.now().minusDays(4).minusMinutes(300)),
                         SessionDBO(2, null, "Yoga", "Mindfulness","Transformation",
                                 LocalDateTime.now().minusDays(3).minusMinutes(400),
-                                LocalDateTime.now().minusDays(5).minusMinutes(300)),
+                                LocalDateTime.now().minusDays(3).minusMinutes(300)),
                         SessionDBO(3, null, "Yoga", "Transendental","Harmony",
                                 LocalDateTime.now().minusDays(2).minusMinutes(400),
-                                LocalDateTime.now().minusDays(5).minusMinutes(300)),
+                                LocalDateTime.now().minusDays(2).minusMinutes(300)),
                         SessionDBO(4, null, "Yoga", "Mindfulness","Empowerment",
                                 LocalDateTime.now().minusDays(1).minusMinutes(400),
-                                LocalDateTime.now().minusDays(5).minusMinutes(300))
+                                LocalDateTime.now().minusDays(1).minusMinutes(300))
                 )))
         // Insert a user with multipler sessions but registered name
         mService.insert(PractitionerDBO(
@@ -134,7 +147,8 @@ class DevelopmentController {
         mService.insert(PractitionerDBO(
                 created = LocalDateTime.now().minusMinutes(50),
                 sessions = listOf(
-                        SessionDBO(1, GEOLOCATION.MALMO_TRIANGELN.geolocationDBO, "Meditation", "Tantra","Freedom", LocalDateTime.now().minusMinutes(45))
+                        SessionDBO(1, GEOLOCATION.MALMO_TRIANGELN.geolocationDBO, "Meditation", "Tantra","Freedom",
+                                LocalDateTime.now().minusMinutes(45))
                 )
         ))
         mService.insert(PractitionerDBO(
