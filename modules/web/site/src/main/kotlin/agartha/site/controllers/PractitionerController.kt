@@ -53,22 +53,7 @@ class PractitionerController {
         // Get user from data source
         val user: PractitionerDBO = getPractitionerFromDataSource(userId)
         // Create Report for current user
-        val practitionerReport: PractitionerReport = PractitionerReport(user)
-        // Created times for getting ongoing sessions
-        val startTime: LocalDateTime = LocalDateTime.now().minusMinutes(15)
-        val endTime: LocalDateTime = LocalDateTime.now()
-        // Filter out sessions active during last x minutes (counted as ongoing) and Map to List of Sessions
-        val companionSessions: List<SessionDBO> = SessionUtil.filterSingleSessionActiveBetween(
-                // Get practitioners sessions last 24 hours
-                mService.getPractitionersWithSessionAfter(LocalDateTime.now().minusHours(24)),
-                userId,
-                startTime,
-                endTime)
-        //
-        // Create Report for session ongoing during last x minutes
-        val companionReport: CompanionReport = CompanionReport(companionSessions)
-        // Return the report
-        return mMapper.writeValueAsString(SessionReport(practitionerReport, companionReport))
+        return mMapper.writeValueAsString(PractitionerReport(user))
     }
 
 

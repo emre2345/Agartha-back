@@ -35,7 +35,10 @@ fun startServer(args: Array<String>) {
         Spark.before ("/*", {_, response -> response.header("Access-Control-Allow-Origin", "*") })
         //
         SettingController(SettingsService())
+        // Controller/Service for current Practitioner
         PractitionerController(PractitionerService())
+        // Controller/Service for companion Practitioner
+        CompanionController(PractitionerService())
         SessionController(SessionService())
         // Developer stuff
         DevelopmentController(PractitionerService())

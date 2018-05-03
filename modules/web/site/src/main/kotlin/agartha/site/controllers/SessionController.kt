@@ -4,6 +4,7 @@ import agartha.common.config.Settings
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.ISessionService
+import agartha.site.controllers.utils.PractitionerUtil
 import agartha.site.controllers.utils.SessionUtil
 import agartha.site.objects.request.StartSessionInformation
 import agartha.site.objects.response.CompanionReport
@@ -36,9 +37,6 @@ class SessionController {
             //
             // Session report, feedback after completed session
             Spark.get("/report/:userid", ::sessionReport)
-            //
-            // Companion report
-            Spark.get("/companion", ::companionReport)
         }
     }
 
@@ -93,24 +91,6 @@ class SessionController {
         return mMapper.writeValueAsString(SessionReport(practitionerReport, companionReport))
     }
 
-    /**
-     * Generate and get a companion report. Report covers what has happened during the last/latest
-     * x number of days
-     */
-    private fun companionReport(request: Request, response: Response): String {
-        // Start date from when we should look for sessions
-        val startDateTime : LocalDateTime = LocalDateTime.now().minusDays(Settings.COMPAINON_NUMBER_OF_DAYS)
-        // End date from when we should look for sessions (now)
-        val endDateTime : LocalDateTime = LocalDateTime.now()
-        // Get practitioners
-        val practitioners = mService.getAll()
-        // Filter out all sessions matching dates from these practitioners
-        val sessions = SessionUtil.filterAllSessionsActiveBetween(practitioners, startDateTime, endDateTime)
-        // Generate report
-        val companionReport = CompanionReport(practitioners.count(), sessions)
-        // Return the report
-        return mMapper.writeValueAsString(companionReport)
-    }
 
     /**
      * Get a practitioner from its practitionerId from datasource or create if it does not exists
