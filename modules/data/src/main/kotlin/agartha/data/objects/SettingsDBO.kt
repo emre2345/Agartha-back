@@ -24,7 +24,7 @@ data class SettingsDBO(
      * @param intention - the new intention that will be added
      */
     fun addIntention(intention: IntentionDBO){
-        // Fidn the index of the new intention and see if it already exists in the list
+        // Find the index of the new intention and see if it already exists in the list
         val index = this.intentions.indexOf(intention)
         // If the index is -1 then the intentions does not exist in the list
         if(index == -1){
