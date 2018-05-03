@@ -33,6 +33,7 @@ class CompanionController {
             // Get companions for last user session
             Spark.get("/:userid", ::companionSessionReport)
             // Get companions for ongoing
+            Spark.get("/ongoing", ::companionOngoing)
             Spark.get("/ongoing/:userid", ::companionOngoing)
 
         }
