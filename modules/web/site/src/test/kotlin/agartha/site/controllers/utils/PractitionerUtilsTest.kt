@@ -10,10 +10,12 @@ import java.time.LocalDateTime
  * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-05-03.
  */
 class PractitionerUtilsTest {
-
+    /**
+     *
+     */
     @Test
     fun filterSingleSessionPerPractitioner_practitionerWithNoSessions_emptyList() {
-        val response = PractitionerUtil.filterPracitionerWithSessionsBetween(
+        val response = PractitionerUtil.filterPractitionerWithSessionsBetween(
                 listOf(
                         PractitionerDBO(_id = "aaa"),
                         PractitionerDBO(_id = "bbb")
@@ -22,10 +24,12 @@ class PractitionerUtilsTest {
                 LocalDateTime.now())
         assertThat(response).isEmpty()
     }
-
+    /**
+     *
+     */
     @Test
     fun filterSingleSessionPerPractitioner_practitionerWithAbandonedSession_emptyList() {
-        val response = PractitionerUtil.filterPracitionerWithSessionsBetween(
+        val response = PractitionerUtil.filterPractitionerWithSessionsBetween(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -41,10 +45,12 @@ class PractitionerUtilsTest {
                 LocalDateTime.now())
         assertThat(response).isEmpty()
     }
-
+    /**
+     *
+     */
     @Test
     fun filterSingleSessionPerPractitioner_practitionerWithSessionEndedBefore_emptyList() {
-        val response = PractitionerUtil.filterPracitionerWithSessionsBetween(
+        val response = PractitionerUtil.filterPractitionerWithSessionsBetween(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(

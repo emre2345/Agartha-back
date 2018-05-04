@@ -105,6 +105,9 @@ class CompanionReportTest {
         assertThat(companion.intentions.size).isEqualTo(3)
     }
 
+    /**
+     *
+     */
     @Test
     fun companionIntentionMap_existingList_wellbeingHas3() {
         val companion = CompanionReport(generateSessions())

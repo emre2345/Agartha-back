@@ -11,7 +11,10 @@ import java.time.LocalDateTime
 class PractitionerUtil {
 
     companion object {
-        fun filterPracitionerWithSessionsBetween(
+        /**
+         * Filter out the practitioners that has session between a start and a end date
+         */
+        fun filterPractitionerWithSessionsBetween(
                 practitioners: List<PractitionerDBO>,
                 startDateTime: LocalDateTime,
                 endDateTime: LocalDateTime) : List<PractitionerDBO> {

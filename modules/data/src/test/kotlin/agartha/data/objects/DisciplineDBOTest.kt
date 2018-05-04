@@ -3,6 +3,9 @@ package agartha.data.objects
 import org.assertj.core.api.Assertions
 import org.junit.Test
 
+/**
+ * Purpose of this class is to test the DisciplineDBO
+ */
 class DisciplineDBOTest {
     val discipline = DisciplineDBO("Yoga", listOf(PracticeDBO("Tantra"), PracticeDBO("Hatha")))
 

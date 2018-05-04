@@ -141,6 +141,9 @@ class PractitionerServiceTest : DatabaseHandler() {
         Assertions.assertThat(practitioner?.sessions?.size).isEqualTo(3)
     }
 
+    /**
+     *
+     */
     @Test
     fun practitioners_withMatchingSessions_4() {
         // User with session before search

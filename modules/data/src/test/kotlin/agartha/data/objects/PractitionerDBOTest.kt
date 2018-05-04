@@ -3,6 +3,9 @@ package agartha.data.objects
 import org.assertj.core.api.Assertions
 import org.junit.Test
 
+/**
+ *
+ */
 class PractitionerDBOTest {
     val expectedFullName = "Rebecca Fransson"
     val expectedEmail = "rebecca@kollektiva.se"
