@@ -22,7 +22,6 @@ data class PractitionerDBO(
      * @param fullName
      * @param email
      * @param description
-     * @return true if user has at least one session in this timespan
      */
     fun addInvolvedInformation(fullName: String, email: String, description: String) {
         this.fullName = fullName

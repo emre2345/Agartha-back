@@ -1,7 +1,7 @@
 package agartha.site.controllers
 
 import agartha.data.objects.SettingsDBO
-import agartha.site.controllers.mocks.MockedSettingService
+import agartha.site.controllers.mocks.MockedSettingsService
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
@@ -13,16 +13,16 @@ import org.junit.Test
  *
  * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-04-12.
  */
-class SettingControllerTest {
+class SettingsControllerTest {
 
     companion object {
-        val mockedService = MockedSettingService()
+        val mockedService = MockedSettingsService()
         val testController = ControllerServer()
 
         @BeforeClass
         @JvmStatic
         fun setupClass() {
-            SettingController(mockedService)
+            SettingsController(mockedService)
             spark.Spark.awaitInitialization()
         }
     }

@@ -13,13 +13,13 @@ import org.junit.Test
  *
  * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-04-12.
  */
-class SettingServiceTest : DatabaseHandler() {
+class SettingsServiceTest : DatabaseHandler() {
     private val settingsOne = SettingsDBO(
-            intentions = listOf(IntentionDBO("The Title", "The Description")),
+            intentions = mutableListOf(IntentionDBO("The Title", "The Description")),
             disciplines = listOf(DisciplineDBO("The title", listOf(PracticeDBO("The Title"))))
     )
     private val settingsTwo = SettingsDBO(
-            intentions = listOf(
+            intentions = mutableListOf(
                     IntentionDBO("Intention title 1", "The Description"),
                     IntentionDBO("Intention title 2", "The Description")
             ),
@@ -44,7 +44,7 @@ class SettingServiceTest : DatabaseHandler() {
     }
 
     /**
-     *
+     * Insert
      */
     @Test
     fun settingService_insert_collectionSize1() {
@@ -67,26 +67,43 @@ class SettingServiceTest : DatabaseHandler() {
      */
     @Test
     fun settingService_mutipleInsert_onlyOneGetsSaved() {
-        SettingsService().insert(SettingsDBO(intentions = listOf(
+        SettingsService().insert(SettingsDBO(intentions = mutableListOf(
                 IntentionDBO("The Title 1", "The Description 1"))))
-        SettingsService().insert(SettingsDBO(intentions = listOf(
+        SettingsService().insert(SettingsDBO(intentions = mutableListOf(
                 IntentionDBO("The Title 2", "The Description 2"))))
-        SettingsService().insert(SettingsDBO(intentions = listOf(
+        SettingsService().insert(SettingsDBO(intentions = mutableListOf(
                 IntentionDBO("The Title 3", "The Description 3"))))
 
         val allSettings = SettingsService().getAll()
         assertThat(allSettings.size).isEqualTo(1)
     }
 
+    /**
+     * intentions
+     */
     @Test
     fun settingsService_intentionsTitle_match() {
         val settings = SettingsService().insert(settingsTwo)
         assertThat(settings.intentions.first().title).isEqualTo("Intention title 1")
     }
 
+    /**
+     *
+     */
     @Test
     fun settingService_practicesTitle_match() {
         val settings = SettingsService().insert(settingsTwo)
         assertThat(settings.disciplines.first().title).isEqualTo("Discipline title 1")
+    }
+
+    /**
+     * addIntention
+     */
+    @Test
+    fun settingService_addIntention_updatedIntentionsList() {
+        val newIntention = IntentionDBO("DOGS", "Description about dogs")
+        val updatedSettings = SettingsService().addIntention(newIntention)
+        val newestSettings = SettingsService().getAll()[0].intentions
+        assertThat(updatedSettings.intentions).isEqualTo(newestSettings)
     }
 }
