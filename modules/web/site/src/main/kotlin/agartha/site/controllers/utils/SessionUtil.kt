@@ -96,8 +96,7 @@ class SessionUtil {
          * Function for calculating distance between two geo-locations
          * Source:
          * https://stackoverflow.com/questions/18170131/comparing-two-locations-using-their-longitude-and-latitude
-         * or if you want more insight
-         * https://en.wikipedia.org/wiki/Earth_radius
+         * if we want option for miles, val earthRadiusMiles: Double = 3958.75
          *
          * @param geolocation1
          * @param geolocation2
@@ -105,8 +104,9 @@ class SessionUtil {
          */
         private fun distanceInKilometer(geolocation1: GeolocationDBO, geolocation2: GeolocationDBO): Double {
 
-            //val earthRadiusMiles: Double = 3958.75
-            val earthRadiusKm: Double = 6370.693485653068 //6371.0
+            // Equator radius: 6 378 km
+            // Polar radius: 6 356 km
+            val earthRadiusKm: Double = 6370.6934
 
             val dLat: Double = Math.toRadians(geolocation2.latitude - geolocation1.latitude)
             val dLng: Double = Math.toRadians(geolocation2.longitude - geolocation1.longitude)

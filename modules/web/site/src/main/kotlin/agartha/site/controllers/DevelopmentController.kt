@@ -164,9 +164,7 @@ class DevelopmentController {
                 sessions = listOf(
                         SessionDBO(0, DevGeolocationSelect.MALMO_KOLLEKTIVA.geolocationDBO, "Yoga", "Mindfulness","Transformation",
                                 LocalDateTime.now().minusDays(2).minusMinutes(200),
-                                LocalDateTime.now().minusDays(2).minusMinutes(100)),
-                        SessionDBO(0, DevGeolocationSelect.MALMO_KOLLEKTIVA.geolocationDBO, "Yoga", "Transendental", "Celebration",
-                                LocalDateTime.now().minusMinutes(45), LocalDateTime.now())
+                                LocalDateTime.now().minusDays(2).minusMinutes(100))
                 )
         ))
         // Return the Id

@@ -299,22 +299,24 @@ class SessionUtilTest {
         val sessions = listOf(
                 SessionDBO(
                         index = 0,
-                        geolocation = DevGeolocationSelect.MALMO_KOLLEKTIVA.geolocationDBO,
+                        geolocation = null,
                         discipline = "Nr 1", intention = "Nr 1"),
                 SessionDBO(
                         index = 1,
+                        geolocation = DevGeolocationSelect.MALMO_KOLLEKTIVA.geolocationDBO,
+                        discipline = "Nr 1", intention = "Nr 1"),
+                SessionDBO(
+                        index = 2,
                         geolocation = DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO,
                         discipline = "Nr 2", intention = "Nr 2"),
                 SessionDBO(
-                        index = 2,
+                        index = 3,
                         geolocation = DevGeolocationSelect.SYDNEY_OPERA_HOUSE.geolocationDBO,
                         discipline = "Nr 2", intention = "Nr 2")
         )
 
         val value = SessionUtil.distanceToClosestSession(
-                DevGeolocationSelect.BJORNSTORP.geolocationDBO,
-                sessions)
-        println("Closest session is : ${value} km away")
+                DevGeolocationSelect.BJORNSTORP.geolocationDBO, sessions)
         assertThat(value).isGreaterThan(23.616430)
         assertThat(value).isLessThan(23.616431)
     }
