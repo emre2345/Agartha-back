@@ -8,7 +8,6 @@ import agartha.data.services.SessionService
 import agartha.data.services.SettingsService
 import agartha.site.controllers.*
 import io.schinzel.basicutils.configvar.ConfigVar
-import spark.Response
 import spark.Spark
 
 /**
@@ -34,7 +33,7 @@ fun startServer(args: Array<String>) {
          */
         Spark.before ("/*", {_, response -> response.header("Access-Control-Allow-Origin", "*") })
         //
-        SettingController(SettingsService())
+        SettingsController(SettingsService())
         PractitionerController(PractitionerService())
         SessionController(SessionService())
         // Developer stuff
