@@ -36,14 +36,6 @@ class SettingsDBOTest {
         Assertions.assertThat(settings.intentions[0].description).isEqualTo("description of love")
     }
 
-    /**
-     *
-     */
-    @Test
-    fun settings_addIntention_size3() {
-        settings.addIntention(IntentionDBO("DOGS", "description of dogs"))
-        Assertions.assertThat(settings.intentions.size).isEqualTo(3)
-    }
 
     /**************************
      * Variable - disciplines *
