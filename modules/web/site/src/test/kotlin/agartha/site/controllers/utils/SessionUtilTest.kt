@@ -24,60 +24,6 @@ class SessionUtilTest {
     }
 
     @Test
-    fun filterSingleSessionPerPractitioner_practitionerWithNoSessions_emptyList() {
-        val response = SessionUtil.filterSingleSessionActiveBetween(
-                listOf(
-                        PractitionerDBO(_id = "aaa"),
-                        PractitionerDBO(_id = "bbb")
-                ),
-                "abc",
-                LocalDateTime.now().minusMinutes(60),
-                LocalDateTime.now())
-        assertThat(response).isEmpty()
-    }
-
-    @Test
-    fun filterSingleSessionPerPractitioner_practitionerWithAbandonedSession_emptyList() {
-        val response = SessionUtil.filterSingleSessionActiveBetween(
-                listOf(
-                        PractitionerDBO(_id = "aaa", sessions = listOf(
-                                SessionDBO(
-                                        index = 0,
-                                        geolocation = null,
-                                        discipline = "Yoga",
-                                        practice = "Hatha",
-                                        intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(200))
-                        ))
-                ),
-                "abc",
-                LocalDateTime.now().minusMinutes(60),
-                LocalDateTime.now())
-        assertThat(response).isEmpty()
-    }
-
-    @Test
-    fun filterSingleSessionPerPractitioner_practitionerWithSessionEndedBefore_emptyList() {
-        val response = SessionUtil.filterSingleSessionActiveBetween(
-                listOf(
-                        PractitionerDBO(_id = "aaa", sessions = listOf(
-                                SessionDBO(
-                                        index = 0,
-                                        geolocation = null,
-                                        discipline = "Yoga",
-                                        practice = "Hatha",
-                                        intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(120),
-                                        endTime = LocalDateTime.now().minusMinutes(70))
-                        ))
-                ),
-                "abc",
-                LocalDateTime.now().minusMinutes(60),
-                LocalDateTime.now())
-        assertThat(response).isEmpty()
-    }
-
-    @Test
     fun filterSingleSessionPerPractitioner_nonFinishedSessionButNotAbandoned_oneSizeList() {
         val response = SessionUtil.filterSingleSessionActiveBetween(
                 listOf(

@@ -1,12 +1,13 @@
 package agartha.site.controllers.utils
 
+import agartha.data.objects.GeolocationDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
 import java.time.LocalDateTime
 
 /**
- * Purpose of this file is utiltites for Sessions
+ * Purpose of this file is utilities for Sessions
  *
  * Created by Jorgen Andersson on 2018-04-26.
  */
@@ -35,8 +36,6 @@ class SessionUtil {
             return practitioners
                     // Filter out current user id
                     .filter { it._id != practitionerId }
-                    // Filter out those with overlapping sessions
-                    .filter { it.hasSessionBetween(startDateTime, endDateTime) }
                     // Map to first matching overlapping session
                     .map {
                         // Filter out overlapping sessions
@@ -69,4 +68,5 @@ class SessionUtil {
                     .filter { it.sessionOverlap(startDateTime, endDateTime) }
         }
     }
+
 }
