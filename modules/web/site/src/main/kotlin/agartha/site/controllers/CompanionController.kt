@@ -50,7 +50,7 @@ class CompanionController {
         val endDateTime: LocalDateTime = LocalDateTime.now()
         // Get practitioners with sessions between
         val practitioners = PractitionerUtil
-                .filterPracitionerWithSessionsBetween(
+                .filterPractitionerWithSessionsBetween(
                         mService.getAll(), startDateTime, endDateTime)
         // Filter out all sessions matching dates from these practitioners
         val sessions = SessionUtil
@@ -73,7 +73,7 @@ class CompanionController {
             val endDateTime: LocalDateTime = user.sessions.last().endTime ?: LocalDateTime.now()
             // Get practitioners with sessions between
             val practitioners = PractitionerUtil
-                    .filterPracitionerWithSessionsBetween(
+                    .filterPractitionerWithSessionsBetween(
                             mService.getAll(), startDateTime, endDateTime)
             // Filter out last session for these practitioners
             val sessions : List<SessionDBO> = SessionUtil
@@ -101,7 +101,7 @@ class CompanionController {
         val endDateTime: LocalDateTime = LocalDateTime.now()
         // Get practitioners with sessions between
         val practitioners = PractitionerUtil
-                .filterPracitionerWithSessionsBetween(
+                .filterPractitionerWithSessionsBetween(
                         mService.getAll(), startDateTime, endDateTime)
         // Filter out last session for these practitioners
         val sessions : List<SessionDBO> = SessionUtil

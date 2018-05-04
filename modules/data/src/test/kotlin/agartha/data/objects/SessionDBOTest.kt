@@ -5,6 +5,9 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import java.time.LocalDateTime
 
+/**
+ * Purpose of this class is to test the SessionDBO
+ */
 class SessionDBOTest {
 
     val sessionWithoutTime = SessionDBO(0, null, "Yoga", "Mindfulness", "Love")
@@ -77,6 +80,9 @@ class SessionDBOTest {
         assertThat(session.sessionDurationMinutes()).isEqualTo(5)
     }
 
+    /**
+     *
+     */
     @Test
     fun sessionDuration_abandon_0() {
         val session = SessionDBO(0, null,"Yoga","Mindfulness", "Love",
@@ -84,6 +90,9 @@ class SessionDBOTest {
         assertThat(session.sessionDurationMinutes()).isEqualTo(0)
     }
 
+    /**
+     *
+     */
     @Test
     fun sessionDuration_activeNotAbandon_30() {
         val session = SessionDBO(0,null, "Yoga", "Mindfulness", "Love",

@@ -39,6 +39,9 @@ class MockedSettingsService : ISettingsService {
         TODO("Never is or will be used")
     }
 
+    /**
+     * Clear the storage
+     */
     fun clear() {
         settingsList.clear()
     }

@@ -21,6 +21,9 @@ class CompanionControllerTest {
         val testController = ControllerServer()
 
 
+        /**
+         *
+         */
         @BeforeClass
         @JvmStatic
         fun setupClass() {

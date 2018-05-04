@@ -92,7 +92,9 @@ class SettingsControllerTest {
         assertThat(item.disciplines.size).isEqualTo(2)
     }
 
-
+    /**
+     *
+     */
     @Test
     fun settingController_settings_defaultPractices() {
         val getRequest = testController.testServer.get("/settings", false)

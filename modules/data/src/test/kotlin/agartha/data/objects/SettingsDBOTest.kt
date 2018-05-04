@@ -3,6 +3,9 @@ package agartha.data.objects
 import org.assertj.core.api.Assertions
 import org.junit.Test
 
+/**
+ * Purpose of this class is to test the SettingsSBO
+ */
 class SettingsDBOTest {
     val settings = SettingsDBO(
             intentions = mutableListOf(

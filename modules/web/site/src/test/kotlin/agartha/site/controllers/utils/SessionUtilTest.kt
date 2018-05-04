@@ -13,6 +13,9 @@ import java.time.LocalDateTime
  */
 class SessionUtilTest {
 
+    /**
+     *
+     */
     @Test
     fun filterSingleSession_emptyInputList_emptyList() {
         val response = SessionUtil.filterSingleSessionActiveBetween(
@@ -23,6 +26,9 @@ class SessionUtilTest {
         assertThat(response).isEmpty()
     }
 
+    /**
+     *
+     */
     @Test
     fun filterSingleSessionPerPractitioner_nonFinishedSessionButNotAbandoned_oneSizeList() {
         val response = SessionUtil.filterSingleSessionActiveBetween(
@@ -43,6 +49,9 @@ class SessionUtilTest {
         assertThat(response.size).isEqualTo(1)
     }
 
+    /**
+     *
+     */
     @Test
     fun filterSingleSessionPerPractitioner_startedBeforeEndedWithin_oneSizeList() {
         val response = SessionUtil.filterSingleSessionActiveBetween(
@@ -64,6 +73,9 @@ class SessionUtilTest {
         assertThat(response.size).isEqualTo(1)
     }
 
+    /**
+     *
+     */
     @Test
     fun filterSingleSessionPerPractitioner_startedAndEndedWithin_oneSizeList() {
         val response = SessionUtil.filterSingleSessionActiveBetween(
@@ -85,6 +97,9 @@ class SessionUtilTest {
         assertThat(response.size).isEqualTo(1)
     }
 
+    /**
+     *
+     */
     @Test
     fun filterSingleSessionPerPractitioner_multipleSessions_oneSizeList() {
         val response = SessionUtil.filterSingleSessionActiveBetween(
@@ -114,6 +129,9 @@ class SessionUtilTest {
         assertThat(response.size).isEqualTo(1)
     }
 
+    /**
+     *
+     */
     @Test
     fun filterSingleSessionPerPractitioner_multipleSessionsLastSelected_index1() {
         val response = SessionUtil.filterSingleSessionActiveBetween(
@@ -143,6 +161,9 @@ class SessionUtilTest {
         assertThat(response.get(0).index).isEqualTo(1)
     }
 
+    /**
+     *
+     */
     @Test
     fun filterSingleSessionPerPractitioner_currentUserRemoved_oneSizeList() {
         val response = SessionUtil.filterSingleSessionActiveBetween(
@@ -174,6 +195,9 @@ class SessionUtilTest {
         assertThat(response.size).isEqualTo(1)
     }
 
+    /**
+     *
+     */
     @Test
     fun filterAllSessionsPerPractitioner_emptyInputList_emptyList() {
         val response = SessionUtil.filterAllSessionsActiveBetween(
@@ -183,6 +207,9 @@ class SessionUtilTest {
         assertThat(response).isEmpty()
     }
 
+    /**
+     *
+     */
     @Test
     fun filterAllSessionsPerPractitioner_practitionerWithNoSessions_emptyList() {
         val response = SessionUtil.filterAllSessionsActiveBetween(
@@ -195,6 +222,9 @@ class SessionUtilTest {
         assertThat(response).isEmpty()
     }
 
+    /**
+     *
+     */
     @Test
     fun filterAllSessionsPerPractitioner_practitionerWithAbandonedSession_emptyList() {
         val response = SessionUtil.filterAllSessionsActiveBetween(
@@ -214,6 +244,9 @@ class SessionUtilTest {
         assertThat(response).isEmpty()
     }
 
+    /**
+     *
+     */
     @Test
     fun filterAllSessionsPerPractitioner_sessionsBeforeAbandonAndMatching_ListOf3() {
         val response = SessionUtil.filterAllSessionsActiveBetween(
