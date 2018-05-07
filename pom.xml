@@ -6,8 +6,8 @@
 
     <groupId>se.agartha</groupId>
     <artifactId>agartha</artifactId>
-    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
 
     <properties>
