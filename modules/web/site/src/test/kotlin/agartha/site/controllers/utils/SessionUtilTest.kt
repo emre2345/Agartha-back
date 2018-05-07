@@ -38,7 +38,6 @@ class SessionUtilTest {
                                         index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
-                                        practice = "Hatha",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(175))
                         ))
@@ -61,7 +60,6 @@ class SessionUtilTest {
                                         index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
-                                        practice = "Hatha",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(120),
                                         endTime = LocalDateTime.now().minusMinutes(50))
@@ -85,7 +83,6 @@ class SessionUtilTest {
                                         index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
-                                        practice = "Hatha",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(30),
                                         endTime = LocalDateTime.now().minusMinutes(20))
@@ -109,7 +106,6 @@ class SessionUtilTest {
                                         index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
-                                        practice = "Hatha",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(100),
                                         endTime = LocalDateTime.now().minusMinutes(50)),
@@ -117,7 +113,6 @@ class SessionUtilTest {
                                         index = 1,
                                         geolocation = null,
                                         discipline = "Yoga",
-                                        practice = "Hatha",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(30),
                                         endTime = LocalDateTime.now().minusMinutes(20))
@@ -141,7 +136,6 @@ class SessionUtilTest {
                                         index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
-                                        practice = "Hatha",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(100),
                                         endTime = LocalDateTime.now().minusMinutes(50)),
@@ -149,7 +143,6 @@ class SessionUtilTest {
                                         index = 1,
                                         geolocation = null,
                                         discipline = "Yoga",
-                                        practice = "Hatha",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(30),
                                         endTime = LocalDateTime.now().minusMinutes(20))
@@ -173,7 +166,6 @@ class SessionUtilTest {
                                         index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
-                                        practice = "Hatha",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(30),
                                         endTime = LocalDateTime.now().minusMinutes(20))
@@ -183,7 +175,6 @@ class SessionUtilTest {
                                         index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
-                                        practice = "Hatha",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(30),
                                         endTime = LocalDateTime.now().minusMinutes(20))
@@ -234,7 +225,6 @@ class SessionUtilTest {
                                         index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
-                                        practice = "Tantra",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(200))
                         ))
@@ -257,7 +247,6 @@ class SessionUtilTest {
                                         index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
-                                        practice = "Tantra",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(500),
                                         endTime = LocalDateTime.now().minusMinutes(400)),
@@ -265,7 +254,6 @@ class SessionUtilTest {
                                         index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
-                                        practice = "Tantra",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(400),
                                         endTime = LocalDateTime.now().minusMinutes(300))
@@ -277,7 +265,6 @@ class SessionUtilTest {
                                         index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
-                                        practice = "Tantra",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(400))
                         )),
@@ -287,7 +274,6 @@ class SessionUtilTest {
                                         index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
-                                        practice = "Tantra",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(500),
                                         endTime = LocalDateTime.now().minusMinutes(400)),
@@ -295,7 +281,6 @@ class SessionUtilTest {
                                         index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
-                                        practice = "Tantra",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(100))
 
@@ -306,7 +291,6 @@ class SessionUtilTest {
                                         index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
-                                        practice = "Tantra",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(200),
                                         endTime = LocalDateTime.now().minusMinutes(100)),
@@ -314,7 +298,6 @@ class SessionUtilTest {
                                         index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
-                                        practice = "Tantra",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(60),
                                         endTime = LocalDateTime.now().minusMinutes(10))

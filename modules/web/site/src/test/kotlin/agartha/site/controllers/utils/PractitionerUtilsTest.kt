@@ -36,7 +36,6 @@ class PractitionerUtilsTest {
                                         index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
-                                        practice = "Hatha",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(200))
                         ))
@@ -57,7 +56,6 @@ class PractitionerUtilsTest {
                                         index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
-                                        practice = "Hatha",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(120),
                                         endTime = LocalDateTime.now().minusMinutes(70))
