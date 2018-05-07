@@ -19,7 +19,7 @@ data class CompanionsSessionReport(
         val startTime: LocalDateTime = LocalDateTime.now(),
         val endTime: LocalDateTime? = null) {
 
-    // The number of match-points this companions session has, 0 = no match and 3 = full match
+    // The number of match-points this companions session has, 0 = no match and 2 = full match
     val matchPoints: Number = 0
 
     /**
