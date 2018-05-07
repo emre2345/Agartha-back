@@ -35,7 +35,6 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      * @param practitionerId id for user starting the session
      * @param geolocation geolocation for session/practice
      * @param disciplineName type of discipline
-     * @param practiceName type of practice
      * @param intentionName type of intention
      * @return the started session
      */
@@ -43,6 +42,5 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
             practitionerId: String,
             geolocation: GeolocationDBO?,
             disciplineName: String,
-            practiceName: String?,
             intentionName: String): SessionDBO
 }

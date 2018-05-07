@@ -17,8 +17,6 @@ data class SessionDBO(
         val geolocation: GeolocationDBO? = null,
         // Type of discipline
         val discipline: String,
-        // Type of practice, can be null if no practice is chosen
-        val practice: String? = null,
         // Type of intention on the practice
         val intention: String,
         // Time when started
