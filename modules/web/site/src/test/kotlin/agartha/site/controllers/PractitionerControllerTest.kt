@@ -4,6 +4,7 @@ import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.objects.request.PractitionerInvolvedInformation
+import agartha.site.objects.response.Jojje
 import agartha.site.objects.response.PractitionerReport
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.assertj.core.api.Assertions.assertThat
@@ -128,6 +129,18 @@ class PractitionerControllerTest {
         // Map to Data object
         val data: PractitionerReport = jacksonObjectMapper().readValue(body, PractitionerReport::class.java)
         assertThat(data.practitionerId).isEqualTo("abc")
+    }
+
+
+    @Test
+    fun hovno() {
+        val getRequest = testController.testServer.get("/hovno/test", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+        println(body)
+
+        val obj = jacksonObjectMapper().readValue(body, Jojje::class.java)
+        assertThat(obj.id).isEqualTo("ABC")
     }
 
     /**

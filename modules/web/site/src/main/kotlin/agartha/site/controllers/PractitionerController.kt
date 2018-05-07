@@ -4,7 +4,11 @@ import agartha.data.objects.PractitionerDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.objects.request.StartSessionInformation
+import agartha.site.objects.response.Hovno
+import agartha.site.objects.response.Jojje
 import agartha.site.objects.response.PractitionerReport
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.bson.types.ObjectId
 import spark.Request
@@ -25,9 +29,15 @@ class PractitionerController {
 
     constructor(service: IPractitionerService) {
         mService = service
+
+        Spark.path("/hovno") {
+            // test
+            Spark.get("/test", ::getHovno)
+        }
+
         // API path for session
         Spark.path("/practitioner") {
-            //
+             //
             // Where we have no practitionerId set yet - return info for user
             Spark.get("", ::getInformation)
             //
@@ -42,6 +52,10 @@ class PractitionerController {
         }
     }
 
+    private fun getHovno(request: Request, response: Response): String {
+        val jojje = Jojje()
+        return Hovno().getTheJacksonStuff().writeValueAsString(jojje)
+    }
 
     /**
      * Get information about current practitioner
