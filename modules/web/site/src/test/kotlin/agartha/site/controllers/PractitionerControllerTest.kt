@@ -163,12 +163,15 @@ class PractitionerControllerTest {
         val postRequest = testController.testServer.post("/practitioner/session/abc", body, false)
         val httpResponse = testController.testServer.execute(postRequest)
         val responseBody = String(httpResponse.body())
-        // Exception com.fasterxml.jackson.databind.exc.InvalidDefinitionException:
+
+        println(responseBody)
+
+        // TODO: Exception com.fasterxml.jackson.databind.exc.InvalidDefinitionException:
         //     Cannot construct instance of `java.time.LocalDateTime` (no Creators, like default construct, exist):
         //     cannot deserialize from Object value (no delegate- or property-based Creator)
         //
-        //val session: SessionDBO = jacksonObjectMapper().readValue(responseBody, SessionDBO::class.java)
-        assertThat(responseBody).startsWith("{\"index\":1")
+        val session: SessionDBO = jacksonObjectMapper().readValue(responseBody, SessionDBO::class.java)
+        assertThat(session.index).isEqualTo(1)
     }
 
     /**
