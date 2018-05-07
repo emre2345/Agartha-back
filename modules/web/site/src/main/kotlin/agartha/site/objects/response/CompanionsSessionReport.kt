@@ -19,7 +19,7 @@ data class CompanionsSessionReport(
         val endTime: LocalDateTime? = null) {
 
     // The number of match-points this companions session has, 0 = no match and 2 = full match
-    val matchPoints: Number = 0
+    private val matchPoints: Number = 0
 
     /**
      * constructor that creates the companionSession object from the sessionSBO
@@ -37,7 +37,7 @@ data class CompanionsSessionReport(
      * @param user that
      * @return number of ponits for this match
      */
-    fun giveMatchPoints(user: PractitionerDBO): Number{
-        return 1
+    fun giveMatchPoints(user: PractitionerDBO){
+        // TODO: match with user
     }
 }

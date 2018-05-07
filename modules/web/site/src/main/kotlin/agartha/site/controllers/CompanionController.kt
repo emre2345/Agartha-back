@@ -99,7 +99,7 @@ class CompanionController {
     private fun companionOngoing(request: Request, response: Response): String {
         // Get current userid
         val userId: String = request.params(":userid") ?: ""
-        val practitioners = getOngoingCompanions(userId)
+        val practitioners = getOngoingCompanions()
         val sessions = getOngoingCompanionsSessions(userId, practitioners)
         // Generate report
         val companionReport = CompanionReport(practitioners.count(), sessions)
@@ -120,7 +120,7 @@ class CompanionController {
         // Create empty list that will be filled with reports and then returned
         val companionsSessionList: MutableList<CompanionsSessionReport> = mutableListOf()
         // Get sessions for the ongoing companions
-        val sessions = getOngoingCompanionsSessions(userId, getOngoingCompanions(userId))
+        val sessions = getOngoingCompanionsSessions(userId, getOngoingCompanions())
         for (companionsSession in sessions) {
             // Create a new CompanionsSessionReport object with the session for the companion
             val companionsSessionReport = CompanionsSessionReport(companionsSession)
@@ -132,7 +132,7 @@ class CompanionController {
         return mMapper.writeValueAsString(companionsSessionList)
     }
 
-    private fun getOngoingCompanions(userId: String): List<PractitionerDBO> {
+    private fun getOngoingCompanions(): List<PractitionerDBO> {
         // Created times for getting ongoing sessions
         val startDateTime: LocalDateTime = LocalDateTime.now().minusMinutes(15)
         val endDateTime: LocalDateTime = LocalDateTime.now()
