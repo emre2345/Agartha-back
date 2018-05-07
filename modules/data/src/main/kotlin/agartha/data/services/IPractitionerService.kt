@@ -41,11 +41,4 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
             geolocation: GeolocationDBO?,
             disciplineName: String,
             intentionName: String): SessionDBO
-
-    /**
-     * Counts all the ongoing sessions and matching them with an user
-     * @param user the user that the match should focus on
-     * @return a list of sorted sessions
-     */
-    fun matchSessions(user: PractitionerDBO): List<SessionDBO>
 }

@@ -5,7 +5,9 @@ import agartha.data.services.IPractitionerService
 import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.objects.request.StartSessionInformation
 import agartha.site.objects.response.PractitionerReport
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.bson.types.ObjectId
 import spark.Request
 import spark.Response
@@ -21,7 +23,7 @@ class PractitionerController {
     // Practitioner data service
     private val mService: IPractitionerService
     // For mapping objects to string
-    private val mMapper = jacksonObjectMapper()
+    private val mMapper = ObjectMapper().registerKotlinModule()
 
     constructor(service: IPractitionerService) {
         mService = service
@@ -62,7 +64,7 @@ class PractitionerController {
      * @return The updated practitioner
      */
     private fun updatePractitioner(request: Request, response: Response): String {
-        val involvedInformation: PractitionerInvolvedInformation = mMapper.readValue(request.body(), PractitionerInvolvedInformation::class.java)
+        val involvedInformation: PractitionerInvolvedInformation = mMapper.readValue(request.body())
         // Get params
         val userId: String = getUserIdFromRequest(request)
         // Get user
@@ -107,7 +109,7 @@ class PractitionerController {
         // Get current userid
         val userId : String = request.params(":userid")
         // Type of discipline, practice and intention
-        val startSessionInformation: StartSessionInformation = mMapper.readValue(request.body(), StartSessionInformation::class.java)
+        val startSessionInformation: StartSessionInformation = mMapper.readValue(request.body())
         // Start a session
         val session =  mService.startSession(
                 userId,

@@ -96,12 +96,4 @@ class PractitionerService : IPractitionerService {
                 .toList()
     }
 
-    /**
-     * Counts all the ongoing sessions and matching them with an user
-     * @param user the user that the match should focus on
-     * @return a list of sorted sessions
-     */
-    override fun matchSessions(user: PractitionerDBO): List<SessionDBO> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 }

@@ -4,7 +4,10 @@ import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.objects.response.CompanionReport
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import agartha.site.objects.response.CompanionsSessionReport
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
@@ -19,6 +22,7 @@ class CompanionControllerTest {
     companion object {
         val mockedService = MockedPractitionerService()
         val testController = ControllerServer()
+        val mapper = ObjectMapper().registerKotlinModule()
 
 
         /**
@@ -132,7 +136,7 @@ class CompanionControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: CompanionReport = jacksonObjectMapper().readValue(body, CompanionReport::class.java)
+        val data: CompanionReport = mapper.readValue(body)
         assertThat(data.practitionerCount).isEqualTo(6)
     }
 
@@ -146,7 +150,7 @@ class CompanionControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: CompanionReport = jacksonObjectMapper().readValue(body, CompanionReport::class.java)
+        val data: CompanionReport = mapper.readValue(body)
         assertThat(data.sessionCount).isEqualTo(8)
     }
 
@@ -160,7 +164,7 @@ class CompanionControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: CompanionReport = jacksonObjectMapper().readValue(body, CompanionReport::class.java)
+        val data: CompanionReport = mapper.readValue(body)
         assertThat(data.sessionMinutes).isEqualTo(180)
     }
 
@@ -174,7 +178,7 @@ class CompanionControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: CompanionReport = jacksonObjectMapper().readValue(body, CompanionReport::class.java)
+        val data: CompanionReport = mapper.readValue(body)
         assertThat(data.intentions.containsKey("Harmony")).isTrue()
     }
 
@@ -188,7 +192,7 @@ class CompanionControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: CompanionReport = jacksonObjectMapper().readValue(body, CompanionReport::class.java)
+        val data: CompanionReport = mapper.readValue(body)
         assertThat(data.practitionerCount).isEqualTo(4)
     }
 
@@ -202,7 +206,7 @@ class CompanionControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: CompanionReport = jacksonObjectMapper().readValue(body, CompanionReport::class.java)
+        val data: CompanionReport = mapper.readValue(body)
         assertThat(data.sessionCount).isEqualTo(4)
     }
 
@@ -216,7 +220,7 @@ class CompanionControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: CompanionReport = jacksonObjectMapper().readValue(body, CompanionReport::class.java)
+        val data: CompanionReport = mapper.readValue(body)
         assertThat(data.sessionMinutes).isEqualTo(115)
     }
 
@@ -230,7 +234,7 @@ class CompanionControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: CompanionReport = jacksonObjectMapper().readValue(body, CompanionReport::class.java)
+        val data: CompanionReport = mapper.readValue(body)
         assertThat(data.intentions.containsKey("Love")).isTrue()
     }
 
@@ -244,7 +248,7 @@ class CompanionControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: CompanionReport = jacksonObjectMapper().readValue(body, CompanionReport::class.java)
+        val data: CompanionReport = mapper.readValue(body)
         assertThat(data.intentions.containsKey("Freedom")).isTrue()
     }
 
@@ -258,7 +262,7 @@ class CompanionControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: CompanionReport = jacksonObjectMapper().readValue(body, CompanionReport::class.java)
+        val data: CompanionReport = mapper.readValue(body)
         assertThat(data.intentions.containsKey("Transformation")).isFalse()
     }
 
@@ -272,8 +276,23 @@ class CompanionControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: CompanionReport = jacksonObjectMapper().readValue(body, CompanionReport::class.java)
+        val data: CompanionReport= mapper.readValue(body)
         assertThat(data.intentions.containsKey("Harmony")).isFalse()
     }
+
+
+    /**
+     *
+     */
+    /*@Test
+    fun matchSessions_firstSessionPoints_2() {
+        setupReport()
+        val getRequest = testController.testServer.get("/companion/matched/c", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+        // Map data to object
+        val list: List<CompanionsSessionReport> = mapper.readValue(body)
+        Assertions.assertThat(list[0].matchPoints).isEqualTo(100)
+    }*/
 
 }

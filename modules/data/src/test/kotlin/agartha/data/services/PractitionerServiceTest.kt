@@ -150,12 +150,4 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Count 'em
         Assertions.assertThat(list.size).isEqualTo(4)
     }
-
-    /**
-     *
-     */
-    @Test
-    fun matchSessions_firstSessionPoints_2() {
-        Assertions.assertThat(true).isEqualTo(false)
-    }
 }
