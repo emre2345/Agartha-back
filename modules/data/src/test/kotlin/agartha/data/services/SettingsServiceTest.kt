@@ -2,7 +2,6 @@ package agartha.data.services
 
 import agartha.data.objects.DisciplineDBO
 import agartha.data.objects.IntentionDBO
-import agartha.data.objects.PracticeDBO
 import agartha.data.objects.SettingsDBO
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
@@ -16,7 +15,7 @@ import org.junit.Test
 class SettingsServiceTest : DatabaseHandler() {
     private val settingsOne = SettingsDBO(
             intentions = mutableListOf(IntentionDBO("The Title", "The Description")),
-            disciplines = listOf(DisciplineDBO("The title", listOf(PracticeDBO("The Title"))))
+            disciplines = listOf(DisciplineDBO("The title"))
     )
     private val settingsTwo = SettingsDBO(
             intentions = mutableListOf(
@@ -24,14 +23,8 @@ class SettingsServiceTest : DatabaseHandler() {
                     IntentionDBO("Intention title 2", "The Description")
             ),
             disciplines = listOf(
-                    DisciplineDBO("Discipline title 1",
-                            listOf( PracticeDBO("Practice title 1"),
-                                    PracticeDBO("Practice title 2"))
-            ),
-                    DisciplineDBO("Discipline title 1",
-                            listOf( PracticeDBO("Practice title 1"),
-                                    PracticeDBO("Practice title 2"))
-            ))
+                    DisciplineDBO("Discipline title 1"),
+                    DisciplineDBO("Discipline title 1"))
     )
 
 
