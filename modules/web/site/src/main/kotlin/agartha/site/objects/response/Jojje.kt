@@ -25,14 +25,16 @@ data class Jojje(
 
 class Hovno {
 
+    val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
     fun getTheJacksonStuff(): ObjectMapper {
         val javaTimeModule = JavaTimeModule()
         //
 //        javaTimeModule.addSerializer(LocalDate::class.java, LocalDateSerializer.INSTANCE)
 //        javaTimeModule.addDeserializer(LocalDate::class.java, LocalDateDeserializer.INSTANCE)
         //
-        val localDateTimeSerializer = LocalDateTimeSerializer(DateTimeFormatter.ISO_DATE_TIME)
-        val localDateTimeDeserializer = LocalDateTimeDeserializer(DateTimeFormatter.ISO_DATE_TIME)
+        val localDateTimeSerializer = LocalDateTimeSerializer(dateTimeFormatter)
+        val localDateTimeDeserializer = LocalDateTimeDeserializer(dateTimeFormatter)
 
         javaTimeModule.addSerializer(LocalDateTime::class.java, localDateTimeSerializer)
         javaTimeModule.addDeserializer(LocalDateTime::class.java, localDateTimeDeserializer)
