@@ -145,10 +145,12 @@ class PractitionerControllerTest {
         val getRequest = testController.testServer.post("/practitioner/abc", jacksonObjectMapper().writeValueAsString(involvedInformation), false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
+
+        println(body)
         // Map to Data object (cannot handle LocalDateTime)
         // https://stackoverflow.com/questions/27952472/serialize-deserialize-java-8-java-time-with-jackson-json-mapper/27952473
-        //val data: PractitionerDBO = jacksonObjectMapper().readValue(body, PractitionerDBO::class.java)
-        assertThat(body).startsWith("{\"_id\":\"abc\"")
+        val data: PractitionerDBO = jacksonObjectMapper().readValue(body, PractitionerDBO::class.java)
+        assertThat(data._id).isEqualTo("abc")
     }
 
 
