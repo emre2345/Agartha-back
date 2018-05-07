@@ -9,6 +9,9 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
+
 
 /**
  * Purpose of this file is ...
@@ -17,7 +20,6 @@ import java.time.LocalDateTime
  */
 data class Jojje(
         val id: String = "ABCD",
-        @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", shape=JsonFormat.Shape.STRING)
         val createdDateTime: LocalDateTime = LocalDateTime.now())
 
 
@@ -29,8 +31,11 @@ class Hovno {
 //        javaTimeModule.addSerializer(LocalDate::class.java, LocalDateSerializer.INSTANCE)
 //        javaTimeModule.addDeserializer(LocalDate::class.java, LocalDateDeserializer.INSTANCE)
         //
-//        javaTimeModule.addSerializer(LocalDateTime::class.java, LocalDateTimeSerializer.INSTANCE)
-//        javaTimeModule.addDeserializer(LocalDateTime::class.java, LocalDateTimeDeserializer.INSTANCE)
+        val localDateTimeSerializer = LocalDateTimeSerializer(DateTimeFormatter.ISO_DATE_TIME)
+        val localDateTimeDeserializer = LocalDateTimeDeserializer(DateTimeFormatter.ISO_DATE_TIME)
+
+        javaTimeModule.addSerializer(LocalDateTime::class.java, localDateTimeSerializer)
+        javaTimeModule.addDeserializer(LocalDateTime::class.java, localDateTimeDeserializer)
         //
 
         return jacksonObjectMapper()

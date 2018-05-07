@@ -4,6 +4,7 @@ import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.objects.request.PractitionerInvolvedInformation
+import agartha.site.objects.response.Hovno
 import agartha.site.objects.response.Jojje
 import agartha.site.objects.response.PractitionerReport
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -139,8 +140,8 @@ class PractitionerControllerTest {
         val body = String(httpResponse.body())
         println(body)
 
-        val obj = jacksonObjectMapper().readValue(body, Jojje::class.java)
-        assertThat(obj.id).isEqualTo("ABC")
+        val obj = Hovno().getTheJacksonStuff().readValue(body, Jojje::class.java)
+        assertThat(obj.id).isEqualTo("ABCD")
     }
 
     /**
