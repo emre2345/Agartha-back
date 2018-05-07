@@ -3,7 +3,10 @@ package agartha.data.services
 import agartha.data.db.conn.MongoConnection
 import agartha.data.objects.IntentionDBO
 import agartha.data.objects.SettingsDBO
-import org.litote.kmongo.*
+import org.litote.kmongo.findOneById
+import org.litote.kmongo.getCollection
+import org.litote.kmongo.replaceOne
+import org.litote.kmongo.toList
 
 /**
  * Purpose of this file is reading settings from data storage

@@ -9,12 +9,13 @@ import org.junit.Test
 class SettingsDBOTest {
     val settings = SettingsDBO(
             intentions = mutableListOf(
-                IntentionDBO("LOVE", "description of love"),
-                IntentionDBO("HORSES", "description of horses")),
-            disciplines = listOf(DisciplineDBO("Yoga", listOf(PracticeDBO("Hatha")))),
+                    IntentionDBO("LOVE", "description of love"),
+                    IntentionDBO("HORSES", "description of horses")),
+            disciplines = listOf(DisciplineDBO("Yoga")),
             companionDays = 1,
             companionGoalHours = 2
     )
+
     /**************************
      * Variables - intentions *
      **************************/
@@ -54,14 +55,6 @@ class SettingsDBOTest {
     @Test
     fun settings_firstDisciplineTitle_yoga() {
         Assertions.assertThat(settings.disciplines[0].title).isEqualTo("Yoga")
-    }
-
-    /**
-     *
-     */
-    @Test
-    fun settings_firstDisciplinePracticeTitle_hatha() {
-        Assertions.assertThat(settings.disciplines[0].practices[0].title).isEqualTo("Hatha")
     }
 
     /***************************
