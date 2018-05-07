@@ -31,7 +31,7 @@ class PractitionerServiceTest : DatabaseHandler() {
     private fun putUserInDatabase(sessionStart: String, sessionEnd: String) {
         PractitionerService().insert(
                 PractitionerDBO(sessions = listOf(
-                        SessionDBO(0, null,"Yoga", "Mindfulness", "Love",
+                        SessionDBO(0, null,"Yoga", "Love",
                                 DateTimeFormat.stringToLocalDateTime(sessionStart), DateTimeFormat.stringToLocalDateTime(sessionEnd)))))
     }
 
@@ -73,8 +73,8 @@ class PractitionerServiceTest : DatabaseHandler() {
     @Test
     fun insertUserWithSessions_collectionSize_1() {
         PractitionerService().insert(PractitionerDBO(sessions = listOf(
-                SessionDBO(0, null,"Yoga", "Mindfulness", "Love"),
-                SessionDBO(1, null,"Meditation", "Mindfulness", "Love"))))
+                SessionDBO(0, null,"Yoga", "Love"),
+                SessionDBO(1, null,"Meditation", "Love"))))
         val allUsers = PractitionerService().getAll()
         assertThat(allUsers.size).isEqualTo(1)
     }
@@ -104,26 +104,14 @@ class PractitionerServiceTest : DatabaseHandler() {
      */
     @Test
     fun addSessionToUser_IndexReturned_1() {
-        val user = PractitionerDBO(sessions = listOf(SessionDBO(0, null,"Test", "Testis", "TestIntention")))
+        val user = PractitionerDBO(sessions = listOf(SessionDBO(0, null,"Test", "TestIntention")))
         // Insert a new practitioning user
         val item = PractitionerService().insert(user)
-        // Insert session
-        val sessionId = PractitionerService().startSession(item._id!!, null, "Test", "Testis", "TestIntention")
-        assertThat(sessionId).isEqualTo(1)
+        // Start session
+        val session = PractitionerService().startSession(item._id!!, null, "Test", "TestIntention")
+        assertThat(session.index).isEqualTo(1)
     }
 
-    /**
-     * Add session
-     */
-    @Test
-    fun addSessionWithoutPracticeToUser_IndexReturned_1() {
-        val user = PractitionerDBO(sessions = listOf(SessionDBO(0, null,"Test", null, "TestIntention")))
-        // Insert a new practitioning user
-        val item = PractitionerService().insert(user)
-        // Insert session
-        val sessionId = PractitionerService().startSession(item._id!!, null, "Test",  null, "TestIntention")
-        assertThat(sessionId).isEqualTo(1)
-    }
     /**
      *
      */
@@ -133,9 +121,9 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert a new practising user
         val item = PractitionerService().insert(user)
         // Insert sessions
-        PractitionerService().startSession(item._id!!, null, "Test 1", "Testis 1", "Testing 1")
-        PractitionerService().startSession(item._id!!, null, "Test 2", "Testis 2","Testing 2")
-        PractitionerService().startSession(item._id!!, null, "Test 3", "Testis 3","Testing 3")
+        PractitionerService().startSession(item._id!!, null, "Test 1", "Testing 1")
+        PractitionerService().startSession(item._id!!, null, "Test 2","Testing 2")
+        PractitionerService().startSession(item._id!!, null, "Test 3","Testing 3")
         // Get user and Count sessions
         val practitioner = PractitionerService().getById(item._id!!)
         Assertions.assertThat(practitioner?.sessions?.size).isEqualTo(3)

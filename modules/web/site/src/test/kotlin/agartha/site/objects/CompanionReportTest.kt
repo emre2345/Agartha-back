@@ -15,19 +15,19 @@ class CompanionReportTest {
 
     private fun generateSessions(): List<SessionDBO> {
         return listOf(
-                SessionDBO(0, null, "Yoga", "Tantra","Wellbeing",
+                SessionDBO(0, null, "Yoga","Wellbeing",
                         DateTimeFormat.stringToLocalDateTime("2018-04-18 12:00:00"),
                         DateTimeFormat.stringToLocalDateTime("2018-04-18 12:40:00")),
-                SessionDBO(1,null, "Meditation","Mindfulness","Transformation",
+                SessionDBO(1,null, "Meditation","Transformation",
                         DateTimeFormat.stringToLocalDateTime("2018-04-19 12:00:00"),
                         DateTimeFormat.stringToLocalDateTime("2018-04-19 12:30:00")),
-                SessionDBO(2, null,"Meditation","Meditation","Wellbeing",
+                SessionDBO(2, null,"Meditation","Wellbeing",
                         DateTimeFormat.stringToLocalDateTime("2018-04-20 12:00:00"),
                         DateTimeFormat.stringToLocalDateTime("2018-04-20 12:20:00")),
-                SessionDBO(3,null,  "Meditation","Mindfulness","Wellbeing",
+                SessionDBO(3,null,  "Meditation","Wellbeing",
                         DateTimeFormat.stringToLocalDateTime("2018-04-19 12:00:00"),
                         DateTimeFormat.stringToLocalDateTime("2018-04-19 12:30:00")),
-                SessionDBO(4, null, "Meditation","Mindfulness","Empathy",
+                SessionDBO(4, null, "Meditation","Empathy",
                         DateTimeFormat.stringToLocalDateTime("2018-04-19 12:00:00"),
                         DateTimeFormat.stringToLocalDateTime("2018-04-19 12:30:00"))
                 )

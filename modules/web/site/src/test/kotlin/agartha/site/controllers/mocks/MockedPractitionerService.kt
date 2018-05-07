@@ -36,7 +36,6 @@ class MockedPractitionerService : IPractitionerService {
             practitionerId: String,
             geolocation: GeolocationDBO?,
             disciplineName: String,
-            practiceName: String?,
             intentionName: String): SessionDBO {
         val first = practitionerList
                 .filter {
@@ -45,7 +44,7 @@ class MockedPractitionerService : IPractitionerService {
                 .first()
 
         val nextIndex = first.sessions.count() + 1
-        val session = SessionDBO(nextIndex, geolocation, disciplineName, practiceName, intentionName)
+        val session = SessionDBO(nextIndex, geolocation, disciplineName, intentionName)
         first.sessions.plus(session)
         return session
     }

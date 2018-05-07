@@ -94,6 +94,7 @@ class SettingsServiceTest : DatabaseHandler() {
      */
     @Test
     fun settingService_addIntention_updatedIntentionsList() {
+        SettingsService().insert(settingsTwo)
         val newIntention = IntentionDBO("DOGS", "Description about dogs")
         val updatedSettings = SettingsService().addIntention(newIntention)
         val newestSettings = SettingsService().getAll()[0].intentions
