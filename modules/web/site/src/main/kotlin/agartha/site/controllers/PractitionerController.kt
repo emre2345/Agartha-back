@@ -2,9 +2,9 @@ package agartha.site.controllers
 
 import agartha.data.objects.PractitionerDBO
 import agartha.data.services.IPractitionerService
-import agartha.site.objects.response.PractitionerReport
 import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.objects.request.StartSessionInformation
+import agartha.site.objects.response.PractitionerReport
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.bson.types.ObjectId
 import spark.Request
@@ -113,7 +113,6 @@ class PractitionerController {
                 userId,
                 startSessionInformation.geolocation,
                 startSessionInformation.discipline,
-                startSessionInformation.practice,
                 startSessionInformation.intention)
         // Return the started session
         return mMapper.writeValueAsString(session)

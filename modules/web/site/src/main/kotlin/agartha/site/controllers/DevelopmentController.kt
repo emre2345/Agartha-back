@@ -48,13 +48,13 @@ class DevelopmentController {
         mService.insert(PractitionerDBO(
                 created = LocalDateTime.now().minusDays(30),
                 sessions = listOf(
-                        SessionDBO(0, DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga", "Transendental","Harmony",
+                        SessionDBO(0, DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga","Harmony",
                                 LocalDateTime.now().minusDays(30).minusMinutes(200),
                                 LocalDateTime.now().minusDays(30).minusMinutes(100)),
                         // Abandoned session
-                        SessionDBO(1, DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga", "Mindfulness","Love",
+                        SessionDBO(1, DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga","Love",
                                 LocalDateTime.now().minusDays(29).minusMinutes(200)),
-                        SessionDBO(2, DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga", "Transendental","Empowerment",
+                        SessionDBO(2, DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga","Empowerment",
                                 LocalDateTime.now().minusDays(28).minusMinutes(200),
                                 LocalDateTime.now().minusDays(28).minusMinutes(100))
                 )))
@@ -62,19 +62,19 @@ class DevelopmentController {
         mService.insert(PractitionerDBO(
                 created = LocalDateTime.now().minusDays(5).minusMinutes(410),
                 sessions = listOf(
-                        SessionDBO(0, null,"Yoga", "Mindfulness","Wellbeing",
+                        SessionDBO(0, null,"Yoga","Wellbeing",
                                 LocalDateTime.now().minusDays(5).minusMinutes(400),
                                 LocalDateTime.now().minusDays(5).minusMinutes(300)),
-                        SessionDBO(1, null, "Yoga", "Transendental","Love",
+                        SessionDBO(1, null, "Yoga","Love",
                                 LocalDateTime.now().minusDays(4).minusMinutes(400),
                                 LocalDateTime.now().minusDays(4).minusMinutes(300)),
-                        SessionDBO(2, null, "Yoga", "Mindfulness","Transformation",
+                        SessionDBO(2, null, "Yoga","Transformation",
                                 LocalDateTime.now().minusDays(3).minusMinutes(400),
                                 LocalDateTime.now().minusDays(3).minusMinutes(300)),
-                        SessionDBO(3, null, "Yoga", "Transendental","Harmony",
+                        SessionDBO(3, null, "Yoga","Harmony",
                                 LocalDateTime.now().minusDays(2).minusMinutes(400),
                                 LocalDateTime.now().minusDays(2).minusMinutes(300)),
-                        SessionDBO(4, null, "Yoga", "Mindfulness","Empowerment",
+                        SessionDBO(4, null, "Yoga","Empowerment",
                                 LocalDateTime.now().minusDays(1).minusMinutes(400),
                                 LocalDateTime.now().minusDays(1).minusMinutes(300))
                 )))
@@ -85,19 +85,19 @@ class DevelopmentController {
                 email = "john@kollektiva.se",
                 description = "I love it when a plan comes together",
                 sessions = listOf(
-                        SessionDBO(0, DevGeolocationSelect.SYDNEY_OPERA_HOUSE.geolocationDBO, "Meditation", "Tantra", "Empowerment",
+                        SessionDBO(0, DevGeolocationSelect.SYDNEY_OPERA_HOUSE.geolocationDBO, "Meditation", "Empowerment",
                                 LocalDateTime.now().minusDays(5).minusMinutes(400),
                                 LocalDateTime.now().minusDays(5).minusMinutes(300)),
-                        SessionDBO(1, DevGeolocationSelect.SYDNEY_OPERA_HOUSE.geolocationDBO, "Meditation", "Hatha", "Harmony",
+                        SessionDBO(1, DevGeolocationSelect.SYDNEY_OPERA_HOUSE.geolocationDBO, "Meditation", "Harmony",
                                 LocalDateTime.now().minusDays(4).minusMinutes(400),
                                 LocalDateTime.now().minusDays(4).minusMinutes(300)),
-                        SessionDBO(2, DevGeolocationSelect.SYDNEY_OPERA_HOUSE.geolocationDBO, "Meditation", "Tantra", "Empathy",
+                        SessionDBO(2, DevGeolocationSelect.SYDNEY_OPERA_HOUSE.geolocationDBO, "Meditation", "Empathy",
                                 LocalDateTime.now().minusDays(3).minusMinutes(400),
                                 LocalDateTime.now().minusDays(3).minusMinutes(300)),
-                        SessionDBO(3, null, "Meditation", "Hatha", "Freedom",
+                        SessionDBO(3, null, "Meditation", "Freedom",
                                 LocalDateTime.now().minusDays(2).minusMinutes(400),
                                 LocalDateTime.now().minusDays(2).minusMinutes(300)),
-                        SessionDBO(4, DevGeolocationSelect.SYDNEY_OPERA_HOUSE.geolocationDBO, "Meditation", "Tantra", "Love",
+                        SessionDBO(4, DevGeolocationSelect.SYDNEY_OPERA_HOUSE.geolocationDBO, "Meditation", "Love",
                                 LocalDateTime.now().minusDays(1).minusMinutes(400),
                                 LocalDateTime.now().minusDays(1).minusMinutes(300))
                 )))
@@ -113,47 +113,47 @@ class DevelopmentController {
         mService.insert(PractitionerDBO(
                 created = LocalDateTime.now().minusDays(3).minusMinutes(210),
                 sessions = listOf(
-                        SessionDBO(0, DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga", "Transendental","Harmony",
+                        SessionDBO(0, DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga","Harmony",
                                 LocalDateTime.now().minusDays(3).minusMinutes(200),
                                 LocalDateTime.now().minusDays(3).minusMinutes(100)),
-                        SessionDBO(1, DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga", "Mindfulness","Love",
+                        SessionDBO(1, DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga","Love",
                                 LocalDateTime.now().minusDays(2).minusMinutes(200),
                                 LocalDateTime.now().minusDays(2).minusMinutes(100)),
-                        SessionDBO(2, DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga", "Transendental","Empowerment",
+                        SessionDBO(2, DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga","Empowerment",
                                 LocalDateTime.now().minusDays(1).minusMinutes(200))
                 )))
         // Insert a set of user with ongoing session
         mService.insert(PractitionerDBO(
                 created = LocalDateTime.now().minusDays(2).minusMinutes(202),
                 sessions = listOf(
-                        SessionDBO(0, null, "Yoga", "Mindfulness","Freedom",
+                        SessionDBO(0, null, "Yoga","Freedom",
                                 LocalDateTime.now().minusDays(2).minusMinutes(200),
                                 LocalDateTime.now().minusDays(2).minusMinutes(100)),
-                        SessionDBO(1, DevGeolocationSelect.SYDNEY_OPERA_HOUSE.geolocationDBO, "Meditation", "Tantra","Harmony",
+                        SessionDBO(1, DevGeolocationSelect.SYDNEY_OPERA_HOUSE.geolocationDBO, "Meditation","Harmony",
                                 LocalDateTime.now().minusMinutes(40))
                 )
         ))
         mService.insert(PractitionerDBO(
                 created = LocalDateTime.now().minusMinutes(50),
                 sessions = listOf(
-                        SessionDBO(1, DevGeolocationSelect.MALMO_TRIANGELN.geolocationDBO, "Meditation", "Tantra","Freedom",
+                        SessionDBO(1, DevGeolocationSelect.MALMO_TRIANGELN.geolocationDBO, "Meditation","Freedom",
                                 LocalDateTime.now().minusMinutes(45))
                 )
         ))
         mService.insert(PractitionerDBO(
                 created = LocalDateTime.now().minusDays(2).minusMinutes(202),
                 sessions = listOf(
-                        SessionDBO(0, DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga", "Transendental", "Empathy",
+                        SessionDBO(0, DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga", "Empathy",
                                 LocalDateTime.now().minusDays(2).minusMinutes(200),
                                 LocalDateTime.now().minusDays(2).minusMinutes(100)),
-                        SessionDBO(1, DevGeolocationSelect.BJORNSTORP.geolocationDBO, "Yoga", "Mindfulness","Freedom",
+                        SessionDBO(1, DevGeolocationSelect.BJORNSTORP.geolocationDBO, "Yoga","Freedom",
                                 LocalDateTime.now().minusMinutes(40))
                 )
         ))
         mService.insert(PractitionerDBO(
                 created = LocalDateTime.now().minusMinutes(35),
                 sessions = listOf(
-                        SessionDBO(1, null, "Meditation", "Hatha","Empathy",
+                        SessionDBO(1, null, "Meditation","Empathy",
                                 LocalDateTime.now().minusMinutes(30))
                 )
         ))
@@ -162,7 +162,7 @@ class DevelopmentController {
         mService.insert(PractitionerDBO(
                 _id = id,
                 sessions = listOf(
-                        SessionDBO(0, DevGeolocationSelect.MALMO_KOLLEKTIVA.geolocationDBO, "Yoga", "Mindfulness","Transformation",
+                        SessionDBO(0, DevGeolocationSelect.MALMO_KOLLEKTIVA.geolocationDBO, "Yoga","Transformation",
                                 LocalDateTime.now().minusDays(2).minusMinutes(200),
                                 LocalDateTime.now().minusDays(2).minusMinutes(100))
                 )
