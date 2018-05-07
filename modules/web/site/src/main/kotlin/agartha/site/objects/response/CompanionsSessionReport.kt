@@ -14,7 +14,6 @@ data class CompanionsSessionReport(
         val index: Int,
         val geolocation: GeolocationDBO? = null,
         val discipline: String,
-        val practice: String? = null,
         val intention: String,
         val startTime: LocalDateTime = LocalDateTime.now(),
         val endTime: LocalDateTime? = null) {
@@ -29,7 +28,6 @@ data class CompanionsSessionReport(
             session.index,
             session.geolocation,
             session.discipline,
-            session.practice,
             session.intention,
             session.startTime,
             session.endTime
