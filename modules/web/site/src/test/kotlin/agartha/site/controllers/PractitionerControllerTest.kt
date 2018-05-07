@@ -151,31 +151,12 @@ class PractitionerControllerTest {
         assertThat(body).startsWith("{\"_id\":\"abc\"")
     }
 
-    /**
-     *
-     */
-    @Test
-    fun insertSession_withPracticeName_1() {
-        val body: String = "{\"discipline\": \"Yoga\",\n\"practice\": \"Hatha\",\n\"intention\": \"Salary raise\"\n}"
-        // Setup
-        mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
-        //
-        val postRequest = testController.testServer.post("/practitioner/session/abc", body, false)
-        val httpResponse = testController.testServer.execute(postRequest)
-        val responseBody = String(httpResponse.body())
-        // Exception com.fasterxml.jackson.databind.exc.InvalidDefinitionException:
-        //     Cannot construct instance of `java.time.LocalDateTime` (no Creators, like default construct, exist):
-        //     cannot deserialize from Object value (no delegate- or property-based Creator)
-        //
-        //val session: SessionDBO = jacksonObjectMapper().readValue(responseBody, SessionDBO::class.java)
-        assertThat(responseBody).startsWith("{\"index\":1")
-    }
 
     /**
      *
      */
     @Test
-    fun insertSession_withoutPracticeName_1() {
+    fun insertSession_returnIndexIs_1() {
         val body: String = "{\"discipline\": \"Yoga\",\n\"intention\": \"Salary raise\"\n}"
         // Setup
         mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
