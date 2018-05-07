@@ -47,9 +47,10 @@ class SettingsService : ISettingsService {
         // Create a updatedSettingsDBO with all the same variables as the old one except the new intentionsList
         val updatedSettingsDBO = SettingsDBO(settingsObject._id, copyIntentionMutableList, settingsObject.disciplines, settingsObject.companionDays, settingsObject.companionGoalHours)
         // Update the SettingsSBO
-        return settingsObject.apply {
+        settingsObject.apply {
             collection.replaceOne(updatedSettingsDBO)
         }
+        return updatedSettingsDBO
     }
 
     override fun getById(id: String): SettingsDBO? {
