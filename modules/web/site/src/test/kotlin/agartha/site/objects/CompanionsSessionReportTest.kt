@@ -7,9 +7,10 @@ import org.assertj.core.api.Assertions
 import org.junit.Test
 
 class CompanionsSessionReportTest {
+    val session: SessionDBO = SessionDBO(index = 0, intention = "Wellbeing", discipline = "Yoga")
     val userNoMatch: PractitionerDBO = PractitionerDBO(sessions = listOf(SessionDBO(index = 0, intention = "Empowerment", discipline = "Meditation")))
-    val userFullMatch: PractitionerDBO = PractitionerDBO(sessions = listOf(SessionDBO(index = 0, intention = "Empowerment", discipline = "Yoga")))
-    val report: CompanionsSessionReport = CompanionsSessionReport(SessionDBO(index = 0, intention = "Wellbeing", discipline = "Yoga"))
+    val userFullMatch: PractitionerDBO = PractitionerDBO( sessions = listOf(session))
+    val report: CompanionsSessionReport = CompanionsSessionReport(session)
     /**
      *
      */
@@ -41,6 +42,6 @@ class CompanionsSessionReportTest {
     @Test
     fun companionsSessionReport_matchPoint_2() {
         report.giveMatchPoints(userFullMatch)
-        Assertions.assertThat(report.matchPoints).isEqualTo(0)
+        Assertions.assertThat(report.matchPoints).isEqualTo(2)
     }
 }

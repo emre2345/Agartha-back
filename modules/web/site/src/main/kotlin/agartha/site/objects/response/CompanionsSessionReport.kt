@@ -10,8 +10,10 @@ import java.time.LocalDateTime
  *
  * Created by Rebecca Fransson on 2018-05-07.
  */
-data class CompanionsSessionReport(// The number of match-points this companions session has, 0 = no match and 2 = full match
+data class CompanionsSessionReport(
+        // The number of match-points this companions session has, 0 = no match and 2 = full match
         var matchPoints: Int,
+        // Session related data
         val geolocation: GeolocationDBO? = null,
         val discipline: String,
         val intention: String,
@@ -32,7 +34,6 @@ data class CompanionsSessionReport(// The number of match-points this companions
 
     /**
      * Calculates the match points and adds them to the variable
-     * TODO: Gör denna snyggare, jörgen bry dig inte om denna. gjorde bara så att den fungerade
      * @param user that
      * @return number of ponits for this match
      */
