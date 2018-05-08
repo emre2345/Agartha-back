@@ -20,7 +20,7 @@ import java.time.LocalDateTime
 class PractitionerController {
     // Practitioner data service
     private val mService: IPractitionerService
-    // For mapping objects to strin
+    // For mapping objects to string
     private val mMapper = ObjectToStringFormatter().getFormatter()
 
     constructor(service: IPractitionerService) {

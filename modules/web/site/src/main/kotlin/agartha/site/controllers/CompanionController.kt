@@ -4,12 +4,11 @@ import agartha.common.config.Settings.Companion.COMPANION_NUMBER_OF_HOURS
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
+import agartha.site.controllers.utils.ObjectToStringFormatter
 import agartha.site.controllers.utils.PractitionerUtil
 import agartha.site.controllers.utils.SessionUtil
 import agartha.site.objects.response.CompanionReport
 import agartha.site.objects.response.CompanionsSessionReport
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import spark.Request
 import spark.Response
 import spark.Spark
@@ -24,7 +23,7 @@ class CompanionController {
     // Practitioner data service
     private val mService: IPractitionerService
     // For mapping objects to string
-    private val mMapper = ObjectMapper().registerKotlinModule()
+    private val mMapper = ObjectToStringFormatter().getFormatter()
 
     constructor(service: IPractitionerService) {
         mService = service

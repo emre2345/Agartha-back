@@ -3,11 +3,10 @@ package agartha.site.controllers
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.site.controllers.mocks.MockedPractitionerService
+import agartha.site.controllers.utils.ObjectToStringFormatter
 import agartha.site.objects.response.CompanionReport
 import agartha.site.objects.response.CompanionsSessionReport
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
@@ -22,7 +21,7 @@ class CompanionControllerTest {
     companion object {
         val mockedService = MockedPractitionerService()
         val testController = ControllerServer()
-        val mapper = ObjectMapper().registerKotlinModule()
+        val mapper = ObjectToStringFormatter().getFormatter()
 
 
         /**
@@ -77,7 +76,7 @@ class CompanionControllerTest {
                         LocalDateTime.now().minusMinutes(5)))))
         //
         mockedService.insert(PractitionerDBO("e", LocalDateTime.now(), mutableListOf(
-                SessionDBO(0, null, "Meditation", "Empowerment",
+                SessionDBO(0, null, "Meditation", "Harmony",
                         LocalDateTime.now().minusMinutes(35),
                         LocalDateTime.now().minusMinutes(5)))))
         //
@@ -270,14 +269,14 @@ class CompanionControllerTest {
      * Older than current session should not be counted
      */
     @Test
-    fun companionSessionReport_intentionsHasNot_Harmony() {
+    fun companionSessionReport_intentionsHasNot_Empowerment() {
         setupReport()
         val getRequest = testController.testServer.get("/companion/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: CompanionReport= mapper.readValue(body)
-        assertThat(data.intentions.containsKey("Harmony")).isFalse()
+        val data: CompanionReport = mapper.readValue(body)
+        assertThat(data.intentions.containsKey("Empowerment")).isFalse()
     }
 
 
