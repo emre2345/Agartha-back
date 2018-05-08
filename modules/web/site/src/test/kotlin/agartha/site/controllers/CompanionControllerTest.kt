@@ -283,7 +283,7 @@ class CompanionControllerTest {
     /**
      *
      */
-    /*@Test
+    @Test
     fun matchSessions_firstSessionPoints_2() {
         setupReport()
         val getRequest = testController.testServer.get("/companion/matched/c", false)
@@ -291,7 +291,35 @@ class CompanionControllerTest {
         val body = String(httpResponse.body())
         // Map data to object
         val list: List<CompanionsSessionReport> = mapper.readValue(body)
-        Assertions.assertThat(list[0].matchPoints).isEqualTo(100)
-    }*/
+        Assertions.assertThat(list[0].matchPoints).isEqualTo(2)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun matchSessions_SecondSessionPoints_1() {
+        setupReport()
+        val getRequest = testController.testServer.get("/companion/matched/c", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+        // Map data to object
+        val list: List<CompanionsSessionReport> = mapper.readValue(body)
+        Assertions.assertThat(list[1].matchPoints).isEqualTo(1)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun matchSessions_LastSessionPoints_0() {
+        setupReport()
+        val getRequest = testController.testServer.get("/companion/matched/c", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+        // Map data to object
+        val list: List<CompanionsSessionReport> = mapper.readValue(body)
+        Assertions.assertThat(list.last().matchPoints).isEqualTo(0)
+    }
 
 }

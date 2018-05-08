@@ -46,7 +46,7 @@ class CompanionReportTest {
      *
      */
     @Test
-    fun compaionPractitionerCount_existingList_5() {
+    fun companionPractitionerCount_existingList_5() {
         val companion = CompanionReport(generateSessions())
         assertThat(companion.practitionerCount).isEqualTo(5)
     }
