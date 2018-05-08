@@ -6,9 +6,6 @@ import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.controllers.utils.ObjectToStringFormatter
 import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.objects.response.PractitionerReport
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.BeforeClass
@@ -25,7 +22,7 @@ class PractitionerControllerTest {
     companion object {
         val mockedService = MockedPractitionerService()
         val testController = ControllerServer()
-        val mapper = ObjectMapper().registerKotlinModule()
+        val mapper = ObjectToStringFormatter().getFormatter()
 
 
         @BeforeClass
@@ -114,10 +111,7 @@ class PractitionerControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        //val data: PractitionerReport = mapper.readValue(body)
-
         val data: PractitionerReport = ObjectToStringFormatter().getFormatter().readValue(body, PractitionerReport::class.java)
-
         assertThat(data.practitionerId?.length).isEqualTo(24)
     }
 
@@ -133,7 +127,6 @@ class PractitionerControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        //val data: PractitionerReport = mapper.readValue(body)
         val data: PractitionerReport = ObjectToStringFormatter().getFormatter().readValue(body, PractitionerReport::class.java)
         assertThat(data.practitionerId).isEqualTo("abc")
     }
@@ -151,7 +144,6 @@ class PractitionerControllerTest {
                 "rebecca@kollektiva.se",
                 "Jag gillar yoga!")
         //
-        //val getRequest = testController.testServer.post("/practitioner/abc", mapper.writeValueAsString(involvedInformation), false)
         val getRequest = testController.testServer.post("/practitioner/abc", ObjectToStringFormatter().getFormatter().writeValueAsString(involvedInformation), false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
@@ -187,7 +179,6 @@ class PractitionerControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        //val data: PractitionerReport = mapper.readValue(body)
         val data: PractitionerReport = ObjectToStringFormatter().getFormatter().readValue(body, PractitionerReport::class.java)
         assertThat(data.practitionerId).isEqualTo("c")
     }
@@ -202,7 +193,6 @@ class PractitionerControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        //val data: PractitionerReport = mapper.readValue(body)
         val data: PractitionerReport = ObjectToStringFormatter().getFormatter().readValue(body, PractitionerReport::class.java)
         assertThat(data.lastSessionTime).isEqualTo(20)
     }
@@ -217,7 +207,6 @@ class PractitionerControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        //val data: PractitionerReport = mapper.readValue(body)
         val data: PractitionerReport = ObjectToStringFormatter().getFormatter().readValue(body, PractitionerReport::class.java)
         assertThat(data.totalSessionTime).isEqualTo(65)
     }
