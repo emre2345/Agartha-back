@@ -2,10 +2,10 @@ package agartha.site.controllers
 
 import agartha.data.objects.PractitionerDBO
 import agartha.data.services.IPractitionerService
+import agartha.site.controllers.utils.ObjectToStringFormatter
 import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.objects.request.StartSessionInformation
 import agartha.site.objects.response.PractitionerReport
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.bson.types.ObjectId
 import spark.Request
 import spark.Response
@@ -21,10 +21,11 @@ class PractitionerController {
     // Practitioner data service
     private val mService: IPractitionerService
     // For mapping objects to string
-    private val mMapper = jacksonObjectMapper()
+    private val mMapper = ObjectToStringFormatter().getFormatter()
 
     constructor(service: IPractitionerService) {
         mService = service
+
         // API path for session
         Spark.path("/practitioner") {
             //
@@ -41,7 +42,6 @@ class PractitionerController {
             Spark.post("/session/:userid", ::insertSession)
         }
     }
-
 
     /**
      * Get information about current practitioner
@@ -105,11 +105,11 @@ class PractitionerController {
      */
     private fun insertSession(request: Request, response: Response): String {
         // Get current userid
-        val userId : String = request.params(":userid")
+        val userId: String = request.params(":userid")
         // Type of discipline, practice and intention
         val startSessionInformation: StartSessionInformation = mMapper.readValue(request.body(), StartSessionInformation::class.java)
         // Start a session
-        val session =  mService.startSession(
+        val session = mService.startSession(
                 userId,
                 startSessionInformation.geolocation,
                 startSessionInformation.discipline,
