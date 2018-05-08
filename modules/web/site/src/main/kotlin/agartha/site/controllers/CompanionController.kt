@@ -13,6 +13,7 @@ import spark.Request
 import spark.Response
 import spark.Spark
 import java.time.LocalDateTime
+import java.util.*
 
 /**
  * Purpose of this class is handling companion Practictioners
@@ -128,6 +129,8 @@ class CompanionController {
             // Add this report to the returning-list
             companionsSessionList.add(companionsSessionReport)
         }
+        // Sort the list by descending
+        companionsSessionList.sortByDescending { it.matchPoints }
         return mMapper.writeValueAsString(companionsSessionList)
     }
 

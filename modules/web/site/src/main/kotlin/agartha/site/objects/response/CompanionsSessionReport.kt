@@ -11,21 +11,20 @@ import java.time.LocalDateTime
  * Created by Rebecca Fransson on 2018-05-07.
  */
 data class CompanionsSessionReport(
-        val index: Int,
+        // The number of match-points this companions session has, 0 = no match and 2 = full match
+        var matchPoints: Int,
+        // Session related data
         val geolocation: GeolocationDBO? = null,
         val discipline: String,
         val intention: String,
         val startTime: LocalDateTime = LocalDateTime.now(),
         val endTime: LocalDateTime? = null) {
 
-    // The number of match-points this companions session has, 0 = no match and 2 = full match
-    var matchPoints: Number = 0
-
     /**
      * constructor that creates the companionSession object from the sessionSBO
      */
     constructor(session: SessionDBO) : this(
-            session.index,
+            0,
             session.geolocation,
             session.discipline,
             session.intention,
@@ -35,20 +34,17 @@ data class CompanionsSessionReport(
 
     /**
      * Calculates the match points and adds them to the variable
-     * TODO: Gör denna snyggare, jörgen bry dig inte om denna. gjorde bara så att den fungerade
      * @param user that
      * @return number of ponits for this match
      */
     fun giveMatchPoints(user: PractitionerDBO){
         val usersLatestSession = user.sessions.last()
-        println(usersLatestSession)
-        var points = 0
         if(this.intention === usersLatestSession.intention){
-            points++
+            this.matchPoints++
         }
         if(this.discipline === usersLatestSession.discipline){
-            points++
+            this.matchPoints++
         }
-        this.matchPoints = points
     }
+
 }
