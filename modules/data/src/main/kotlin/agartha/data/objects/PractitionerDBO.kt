@@ -11,7 +11,6 @@ data class PractitionerDBO(
         val _id: String? = null,
         val created: LocalDateTime = LocalDateTime.now(),
         val sessions: List<SessionDBO> = listOf(),
-
         var fullName: String? = null,
         var email: String? = null,
         var description: String? = null
@@ -44,10 +43,11 @@ data class PractitionerDBO(
     }
     /**
      * Check if practitioner has left 'get involved'-information
+     * Function cannot have name isInvolved (considered as property), hence rename
      *
      * @return true if user has left information
      */
-    fun isInvolved(): Boolean {
+    fun involved(): Boolean {
         return this.fullName != null && this.email != null && this.description != null
     }
 }

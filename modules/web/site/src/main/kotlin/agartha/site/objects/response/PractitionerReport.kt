@@ -27,6 +27,6 @@ data class PractitionerReport(val practitionerId: String?, val lastSessionTime: 
                     }
                     // Sum it
                     .sum(),
-            user.isInvolved())
+            user.involved())
 
 }
