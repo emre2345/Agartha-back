@@ -4,10 +4,11 @@ import agartha.common.config.Settings.Companion.COMPANION_NUMBER_OF_HOURS
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
+import agartha.site.controllers.utils.ObjectToStringFormatter
 import agartha.site.controllers.utils.PractitionerUtil
 import agartha.site.controllers.utils.SessionUtil
 import agartha.site.objects.response.CompanionReport
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import agartha.site.objects.response.CompanionsSessionReport
 import spark.Request
 import spark.Response
 import spark.Spark
@@ -22,7 +23,7 @@ class CompanionController {
     // Practitioner data service
     private val mService: IPractitionerService
     // For mapping objects to string
-    private val mMapper = jacksonObjectMapper()
+    private val mMapper = ObjectToStringFormatter().getFormatter()
 
     constructor(service: IPractitionerService) {
         mService = service
@@ -35,6 +36,8 @@ class CompanionController {
             // Get companions for ongoing
             Spark.get("/ongoing", ::companionOngoing)
             Spark.get("/ongoing/:userid", ::companionOngoing)
+            // Get matched companions
+            Spark.get("/matched/:userid", ::matchOngoingCompanionsSessions)
 
         }
     }
@@ -62,11 +65,11 @@ class CompanionController {
         return mMapper.writeValueAsString(companionReport)
     }
 
-    private fun companionSessionReport(request: Request, response: Response) : String {
+    private fun companionSessionReport(request: Request, response: Response): String {
         // Get current userid
-        val userId : String = request.params(":userid")
+        val userId: String = request.params(":userid")
         // Get user from data source
-        val user : PractitionerDBO? = mService.getById(userId)
+        val user: PractitionerDBO? = mService.getById(userId)
         //
         if (user != null) {
             val startDateTime: LocalDateTime = user.sessions.last().startTime
@@ -76,7 +79,7 @@ class CompanionController {
                     .filterPractitionerWithSessionsBetween(
                             mService.getAll(), startDateTime, endDateTime)
             // Filter out last session for these practitioners
-            val sessions : List<SessionDBO> = SessionUtil
+            val sessions: List<SessionDBO> = SessionUtil
                     .filterSingleSessionActiveBetween(
                             practitioners, userId, startDateTime, endDateTime)
             // Generate report
@@ -94,22 +97,58 @@ class CompanionController {
      */
     private fun companionOngoing(request: Request, response: Response): String {
         // Get current userid
-        val userId : String = request.params(":userid") ?: ""
-
-        // Created times for getting ongoing sessions
-        val startDateTime: LocalDateTime = LocalDateTime.now().minusMinutes(15)
-        val endDateTime: LocalDateTime = LocalDateTime.now()
-        // Get practitioners with sessions between
-        val practitioners = PractitionerUtil
-                .filterPractitionerWithSessionsBetween(
-                        mService.getAll(), startDateTime, endDateTime)
-        // Filter out last session for these practitioners
-        val sessions : List<SessionDBO> = SessionUtil
-                .filterSingleSessionActiveBetween(
-                        practitioners, userId, startDateTime, endDateTime)
+        val userId: String = request.params(":userid") ?: ""
+        val practitioners = getOngoingCompanions()
+        val sessions = getOngoingCompanionsSessions(userId, practitioners)
         // Generate report
         val companionReport = CompanionReport(practitioners.count(), sessions)
         // Return the report
         return mMapper.writeValueAsString(companionReport)
+    }
+
+
+    /**
+     * Counts all the ongoing sessions and matching them with an user
+     */
+    private fun matchOngoingCompanionsSessions(request: Request, response: Response): String {
+        println("match")
+        val userId: String = request.params(":userid") ?: ""
+        println(userId)
+        // Get user from data source
+        val user: PractitionerDBO? = mService.getById(userId)
+        // Create empty list that will be filled with reports and then returned
+        val companionsSessionList: MutableList<CompanionsSessionReport> = mutableListOf()
+        // Get sessions for the ongoing companions
+        val sessions = getOngoingCompanionsSessions(userId, getOngoingCompanions())
+        for (companionsSession in sessions) {
+            // Create a new CompanionsSessionReport object with the session for the companion
+            val companionsSessionReport = CompanionsSessionReport(companionsSession)
+            // Set the matching points to this companion
+            companionsSessionReport.giveMatchPoints(user!!)
+            // Add this report to the returning-list
+            companionsSessionList.add(companionsSessionReport)
+        }
+        return mMapper.writeValueAsString(companionsSessionList)
+    }
+
+    private fun getOngoingCompanions(): List<PractitionerDBO> {
+        // Created times for getting ongoing sessions
+        val startDateTime: LocalDateTime = LocalDateTime.now().minusMinutes(15)
+        val endDateTime: LocalDateTime = LocalDateTime.now()
+        // Get practitioners with sessions between
+        return PractitionerUtil
+                .filterPractitionerWithSessionsBetween(
+                        mService.getAll(), startDateTime, endDateTime)
+    }
+
+    private fun getOngoingCompanionsSessions(userId: String, practitioners: List<PractitionerDBO>): List<SessionDBO> {
+        // Created times for getting ongoing sessions
+        val startDateTime: LocalDateTime = LocalDateTime.now().minusMinutes(15)
+        val endDateTime: LocalDateTime = LocalDateTime.now()
+        // Filter out last session for these practitioners
+        return SessionUtil
+                .filterSingleSessionActiveBetween(
+                        practitioners, userId, startDateTime, endDateTime)
+
     }
 }
