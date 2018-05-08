@@ -3,6 +3,7 @@ package agartha.site.controllers
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.site.controllers.mocks.MockedPractitionerService
+import agartha.site.controllers.utils.ObjectToStringFormatter
 import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.objects.response.Hovno
 import agartha.site.objects.response.Jojje
@@ -140,7 +141,7 @@ class PractitionerControllerTest {
         val body = String(httpResponse.body())
         println(body)
 
-        val obj = Hovno().getTheJacksonStuff().readValue(body, Jojje::class.java)
+        val obj = ObjectToStringFormatter().getFormatter().readValue(body, Jojje::class.java)
         assertThat(obj.id).isEqualTo("ABCD")
     }
 

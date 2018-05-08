@@ -2,6 +2,7 @@ package agartha.site.controllers
 
 import agartha.data.objects.PractitionerDBO
 import agartha.data.services.IPractitionerService
+import agartha.site.controllers.utils.ObjectToStringFormatter
 import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.objects.request.StartSessionInformation
 import agartha.site.objects.response.Hovno
@@ -54,7 +55,7 @@ class PractitionerController {
 
     private fun getHovno(request: Request, response: Response): String {
         val jojje = Jojje()
-        return Hovno().getTheJacksonStuff().writeValueAsString(jojje)
+        return ObjectToStringFormatter().getFormatter().writeValueAsString(jojje)
     }
 
     /**
