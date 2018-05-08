@@ -1,8 +1,6 @@
 package agartha.data.services
 
-import agartha.data.objects.GeolocationDBO
-import agartha.data.objects.PractitionerDBO
-import agartha.data.objects.SessionDBO
+import agartha.data.objects.*
 import java.time.LocalDateTime
 
 /**

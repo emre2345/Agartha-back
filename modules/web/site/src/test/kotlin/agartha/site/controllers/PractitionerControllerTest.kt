@@ -22,6 +22,7 @@ class PractitionerControllerTest {
     companion object {
         val mockedService = MockedPractitionerService()
         val testController = ControllerServer()
+        val mapper = ObjectToStringFormatter().getFormatter()
 
 
         @BeforeClass

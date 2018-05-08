@@ -15,6 +15,7 @@ import java.time.LocalDateTime
  * Created by Jorgen Andersson on 2018-04-09.
  */
 class PractitionerService : IPractitionerService {
+
     // Get MongoDatabase
     private val database = MongoConnection.getDatabase()
     // MongoCollection
@@ -94,4 +95,5 @@ class PractitionerService : IPractitionerService {
                 .find(condition)
                 .toList()
     }
+
 }
