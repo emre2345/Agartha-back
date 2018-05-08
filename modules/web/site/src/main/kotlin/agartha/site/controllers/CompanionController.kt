@@ -39,6 +39,7 @@ class CompanionController {
             // Get matched companions
             Spark.get("/matched/:userid", ::matchOngoingCompanionsSessions)
 
+
         }
     }
 
@@ -151,4 +152,7 @@ class CompanionController {
                         practitioners, userId, startDateTime, endDateTime)
 
     }
+
+
+
 }

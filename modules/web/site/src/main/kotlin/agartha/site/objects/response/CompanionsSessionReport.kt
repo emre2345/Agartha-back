@@ -3,6 +3,7 @@ package agartha.site.objects.response
 import agartha.data.objects.GeolocationDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
+import agartha.site.controllers.utils.SessionUtil
 import java.time.LocalDateTime
 
 /**
@@ -30,8 +31,8 @@ data class CompanionsSessionReport(
             session.discipline,
             session.intention,
             session.startTime,
-            session.endTime
-    )
+            session.endTime)
+
 
     /**
      * Calculates the match points and adds them to the variable

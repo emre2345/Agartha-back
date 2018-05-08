@@ -50,6 +50,26 @@ class SessionUtil {
         }
 
         /**
+         * Extract currently ongoing sessions
+         * Max one session can be counted per practitioner since it is not possible have two concurrent sessions
+         *
+         * @param practitioners list of practitioners
+         * @param practitionerId id for current practitioner
+         * @return list of ongoing sessions
+         */
+        fun filterOngoingSessions(practitioners: List<PractitionerDBO>, practitionerId: String): List<SessionDBO> {
+            return practitioners
+                    // Filter out current user
+                    .filter { it._id != practitionerId }
+                    // Filter out those without session to avoid null pointer exception in map below
+                    .filter { it.sessions.isNotEmpty() }
+                    // Get the last/latest session
+                    .map {it.sessions.last() }
+                    // Filter out the abandon and finished
+                    .filter { it.ongoing() }
+        }
+
+        /**
          * Extract all session from practitioner based on session start/end time
          * No consideration is taken on number of sessions per practitioner
          *
@@ -102,7 +122,7 @@ class SessionUtil {
          * @param geolocation2
          * @return distance in km as Double
          */
-        private fun distanceInKilometer(geolocation1: GeolocationDBO, geolocation2: GeolocationDBO): Double {
+        fun distanceInKilometer(geolocation1: GeolocationDBO, geolocation2: GeolocationDBO): Double {
 
             // Equator radius: 6 378 km
             // Polar radius: 6 356 km
