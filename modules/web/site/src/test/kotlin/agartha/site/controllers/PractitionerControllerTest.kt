@@ -163,7 +163,7 @@ class PractitionerControllerTest {
         val body = String(httpResponse.body())
         // Map to Data object
         val data: PractitionerReport = ObjectToStringFormatter().getFormatter().readValue(body, PractitionerReport::class.java)
-        assertThat(data.lastSessionTime).isEqualTo(20)
+        assertThat(data.lastSessionMinutes).isEqualTo(20)
     }
 
     /**
@@ -177,7 +177,7 @@ class PractitionerControllerTest {
         val body = String(httpResponse.body())
         // Map to Data object
         val data: PractitionerReport = ObjectToStringFormatter().getFormatter().readValue(body, PractitionerReport::class.java)
-        assertThat(data.totalSessionTime).isEqualTo(65)
+        assertThat(data.totalSessionMinutes).isEqualTo(65)
     }
 
     /**

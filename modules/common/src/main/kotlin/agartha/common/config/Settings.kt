@@ -8,15 +8,14 @@ package agartha.common.config
 class Settings {
 
     companion object {
-        // Time before a Session is considered abandone
-        const val ABONDON_SESSION_MINUTES : Long = 3 * 60
-        // For how many hours should we get practitioners in database with ongoing sessions
-        // in Session end report
-        const val SESSION_HOURS : Long = 24
-        // For how many days should we count sessions for companion page
-        const val COMPANION_NUMBER_OF_DAYS : Long = 10
-        const val COMPANION_NUMBER_OF_HOURS = COMPANION_NUMBER_OF_DAYS * 24
-        // What is the goal in hours for companion page
-        const val COMPANION_GOLS_HOURS : Long = 10000
+        // Time before a Session is considered abandon (3 hours)
+        const val ABANDON_SESSION_MINUTES : Long = 3 * 60
+        // For how many minutes should we get practitioners in database with ongoing sessions
+        // in Session end report ( 1day * 24 hours * 60 minutes  =  1 day in minutes)
+        const val SESSION_MINUTES : Long = 1 * 24 * 60
+        // For how many minutes should we count sessions for companion page (10 days * 24 hours * 60 minutes = 10days in minutes)
+        const val COMPANION_NUMBER_OF_MINUTES : Long = 10 * 24 * 60 
+        // What is the goal in minutes for companion page (10 000 hours * 60 minutes)
+        const val COMPANION_GOAL_MINUTES : Long = 10000 * 60
     }
 }
