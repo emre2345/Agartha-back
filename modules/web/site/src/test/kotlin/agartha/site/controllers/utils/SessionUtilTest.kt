@@ -310,32 +310,151 @@ class SessionUtilTest {
         assertThat(response.size).isEqualTo(3)
     }
 
+    /**
+     *
+     */
     @Test
-    fun distanceToClosestSession_fromBjornstorp_23komma6() {
-        val sessions = listOf(
-                SessionDBO(
-                        index = 0,
-                        geolocation = null,
-                        discipline = "Nr 1", intention = "Nr 1"),
-                SessionDBO(
-                        index = 1,
-                        geolocation = DevGeolocationSelect.MALMO_KOLLEKTIVA.geolocationDBO,
-                        discipline = "Nr 1", intention = "Nr 1"),
-                SessionDBO(
-                        index = 2,
-                        geolocation = DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO,
-                        discipline = "Nr 2", intention = "Nr 2"),
-                SessionDBO(
-                        index = 3,
-                        geolocation = DevGeolocationSelect.SYDNEY_OPERA_HOUSE.geolocationDBO,
-                        discipline = "Nr 2", intention = "Nr 2")
-        )
-
-        val value = SessionUtil.distanceToClosestSession(
-                DevGeolocationSelect.BJORNSTORP.geolocationDBO, sessions)
-        assertThat(value).isGreaterThan(23.616430)
-        assertThat(value).isLessThan(23.616431)
+    fun filterOngoingSessions_emptyInputList_0() {
+        val response = SessionUtil.filterOngoingSessions(
+                listOf(),
+                "abc")
+        assertThat(response).isEmpty()
     }
 
+    /**
+     *
+     */
+    @Test
+    fun filterOngoing_ongoing_1() {
+        val response = SessionUtil.filterOngoingSessions(
+                listOf(
+                        PractitionerDBO(_id = "aaa", sessions = listOf(
+                                SessionDBO(
+                                        index = 0,
+                                        geolocation = null,
+                                        discipline = "Yoga",
+                                        intention = "Wellbeing",
+                                        startTime = LocalDateTime.now().minusMinutes(175))
+                        ))
+                ),
+                "abc")
+        assertThat(response.size).isEqualTo(1)
+    }
 
+    /**
+     *
+     */
+    @Test
+    fun filterOngoing_abandon_0() {
+        val response = SessionUtil.filterOngoingSessions(
+                listOf(
+                        PractitionerDBO(_id = "aaa", sessions = listOf(
+                                SessionDBO(
+                                        index = 0,
+                                        geolocation = null,
+                                        discipline = "Yoga",
+                                        intention = "Wellbeing",
+                                        startTime = LocalDateTime.now().minusMinutes(185))
+                        ))
+                ),
+                "abc")
+        assertThat(response.size).isEqualTo(0)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun filterOngoing_endedSession_0() {
+        val response = SessionUtil.filterOngoingSessions(
+                listOf(
+                        PractitionerDBO(_id = "aaa", sessions = listOf(
+                                SessionDBO(
+                                        index = 0,
+                                        geolocation = null,
+                                        discipline = "Yoga",
+                                        intention = "Wellbeing",
+                                        startTime = LocalDateTime.now().minusMinutes(120),
+                                        endTime = LocalDateTime.now().minusMinutes(50))
+                        ))
+                ),
+                "abc")
+        assertThat(response.size).isEqualTo(0)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun filterOngoing_endedSessionLongAgo_0() {
+        val response = SessionUtil.filterOngoingSessions(
+                listOf(
+                        PractitionerDBO(_id = "aaa", sessions = listOf(
+                                SessionDBO(
+                                        index = 0,
+                                        geolocation = null,
+                                        discipline = "Yoga",
+                                        intention = "Wellbeing",
+                                        startTime = LocalDateTime.now().minusDays(30),
+                                        endTime = LocalDateTime.now().minusDays(29))
+                        ))
+                ),
+                "abc")
+        assertThat(response.size).isEqualTo(0)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun filterOngoing_multipleSessions_1() {
+        val response = SessionUtil.filterOngoingSessions(
+                listOf(
+                        PractitionerDBO(_id = "aaa", sessions = listOf(
+                                SessionDBO(
+                                        index = 0,
+                                        geolocation = null,
+                                        discipline = "Yoga",
+                                        intention = "Wellbeing",
+                                        startTime = LocalDateTime.now().minusMinutes(100),
+                                        endTime = LocalDateTime.now().minusMinutes(50)),
+                                SessionDBO(
+                                        index = 1,
+                                        geolocation = null,
+                                        discipline = "Yoga",
+                                        intention = "Wellbeing",
+                                        startTime = LocalDateTime.now().minusMinutes(30))
+                        ))
+                ),
+                "abc")
+        assertThat(response.size).isEqualTo(1)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun filterOngoing_currentUserRemoved_1() {
+        val response = SessionUtil.filterOngoingSessions(
+                listOf(
+                        PractitionerDBO(_id = "aaa", sessions = listOf(
+                                SessionDBO(
+                                        index = 0,
+                                        geolocation = null,
+                                        discipline = "Yoga",
+                                        intention = "Wellbeing",
+                                        startTime = LocalDateTime.now().minusMinutes(30))
+                        )),
+                        PractitionerDBO(_id = "abc", sessions = listOf(
+                                SessionDBO(
+                                        index = 0,
+                                        geolocation = null,
+                                        discipline = "Yoga",
+                                        intention = "Wellbeing",
+                                        startTime = LocalDateTime.now().minusMinutes(30))
+                        ))
+                ),
+                "abc")
+        assertThat(response.size).isEqualTo(1)
+    }
 }

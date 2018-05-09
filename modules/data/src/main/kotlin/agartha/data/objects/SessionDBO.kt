@@ -67,6 +67,16 @@ data class SessionDBO(
     }
 
     /**
+     * Function to see if a session is ongoing
+     */
+    fun ongoing(): Boolean {
+        if (this.endTime != null) {
+            return false
+        }
+        return !isAbandoned()
+    }
+
+    /**
      * A session is considered abandon if user has not finshed session within this number of minutes
      * @return true if session is considered abandon, otherwise false
      */

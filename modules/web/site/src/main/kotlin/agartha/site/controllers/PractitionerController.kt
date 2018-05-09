@@ -3,6 +3,7 @@ package agartha.site.controllers
 import agartha.data.objects.PractitionerDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ObjectToStringFormatter
+import agartha.site.controllers.utils.SessionUtil
 import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.objects.request.StartSessionInformation
 import agartha.site.objects.response.PractitionerReport
@@ -40,6 +41,10 @@ class PractitionerController {
             //
             // Start a new Session
             Spark.post("/session/:userid", ::insertSession)
+            //
+            // Prepare practitioner before starting a session
+            // Get all ongoing sessions to compare current practitioner with
+            Spark.get("/prepare/:userid", ::getPrepareReport)
         }
     }
 
@@ -106,7 +111,7 @@ class PractitionerController {
     private fun insertSession(request: Request, response: Response): String {
         // Get current userid
         val userId: String = request.params(":userid")
-        // Type of discipline, practice and intention
+        // Get selected geolocation, discipline and intention
         val startSessionInformation: StartSessionInformation = mMapper.readValue(request.body(), StartSessionInformation::class.java)
         // Start a session
         val session = mService.startSession(
@@ -116,5 +121,21 @@ class PractitionerController {
                 startSessionInformation.intention)
         // Return the started session
         return mMapper.writeValueAsString(session)
+    }
+
+
+    /**
+     * Get prepare report
+     * Information about other ongoing sessions
+     */
+    private fun getPrepareReport(request: Request, response: Response): String {
+        // Get current userid
+        val userId: String = request.params(":userid") ?: ""
+        // Get all practitioners
+        val practitioners = mService.getAll()
+        // Get all ongoing sessions
+        val sessions = SessionUtil.filterOngoingSessions(practitioners, userId)
+        // Write all sessions
+        return mMapper.writeValueAsString(sessions)
     }
 }

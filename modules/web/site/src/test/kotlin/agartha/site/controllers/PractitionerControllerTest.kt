@@ -90,6 +90,13 @@ class PractitionerControllerTest {
                 SessionDBO(0, null, "Meditation", "Celebration",
                         LocalDateTime.now().minusDays(5),
                         LocalDateTime.now().minusDays(5)))))
+        // Ongoing sessions
+        mockedService.insert(PractitionerDBO("g", LocalDateTime.now(), mutableListOf(
+                SessionDBO(0, null, "Meditation", "Celebration",
+                        LocalDateTime.now().minusMinutes(15)))))
+        mockedService.insert(PractitionerDBO("h", LocalDateTime.now(), mutableListOf(
+                SessionDBO(0, null, "Meditation", "Love",
+                        LocalDateTime.now().minusMinutes(25)))))
     }
 
     /**
@@ -131,44 +138,6 @@ class PractitionerControllerTest {
         assertThat(data.practitionerId).isEqualTo("abc")
     }
 
-
-    /**
-     *
-     */
-    @Test
-    fun updatePractitioner_insertedUser_updatedUserWithInvolvedInformation() {
-        // Setup
-        mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
-        val involvedInformation = PractitionerInvolvedInformation(
-                "Rebecca",
-                "rebecca@kollektiva.se",
-                "Jag gillar yoga!")
-        //
-        val getRequest = testController.testServer.post("/practitioner/abc", ObjectToStringFormatter().getFormatter().writeValueAsString(involvedInformation), false)
-        val httpResponse = testController.testServer.execute(getRequest)
-        val body = String(httpResponse.body())
-        val data: PractitionerDBO = ObjectToStringFormatter().getFormatter().readValue(body, PractitionerDBO::class.java)
-        assertThat(data._id).isEqualTo("abc")
-    }
-
-
-    /**
-     *
-     */
-    @Test
-    fun insertSession_returnIndexIs_1() {
-        val body: String = "{\"discipline\": \"Yoga\",\n\"intention\": \"Salary raise\"\n}"
-        // Setup
-        mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
-        //
-        val postRequest = testController.testServer.post("/practitioner/session/abc", body, false)
-        val httpResponse = testController.testServer.execute(postRequest)
-        val responseBody = String(httpResponse.body())
-        //
-        assertThat(responseBody).startsWith("{\"index\":1")
-    }
-
-
     /**
      *
      */
@@ -209,5 +178,82 @@ class PractitionerControllerTest {
         // Map to Data object
         val data: PractitionerReport = ObjectToStringFormatter().getFormatter().readValue(body, PractitionerReport::class.java)
         assertThat(data.totalSessionMinutes).isEqualTo(65)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun updatePractitioner_insertedUser_updatedUserWithInvolvedInformation() {
+        // Setup
+        mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
+        val involvedInformation = PractitionerInvolvedInformation(
+                "Rebecca",
+                "rebecca@kollektiva.se",
+                "Jag gillar yoga!")
+        //
+        val getRequest = testController.testServer.post("/practitioner/abc", ObjectToStringFormatter().getFormatter().writeValueAsString(involvedInformation), false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+        val data: PractitionerDBO = ObjectToStringFormatter().getFormatter().readValue(body, PractitionerDBO::class.java)
+        assertThat(data._id).isEqualTo("abc")
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun insertSession_returnIndexIs_1() {
+        val body: String = "{\"discipline\": \"Yoga\",\n\"intention\": \"Salary raise\"\n}"
+        // Setup
+        mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
+        //
+        val postRequest = testController.testServer.post("/practitioner/session/abc", body, false)
+        val httpResponse = testController.testServer.execute(postRequest)
+        val responseBody = String(httpResponse.body())
+        //
+        assertThat(responseBody).startsWith("{\"index\":1")
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun prepare_ongoingSize_2() {
+        setupReport()
+        val getRequest = testController.testServer.get("/practitioner/prepare/c", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+        val mapper = ObjectToStringFormatter().getFormatter()
+        val data: List<SessionDBO> = mapper.readValue(body, mapper.getTypeFactory().constructCollectionType(List::class.java, SessionDBO::class.java))
+        assertThat(data.size).isEqualTo(2)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun prepare_firstItemIntention_Celebration() {
+        setupReport()
+        val getRequest = testController.testServer.get("/practitioner/prepare/c", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+        val mapper = ObjectToStringFormatter().getFormatter()
+        val data: List<SessionDBO> = mapper.readValue(body, mapper.getTypeFactory().constructCollectionType(List::class.java, SessionDBO::class.java))
+        assertThat(data.get(0).intention).isEqualTo("Celebration")
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun prepare_secondItemIntention_Love() {
+        setupReport()
+        val getRequest = testController.testServer.get("/practitioner/prepare/c", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+        val mapper = ObjectToStringFormatter().getFormatter()
+        val data: List<SessionDBO> = mapper.readValue(body, mapper.getTypeFactory().constructCollectionType(List::class.java, SessionDBO::class.java))
+        assertThat(data.get(1).intention).isEqualTo("Love")
     }
 }
