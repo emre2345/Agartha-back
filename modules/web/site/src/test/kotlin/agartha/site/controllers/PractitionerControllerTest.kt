@@ -138,9 +138,6 @@ class PractitionerControllerTest {
         assertThat(data.practitionerId).isEqualTo("abc")
     }
 
-
-
-
     /**
      *
      */
@@ -183,7 +180,6 @@ class PractitionerControllerTest {
         assertThat(data.totalSessionTime).isEqualTo(65)
     }
 
-
     /**
      *
      */
@@ -203,7 +199,6 @@ class PractitionerControllerTest {
         assertThat(data._id).isEqualTo("abc")
     }
 
-
     /**
      *
      */
@@ -220,6 +215,9 @@ class PractitionerControllerTest {
         assertThat(responseBody).startsWith("{\"index\":1")
     }
 
+    /**
+     *
+     */
     @Test
     fun prepare_ongoingSize_2() {
         setupReport()
@@ -231,6 +229,9 @@ class PractitionerControllerTest {
         assertThat(data.size).isEqualTo(2)
     }
 
+    /**
+     *
+     */
     @Test
     fun prepare_firstItemIntention_Celebration() {
         setupReport()
@@ -242,6 +243,9 @@ class PractitionerControllerTest {
         assertThat(data.get(0).intention).isEqualTo("Celebration")
     }
 
+    /**
+     *
+     */
     @Test
     fun prepare_secondItemIntention_Love() {
         setupReport()
@@ -252,5 +256,4 @@ class PractitionerControllerTest {
         val data: List<SessionDBO> = mapper.readValue(body, mapper.getTypeFactory().constructCollectionType(List::class.java, SessionDBO::class.java))
         assertThat(data.get(1).intention).isEqualTo("Love")
     }
-
 }

@@ -155,7 +155,4 @@ class CompanionController {
                         practitioners, userId, startDateTime, endDateTime)
 
     }
-
-
-
 }

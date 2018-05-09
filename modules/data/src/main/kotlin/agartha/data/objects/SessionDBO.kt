@@ -66,6 +66,9 @@ data class SessionDBO(
         return false
     }
 
+    /**
+     * Function to see if a session is ongoing
+     */
     fun ongoing(): Boolean {
         if (this.endTime != null) {
             return false
