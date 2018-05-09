@@ -61,7 +61,7 @@ class SettingsDBOTest {
      * Variable - companionDay *
      ***************************/
     @Test
-    fun settings_companionDays_1() {
+    fun settings_companionMinutes_1() {
         Assertions.assertThat(settings.companionMinutes).isEqualTo(1)
     }
 
@@ -69,7 +69,7 @@ class SettingsDBOTest {
      * Variable - companionGoalMinutes *
      *********************************/
     @Test
-    fun settings_companionGoalHours_2() {
+    fun settings_companionGoalMinutes_2() {
         Assertions.assertThat(settings.companionGoalMinutes).isEqualTo(2)
     }
 

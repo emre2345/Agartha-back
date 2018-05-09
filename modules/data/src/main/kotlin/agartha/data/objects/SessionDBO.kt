@@ -73,6 +73,6 @@ data class SessionDBO(
     private fun isAbandoned(): Boolean {
         // If end time is null (session not finished) and session started more than 3 hours ago
         return this.endTime == null &&
-                this.startTime.isBefore(LocalDateTime.now().minusMinutes(Settings.ABONDON_SESSION_MINUTES))
+                this.startTime.isBefore(LocalDateTime.now().minusMinutes(Settings.ABANDON_SESSION_MINUTES))
     }
 }

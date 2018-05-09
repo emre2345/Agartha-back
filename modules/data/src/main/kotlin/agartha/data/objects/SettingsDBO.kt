@@ -16,6 +16,6 @@ data class SettingsDBO(
         val disciplines : List<DisciplineDBO> = emptyList(),
         // Number of minutes to calculate stats from in Companion
         val companionMinutes: Long = Settings.COMPANION_NUMBER_OF_MINUTES,
-        // Number of hours as goal in Companions
+        // Number of minutes as goal in Companions
         val companionGoalMinutes: Long = Settings.COMPANION_GOAL_MINUTES
 )
