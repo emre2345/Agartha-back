@@ -14,8 +14,8 @@ data class SettingsDBO(
         val intentions : List<IntentionDBO> = emptyList(),
         // List of disciplines
         val disciplines : List<DisciplineDBO> = emptyList(),
-        // Number of days to calculate stats from in Companion
-        val companionDays: Long = Settings.COMPANION_NUMBER_OF_DAYS,
+        // Number of minutes to calculate stats from in Companion
+        val companionMinutes: Long = Settings.COMPANION_NUMBER_OF_MINUTES,
         // Number of hours as goal in Companions
-        val companionGoalHours: Long = Settings.COMPANION_GOLS_HOURS
+        val companionGoalMinutes: Long = Settings.COMPANION_GOAL_MINUTES
 )

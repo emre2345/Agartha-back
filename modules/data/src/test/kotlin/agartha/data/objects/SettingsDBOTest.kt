@@ -12,8 +12,8 @@ class SettingsDBOTest {
                     IntentionDBO("LOVE", "description of love"),
                     IntentionDBO("HORSES", "description of horses")),
             disciplines = listOf(DisciplineDBO("Yoga")),
-            companionDays = 1,
-            companionGoalHours = 2
+            companionMinutes = 1,
+            companionGoalMinutes = 2
     )
 
     /**************************
@@ -62,15 +62,15 @@ class SettingsDBOTest {
      ***************************/
     @Test
     fun settings_companionDays_1() {
-        Assertions.assertThat(settings.companionDays).isEqualTo(1)
+        Assertions.assertThat(settings.companionMinutes).isEqualTo(1)
     }
 
     /*********************************
-     * Variable - companionGoalHours *
+     * Variable - companionGoalMinutes *
      *********************************/
     @Test
     fun settings_companionGoalHours_2() {
-        Assertions.assertThat(settings.companionGoalHours).isEqualTo(2)
+        Assertions.assertThat(settings.companionGoalMinutes).isEqualTo(2)
     }
 
 }

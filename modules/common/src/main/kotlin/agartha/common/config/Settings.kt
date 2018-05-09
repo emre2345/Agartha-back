@@ -13,10 +13,9 @@ class Settings {
         // For how many hours should we get practitioners in database with ongoing sessions
         // in Session end report
         const val SESSION_HOURS : Long = 24
-        // For how many days should we count sessions for companion page
-        const val COMPANION_NUMBER_OF_DAYS : Long = 10
-        const val COMPANION_NUMBER_OF_HOURS = COMPANION_NUMBER_OF_DAYS * 24
-        // What is the goal in hours for companion page
-        const val COMPANION_GOLS_HOURS : Long = 10000
+        // For how many minutes should we count sessions for companion page (14400minutes = 10days)
+        const val COMPANION_NUMBER_OF_MINUTES : Long = 14400
+        // What is the goal in hours for companion page (10 000 hours * 60 minutes)
+        const val COMPANION_GOAL_MINUTES : Long = 10000 * 60
     }
 }

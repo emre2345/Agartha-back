@@ -2,7 +2,6 @@ package agartha.site.controllers.mocks
 
 import agartha.data.objects.IntentionDBO
 import agartha.data.objects.SettingsDBO
-import agartha.data.services.IBaseService
 import agartha.data.services.ISettingsService
 import java.util.*
 
@@ -28,7 +27,7 @@ class MockedSettingsService : ISettingsService {
         val copyIntentionMutableList: MutableList<IntentionDBO> = settingsObject.intentions.toMutableList()
         copyIntentionMutableList.add(item)
         // Create a updatedSettingsDBO with all the same variables as the old one except the new intentionsList
-        return SettingsDBO(settingsObject._id, copyIntentionMutableList, settingsObject.disciplines, settingsObject.companionDays, settingsObject.companionGoalHours)
+        return SettingsDBO(settingsObject._id, copyIntentionMutableList, settingsObject.disciplines, settingsObject.companionMinutes, settingsObject.companionGoalMinutes)
     }
 
     override fun getAll(): List<SettingsDBO> {

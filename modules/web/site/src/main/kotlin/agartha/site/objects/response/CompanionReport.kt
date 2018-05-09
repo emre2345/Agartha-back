@@ -6,25 +6,25 @@ import agartha.data.objects.SessionDBO
  * Purpose of this file is holding information about a set of practitioner's sessions
  *
  * Created by Jorgen Andersson on 2018-04-24.
- * @param practitionerCount number of practitioners
+ * @param companionCount number of companions for the practitioner
  * @param sessionCount number of sessions
- * @param sessionMinutes duration in minutes for these sessions
+ * @param sessionSumMinutes duration in minutes for these sessions
  * @param intentions Map of intentions to number of sessions
  */
 data class CompanionReport(
-        val practitionerCount: Int,
+        val companionCount: Int,
         val sessionCount: Int,
-        val sessionMinutes: Long,
+        val sessionSumMinutes: Long,
         val intentions : Map<String, Int>) {
 
     /**
      * Constructor where multiple sessions per practitioner can be counted
-     * @param practitionerCount
+     * @param companionCount
      * @param sessions
      */
-    constructor(practitionerCount: Int, sessions: List<SessionDBO>) : this(
+    constructor(companionCount: Int, sessions: List<SessionDBO>) : this(
             // Number of practitioners
-            practitionerCount,
+            companionCount,
             // Count number of session
             sessions.count(),
             // Sum duration for sessions

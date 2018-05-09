@@ -136,7 +136,7 @@ class CompanionControllerTest {
         val body = String(httpResponse.body())
         // Map to Data object
         val data: CompanionReport = mapper.readValue(body)
-        assertThat(data.practitionerCount).isEqualTo(6)
+        assertThat(data.companionCount).isEqualTo(6)
     }
 
     /**
@@ -164,7 +164,7 @@ class CompanionControllerTest {
         val body = String(httpResponse.body())
         // Map to Data object
         val data: CompanionReport = mapper.readValue(body)
-        assertThat(data.sessionMinutes).isEqualTo(180)
+        assertThat(data.sessionSumMinutes).isEqualTo(180)
     }
 
     /**
@@ -192,7 +192,7 @@ class CompanionControllerTest {
         val body = String(httpResponse.body())
         // Map to Data object
         val data: CompanionReport = mapper.readValue(body)
-        assertThat(data.practitionerCount).isEqualTo(4)
+        assertThat(data.companionCount).isEqualTo(4)
     }
 
     /**
@@ -220,7 +220,7 @@ class CompanionControllerTest {
         val body = String(httpResponse.body())
         // Map to Data object
         val data: CompanionReport = mapper.readValue(body)
-        assertThat(data.sessionMinutes).isEqualTo(115)
+        assertThat(data.sessionSumMinutes).isEqualTo(115)
     }
 
     /**

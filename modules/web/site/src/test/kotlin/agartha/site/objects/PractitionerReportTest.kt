@@ -34,7 +34,7 @@ class PractitionerReportTest {
     @Test
     fun practitionerLastSessionTime_WithNoSessions_zero() {
         val user = PractitionerReport(null)
-        assertThat(user.lastSessionTime).isEqualTo(0)
+        assertThat(user.lastSessionMinutes).isEqualTo(0)
     }
 
     /**
@@ -43,7 +43,7 @@ class PractitionerReportTest {
     @Test
     fun practitionerLastSessionTime_WithSessions_20() {
         val user = PractitionerReport(PractitionerDBO("abc", sessions = generateSessions()))
-        assertThat(user.lastSessionTime).isEqualTo(20)
+        assertThat(user.lastSessionMinutes).isEqualTo(20)
     }
 
     /**
@@ -52,7 +52,7 @@ class PractitionerReportTest {
     @Test
     fun practitionerTotalSessionTime_WithNoSessions_zero() {
         val user = PractitionerReport(null)
-        assertThat(user.totalSessionTime).isEqualTo(0)
+        assertThat(user.totalSessionMinutes).isEqualTo(0)
     }
 
     /**
@@ -61,6 +61,6 @@ class PractitionerReportTest {
     @Test
     fun practitionerTotalSessionTime_WithSessions_80() {
         val user = PractitionerReport(PractitionerDBO("abc", sessions = generateSessions()))
-        assertThat(user.totalSessionTime).isEqualTo(90)
+        assertThat(user.totalSessionMinutes).isEqualTo(90)
     }
 }
