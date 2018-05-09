@@ -3,8 +3,9 @@ package agartha.site.controllers
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.site.controllers.mocks.MockedPractitionerService
-import agartha.site.controllers.utils.ObjectToStringFormatter
+import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.objects.request.PractitionerInvolvedInformation
+import agartha.site.objects.request.StartSessionInformation
 import agartha.site.objects.response.PractitionerReport
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
@@ -22,8 +23,6 @@ class PractitionerControllerTest {
     companion object {
         val mockedService = MockedPractitionerService()
         val testController = ControllerServer()
-        val mapper = ObjectToStringFormatter().getFormatter()
-
 
         @BeforeClass
         @JvmStatic
@@ -118,7 +117,7 @@ class PractitionerControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: PractitionerReport = ObjectToStringFormatter().getFormatter().readValue(body, PractitionerReport::class.java)
+        val data: PractitionerReport = ControllerUtil.stringToObject(body, PractitionerReport::class.java)
         assertThat(data.practitionerId?.length).isEqualTo(24)
     }
 
@@ -134,7 +133,7 @@ class PractitionerControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: PractitionerReport = ObjectToStringFormatter().getFormatter().readValue(body, PractitionerReport::class.java)
+        val data: PractitionerReport = ControllerUtil.stringToObject(body, PractitionerReport::class.java)
         assertThat(data.practitionerId).isEqualTo("abc")
     }
 
@@ -148,7 +147,7 @@ class PractitionerControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: PractitionerReport = ObjectToStringFormatter().getFormatter().readValue(body, PractitionerReport::class.java)
+        val data: PractitionerReport = ControllerUtil.stringToObject(body, PractitionerReport::class.java)
         assertThat(data.practitionerId).isEqualTo("c")
     }
 
@@ -162,7 +161,7 @@ class PractitionerControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: PractitionerReport = ObjectToStringFormatter().getFormatter().readValue(body, PractitionerReport::class.java)
+        val data: PractitionerReport = ControllerUtil.stringToObject(body, PractitionerReport::class.java)
         assertThat(data.lastSessionMinutes).isEqualTo(20)
     }
 
@@ -176,7 +175,7 @@ class PractitionerControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: PractitionerReport = ObjectToStringFormatter().getFormatter().readValue(body, PractitionerReport::class.java)
+        val data: PractitionerReport = ControllerUtil.stringToObject(body, PractitionerReport::class.java)
         assertThat(data.totalSessionMinutes).isEqualTo(65)
     }
 
@@ -187,15 +186,19 @@ class PractitionerControllerTest {
     fun updatePractitioner_insertedUser_updatedUserWithInvolvedInformation() {
         // Setup
         mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
+        //
         val involvedInformation = PractitionerInvolvedInformation(
                 "Rebecca",
                 "rebecca@kollektiva.se",
                 "Jag gillar yoga!")
         //
-        val getRequest = testController.testServer.post("/practitioner/abc", ObjectToStringFormatter().getFormatter().writeValueAsString(involvedInformation), false)
+        val getRequest = testController.testServer.post(
+                "/practitioner/abc",
+                ControllerUtil.objectToString(involvedInformation),
+                false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
-        val data: PractitionerDBO = ObjectToStringFormatter().getFormatter().readValue(body, PractitionerDBO::class.java)
+        val data: PractitionerDBO = ControllerUtil.stringToObject(body, PractitionerDBO::class.java)
         assertThat(data._id).isEqualTo("abc")
     }
 
@@ -224,8 +227,7 @@ class PractitionerControllerTest {
         val getRequest = testController.testServer.get("/practitioner/prepare/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
-        val mapper = ObjectToStringFormatter().getFormatter()
-        val data: List<SessionDBO> = mapper.readValue(body, mapper.getTypeFactory().constructCollectionType(List::class.java, SessionDBO::class.java))
+        val data: List<SessionDBO> = ControllerUtil.stringToObjectList(body, SessionDBO::class.java)
         assertThat(data.size).isEqualTo(2)
     }
 
@@ -238,8 +240,7 @@ class PractitionerControllerTest {
         val getRequest = testController.testServer.get("/practitioner/prepare/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
-        val mapper = ObjectToStringFormatter().getFormatter()
-        val data: List<SessionDBO> = mapper.readValue(body, mapper.getTypeFactory().constructCollectionType(List::class.java, SessionDBO::class.java))
+        val data: List<SessionDBO> = ControllerUtil.stringToObjectList(body, SessionDBO::class.java)
         assertThat(data.get(0).intention).isEqualTo("Celebration")
     }
 
@@ -252,8 +253,7 @@ class PractitionerControllerTest {
         val getRequest = testController.testServer.get("/practitioner/prepare/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
-        val mapper = ObjectToStringFormatter().getFormatter()
-        val data: List<SessionDBO> = mapper.readValue(body, mapper.getTypeFactory().constructCollectionType(List::class.java, SessionDBO::class.java))
+        val data: List<SessionDBO> = ControllerUtil.stringToObjectList(body, SessionDBO::class.java)
         assertThat(data.get(1).intention).isEqualTo("Love")
     }
 }

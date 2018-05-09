@@ -1,8 +1,9 @@
 package agartha.site.controllers
 
 import agartha.data.objects.PractitionerDBO
+import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
-import agartha.site.controllers.utils.ObjectToStringFormatter
+import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.controllers.utils.SessionUtil
 import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.objects.request.StartSessionInformation
@@ -21,8 +22,6 @@ import java.time.LocalDateTime
 class PractitionerController {
     // Practitioner data service
     private val mService: IPractitionerService
-    // For mapping objects to string
-    private val mMapper = ObjectToStringFormatter().getFormatter()
 
     constructor(service: IPractitionerService) {
         mService = service
@@ -58,7 +57,9 @@ class PractitionerController {
         // Get user from data source
         val user: PractitionerDBO = getPractitionerFromDataSource(userId)
         // Create Report for current user
-        return mMapper.writeValueAsString(PractitionerReport(user))
+        val report = PractitionerReport(user)
+        // Return
+        return ControllerUtil.objectToString(report)
     }
 
 
@@ -67,7 +68,8 @@ class PractitionerController {
      * @return The updated practitioner
      */
     private fun updatePractitioner(request: Request, response: Response): String {
-        val involvedInformation: PractitionerInvolvedInformation = mMapper.readValue(request.body(), PractitionerInvolvedInformation::class.java)
+        val involvedInformation: PractitionerInvolvedInformation =
+                ControllerUtil.stringToObject(request.body(), PractitionerInvolvedInformation::class.java)
         // Get params
         val userId: String = getUserIdFromRequest(request)
         // Get user
@@ -79,7 +81,7 @@ class PractitionerController {
                 involvedInformation.email,
                 involvedInformation.description)
         // Return updated user
-        return mMapper.writeValueAsString(updatedUser)
+        return ControllerUtil.objectToString(updatedUser)
     }
 
     /**
@@ -112,7 +114,8 @@ class PractitionerController {
         // Get current userid
         val userId: String = request.params(":userid")
         // Get selected geolocation, discipline and intention
-        val startSessionInformation: StartSessionInformation = mMapper.readValue(request.body(), StartSessionInformation::class.java)
+        val startSessionInformation: StartSessionInformation =
+                ControllerUtil.stringToObject(request.body(), StartSessionInformation::class.java)
         // Start a session
         val session = mService.startSession(
                 userId,
@@ -120,7 +123,7 @@ class PractitionerController {
                 startSessionInformation.discipline,
                 startSessionInformation.intention)
         // Return the started session
-        return mMapper.writeValueAsString(session)
+        return ControllerUtil.objectToString(session)
     }
 
 
@@ -136,6 +139,6 @@ class PractitionerController {
         // Get all ongoing sessions
         val sessions = SessionUtil.filterOngoingSessions(practitioners, userId)
         // Write all sessions
-        return mMapper.writeValueAsString(sessions)
+        return ControllerUtil.objectListToString(sessions)
     }
 }
