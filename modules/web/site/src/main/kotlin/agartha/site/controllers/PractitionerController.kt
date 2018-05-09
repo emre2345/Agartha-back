@@ -42,6 +42,8 @@ class PractitionerController {
             // Start a new Session
             Spark.post("/session/:userid", ::insertSession)
             //
+            // Prepare practitioner before starting a session
+            // Get all ongoing sessions to compare current practitioner with
             Spark.get("/prepare/:userid", ::getPrepareReport)
         }
     }
@@ -122,7 +124,10 @@ class PractitionerController {
     }
 
 
-
+    /**
+     * Get prepare report
+     * Information about other ongoing sessions
+     */
     private fun getPrepareReport(request: Request, response: Response): String {
         // Get current userid
         val userId: String = request.params(":userid") ?: ""
