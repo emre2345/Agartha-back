@@ -11,10 +11,10 @@ class Settings {
         // Time before a Session is considered abandon (3 hours)
         const val ABANDON_SESSION_MINUTES : Long = 3 * 60
         // For how many minutes should we get practitioners in database with ongoing sessions
-        // in Session end report (24 hours * 60 minutes =  1 day)
-        const val SESSION_MINUTES : Long = 24 * 60
-        // For how many minutes should we count sessions for companion page (14400minutes = 10days)
-        const val COMPANION_NUMBER_OF_MINUTES : Long = 14400
+        // in Session end report ( 1day * 24 hours * 60 minutes  =  1 day in minutes)
+        const val SESSION_MINUTES : Long = 1 * 24 * 60
+        // For how many minutes should we count sessions for companion page (10 days * 24 hours * 60 minutes = 10days in minutes)
+        const val COMPANION_NUMBER_OF_MINUTES : Long = 10 * 24 * 60 
         // What is the goal in minutes for companion page (10 000 hours * 60 minutes)
         const val COMPANION_GOAL_MINUTES : Long = 10000 * 60
     }
