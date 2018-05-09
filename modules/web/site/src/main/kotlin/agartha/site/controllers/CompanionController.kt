@@ -125,7 +125,7 @@ class CompanionController {
             // Add this report to the returning-list
             companionsSessionList.add(companionsSessionReport)
         }
-        // Sort the list by descending
+        // Sort the mutable list by descending (No need to get the returning list because the mutable list will change itself)
         companionsSessionList.sortByDescending { it.matchPoints }
         //
         return ControllerUtil.objectListToString(companionsSessionList)
