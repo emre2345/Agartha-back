@@ -19,6 +19,11 @@ class ObjectToStringFormatter {
     private val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 
 
+    /**
+     * Get the Object Mapper with serializer/deserailizer for java.time.localDateTime
+     *
+     * @return Jackson ObjectMapper
+     */
     fun getFormatter() : ObjectMapper {
 
         val javaTimeModule = JavaTimeModule()
