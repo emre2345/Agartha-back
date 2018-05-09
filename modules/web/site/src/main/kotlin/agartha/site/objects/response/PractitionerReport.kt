@@ -7,10 +7,10 @@ import agartha.data.objects.PractitionerDBO
  *
  * Created by Jorgen Andersson on 2018-04-23.
  * @param practitionerId database user id
- * @param lastSessionTime number of minutes for last session
- * @param totalSessionTime total number of minutes for user sessions
+ * @param lastSessionMinutes number of minutes for last session
+ * @param totalSessionMinutes total number of minutes for user sessions
  */
-data class PractitionerReport(val practitionerId: String?, val lastSessionTime: Long = 0, val totalSessionTime: Long = 0, var isInvolved: Boolean = false) {
+data class PractitionerReport(val practitionerId: String?, val lastSessionMinutes: Long = 0, val totalSessionMinutes: Long = 0, var isInvolved: Boolean = false) {
 
     /**
      * @param practitioner database users
