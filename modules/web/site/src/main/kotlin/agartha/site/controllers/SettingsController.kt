@@ -4,7 +4,7 @@ import agartha.data.objects.DisciplineDBO
 import agartha.data.objects.IntentionDBO
 import agartha.data.objects.SettingsDBO
 import agartha.data.services.ISettingsService
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import agartha.site.controllers.utils.ControllerUtil
 import spark.Request
 import spark.Response
 import spark.Spark
@@ -17,23 +17,9 @@ import spark.Spark.get
  */
 class SettingsController {
     val mService: ISettingsService
-    // For mapping objects to string
-    val mMapper = jacksonObjectMapper()
 
     constructor(service: ISettingsService) {
         mService = service
-
-        get("/settings") { request, response ->
-            //
-            val list = mService.getAll()
-            if (list.isNotEmpty()) {
-                // If Settings data source is not empty, return first item
-                mMapper.writeValueAsString(list[0])
-            } else {
-                // If Settings data source is empty, get default
-                mMapper.writeValueAsString(mService.insert(getDefaultSettings()))
-            }
-        }
 
         Spark.path("/settings") {
             //
@@ -42,10 +28,10 @@ class SettingsController {
                 val list = mService.getAll()
                 if (list.isNotEmpty()) {
                     // If Settings data source is not empty, return first item
-                    mMapper.writeValueAsString(list[0])
+                    ControllerUtil<SettingsDBO>().objectToString(list[0])
                 } else {
                     // If Settings data source is empty, get default
-                    mMapper.writeValueAsString(mService.insert(getDefaultSettings()))
+                    ControllerUtil<SettingsDBO>().objectToString(mService.insert(getDefaultSettings()))
                 }
             }
             // add Intention to the DB
@@ -60,11 +46,12 @@ class SettingsController {
      */
     private fun addIntention(request: Request, response: Response): String {
         // Get the new intention from body
-        val newIntention: IntentionDBO = mMapper.readValue(request.body(), IntentionDBO::class.java)
+        val newIntention: IntentionDBO = ControllerUtil<IntentionDBO>()
+                .stringToObject(request.body(), IntentionDBO::class.java)
         // Update the database
         val updatedSettingsDBO: SettingsDBO = mService.addIntention(newIntention)
         // Return the updated SettingsDBO
-        return mMapper.writeValueAsString(updatedSettingsDBO)
+        return ControllerUtil<SettingsDBO>().objectToString(updatedSettingsDBO)
     }
 
     /**

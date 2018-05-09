@@ -4,7 +4,7 @@ import agartha.common.config.Settings.Companion.COMPANION_NUMBER_OF_HOURS
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
-import agartha.site.controllers.utils.ObjectToStringFormatter
+import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.controllers.utils.PractitionerUtil
 import agartha.site.controllers.utils.SessionUtil
 import agartha.site.objects.response.CompanionReport
@@ -13,7 +13,6 @@ import spark.Request
 import spark.Response
 import spark.Spark
 import java.time.LocalDateTime
-import java.util.*
 
 /**
  * Purpose of this class is handling companion Practictioners
@@ -23,8 +22,6 @@ import java.util.*
 class CompanionController {
     // Practitioner data service
     private val mService: IPractitionerService
-    // For mapping objects to string
-    private val mMapper = ObjectToStringFormatter().getFormatter()
 
     constructor(service: IPractitionerService) {
         mService = service
@@ -64,7 +61,7 @@ class CompanionController {
         // Generate report
         val companionReport = CompanionReport(practitioners.count(), sessions)
         // Return the report
-        return mMapper.writeValueAsString(companionReport)
+        return ControllerUtil<CompanionReport>().objectToString(companionReport)
     }
 
     private fun companionSessionReport(request: Request, response: Response): String {
@@ -87,7 +84,7 @@ class CompanionController {
             // Generate report
             val companionReport = CompanionReport(practitioners.count(), sessions)
             // Return the report
-            return mMapper.writeValueAsString(companionReport)
+            return ControllerUtil<CompanionReport>().objectToString(companionReport)
         }
         // We should not end up here coz user should exist when this request is called
         // If not we are in test/dev mode
@@ -105,7 +102,7 @@ class CompanionController {
         // Generate report
         val companionReport = CompanionReport(practitioners.count(), sessions)
         // Return the report
-        return mMapper.writeValueAsString(companionReport)
+        return ControllerUtil<CompanionReport>().objectToString(companionReport)
     }
 
 
@@ -132,7 +129,9 @@ class CompanionController {
         }
         // Sort the list by descending
         companionsSessionList.sortByDescending { it.matchPoints }
-        return mMapper.writeValueAsString(companionsSessionList)
+        //
+        return ControllerUtil<CompanionsSessionReport>()
+                .objectListToString(companionsSessionList)
     }
 
     private fun getOngoingCompanions(): List<PractitionerDBO> {
