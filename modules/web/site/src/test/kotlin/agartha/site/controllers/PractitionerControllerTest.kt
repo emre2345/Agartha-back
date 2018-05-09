@@ -117,7 +117,7 @@ class PractitionerControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: PractitionerReport = ControllerUtil<PractitionerReport>().stringToObject(body, PractitionerReport::class.java)
+        val data: PractitionerReport = ControllerUtil.stringToObject(body, PractitionerReport::class.java)
         assertThat(data.practitionerId?.length).isEqualTo(24)
     }
 
@@ -133,7 +133,7 @@ class PractitionerControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: PractitionerReport = ControllerUtil<PractitionerReport>().stringToObject(body, PractitionerReport::class.java)
+        val data: PractitionerReport = ControllerUtil.stringToObject(body, PractitionerReport::class.java)
         assertThat(data.practitionerId).isEqualTo("abc")
     }
 
@@ -147,7 +147,7 @@ class PractitionerControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: PractitionerReport = ControllerUtil<PractitionerReport>().stringToObject(body, PractitionerReport::class.java)
+        val data: PractitionerReport = ControllerUtil.stringToObject(body, PractitionerReport::class.java)
         assertThat(data.practitionerId).isEqualTo("c")
     }
 
@@ -161,7 +161,7 @@ class PractitionerControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: PractitionerReport = ControllerUtil<PractitionerReport>().stringToObject(body, PractitionerReport::class.java)
+        val data: PractitionerReport = ControllerUtil.stringToObject(body, PractitionerReport::class.java)
         assertThat(data.lastSessionMinutes).isEqualTo(20)
     }
 
@@ -175,7 +175,7 @@ class PractitionerControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
-        val data: PractitionerReport = ControllerUtil<PractitionerReport>().stringToObject(body, PractitionerReport::class.java)
+        val data: PractitionerReport = ControllerUtil.stringToObject(body, PractitionerReport::class.java)
         assertThat(data.totalSessionMinutes).isEqualTo(65)
     }
 
@@ -194,11 +194,11 @@ class PractitionerControllerTest {
         //
         val getRequest = testController.testServer.post(
                 "/practitioner/abc",
-                ControllerUtil<PractitionerInvolvedInformation>().objectToString(involvedInformation),
+                ControllerUtil.objectToString(involvedInformation),
                 false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
-        val data: PractitionerDBO = ControllerUtil<PractitionerDBO>().stringToObject(body, PractitionerDBO::class.java)
+        val data: PractitionerDBO = ControllerUtil.stringToObject(body, PractitionerDBO::class.java)
         assertThat(data._id).isEqualTo("abc")
     }
 
@@ -227,8 +227,7 @@ class PractitionerControllerTest {
         val getRequest = testController.testServer.get("/practitioner/prepare/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
-        val data: List<SessionDBO> = ControllerUtil<SessionDBO>()
-                .stringToObjectList(body, SessionDBO::class.java)
+        val data: List<SessionDBO> = ControllerUtil.stringToObjectList(body, SessionDBO::class.java)
         assertThat(data.size).isEqualTo(2)
     }
 
@@ -241,8 +240,7 @@ class PractitionerControllerTest {
         val getRequest = testController.testServer.get("/practitioner/prepare/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
-        val data: List<SessionDBO> = ControllerUtil<SessionDBO>()
-                .stringToObjectList(body, SessionDBO::class.java)
+        val data: List<SessionDBO> = ControllerUtil.stringToObjectList(body, SessionDBO::class.java)
         assertThat(data.get(0).intention).isEqualTo("Celebration")
     }
 
@@ -255,8 +253,7 @@ class PractitionerControllerTest {
         val getRequest = testController.testServer.get("/practitioner/prepare/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
-        val data: List<SessionDBO> = ControllerUtil<SessionDBO>()
-                .stringToObjectList(body, SessionDBO::class.java)
+        val data: List<SessionDBO> = ControllerUtil.stringToObjectList(body, SessionDBO::class.java)
         assertThat(data.get(1).intention).isEqualTo("Love")
     }
 }

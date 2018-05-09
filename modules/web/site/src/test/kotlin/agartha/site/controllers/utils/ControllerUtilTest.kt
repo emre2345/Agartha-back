@@ -45,25 +45,25 @@ class ControllerUtilTest {
 
     @Test
     fun objectToString_searilize_singleString() {
-        val str = ControllerUtil<SessionDBO>().objectToString(SINGLE_SESSION_OBJECT)
+        val str = ControllerUtil.objectToString(SINGLE_SESSION_OBJECT)
         assertThat(str).isEqualTo(SINGLE_SESSION_STRING)
     }
 
     @Test
     fun stringToObject_deserailize_singleObject() {
-        val obj = ControllerUtil<SessionDBO>().stringToObject(SINGLE_SESSION_STRING, SessionDBO::class.java)
+        val obj = ControllerUtil.stringToObject(SINGLE_SESSION_STRING, SessionDBO::class.java)
         assertThat(obj.index).isEqualTo(5)
     }
 
     @Test
     fun objectListToString_serialize_mutipleString() {
-        val str = ControllerUtil<SessionDBO>().objectListToString(MULTIPLE_SESSION_OBJECTS)
+        val str = ControllerUtil.objectListToString(MULTIPLE_SESSION_OBJECTS)
         assertThat(str).isEqualTo(MULTIPLE_SESSIONS_STRING)
     }
 
     @Test
     fun stringToObjects_deserialize_multipleObjects() {
-        val objs = ControllerUtil<SessionDBO>().stringToObjectList(MULTIPLE_SESSIONS_STRING, SessionDBO::class.java)
+        val objs = ControllerUtil.stringToObjectList(MULTIPLE_SESSIONS_STRING, SessionDBO::class.java)
         assertThat(objs).isEqualTo(MULTIPLE_SESSION_OBJECTS)
     }
 }

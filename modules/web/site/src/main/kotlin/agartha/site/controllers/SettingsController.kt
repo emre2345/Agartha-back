@@ -28,10 +28,10 @@ class SettingsController {
                 val list = mService.getAll()
                 if (list.isNotEmpty()) {
                     // If Settings data source is not empty, return first item
-                    ControllerUtil<SettingsDBO>().objectToString(list[0])
+                    ControllerUtil.objectToString(list[0])
                 } else {
                     // If Settings data source is empty, get default
-                    ControllerUtil<SettingsDBO>().objectToString(mService.insert(getDefaultSettings()))
+                    ControllerUtil.objectToString(mService.insert(getDefaultSettings()))
                 }
             }
             // add Intention to the DB
@@ -46,12 +46,11 @@ class SettingsController {
      */
     private fun addIntention(request: Request, response: Response): String {
         // Get the new intention from body
-        val newIntention: IntentionDBO = ControllerUtil<IntentionDBO>()
-                .stringToObject(request.body(), IntentionDBO::class.java)
+        val newIntention: IntentionDBO = ControllerUtil.stringToObject(request.body(), IntentionDBO::class.java)
         // Update the database
         val updatedSettingsDBO: SettingsDBO = mService.addIntention(newIntention)
         // Return the updated SettingsDBO
-        return ControllerUtil<SettingsDBO>().objectToString(updatedSettingsDBO)
+        return ControllerUtil.objectToString(updatedSettingsDBO)
     }
 
     /**

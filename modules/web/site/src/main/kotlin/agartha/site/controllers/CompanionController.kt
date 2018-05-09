@@ -61,7 +61,7 @@ class CompanionController {
         // Generate report
         val companionReport = CompanionReport(practitioners.count(), sessions)
         // Return the report
-        return ControllerUtil<CompanionReport>().objectToString(companionReport)
+        return ControllerUtil.objectToString(companionReport)
     }
 
     private fun companionSessionReport(request: Request, response: Response): String {
@@ -84,7 +84,7 @@ class CompanionController {
             // Generate report
             val companionReport = CompanionReport(practitioners.count(), sessions)
             // Return the report
-            return ControllerUtil<CompanionReport>().objectToString(companionReport)
+            return ControllerUtil.objectToString(companionReport)
         }
         // We should not end up here coz user should exist when this request is called
         // If not we are in test/dev mode
@@ -102,7 +102,7 @@ class CompanionController {
         // Generate report
         val companionReport = CompanionReport(practitioners.count(), sessions)
         // Return the report
-        return ControllerUtil<CompanionReport>().objectToString(companionReport)
+        return ControllerUtil.objectToString(companionReport)
     }
 
 
@@ -128,8 +128,7 @@ class CompanionController {
         // Sort the list by descending
         companionsSessionList.sortByDescending { it.matchPoints }
         //
-        return ControllerUtil<CompanionsSessionReport>()
-                .objectListToString(companionsSessionList)
+        return ControllerUtil.objectListToString(companionsSessionList)
     }
 
     private fun getOngoingCompanions(): List<PractitionerDBO> {

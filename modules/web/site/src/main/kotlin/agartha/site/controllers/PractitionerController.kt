@@ -59,7 +59,7 @@ class PractitionerController {
         // Create Report for current user
         val report = PractitionerReport(user)
         // Return
-        return ControllerUtil<PractitionerReport>().objectToString(report)
+        return ControllerUtil.objectToString(report)
     }
 
 
@@ -69,8 +69,7 @@ class PractitionerController {
      */
     private fun updatePractitioner(request: Request, response: Response): String {
         val involvedInformation: PractitionerInvolvedInformation =
-                ControllerUtil<PractitionerInvolvedInformation>()
-                        .stringToObject(request.body(), PractitionerInvolvedInformation::class.java)
+                ControllerUtil.stringToObject(request.body(), PractitionerInvolvedInformation::class.java)
         // Get params
         val userId: String = getUserIdFromRequest(request)
         // Get user
@@ -82,7 +81,7 @@ class PractitionerController {
                 involvedInformation.email,
                 involvedInformation.description)
         // Return updated user
-        return ControllerUtil<PractitionerDBO>().objectToString(updatedUser)
+        return ControllerUtil.objectToString(updatedUser)
     }
 
     /**
@@ -116,8 +115,7 @@ class PractitionerController {
         val userId: String = request.params(":userid")
         // Get selected geolocation, discipline and intention
         val startSessionInformation: StartSessionInformation =
-                ControllerUtil<StartSessionInformation>()
-                        .stringToObject(request.body(), StartSessionInformation::class.java)
+                ControllerUtil.stringToObject(request.body(), StartSessionInformation::class.java)
         // Start a session
         val session = mService.startSession(
                 userId,
@@ -125,7 +123,7 @@ class PractitionerController {
                 startSessionInformation.discipline,
                 startSessionInformation.intention)
         // Return the started session
-        return ControllerUtil<SessionDBO>().objectToString(session)
+        return ControllerUtil.objectToString(session)
     }
 
 
@@ -141,6 +139,6 @@ class PractitionerController {
         // Get all ongoing sessions
         val sessions = SessionUtil.filterOngoingSessions(practitioners, userId)
         // Write all sessions
-        return ControllerUtil<SessionDBO>().objectListToString(sessions)
+        return ControllerUtil.objectListToString(sessions)
     }
 }

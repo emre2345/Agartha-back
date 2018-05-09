@@ -13,53 +13,50 @@ import java.time.format.DateTimeFormatter
  *
  * Created by Jorgen Andersson on 2018-05-09.
  */
-class ControllerUtil<T> {
-
-    private val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+class ControllerUtil {
 
 
-    fun objectToString(item: T): String {
-        return getSerializer()
-                .writeValueAsString(item)
+
+
+    companion object {
+        private val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+
+        fun <T>objectToString(item: T): String {
+            return getSerializer()
+                    .writeValueAsString(item)
+        }
+
+        fun <T>stringToObject(value: String, clazz: Class<T>): T {
+            return getDeserializer()
+                    .readValue(value, clazz)
+        }
+
+        fun <T>objectListToString(items: List<T>): String {
+            return getSerializer()
+                    .writeValueAsString(items)
+        }
+
+        fun <T>stringToObjectList(value: String, clazz: Class<T>): List<T> {
+            val objectMapper = getDeserializer()
+            return objectMapper.readValue(value, objectMapper.getTypeFactory().constructCollectionType(List::class.java, clazz))
+        }
+
+
+        private fun getSerializer(): ObjectMapper {
+            val javaTimeModule = JavaTimeModule()
+            val localDateTimeSerializer = LocalDateTimeSerializer(dateTimeFormatter)
+            javaTimeModule.addSerializer(LocalDateTime::class.java, localDateTimeSerializer)
+            return jacksonObjectMapper()
+                    .registerModule(javaTimeModule)
+        }
+
+        private fun getDeserializer(): ObjectMapper {
+            val javaTimeModule = JavaTimeModule()
+            val localDateTimeDeserializer = LocalDateTimeDeserializer(dateTimeFormatter)
+            javaTimeModule.addDeserializer(LocalDateTime::class.java, localDateTimeDeserializer)
+
+            return jacksonObjectMapper()
+                    .registerModule(javaTimeModule)
+        }
     }
-
-    fun objectListToString(items: List<T>): String {
-        return getSerializer()
-                .writeValueAsString(items)
-    }
-
-
-    fun stringToObject(value: String, clazz: Class<T>): T {
-        val javaTimeModule = JavaTimeModule()
-        val localDateTimeDeserializer = LocalDateTimeDeserializer(dateTimeFormatter)
-        javaTimeModule.addDeserializer(LocalDateTime::class.java, localDateTimeDeserializer)
-
-        return getDeserializer()
-                .readValue(value, clazz)
-    }
-
-    fun stringToObjectList(value: String, clazz: Class<T>): List<T> {
-        val objectMapper = getDeserializer()
-        return objectMapper.readValue(value, objectMapper.getTypeFactory().constructCollectionType(List::class.java, clazz))
-    }
-
-
-    private fun getSerializer(): ObjectMapper {
-        val javaTimeModule = JavaTimeModule()
-        val localDateTimeSerializer = LocalDateTimeSerializer(dateTimeFormatter)
-        javaTimeModule.addSerializer(LocalDateTime::class.java, localDateTimeSerializer)
-        return jacksonObjectMapper()
-                .registerModule(javaTimeModule)
-    }
-
-    private fun getDeserializer(): ObjectMapper {
-        val javaTimeModule = JavaTimeModule()
-        val localDateTimeDeserializer = LocalDateTimeDeserializer(dateTimeFormatter)
-        javaTimeModule.addDeserializer(LocalDateTime::class.java, localDateTimeDeserializer)
-
-        return jacksonObjectMapper()
-                .registerModule(javaTimeModule)
-    }
-
-
 }
