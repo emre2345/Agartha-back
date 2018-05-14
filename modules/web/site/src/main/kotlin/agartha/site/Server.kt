@@ -8,6 +8,7 @@ import agartha.data.services.SettingsService
 import agartha.site.controllers.*
 import io.schinzel.basicutils.configvar.ConfigVar
 import spark.Spark
+import spark.Spark.webSocket
 
 /**
  * Purpose of this file is to Start a WebServer
@@ -20,6 +21,8 @@ fun startServer(args: Array<String>) {
     // Set Connection to database
     MongoConnection.setConnection(Database.RUNTIME)
 
+    // Start WebSocket
+    webSocket("/websocket", WebSocketHandler::class.java)
 
     // Port where Spark Server is running
     spark.kotlin.port(port)
