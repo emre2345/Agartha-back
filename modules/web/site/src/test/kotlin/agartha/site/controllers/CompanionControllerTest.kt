@@ -126,42 +126,42 @@ class CompanionControllerTest {
      *
      */
     @Test
-    fun companionReport_practitionerCount_6() {
+    fun companionReport_practitionerCount_5() {
         setupReport()
         val getRequest = testController.testServer.get("/companion", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
         val data: CompanionReport = ControllerUtil.stringToObject(body, CompanionReport::class.java)
-        assertThat(data.companionCount).isEqualTo(6)
+        assertThat(data.companionCount).isEqualTo(5)
     }
 
     /**
      *
      */
     @Test
-    fun companionReport_sessionCount_8() {
+    fun companionReport_sessionCount_5() {
         setupReport()
         val getRequest = testController.testServer.get("/companion", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
         val data: CompanionReport = ControllerUtil.stringToObject(body, CompanionReport::class.java)
-        assertThat(data.sessionCount).isEqualTo(8)
+        assertThat(data.sessionCount).isEqualTo(5)
     }
 
     /**
      *
      */
     @Test
-    fun companionReport_sessionMinutes_180() {
+    fun companionReport_sessionMinutes_135() {
         setupReport()
         val getRequest = testController.testServer.get("/companion", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
         // Map to Data object
         val data: CompanionReport = ControllerUtil.stringToObject(body, CompanionReport::class.java)
-        assertThat(data.sessionSumMinutes).isEqualTo(180)
+        assertThat(data.sessionSumMinutes).isEqualTo(135)
     }
 
     /**
