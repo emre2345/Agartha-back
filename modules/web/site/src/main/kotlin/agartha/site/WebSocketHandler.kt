@@ -30,8 +30,10 @@ class WebSocketHandler {
                 val practitioner: PractitionerDBO = PractitionerService().getById(json.get("practitionerId").asText())!!
                 // Put practitioner and webSocket-session to a map
                 practitioners.put(session, practitioner)
-                // Broadcast to all users connected
-                broadcast(Message("companionsCount", practitioners.size))
+                // Broadcast to all users connected except this session
+                broadcastToOthers(session, Message("newCompanion", practitioner))
+                // Send to self
+                emit(session, Message("companions", practitioners.values))
             }
         }
         println("json msg ${message}")
@@ -43,7 +45,7 @@ class WebSocketHandler {
         // remove the user from our list
         val user = practitioners.remove(session)
         // notify all other users this user has disconnected
-        if (user != null) broadcastToOthers(session, Message("companionsCount", practitioners.size))
+        if (user != null) broadcastToOthers(session, Message("companions", practitioners))
     }
 
 
