@@ -80,8 +80,8 @@ class PractitionerService : IPractitionerService {
      * @param dateTime LocalDateTime
      * @return List of pracitioner with at least one session active after argument dateTime
      */
-    override fun getPractitionersWithSessionAfter(dateTime: LocalDateTime): List<PractitionerDBO> {
-        val mongoFormattedStart = DateTimeFormat.formatDateTimeAsMongoString(dateTime)
+    override fun getPractitionersWithSessionAfter(startDate: LocalDateTime): List<PractitionerDBO> {
+        val mongoFormattedStart = DateTimeFormat.formatDateTimeAsMongoString(startDate)
         // Practitioner should have start dateTime after argument dateTime
         val start = """{sessions: {${MongoOperator.elemMatch}: { startTime: { ${MongoOperator.gte}: ISODate('${mongoFormattedStart}') } } } }"""
         // OR
