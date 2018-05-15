@@ -10,8 +10,13 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage
 import org.eclipse.jetty.websocket.api.annotations.WebSocket
 
+/**
+ * Temporary class to hold a type and a message that is sent from and to the client
+ */
 class Message(val msgType: String, val data: Any)
-
+/**
+ * The purpose of this class is to handle all events for the webSocket.
+ */
 @WebSocket
 class WebSocketHandler {
 
