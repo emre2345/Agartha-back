@@ -57,9 +57,9 @@ class WebSocketHandler {
      */
     @OnWebSocketClose
     fun disconnect(session: Session, code: Int, reason: String?) {
-        println("closing")
         // Remove the practitioner from the list
         val practitioner: PractitionerDBO? = practitioners.remove(session)
+        println("closing ${practitioner?._id}")
         // Notify all other practitioners this practitioner has left the session
         if (practitioner != null) broadcastToOthers(session, Message("companionLeft", practitioners))
     }
