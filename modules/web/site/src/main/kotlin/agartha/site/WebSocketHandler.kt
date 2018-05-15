@@ -2,8 +2,8 @@ package agartha.site
 
 import agartha.data.objects.PractitionerDBO
 import agartha.data.services.PractitionerService
-import agartha.site.objects.webSocketMessage.Events
-import agartha.site.objects.webSocketMessage.Message
+import agartha.site.objects.webSocket.Events
+import agartha.site.objects.webSocket.Message
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.eclipse.jetty.websocket.api.Session
@@ -35,20 +35,21 @@ class WebSocketHandler {
      */
     @OnWebSocketMessage
     fun message(session: Session, message: String) {
+        println("json msg ${message}")
+
         val json = ObjectMapper().readTree(message)
-        when (json.get("type").asText()) {
+        when (json.get("event").asText()) {
             Events.START_SESSION.eventName -> {
                 // Get the practitioner
-                val practitioner: PractitionerDBO = PractitionerService().getById(json.get("practitionerId").asText())!!
+                val practitioner: PractitionerDBO = PractitionerService().getById(json.get("data").asText())!!
                 // Put practitioner and webSocket-session to a map
                 practitioners.put(session, practitioner)
                 // Broadcast to all users connected except this session
-                broadcastToOthers(session, Message("newCompanion", practitioner))
+                broadcastToOthers(session, Message(Events.NEW_COMPANION.eventName, practitioner))
                 // Send to self
-                emit(session, Message("companions", practitioners.values))
+                emit(session, Message(Events.COMPANIONS.eventName, practitioners.values))
             }
         }
-        println("json msg ${message}")
     }
 
 
@@ -63,7 +64,7 @@ class WebSocketHandler {
         // Remove the practitioner from the list
         val practitioner: PractitionerDBO? = practitioners.remove(session)
         // Notify all other practitioners this practitioner has left the session
-        if (practitioner != null) broadcastToOthers(session, Message("companionLeft", practitioners))
+        if (practitioner != null) broadcastToOthers(session, Message(Events.COMPANION_LEFT.eventName, practitioners))
     }
 
 
