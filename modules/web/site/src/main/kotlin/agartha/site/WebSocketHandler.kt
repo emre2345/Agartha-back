@@ -42,10 +42,11 @@ class WebSocketHandler {
 
     @OnWebSocketClose
     fun disconnect(session: Session, code: Int, reason: String?) {
+        println("closing")
         // remove the user from our list
         val user = practitioners.remove(session)
         // notify all other users this user has disconnected
-        if (user != null) broadcastToOthers(session, Message("companions", practitioners))
+        if (user != null) broadcastToOthers(session, Message("companionLeft", practitioners))
     }
 
 
