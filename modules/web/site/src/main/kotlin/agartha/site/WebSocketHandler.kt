@@ -2,6 +2,8 @@ package agartha.site
 
 import agartha.data.objects.PractitionerDBO
 import agartha.data.services.PractitionerService
+import agartha.site.objects.webSocketMessage.Events
+import agartha.site.objects.webSocketMessage.Message
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.eclipse.jetty.websocket.api.Session
@@ -11,16 +13,11 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage
 import org.eclipse.jetty.websocket.api.annotations.WebSocket
 
 /**
- * Temporary class to hold a type and a message that is sent from and to the client
- */
-class Message(val msgType: String, val data: Any)
-/**
  * The purpose of this class is to handle all events for the webSocket.
  */
 @WebSocket
 class WebSocketHandler {
-
-    val practitioners = HashMap<Session, PractitionerDBO>()
+    private val practitioners = HashMap<Session, PractitionerDBO>()
 
     /**
      * When a practitioner has connected to the WebSocket
@@ -40,7 +37,7 @@ class WebSocketHandler {
     fun message(session: Session, message: String) {
         val json = ObjectMapper().readTree(message)
         when (json.get("type").asText()) {
-            "startSession" -> {
+            Events.START_SESSION.eventName -> {
                 // Get the practitioner
                 val practitioner: PractitionerDBO = PractitionerService().getById(json.get("practitionerId").asText())!!
                 // Put practitioner and webSocket-session to a map
@@ -75,13 +72,13 @@ class WebSocketHandler {
      * @param session - the practitioners webSocket-session
      * @param message - the message for the client
      */
-    fun emit(session: Session, message: Message) = session.remote.sendString(jacksonObjectMapper().writeValueAsString(message))
+    private fun emit(session: Session, message: Message) = session.remote.sendString(jacksonObjectMapper().writeValueAsString(message))
 
     /**
      * Broadcast a message to everybody except a specific session
      * @param session - the practitioners webSocket-session
      * @param message - the message for the client
      */
-    fun broadcastToOthers(session: Session, message: Message) = practitioners.filter { it.key != session }.forEach() { emit(it.key, message)}
+    private fun broadcastToOthers(session: Session, message: Message) = practitioners.filter { it.key != session }.forEach() { emit(it.key, message)}
 
 }
