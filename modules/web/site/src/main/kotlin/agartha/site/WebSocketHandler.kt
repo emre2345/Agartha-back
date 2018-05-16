@@ -22,7 +22,7 @@ import java.time.LocalDateTime
  */
 @WebSocket
 class WebSocketHandler {
-    private val practitioners = HashMap<Session, PractitionerDBO>()
+    private val practitionersSessions = HashMap<Session, SessionDBO>()
     private val mService: IPractitionerService = PractitionerService();
 
     /**
@@ -39,7 +39,7 @@ class WebSocketHandler {
      *                  Emit the companions in the map to the new practitioner
      */
     @OnWebSocketMessage
-    fun message(session: Session, message: String) {
+    fun message(webSocketSession: Session, message: String) {
         println("json msg ${message}")
         val webSocketMessage: WebSocketMessage =
                 ControllerUtil.stringToObject(message, WebSocketMessage::class.java)
@@ -51,17 +51,18 @@ class WebSocketHandler {
                 val userId = webSocketMessage.data.toString()
                 // Get sessions for the ongoing companions
                 val sessions = getOngoingCompanionsSessions(userId, getOngoingCompanions())
-                println(sessions.toString())
 
                 // Get the practitioner
                 val practitioner: PractitionerDBO = mService.getById(webSocketMessage.data.toString())!!
-                println(practitioner.sessions.last())
+                val practitionersLatestSession: SessionDBO = practitioner.sessions.last()
                 // Put practitioner and webSocket-session to a map
-                practitioners.put(session, practitioner)
+                practitionersSessions.put(webSocketSession, practitionersLatestSession)
+                println(practitionersSessions.values.size)
+
                 // Broadcast to all users connected except this session
-                broadcastToOthers(session, WebSocketMessage(WebSocketEvents.NEW_COMPANION.eventName, practitioner))
+                broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.NEW_COMPANION.eventName, practitionersSessions.values))
                 // Send to self
-                emit(session, WebSocketMessage(WebSocketEvents.COMPANIONS_SESSIONS.eventName, ControllerUtil.objectListToString(sessions)))
+                emit(webSocketSession, WebSocketMessage(WebSocketEvents.COMPANIONS_SESSIONS.eventName, practitionersSessions.values))
             }
         }
     }
@@ -73,28 +74,29 @@ class WebSocketHandler {
      * - Broadcast to everybody else that a companion left
      */
     @OnWebSocketClose
-    fun disconnect(session: Session, code: Int, reason: String?) {
+    fun disconnect(webSocketSession: Session, code: Int, reason: String?) {
         println("closing")
-        // Remove the practitioner from the list
-        val practitioner: PractitionerDBO? = practitioners.remove(session)
-        // Notify all other practitioners this practitioner has left the session
-        if (practitioner != null) broadcastToOthers(session, WebSocketMessage(WebSocketEvents.COMPANION_LEFT.eventName, practitioners))
+        // Remove the practitioners session from the list
+        val practitionersSession: SessionDBO? = practitionersSessions.remove(webSocketSession)
+        println(practitionersSessions.values.size)
+        // Notify all other practitionersSessions this practitioner has left the webSocketSession
+        if (practitionersSession != null) broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.COMPANION_LEFT.eventName, practitionersSessions.values))
     }
 
 
     /**
      * Send a message to a specific webSocket-session
-     * @param session - the practitioners webSocket-session
+     * @param session - the practitionersSessions webSocket-session
      * @param message - the message for the client
      */
-    private fun emit(session: Session, message: WebSocketMessage) = session.remote.sendString(jacksonObjectMapper().writeValueAsString(message))
+    private fun emit(webSocketSession: Session, message: WebSocketMessage) = webSocketSession.remote.sendString(jacksonObjectMapper().writeValueAsString(message))
 
     /**
      * Broadcast a message to everybody except a specific session
-     * @param session - the practitioners webSocket-session
+     * @param session - the practitionersSessions webSocket-session
      * @param message - the message for the client
      */
-    private fun broadcastToOthers(session: Session, message: WebSocketMessage) = practitioners.filter { it.key != session }.forEach { emit(it.key, message)}
+    private fun broadcastToOthers(webSocketSession: Session, message: WebSocketMessage) = practitionersSessions.filter { it.key != webSocketSession }.forEach { emit(it.key, message)}
 
 
     /**
@@ -105,7 +107,7 @@ class WebSocketHandler {
         // Created times for getting ongoing sessions
         val startDateTime: LocalDateTime = LocalDateTime.now().minusMinutes(15)
         val endDateTime: LocalDateTime = LocalDateTime.now()
-        // Filter out last session for these practitioners
+        // Filter out last session for these practitionersSessions
         return SessionUtil
                 .filterSingleSessionActiveBetween(
                         practitioners, userId, startDateTime, endDateTime)
@@ -118,7 +120,7 @@ class WebSocketHandler {
         // Created times for getting ongoing sessions
         val startDateTime: LocalDateTime = LocalDateTime.now().minusMinutes(15)
         val endDateTime: LocalDateTime = LocalDateTime.now()
-        // Get practitioners with sessions between
+        // Get practitionersSessions with sessions between
         return PractitionerUtil
                 .filterPractitionerWithSessionsBetween(
                         mService.getAll(), startDateTime, endDateTime)
