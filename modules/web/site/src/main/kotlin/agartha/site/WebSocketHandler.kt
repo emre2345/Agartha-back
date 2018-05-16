@@ -40,25 +40,19 @@ class WebSocketHandler {
      */
     @OnWebSocketMessage
     fun message(webSocketSession: Session, message: String) {
-        println("json msg ${message}")
         val webSocketMessage: WebSocketMessage =
                 ControllerUtil.stringToObject(message, WebSocketMessage::class.java)
+        println("Recieved event: ${webSocketMessage.event}")
 
         // Do different things depending on the WebSocketMessage event
         when (webSocketMessage.event) {
             WebSocketEvents.START_SESSION.eventName -> {
-
-                val userId = webSocketMessage.data.toString()
-                // Get sessions for the ongoing companions
-                val sessions = getOngoingCompanionsSessions(userId, getOngoingCompanions())
-
                 // Get the practitioner
                 val practitioner: PractitionerDBO = mService.getById(webSocketMessage.data.toString())!!
+                // Get practitioners last session
                 val practitionersLatestSession: SessionDBO = practitioner.sessions.last()
-                // Put practitioner and webSocket-session to a map
+                // Put practitioners session and webSocket-session to a map
                 practitionersSessions.put(webSocketSession, practitionersLatestSession)
-                println(practitionersSessions.values.size)
-
                 // Broadcast to all users connected except this session
                 broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.NEW_COMPANION.eventName, practitionersSessions.values))
                 // Send to self
@@ -97,32 +91,4 @@ class WebSocketHandler {
      * @param message - the message for the client
      */
     private fun broadcastToOthers(webSocketSession: Session, message: WebSocketMessage) = practitionersSessions.filter { it.key != webSocketSession }.forEach { emit(it.key, message)}
-
-
-    /**
-     * Get the ongoing session for the practitioner
-     * TODO: Same function as in PractitionerController and needs to be moved to a better place
-     */
-    private fun getOngoingCompanionsSessions(userId: String, practitioners: List<PractitionerDBO>): List<SessionDBO> {
-        // Created times for getting ongoing sessions
-        val startDateTime: LocalDateTime = LocalDateTime.now().minusMinutes(15)
-        val endDateTime: LocalDateTime = LocalDateTime.now()
-        // Filter out last session for these practitionersSessions
-        return SessionUtil
-                .filterSingleSessionActiveBetween(
-                        practitioners, userId, startDateTime, endDateTime)
-    }
-    /**
-     * Get the ongoing companion for the practitioner
-     * TODO: Same function as in PractitionerController and needs to be moved to a better place
-     */
-    private fun getOngoingCompanions(): List<PractitionerDBO> {
-        // Created times for getting ongoing sessions
-        val startDateTime: LocalDateTime = LocalDateTime.now().minusMinutes(15)
-        val endDateTime: LocalDateTime = LocalDateTime.now()
-        // Get practitionersSessions with sessions between
-        return PractitionerUtil
-                .filterPractitionerWithSessionsBetween(
-                        mService.getAll(), startDateTime, endDateTime)
-    }
 }
