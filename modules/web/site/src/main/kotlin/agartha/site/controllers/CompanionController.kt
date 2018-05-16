@@ -15,7 +15,7 @@ import spark.Spark
 import java.time.LocalDateTime
 
 /**
- * Purpose of this class is handling companion Practictioners
+ * Purpose of this class is handling companion Practitioners
  *
  * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-05-03.
  */
@@ -149,6 +149,5 @@ class CompanionController {
         return SessionUtil
                 .filterSingleSessionActiveBetween(
                         practitioners, userId, startDateTime, endDateTime)
-
     }
 }
