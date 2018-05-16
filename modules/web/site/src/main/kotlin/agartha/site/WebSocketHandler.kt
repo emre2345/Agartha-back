@@ -14,9 +14,9 @@ class Message(val msgType: String, val data: Any)
 
 /**
  * Per default, a close connection is closed after 5 minutes per default
- * MaxIdleTime is in ms (1 hour * 60 minutes * 60 seconds * 1000 ms)
+ * MaxIdleTime is in ms (3 hour * 60 minutes * 60 seconds * 1000 ms = 10 800 000)
  */
-@WebSocket(maxIdleTime=3600000)
+@WebSocket(maxIdleTime=10800000)
 class WebSocketHandler {
 
     val practitioners = HashMap<Session, PractitionerDBO>()
