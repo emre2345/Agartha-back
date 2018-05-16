@@ -53,10 +53,11 @@ class WebSocketHandler {
                 val practitionersLatestSession: SessionDBO = practitioner.sessions.last()
                 // Put practitioners session and webSocket-session to a map
                 practitionersSessions.put(webSocketSession, practitionersLatestSession)
+                val returnSessions = ControllerUtil.objectListToString(practitionersSessions.values.toList())
                 // Broadcast to all users connected except this session
-                broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.NEW_COMPANION.eventName, practitionersSessions.values))
+                broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.NEW_COMPANION.eventName, returnSessions))
                 // Send to self
-                emit(webSocketSession, WebSocketMessage(WebSocketEvents.COMPANIONS_SESSIONS.eventName, practitionersSessions.values))
+                emit(webSocketSession, WebSocketMessage(WebSocketEvents.COMPANIONS_SESSIONS.eventName, returnSessions))
             }
         }
     }
@@ -73,8 +74,9 @@ class WebSocketHandler {
         // Remove the practitioners session from the list
         val practitionersSession: SessionDBO? = practitionersSessions.remove(webSocketSession)
         println(practitionersSessions.values.size)
+        val returnSessions = ControllerUtil.objectListToString(practitionersSessions.values.toList())
         // Notify all other practitionersSessions this practitioner has left the webSocketSession
-        if (practitionersSession != null) broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.COMPANION_LEFT.eventName, practitionersSessions.values))
+        if (practitionersSession != null) broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.COMPANION_LEFT.eventName, returnSessions))
     }
 
 
