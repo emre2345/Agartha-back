@@ -15,12 +15,13 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage
 import org.eclipse.jetty.websocket.api.annotations.WebSocket
-import java.time.LocalDateTime
 
 /**
  * The purpose of this class is to handle all events for the webSocket.
+ * Per default, a close connection is closed after 5 minutes per default
+ * MaxIdleTime is in ms (3 hour * 60 minutes * 60 seconds * 1000 ms = 10 800 000)
  */
-@WebSocket
+@WebSocket(maxIdleTime=10800000)
 class WebSocketHandler {
     private val practitionersSessions = HashMap<Session, SessionDBO>()
     private val mService: IPractitionerService = PractitionerService();
@@ -42,7 +43,7 @@ class WebSocketHandler {
     fun message(webSocketSession: Session, message: String) {
         val webSocketMessage: WebSocketMessage =
                 ControllerUtil.stringToObject(message, WebSocketMessage::class.java)
-        println("Recieved event: ${webSocketMessage.event}")
+        println("Received event: ${webSocketMessage.event}")
 
         // Do different things depending on the WebSocketMessage event
         when (webSocketMessage.event) {
@@ -70,10 +71,10 @@ class WebSocketHandler {
      */
     @OnWebSocketClose
     fun disconnect(webSocketSession: Session, code: Int, reason: String?) {
-        println("closing")
         // Remove the practitioners session from the list
         val practitionersSession: SessionDBO? = practitionersSessions.remove(webSocketSession)
-        println(practitionersSessions.values.size)
+        println("closing ${practitionersSession?.index} lasted for ${practitionersSession.sessionDurationMinutes()} minutes")
+        println("Practitioners left: ${practitionersSessions.values.size}")
         val returnSessions = ControllerUtil.objectListToString(practitionersSessions.values.toList())
         // Notify all other practitionersSessions this practitioner has left the webSocketSession
         if (practitionersSession != null) broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.COMPANION_LEFT.eventName, returnSessions))
