@@ -12,7 +12,11 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket
 
 class Message(val msgType: String, val data: Any)
 
-@WebSocket
+/**
+ * Per default, a close connection is closed after 5 minutes per default
+ * MaxIdleTime is in ms (3 hour * 60 minutes * 60 seconds * 1000 ms = 10 800 000)
+ */
+@WebSocket(maxIdleTime=10800000)
 class WebSocketHandler {
 
     val practitioners = HashMap<Session, PractitionerDBO>()
@@ -57,9 +61,9 @@ class WebSocketHandler {
      */
     @OnWebSocketClose
     fun disconnect(session: Session, code: Int, reason: String?) {
-        println("closing")
         // Remove the practitioner from the list
         val practitioner: PractitionerDBO? = practitioners.remove(session)
+        println("closing ${practitioner?._id}")
         // Notify all other practitioners this practitioner has left the session
         if (practitioner != null) broadcastToOthers(session, Message("companionLeft", practitioners))
     }
