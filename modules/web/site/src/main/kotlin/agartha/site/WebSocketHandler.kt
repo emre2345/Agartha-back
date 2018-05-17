@@ -82,14 +82,14 @@ class WebSocketHandler {
 
     /**
      * Send a message to a specific webSocket-session
-     * @param session - the practitionersSessions webSocket-session
+     * @param webSocketSession - the practitionersSessions webSocket-session
      * @param message - the message for the client
      */
     private fun emit(webSocketSession: Session, message: WebSocketMessage) = webSocketSession.remote.sendString(jacksonObjectMapper().writeValueAsString(message))
 
     /**
      * Broadcast a message to everybody except a specific session
-     * @param session - the practitionersSessions webSocket-session
+     * @param webSocketSession - the practitionersSessions webSocket-session
      * @param message - the message for the client
      */
     private fun broadcastToOthers(webSocketSession: Session, message: WebSocketMessage) = practitionersSessions.filter { it.key != webSocketSession }.forEach { emit(it.key, message)}
