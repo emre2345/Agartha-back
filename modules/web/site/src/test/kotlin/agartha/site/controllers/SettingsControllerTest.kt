@@ -67,16 +67,16 @@ class SettingsControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
 
-        assertThat(body).contains("WELLBEING")
-        assertThat(body).contains("HARMONY")
-        assertThat(body).contains("FREEDOM")
-        assertThat(body).contains("EMPOWERMENT")
-        assertThat(body).contains("RESOLUTION")
-        assertThat(body).contains("EMPATHY")
-        assertThat(body).contains("ABUNDANCE")
-        assertThat(body).contains("LOVE")
-        assertThat(body).contains("CELEBRATION")
-        assertThat(body).contains("TRANSFORMATION")
+        assertThat(body).contains("Wellbeing")
+        assertThat(body).contains("Harmony")
+        assertThat(body).contains("Freedom")
+        assertThat(body).contains("Empowerment")
+        assertThat(body).contains("Resolution")
+        assertThat(body).contains("Empathy")
+        assertThat(body).contains("Abundance")
+        assertThat(body).contains("Love")
+        assertThat(body).contains("Celebration")
+        assertThat(body).contains("Transformation")
     }
 
     /**
