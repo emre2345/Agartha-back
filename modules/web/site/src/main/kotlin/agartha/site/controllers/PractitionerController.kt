@@ -1,7 +1,6 @@
 package agartha.site.controllers
 
 import agartha.data.objects.PractitionerDBO
-import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.controllers.utils.SessionUtil
@@ -49,6 +48,7 @@ class PractitionerController(private val mService: IPractitionerService) {
      * Get information about current practitioner
      * @return Object with general information
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun getInformation(request: Request, response: Response): String {
         // Get current userid or generate new
         val userId = getUserIdFromRequest(request)
@@ -65,6 +65,7 @@ class PractitionerController(private val mService: IPractitionerService) {
      * Update practitioner with 'Get involved'-information
      * @return The updated practitioner
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun updatePractitioner(request: Request, response: Response): String {
         val involvedInformation: PractitionerInvolvedInformation =
                 ControllerUtil.stringToObject(request.body(), PractitionerInvolvedInformation::class.java)
@@ -108,6 +109,7 @@ class PractitionerController(private val mService: IPractitionerService) {
      * Start a new user session
      * @return id/index for started session
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun insertSession(request: Request, response: Response): String {
         // Get current userid
         val userId: String = request.params(":userid")
@@ -129,6 +131,7 @@ class PractitionerController(private val mService: IPractitionerService) {
      * Get prepare report
      * Information about other ongoing sessions
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun getPrepareReport(request: Request, response: Response): String {
         // Get current userid
         val userId: String = request.params(":userid") ?: ""

@@ -42,6 +42,7 @@ class SettingsController(private val mService: ISettingsService) {
      * Adds an intention to the DBO
      * @return the added intention
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun addIntention(request: Request, response: Response): String {
         // Get the new intention from body
         val newIntention: IntentionDBO = ControllerUtil.stringToObject(request.body(), IntentionDBO::class.java)

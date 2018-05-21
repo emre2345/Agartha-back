@@ -45,6 +45,7 @@ class CompanionController(private val mService: IPractitionerService) {
     /**
      * Get all practitioners with sessions/practices during last 24 hours
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun companionReport(request: Request, response: Response): String {
         // Start date from when we should look for sessions
         val startDateTime: LocalDateTime = LocalDateTime.now()
@@ -65,6 +66,7 @@ class CompanionController(private val mService: IPractitionerService) {
         return ControllerUtil.objectToString(companionReport)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun companionSessionReport(request: Request, response: Response): String {
         // Get current userid
         val userId: String = request.params(":userid")
@@ -95,6 +97,7 @@ class CompanionController(private val mService: IPractitionerService) {
     /**
      * Get practitioners with ongoing session/practice
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun companionOngoing(request: Request, response: Response): String {
         // Get current userid
         val userId: String = request.params(":userid") ?: ""
@@ -110,6 +113,7 @@ class CompanionController(private val mService: IPractitionerService) {
     /**
      * Counts all the ongoing sessions and matching them with an user
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun matchOngoingCompanionsSessions(request: Request, response: Response): String {
         val userId: String = request.params(":userid") ?: ""
         // Get sessions for the ongoing companions
