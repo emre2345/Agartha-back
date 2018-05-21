@@ -41,7 +41,7 @@ class SettingsServiceTest : DatabaseHandler() {
      */
     @Test
     fun settingService_insert_collectionSize1() {
-        val settings = SettingsService().insert(settingsOne)
+        SettingsService().insert(settingsOne)
         val allSettings = SettingsService().getAll()
         assertThat(allSettings.size).isEqualTo(1)
     }

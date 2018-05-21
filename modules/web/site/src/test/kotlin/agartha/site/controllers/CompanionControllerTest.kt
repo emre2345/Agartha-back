@@ -5,8 +5,6 @@ import agartha.data.objects.SessionDBO
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.objects.response.CompanionReport
-import agartha.site.objects.response.CompanionsSessionReport
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.BeforeClass
@@ -274,47 +272,5 @@ class CompanionControllerTest {
         // Map to Data object
         val data: CompanionReport = ControllerUtil.stringToObject(body, CompanionReport::class.java)
         assertThat(data.intentions.containsKey("Empowerment")).isFalse()
-    }
-
-    /**
-     *
-     */
-    @Test
-    fun matchSessions_firstSessionPoints_2() {
-        setupReport()
-        val getRequest = testController.testServer.get("/companion/matched/c", false)
-        val httpResponse = testController.testServer.execute(getRequest)
-        val body = String(httpResponse.body())
-        // Map data to object
-        val list: List<CompanionsSessionReport> = ControllerUtil.stringToObjectList(body, CompanionsSessionReport::class.java)
-        Assertions.assertThat(list[0].matchPoints).isEqualTo(2)
-    }
-
-    /**
-     *
-     */
-    @Test
-    fun matchSessions_SecondSessionPoints_1() {
-        setupReport()
-        val getRequest = testController.testServer.get("/companion/matched/c", false)
-        val httpResponse = testController.testServer.execute(getRequest)
-        val body = String(httpResponse.body())
-        // Map data to object
-        val list: List<CompanionsSessionReport> = ControllerUtil.stringToObjectList(body, CompanionsSessionReport::class.java)
-        Assertions.assertThat(list[1].matchPoints).isEqualTo(1)
-    }
-
-    /**
-     *
-     */
-    @Test
-    fun matchSessions_LastSessionPoints_0() {
-        setupReport()
-        val getRequest = testController.testServer.get("/companion/matched/c", false)
-        val httpResponse = testController.testServer.execute(getRequest)
-        val body = String(httpResponse.body())
-        // Map data to object
-        val list: List<CompanionsSessionReport> = ControllerUtil.stringToObjectList(body, CompanionsSessionReport::class.java)
-        Assertions.assertThat(list.last().matchPoints).isEqualTo(0)
     }
 }

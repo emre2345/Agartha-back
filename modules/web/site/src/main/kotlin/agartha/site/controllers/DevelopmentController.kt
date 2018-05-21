@@ -17,23 +17,20 @@ import java.util.*
  * Purpose of this file is Generate Test users in database
  * Usage:
  * 1. set cookie xyz=blaha in browser
- * 2. call [server]/v1/dev/tjohej
+ * 2. call SERVERPATH/v1/dev/tjohej
  * 3. read the response user id
  *
  * Created by Jorgen Andersson on 2018-04-26.
+ *
+ * @param mService object for reading data from data source
  */
-class DevelopmentController {
-    // Practitioner data service
-    private val mService: IPractitionerService
+class DevelopmentController(private val mService : IPractitionerService) {
 
-
-    constructor(service: IPractitionerService) {
-        mService = service
-
+    init {
         Spark.path("/dev") {
             //
-            Spark.before("/*", { request, _ ->
-                val isDev: Boolean = ConfigVar.create(".env").getValue("A_ENVIRONMENT").equals("development")
+            Spark.before("/*", { _, _ ->
+                val isDev: Boolean = ConfigVar.create(".env").getValue("A_ENVIRONMENT") == "development"
                 //
                 if (!isDev) {
                     Spark.halt(401, "Request not allowed")
@@ -44,6 +41,8 @@ class DevelopmentController {
         }
     }
 
+
+    @Suppress("UNUSED_PARAMETER")
     private fun pushSomeUsersInDatabase(request: Request, response: Response): String {
 
         // User that has not been active for a long time and should not be in companion report
@@ -148,7 +147,7 @@ class DevelopmentController {
                 )
         ))
         // Return the Id
-        return "{\"id\":\"${id}\"}"
+        return "{\"id\":\"$id\"}"
     }
 
 
@@ -186,18 +185,18 @@ class DevelopmentController {
     }
 
     private fun generateGeolocation(geolocations: List<GeolocationDBO?>): GeolocationDBO? {
-        return geolocations.get(generateRandom(0, geolocations.lastIndex))
+        return geolocations[generateRandom(0, geolocations.lastIndex)]
     }
 
     private fun generateDiscipline(): String {
         val disciplines = listOf("Yoga", "Meditation", "Martial Arts")
-        return disciplines.get(generateRandom(0, disciplines.lastIndex))
+        return disciplines[generateRandom(0, disciplines.lastIndex)]
     }
 
     private fun generateIntention(): String {
         val intentions = listOf("Wellbeing", "Harmony", "Freedom", "Empowerment", "Resolution", "Empathy",
                 "Abundance", "Love", "Celebration", "Transformation")
-        return intentions.get(generateRandom(0, intentions.lastIndex))
+        return intentions[generateRandom(0, intentions.lastIndex)]
     }
 
     private fun addSession(list: List<SessionDBO>, session: SessionDBO): List<SessionDBO> {

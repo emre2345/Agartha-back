@@ -15,6 +15,7 @@ import spark.Spark.webSocket
  *
  * Created by Jorgen Andersson on 2018-04-06.
  */
+@Suppress("UNUSED_PARAMETER")
 fun startServer(args: Array<String>) {
     val port: Int = ConfigVar.create(".env").getValue("PORT").toInt()
 

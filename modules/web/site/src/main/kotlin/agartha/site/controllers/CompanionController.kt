@@ -18,13 +18,15 @@ import java.time.LocalDateTime
  * Purpose of this class is handling companion Practitioners
  *
  * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-05-03.
+ *
+ * @param mService object for reading data from data source
  */
-class CompanionController {
-    // Practitioner data service
-    private val mService: IPractitionerService
+class CompanionController(private val mService: IPractitionerService) {
 
-    constructor(service: IPractitionerService) {
-        mService = service
+    /**
+     * Class init
+     */
+    init {
         // API path for session
         Spark.path("/companion") {
             // Get companions for predefined timespan
@@ -36,14 +38,14 @@ class CompanionController {
             Spark.get("/ongoing/:userid", ::companionOngoing)
             // Get matched companions
             Spark.get("/matched/:userid", ::matchOngoingCompanionsSessions)
-
-
         }
     }
+
 
     /**
      * Get all practitioners with sessions/practices during last 24 hours
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun companionReport(request: Request, response: Response): String {
         // Start date from when we should look for sessions
         val startDateTime: LocalDateTime = LocalDateTime.now()
@@ -64,6 +66,7 @@ class CompanionController {
         return ControllerUtil.objectToString(companionReport)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun companionSessionReport(request: Request, response: Response): String {
         // Get current userid
         val userId: String = request.params(":userid")
@@ -94,6 +97,7 @@ class CompanionController {
     /**
      * Get practitioners with ongoing session/practice
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun companionOngoing(request: Request, response: Response): String {
         // Get current userid
         val userId: String = request.params(":userid") ?: ""
@@ -109,26 +113,15 @@ class CompanionController {
     /**
      * Counts all the ongoing sessions and matching them with an user
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun matchOngoingCompanionsSessions(request: Request, response: Response): String {
         val userId: String = request.params(":userid") ?: ""
-        // Get user from data source
-        val user: PractitionerDBO? = mService.getById(userId)
-        // Create empty list that will be filled with reports and then returned
-        val companionsSessionList: MutableList<CompanionsSessionReport> = mutableListOf()
         // Get sessions for the ongoing companions
-        val sessions = getOngoingCompanionsSessions(userId, getOngoingCompanions())
-        for (companionsSession in sessions) {
-            // Create a new CompanionsSessionReport object with the session for the companion
-            val companionsSessionReport = CompanionsSessionReport(companionsSession)
-            // Set the matching points to this companion
-            companionsSessionReport.giveMatchPoints(user!!)
-            // Add this report to the returning-list
-            companionsSessionList.add(companionsSessionReport)
+        val sessionReportList = getOngoingCompanionsSessions(userId, getOngoingCompanions()).map {
+            CompanionsSessionReport(it)
         }
-        // Sort the mutable list by descending (No need to get the returning list because the mutable list will change itself)
-        companionsSessionList.sortByDescending { it.matchPoints }
         //
-        return ControllerUtil.objectListToString(companionsSessionList)
+        return ControllerUtil.objectListToString(sessionReportList)
     }
 
     private fun getOngoingCompanions(): List<PractitionerDBO> {

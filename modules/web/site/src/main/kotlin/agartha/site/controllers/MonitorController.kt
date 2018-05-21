@@ -12,14 +12,12 @@ import spark.Spark
  * c. It is possible to read from database
  *
  * Created by Jorgen Andersson on 2018-04-06.
+ *
+ * @param mService object for reading data from data source
  */
-class MonitorController {
-    val mService: IBaseService<MonitorDBO>
+class MonitorController(private val mService: IBaseService<MonitorDBO>) {
 
-
-    constructor(service: IBaseService<MonitorDBO>) {
-        mService = service
-
+    init {
         Spark.path("/monitoring") {
             Spark.get("/status") { _, _ ->
                 "{\"text\": \"Still alive\"}"

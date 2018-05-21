@@ -1,7 +1,6 @@
 package agartha.site.controllers
 
 import agartha.data.objects.PractitionerDBO
-import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.controllers.utils.SessionUtil
@@ -18,14 +17,12 @@ import java.time.LocalDateTime
  * Purpose of this file is handling API requests for practitioning sessions
  *
  * Created by Jorgen Andersson on 2018-04-09.
+ *
+ * @param mService object for reading data from data source
  */
-class PractitionerController {
-    // Practitioner data service
-    private val mService: IPractitionerService
+class PractitionerController(private val mService: IPractitionerService) {
 
-    constructor(service: IPractitionerService) {
-        mService = service
-
+    init {
         // API path for session
         Spark.path("/practitioner") {
             //
@@ -51,6 +48,7 @@ class PractitionerController {
      * Get information about current practitioner
      * @return Object with general information
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun getInformation(request: Request, response: Response): String {
         // Get current userid or generate new
         val userId = getUserIdFromRequest(request)
@@ -67,6 +65,7 @@ class PractitionerController {
      * Update practitioner with 'Get involved'-information
      * @return The updated practitioner
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun updatePractitioner(request: Request, response: Response): String {
         val involvedInformation: PractitionerInvolvedInformation =
                 ControllerUtil.stringToObject(request.body(), PractitionerInvolvedInformation::class.java)
@@ -110,6 +109,7 @@ class PractitionerController {
      * Start a new user session
      * @return id/index for started session
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun insertSession(request: Request, response: Response): String {
         // Get current userid
         val userId: String = request.params(":userid")
@@ -131,6 +131,7 @@ class PractitionerController {
      * Get prepare report
      * Information about other ongoing sessions
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun getPrepareReport(request: Request, response: Response): String {
         // Get current userid
         val userId: String = request.params(":userid") ?: ""

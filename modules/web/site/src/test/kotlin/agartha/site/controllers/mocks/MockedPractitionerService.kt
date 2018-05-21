@@ -13,8 +13,7 @@ import java.time.LocalDateTime
  */
 class MockedPractitionerService : IPractitionerService {
 
-
-    val practitionerList: MutableList<PractitionerDBO> = mutableListOf()
+    private val practitionerList: MutableList<PractitionerDBO> = mutableListOf()
 
     override fun insert(item: PractitionerDBO): PractitionerDBO {
         practitionerList.add(item)
@@ -54,12 +53,9 @@ class MockedPractitionerService : IPractitionerService {
     }
 
     override fun getById(id: String): PractitionerDBO? {
-        if (practitionerList.isEmpty()) {
-            return null
-        }
-        return practitionerList.filter {
+        return practitionerList.find {
             it._id.equals(id)
-        }?.first()
+        }
     }
 
     /**

@@ -8,22 +8,20 @@ import agartha.site.controllers.utils.ControllerUtil
 import spark.Request
 import spark.Response
 import spark.Spark
-import spark.Spark.get
 
 /**
  * Purpose of this file is handling API requests for settings
  *
  * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-04-12.
+ *
+ * @param mService object for reading data from data source
  */
-class SettingsController {
-    val mService: ISettingsService
+class SettingsController(private val mService: ISettingsService) {
 
-    constructor(service: ISettingsService) {
-        mService = service
-
+    init {
         Spark.path("/settings") {
             //
-            Spark.get("") { request, response ->
+            Spark.get("") { _, _ ->
                 //
                 val list = mService.getAll()
                 if (list.isNotEmpty()) {
@@ -44,6 +42,7 @@ class SettingsController {
      * Adds an intention to the DBO
      * @return the added intention
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun addIntention(request: Request, response: Response): String {
         // Get the new intention from body
         val newIntention: IntentionDBO = ControllerUtil.stringToObject(request.body(), IntentionDBO::class.java)
