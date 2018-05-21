@@ -21,15 +21,12 @@ import java.util.*
  * 3. read the response user id
  *
  * Created by Jorgen Andersson on 2018-04-26.
+ *
+ * @param mService object for reading data from data source
  */
-class DevelopmentController {
-    // Practitioner data service
-    private val mService: IPractitionerService
+class DevelopmentController(private val mService : IPractitionerService) {
 
-
-    constructor(service: IPractitionerService) {
-        mService = service
-
+    init {
         Spark.path("/dev") {
             //
             Spark.before("/*", { request, _ ->
@@ -43,6 +40,7 @@ class DevelopmentController {
             Spark.get("/dbsetup", ::pushSomeUsersInDatabase)
         }
     }
+
 
     private fun pushSomeUsersInDatabase(request: Request, response: Response): String {
 
@@ -148,7 +146,7 @@ class DevelopmentController {
                 )
         ))
         // Return the Id
-        return "{\"id\":\"${id}\"}"
+        return "{\"id\":\"$id\"}"
     }
 
 
