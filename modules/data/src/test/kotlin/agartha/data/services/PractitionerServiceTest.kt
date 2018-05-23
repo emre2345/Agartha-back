@@ -103,7 +103,7 @@ class PractitionerServiceTest : DatabaseHandler() {
      * Add session
      */
     @Test
-    fun addSessionToUser_IndexReturned_1() {
+    fun startSession_IndexReturned_1() {
         val user = PractitionerDBO(sessions = listOf(SessionDBO(0, null,"Test", "TestIntention")))
         // Insert a new practitioning user
         val item = PractitionerService().insert(user)
@@ -116,7 +116,7 @@ class PractitionerServiceTest : DatabaseHandler() {
      *
      */
     @Test
-    fun addSessionsToUser_sessionsSize_3() {
+    fun startSession_sessionsSize_3() {
         val user = PractitionerDBO()
         // Insert a new practising user
         val item = PractitionerService().insert(user)
@@ -127,6 +127,57 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Get user and Count sessions
         val practitioner = PractitionerService().getById(item._id!!)
         Assertions.assertThat(practitioner?.sessions?.size).isEqualTo(3)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun endSession_userIdMissing_false() {
+        val response = PractitionerService().endSession("AnIdNotExisting")
+        assertThat(response).isFalse()
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun endSession_userHasNoSessions_false() {
+        val user = PractitionerDBO()
+        // Insert a new practising user
+        val practitioner = PractitionerService().insert(user)
+        val response = PractitionerService().endSession(practitioner._id!!)
+        assertThat(response).isFalse()
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun endSession_userHasSessions_true() {
+        val user = PractitionerDBO()
+        // Insert a new practising user
+        val practitioner = PractitionerService().insert(user)
+        // Insert sessions
+        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        val response = PractitionerService().endSession(practitioner._id!!)
+        assertThat(response).isTrue()
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun endSession_endTimeIsSet_notNull() {
+        val user = PractitionerDBO()
+        // Insert a new practising user
+        val practitioner = PractitionerService().insert(user)
+        // Insert sessions
+        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        PractitionerService().endSession(practitioner._id!!)
+        // Get from database
+        val item = PractitionerService().getById(practitioner._id!!)
+        assertThat(item!!.sessions.last().endTime).isNotNull()
     }
 
     /**

@@ -206,16 +206,32 @@ class PractitionerControllerTest {
      *
      */
     @Test
-    fun insertSession_returnIndexIs_1() {
+    fun startSession_returnIndexIs_1() {
         val body: String = "{\"discipline\": \"Yoga\",\n\"intention\": \"Salary raise\"\n}"
         // Setup
         mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
         //
-        val postRequest = testController.testServer.post("/practitioner/session/abc", body, false)
+        val postRequest = testController.testServer.post("/practitioner/session/start/abc", body, false)
         val httpResponse = testController.testServer.execute(postRequest)
         val responseBody = String(httpResponse.body())
         //
         assertThat(responseBody).startsWith("{\"index\":1")
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun endSession_response_true() {
+        // Setup
+        mockedService.insert(
+                PractitionerDBO("abc", LocalDateTime.now(), mutableListOf(
+                        SessionDBO(0, null, "D", "I", LocalDateTime.now()))))
+
+        val postRequest = testController.testServer.post("/practitioner/session/end/abc", "", false)
+        val httpResponse = testController.testServer.execute(postRequest)
+        val responseBody = String(httpResponse.body())
+        assertThat(responseBody).isEqualTo("true")
     }
 
     /**
