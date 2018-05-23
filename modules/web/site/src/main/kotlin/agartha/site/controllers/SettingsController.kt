@@ -85,7 +85,15 @@ class SettingsController(private val mService: ISettingsService) {
      */
     private fun getDefaultDisciplines(): List<DisciplineDBO> {
         return listOf(
+                // These are real, from Kim
                 DisciplineDBO("Meditation"),
-                DisciplineDBO("Yoga"))
+                DisciplineDBO("Yoga"),
+                // These are made up by DP
+                DisciplineDBO("Physical wellness"),
+                DisciplineDBO("Divination"),
+                DisciplineDBO("Martial and internal arts"),
+                DisciplineDBO("Self-expression"),
+                DisciplineDBO("Transformative technology"),
+                DisciplineDBO("Psychic realm"))
     }
 }
