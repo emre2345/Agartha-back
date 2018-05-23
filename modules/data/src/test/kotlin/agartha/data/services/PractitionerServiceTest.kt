@@ -168,6 +168,65 @@ class PractitionerServiceTest : DatabaseHandler() {
      *
      */
     @Test
+    fun endSession_sessionIsReplacedListSize_3() {
+        val user = PractitionerDBO()
+        // Insert a new practising user
+        val practitioner = PractitionerService().insert(user)
+        // Start three session
+        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        // End session (should end the last
+        PractitionerService().endSession(practitioner._id!!)
+        // Session should be poped and pushed
+        val item = PractitionerService().getById(practitioner._id!!)
+        assertThat(item!!.sessions.size).isEqualTo(3)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun endSession_secondItemNotEnded_Null() {
+        val user = PractitionerDBO()
+        // Insert a new practising user
+        val practitioner = PractitionerService().insert(user)
+        // Start three session
+        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        // End session (should end the last
+        PractitionerService().endSession(practitioner._id!!)
+        // Session should be poped and pushed
+        val item = PractitionerService().getById(practitioner._id!!)
+        // Only the last session should be ended
+        assertThat(item!!.sessions.get(1).endTime).isNull()
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun endSession_lastItemEnded_notNull() {
+        val user = PractitionerDBO()
+        // Insert a new practising user
+        val practitioner = PractitionerService().insert(user)
+        // Start three session
+        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        // End session (should end the last
+        PractitionerService().endSession(practitioner._id!!)
+        // Session should be poped and pushed
+        val item = PractitionerService().getById(practitioner._id!!)
+        // Only the last session should be ended
+        assertThat(item!!.sessions.get(2).endTime).isNotNull()
+    }
+
+    /**
+     *
+     */
+    @Test
     fun endSession_endTimeIsSet_notNull() {
         val user = PractitionerDBO()
         // Insert a new practising user
