@@ -86,6 +86,12 @@ class SettingsController(private val mService: ISettingsService) {
     private fun getDefaultDisciplines(): List<DisciplineDBO> {
         return listOf(
                 DisciplineDBO("Meditation"),
-                DisciplineDBO("Yoga"))
+                DisciplineDBO("Yoga"),
+                DisciplineDBO("Physical wellness"),
+                DisciplineDBO("Divination"),
+                DisciplineDBO("Martial and internal arts"),
+                DisciplineDBO("Self-expression"),
+                DisciplineDBO("Transformative technology"),
+                DisciplineDBO("Psychic realm"))
     }
 }
