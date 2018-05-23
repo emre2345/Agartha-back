@@ -9,8 +9,13 @@ import agartha.data.objects.PractitionerDBO
  * @param practitionerId database user id
  * @param lastSessionMinutes number of minutes for last session
  * @param totalSessionMinutes total number of minutes for user sessions
+ * @param isInvolved has the user registered with name and email address
  */
-data class PractitionerReport(val practitionerId: String?, val lastSessionMinutes: Long = 0, val totalSessionMinutes: Long = 0, var isInvolved: Boolean = false) {
+data class PractitionerReport(
+        val practitionerId: String?,
+        val lastSessionMinutes: Long = 0,
+        val totalSessionMinutes: Long = 0,
+        var isInvolved: Boolean = false) {
 
     /**
      * @param practitioner database users

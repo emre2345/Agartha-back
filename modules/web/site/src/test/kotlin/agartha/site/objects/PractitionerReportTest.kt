@@ -63,4 +63,27 @@ class PractitionerReportTest {
         val user = PractitionerReport(PractitionerDBO("abc", sessions = generateSessions()))
         assertThat(user.totalSessionMinutes).isEqualTo(90)
     }
+
+    /**
+     *
+     */
+    @Test
+    fun practitionerInvolved_notRegistered_false() {
+        val user = PractitionerReport(PractitionerDBO("abc", sessions = generateSessions()))
+        assertThat(user.isInvolved).isFalse()
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun practitionerInvolved_registered_true() {
+        val user = PractitionerReport(PractitionerDBO(
+                "abc",
+                sessions = generateSessions(),
+                fullName = "Jörgen Andersson",
+                email = "jorgen@kollektiva.se",
+                description = "This is me"))
+        assertThat(user.isInvolved).isTrue()
+    }
 }
