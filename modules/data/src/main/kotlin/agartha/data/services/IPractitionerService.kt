@@ -41,4 +41,10 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
             geolocation: GeolocationDBO?,
             disciplineName: String,
             intentionName: String): SessionDBO
+
+    /**
+     * @param practitionerId id for user ending a session
+     */
+    fun endSession(
+            practitionerId: String): Boolean
 }

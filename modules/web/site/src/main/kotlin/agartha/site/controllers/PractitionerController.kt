@@ -35,8 +35,10 @@ class PractitionerController(private val mService: IPractitionerService) {
             // Update practitioner data
             Spark.post("/:userid", ::updatePractitioner)
             //
-            // Start a new Session
-            Spark.post("/session/:userid", ::insertSession)
+            // Start a Session
+            Spark.post("/session/start/:userid", ::startSession)
+            // End a Session
+            Spark.post("/session/end/:userid", ::endSession)
             //
             // Prepare practitioner before starting a session
             // Get all ongoing sessions to compare current practitioner with
@@ -110,7 +112,7 @@ class PractitionerController(private val mService: IPractitionerService) {
      * @return id/index for started session
      */
     @Suppress("UNUSED_PARAMETER")
-    private fun insertSession(request: Request, response: Response): String {
+    private fun startSession(request: Request, response: Response): String {
         // Get current userid
         val userId: String = request.params(":userid")
         // Get selected geolocation, discipline and intention
@@ -124,6 +126,20 @@ class PractitionerController(private val mService: IPractitionerService) {
                 startSessionInformation.intention)
         // Return the started session
         return ControllerUtil.objectToString(session)
+    }
+
+    /**
+     * End an ongoing session
+     * @return true if userId exists and have an ongoing session, otherwise false
+     */
+    @Suppress("UNUSED_PARAMETER")
+    private fun endSession(request: Request, response: Response): String {
+        // Get current userid
+        val userId: String = request.params(":userid")
+        // Stop the last sesson for user
+        val result = mService.endSession(userId)
+        // Return "true"/"false" depending on outcome of data soure query
+        return "$result"
     }
 
 

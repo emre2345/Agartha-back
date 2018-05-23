@@ -16,6 +16,7 @@ import java.time.LocalDateTime
  */
 class PractitionerService : IPractitionerService {
 
+
     // Get MongoDatabase
     private val database = MongoConnection.getDatabase()
     // MongoCollection
@@ -66,14 +67,51 @@ class PractitionerService : IPractitionerService {
         val nextIndex = user?.sessions?.count() ?: 0
         // Create a new Session
         val session = SessionDBO(nextIndex, geolocation, disciplineName, intentionName)
-        // Create Mongo Document to be added to sessions list
-        val sessionDoc = Document("sessions", session)
-        // Update first document found by Id, push the new document
-        collection.updateOneById(practitionerId, Document("${MongoOperator.push}", sessionDoc))
+        // Push session to practitioner
+        pushSession(practitionerId, session)
         // return next index
         return session
     }
 
+    override fun endSession(practitionerId: String): Boolean {
+        // Get current user
+        val user: PractitionerDBO? = getById(practitionerId)
+        if (user != null && user.sessions.isNotEmpty()) {
+            // get the current session
+            val ongoingSession = user.sessions.last()
+            // If there is a matching user with sessions
+            if (ongoingSession != null) {
+                // Remove last item from sessions array
+                collection.updateOneById(
+                        practitionerId,
+                        // Create Mongo Document to pop/remove item from array
+                        Document("${MongoOperator.pop}",
+                                // Create Mongo Document to indicate last item in array
+                                Document("sessions", 1)))
+                // Create new Session with ongoing session as base
+                val session = SessionDBO(
+                        index = ongoingSession.index,
+                        geolocation = ongoingSession.geolocation,
+                        discipline = ongoingSession.discipline,
+                        intention = ongoingSession.intention,
+                        startTime = ongoingSession.startTime,
+                        endTime = LocalDateTime.now())
+                // Add it to sessions array
+                pushSession(practitionerId, session)
+                return true
+            }
+        }
+       return false
+    }
+
+    private fun pushSession(practitionerId: String, session: SessionDBO) {
+        // Update first document found by Id, push the new document
+        collection.updateOneById(
+                practitionerId,
+                Document("${MongoOperator.push}",
+                        // Create Mongo Document to be added to sessions list
+                        Document("sessions", session)))
+    }
 
     /**
      * Get all practitioner with session that has been ongoing any time after argument dateTime
