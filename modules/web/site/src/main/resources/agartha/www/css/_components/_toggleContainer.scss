@@ -1,0 +1,31 @@
+// container that will be toggled into and out of view
+// most likely contains vue-components
+.toggleContainer {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 1rem;
+  background-color: #fff;
+  position: absolute;
+  transition: transform .3s ease;
+  overflow-y: scroll; /* has to be scroll, not auto */
+  -webkit-overflow-scrolling: touch;
+
+  &--active {
+    transform: translateX(0);
+  }
+
+
+  &--hideToRight {
+    transform: translateX(100%);
+  }
+  &--hideToLeft {
+    transform: translateX(-100%);
+  }
+  &--hideToTop {
+    transform: translateY(-100%);
+  }
+  &--hideToBottom {
+    transform: translateY(100%);
+  }
+}

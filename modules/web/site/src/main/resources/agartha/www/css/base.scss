@@ -1,0 +1,32 @@
+// Base styling for Agartha
+// Specific rules and overrides will be placed within vue-components
+// This file is for generic, re-useable classes
+
+// Import resources; variables, colors
+@import
+'_resources/colors'
+;
+
+// Import CSS-variables; chunks of code to be re-used several times
+@import
+'_components/button',
+'_components/circle',
+'_components/headline',
+'_components/mediumText',
+'_components/smallText',
+'_components/toggleContainer',
+'_components/topBar',
+'_components/view',
+'_components/xSmallText'
+;
+
+// Import utility-classes; frequent patterns of single rules ie margin-distances, padding, sizes
+@import
+'_utilities/align',
+'_utilities/colors',
+'_utilities/margin',
+'_utilities/padding',
+'_utilities/typography'
+;
+
+

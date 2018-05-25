@@ -1,0 +1,128 @@
+// Font colors
+.beige {
+  color: $beige;
+}
+.black {
+  color: $black;
+}
+.blue {
+  color: $blue;
+}
+.green {
+  color: $green;
+}
+.indigo {
+  color: $indigo;
+}
+.orange {
+  color: $orange;
+}
+.red {
+  color: $red;
+}
+.violet {
+  color: $violet;
+}
+.yellow {
+  color: $yellow;
+}
+.white {
+  color: $white;
+}
+
+// Border colors
+.border {
+  &Beige {
+    border-color: $beige;
+  }
+  &Black {
+    border-color: $black;
+  }
+  &Blue {
+    border-color: $blue;
+  }
+  &Green {
+    border-color: $green;
+  }
+  &Indigo {
+    border-color: $indigo;
+  }
+  &Orange {
+    border-color: $orange;
+  }
+  &Red {
+    border-color: $red;
+  }
+  &Violet {
+    border-color: $violet;
+  }
+  &Yellow {
+    border-color: $yellow;
+  }
+  &White {
+    border-color: $white;
+  }
+
+  &Light {
+    &Violet {
+      border-color: $lightViolet;
+    }
+  }
+}
+
+// Backgrounds
+.background {
+  &Beige {
+    background-color: $beige;
+  }
+  &Black {
+    background-color: $black;
+  }
+  &Blue {
+    background-color: $blue;
+  }
+  &Green {
+    background-color: $green;
+  }
+  &Indigo {
+    background-color: $indigo;
+  }
+  &Orange {
+    background-color: $orange;
+  }
+  &Red {
+    background-color: $red;
+  }
+  &Violet {
+    background-color: $violet;
+  }
+  &Yellow {
+    background-color: $yellow;
+  }
+  &White {
+    background-color: $white;
+  }
+
+  &Light {
+    &Yellow {
+      background-color: #f0d98c;
+    }
+  }
+}
+
+// gradient backgrounds
+.gradient {
+  &Green {
+    background: $green linear-gradient(45deg, $green 0%, $lightGreen 100%); /* green, green to lightgreen gradient)*/
+  }
+  &Blue {
+    background: $green linear-gradient(45deg, $blue 0%, lightBlue 100%); /* blue, blue to lightblue gradient)*/
+  }
+}
+
+// Fills, for SVGs
+.fill {
+  &Green {
+    fill: $green;
+  }
+}

@@ -1,0 +1,10 @@
+// this class limits overflow and bleed,
+// so that sub-elements can be animated into view
+.view {
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  margin-top: 3rem; /* top bar */
+  box-sizing: border-box;
+}
