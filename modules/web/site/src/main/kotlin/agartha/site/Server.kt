@@ -17,6 +17,7 @@ import spark.Spark.webSocket
  */
 @Suppress("UNUSED_PARAMETER")
 fun startServer(args: Array<String>) {
+    // Read port address from environment variables
     val port: Int = ConfigVar.create(".env").getValue("PORT").toInt()
 
     // Set Connection to database
