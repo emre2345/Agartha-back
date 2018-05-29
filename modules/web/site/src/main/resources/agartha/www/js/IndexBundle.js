@@ -16594,6 +16594,7 @@ var WebSocketCaller = (function () {
     function WebSocketCaller() {
         var _this = this;
         this.url = 'wss://agartha-prod.herokuapp.com/websocket';
+        this.reconnectTry = 0;
         this.endSession = function () {
             _this.webSocket.close();
         };
@@ -16609,18 +16610,21 @@ var WebSocketCaller = (function () {
             _this.onMessageFunction(message);
         };
         this.closeSession = function (err) {
-            console.error("Closing WS : " + err.code);
-            if (err.code && err.code == 1006) {
-                console.error("INSIDE RECONNECT");
+            if (err.code && err.code == 1006 && _this.reconnectTry < 5) {
+                _this.reconnectTry++;
                 var practitioner_1 = StorageUtil_1.StorageUtil.mPractitionerService.get();
                 if (practitioner_1) {
-                    _this.openSession(_this.onMessageFunction);
-                    setTimeout(function () {
-                        _this.webSocket.send(JSON.stringify(new WebSocketMessage_1.default(WebSocketEvents_1.WebSocketEvents.RECONNECT_SESSION, practitioner_1.practitionerId)));
-                    }, 250);
+                    _this.wait(function () {
+                        _this.openSession(_this.onMessageFunction);
+                        _this.wait(function () {
+                            _this.webSocket.send(JSON.stringify(new WebSocketMessage_1.default(WebSocketEvents_1.WebSocketEvents.RECONNECT_SESSION, practitioner_1.practitionerId)));
+                        });
+                    });
                 }
-                return;
             }
+        };
+        this.wait = function (f) {
+            setTimeout(f(), 250);
         };
         this.test = function () {
             return new Promise(function (resolve) {
