@@ -25,7 +25,7 @@ class MonitorController(private val mService: IBaseService<MonitorDBO>) {
             // Monitoring DB is read/writeable
             Spark.path("/db") {
                 // Write monitoring
-                Spark.get("/write") { _, _ ->
+                Spark.post("/write") { _, _ ->
                     val insert = mService.insert(MonitorDBO("Item to insert"))
                     insert._id?.isNotEmpty().toString()
                 }
