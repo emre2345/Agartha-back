@@ -233,43 +233,4 @@ class PractitionerControllerTest {
         val responseBody = String(httpResponse.body())
         assertThat(responseBody).isEqualTo("true")
     }
-
-    /**
-     *
-     */
-    @Test
-    fun prepare_ongoingSize_2() {
-        setupReport()
-        val getRequest = testController.testServer.get("/practitioner/prepare/c", false)
-        val httpResponse = testController.testServer.execute(getRequest)
-        val body = String(httpResponse.body())
-        val data: List<SessionDBO> = ControllerUtil.stringToObjectList(body, SessionDBO::class.java)
-        assertThat(data.size).isEqualTo(2)
-    }
-
-    /**
-     *
-     */
-    @Test
-    fun prepare_firstItemIntention_Celebration() {
-        setupReport()
-        val getRequest = testController.testServer.get("/practitioner/prepare/c", false)
-        val httpResponse = testController.testServer.execute(getRequest)
-        val body = String(httpResponse.body())
-        val data: List<SessionDBO> = ControllerUtil.stringToObjectList(body, SessionDBO::class.java)
-        assertThat(data.get(0).intention).isEqualTo("Celebration")
-    }
-
-    /**
-     *
-     */
-    @Test
-    fun prepare_secondItemIntention_Love() {
-        setupReport()
-        val getRequest = testController.testServer.get("/practitioner/prepare/c", false)
-        val httpResponse = testController.testServer.execute(getRequest)
-        val body = String(httpResponse.body())
-        val data: List<SessionDBO> = ControllerUtil.stringToObjectList(body, SessionDBO::class.java)
-        assertThat(data.get(1).intention).isEqualTo("Love")
-    }
 }
