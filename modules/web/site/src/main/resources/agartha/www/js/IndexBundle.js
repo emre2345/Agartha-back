@@ -16624,7 +16624,7 @@ var WebSocketCaller = (function () {
             }
         };
         this.wait = function (f) {
-            setTimeout(f(), 250);
+            setTimeout(f(), 500);
         };
         this.test = function () {
             return new Promise(function (resolve) {
