@@ -16312,7 +16312,7 @@ var ConsoleLogger_1 = __webpack_require__(/*! ./ConsoleLogger */ "./www/ts/utils
 var node_fetch_1 = __webpack_require__(/*! node-fetch */ "./node_modules/node-fetch/browser.js");
 var ServerCaller = (function () {
     function ServerCaller(requests) {
-        this.url = 'http://192.168.136.122:5555';
+        this.url = 'https://agartha-prod.herokuapp.com';
         this.requests = [];
         this.requests = requests;
     }
@@ -16605,7 +16605,7 @@ var ConsoleLogger_1 = __webpack_require__(/*! ./ConsoleLogger */ "./www/ts/utils
 var WebSocketCaller = (function () {
     function WebSocketCaller() {
         var _this = this;
-        this.url = 'ws://192.168.136.122:5555/websocket';
+        this.url = 'wss://agartha-prod.herokuapp.com/websocket';
         this.reconnectTry = 0;
         this.endSession = function () {
             _this.webSocket.close();
