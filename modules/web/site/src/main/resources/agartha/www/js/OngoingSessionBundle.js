@@ -83,7 +83,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\n.companionList[data-v-4aa65ce3] {\n    margin-bottom: 2rem;\n}\n.list[data-v-4aa65ce3] {\n    list-style: none;\n}\n.border[data-v-4aa65ce3] {\n    border-bottom-width: .2em;\n    border-bottom-style: solid;\n    width: 13rem;\n    margin: 2rem auto;\n}\n", "", {"version":3,"sources":["/Users/jorgen-kollektiva/code/Agartha-front/www/vue/www/vue/OngoingSessionComponent.vue"],"names":[],"mappings":";AAmFA;IACA,oBAAA;CACA;AACA;IACA,iBAAA;CACA;AACA;IACA,0BAAA;IACA,2BAAA;IACA,aAAA;IACA,kBAAA;CACA","file":"OngoingSessionComponent.vue","sourcesContent":["<template>\n    <div class=\"black\">\n        <div class=\"headline bold borderBlue alignCenter border\">\n            {{sessions.length}}\n        </div>\n        <div class=\"smallText alignCenter\">\n            Companions connected in your session\n        </div>\n        <div class=\"alignCenter\">\n            <button class=\"button borderBlack black\" @click=\"onButtonClick\">End Practice</button>\n        </div>\n        <div class=\"companionSession\">\n            <ul class=\"list\" v-for=\"session in sessions\">\n                <li class=\"smallText\"><span class=\"bold\">Discipline:</span> {{session.discipline}}</li>\n                <li class=\"smallText\"><span class=\"bold\">Intention:</span> {{session.intention}}</li>\n                <li class=\"smallText\" v-if=\"session.points\"><span class=\"bold\">MatchPoints:</span> {{ session.points }}</li>\n                <li class=\"smallText\" v-if=\"userGeolocation\"><span class=\"bold\">Distance km:</span> {{ session.distanceAsString(userGeolocation) }}</li>\n            </ul>\n        </div>\n    </div>\n</template>\n\n<script lang=\"ts\">\n    import Vue from \"vue\";\n    import Component from \"vue-class-component\";\n    import Session from \"../ts/objects/Session\";\n    import {Discipline, Intention} from \"../ts/objects/Settings\";\n    import {SessionList} from \"../ts/objects/SessionList\";\n    import GeolocationInfo from \"../ts/objects/GeolocationInfo\";\n\n\n    @Component({\n        // Which properties that is passed to the component\n        props: {\n            selectedDiscipline: Object,\n            selectedIntention: Object,\n            userGeolocation: Object,\n            connectedCompanionsSessions: Array,\n            onButtonClick: Function\n        },\n        components: {}\n    })\n    export default class OngoingSessionComponent extends Vue {\n        // Declare properties again for TypeScript\n        connectedCompanionsSessions: Array<Session>;\n        onButtonClick: Function;\n        // Get this practitioners selected discipline and intention\n        selectedDiscipline: Discipline;\n        selectedIntention: Intention;\n        userGeolocation: GeolocationInfo;\n\n        /** COMPUTED **\n         * Calls on a method to map the array of sessions\n         * (This is done because the test would be able to test the map-function)\n         * @returns {Session[]}\n         */\n        get sessions() {\n            return this.mapListWithSessions(this.connectedCompanionsSessions, this.selectedDiscipline, this.selectedIntention)\n        }\n\n        /**\n         * Maps the array of sessions to sessions\n         * and adds the match-points\n         * and sorts it descending depending on match-point\n         * @param sessionList - Array with sessions\n         * @param selectedDiscipline - the discipline the practitioner has selected tot his practice\n         * @param selectedIntention - the intention the practitioner has selected tot his practice\n         * @returns {Session[]}\n         */\n        mapListWithSessions(sessionList: Array<Session>, selectedDiscipline: Discipline, selectedIntention: Intention) {\n            // Map the temp list to become sessions and add the points to the session\n            return new SessionList(sessionList)\n            // Set points for sessions\n                .match(selectedDiscipline, selectedIntention)\n                // Sort list by matching point\n                .sortByMatchPointDescending()\n                // Get the list\n                .get();\n        }\n    }\n</script>\n\n<style scoped>\n    .companionList {\n        margin-bottom: 2rem;\n    }\n    .list {\n        list-style: none;\n    }\n    .border {\n        border-bottom-width: .2em;\n        border-bottom-style: solid;\n        width: 13rem;\n        margin: 2rem auto;\n    }\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n.visualization[data-v-4aa65ce3] {\n    overflow: hidden;\n    display: flex;\n    justify-content: center;\n}\n.companionSession[data-v-4aa65ce3] {\n    margin-bottom: 2rem;\n}\n.list[data-v-4aa65ce3] {\n    list-style: none;\n}\n.border[data-v-4aa65ce3] {\n    border-bottom-width: .2em;\n    border-bottom-style: solid;\n    min-width: 13rem;\n    margin: 2rem auto;\n}\n", "", {"version":3,"sources":["/Users/jorgen-kollektiva/code/Agartha-front/www/vue/www/vue/OngoingSessionComponent.vue"],"names":[],"mappings":";AAqFA;IACA,iBAAA;IACA,cAAA;IACA,wBAAA;CACA;AACA;IACA,oBAAA;CACA;AACA;IACA,iBAAA;CACA;AACA;IACA,0BAAA;IACA,2BAAA;IACA,iBAAA;IACA,kBAAA;CACA","file":"OngoingSessionComponent.vue","sourcesContent":["<template>\n\n    <div class=\"black\">\n        <div id=\"visualizationContainer\" class=\"visualization\"></div>\n        <div class=\"headline bold borderBlue alignCenter border\">\n            {{sessions.length}}\n        </div>\n        <div class=\"smallText alignCenter\">\n            Companions connected in your session\n        </div>\n        <div class=\"alignCenter\">\n            <button class=\"button borderBlack black\" @click=\"onButtonClick\">End Practice</button>\n        </div>\n        <div class=\"companionSession\">\n            <ul class=\"list\" v-for=\"session in sessions\">\n                <li class=\"smallText\"><span class=\"bold\">Discipline:</span> {{session.discipline}}</li>\n                <li class=\"smallText\"><span class=\"bold\">Intention:</span> {{session.intention}}</li>\n                <li class=\"smallText\" v-if=\"session.points\"><span class=\"bold\">MatchPoints:</span> {{ session.points }}</li>\n                <li class=\"smallText\" v-if=\"userGeolocation\"><span class=\"bold\">Distance km:</span> {{ session.distanceAsString(userGeolocation) }}</li>\n            </ul>\n        </div>\n\n    </div>\n</template>\n\n<script lang=\"ts\">\n    import Vue from \"vue\";\n    import Component from \"vue-class-component\";\n    import Session from \"../ts/objects/Session\";\n    import {Discipline, Intention} from \"../ts/objects/Settings\";\n    import {SessionList} from \"../ts/objects/SessionList\";\n    import GeolocationInfo from \"../ts/objects/GeolocationInfo\";\n\n    @Component({\n        // Which properties that is passed to the component\n        props: {\n            selectedDiscipline: Object,\n            selectedIntention: Object,\n            userGeolocation: Object,\n            connectedCompanionsSessions: Array,\n            onButtonClick: Function\n        },\n        components: {}\n    })\n    export default class OngoingSessionComponent extends Vue {\n        // Declare properties again for TypeScript\n        connectedCompanionsSessions: Array<Session>;\n        onButtonClick: Function;\n        // Get this practitioners selected discipline and intention\n        selectedDiscipline: Discipline;\n        selectedIntention: Intention;\n        userGeolocation: GeolocationInfo;\n\n        /** COMPUTED **\n         * Calls on a method to map the array of sessions\n         * (This is done because the test would be able to test the map-function)\n         * @returns {Session[]}\n         */\n        get sessions() {\n            return this.mapListWithSessions(this.connectedCompanionsSessions, this.selectedDiscipline, this.selectedIntention)\n        }\n\n        /**\n         * Maps the array of sessions to sessions\n         * and adds the match-points\n         * and sorts it descending depending on match-point\n         * @param sessionList - Array with sessions\n         * @param selectedDiscipline - the discipline the practitioner has selected tot his practice\n         * @param selectedIntention - the intention the practitioner has selected tot his practice\n         * @returns {Session[]}\n         */\n        mapListWithSessions(sessionList: Array<Session>, selectedDiscipline: Discipline, selectedIntention: Intention) {\n            // Map the temp list to become sessions and add the points to the session\n            return new SessionList(sessionList)\n            // Set points for sessions\n                .match(selectedDiscipline, selectedIntention)\n                // Sort list by matching point\n                .sortByMatchPointDescending()\n                // Get the list\n                .get();\n        }\n    }\n</script>\n\n<style scoped>\n    .visualization {\n        overflow: hidden;\n        display: flex;\n        justify-content: center;\n    }\n    .companionSession {\n        margin-bottom: 2rem;\n    }\n    .list {\n        list-style: none;\n    }\n    .border {\n        border-bottom-width: .2em;\n        border-bottom-style: solid;\n        min-width: 13rem;\n        margin: 2rem auto;\n    }\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -577,15 +577,18 @@ process.umask = function() { return 0; };
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {var apply = Function.prototype.apply;
+/* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
+            (typeof self !== "undefined" && self) ||
+            window;
+var apply = Function.prototype.apply;
 
 // DOM APIs, for completeness
 
 exports.setTimeout = function() {
-  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+  return new Timeout(apply.call(setTimeout, scope, arguments), clearTimeout);
 };
 exports.setInterval = function() {
-  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+  return new Timeout(apply.call(setInterval, scope, arguments), clearInterval);
 };
 exports.clearTimeout =
 exports.clearInterval = function(timeout) {
@@ -600,7 +603,7 @@ function Timeout(id, clearFn) {
 }
 Timeout.prototype.unref = Timeout.prototype.ref = function() {};
 Timeout.prototype.close = function() {
-  this._clearFn.call(window, this._id);
+  this._clearFn.call(scope, this._id);
 };
 
 // Does not start the time, just sets up the members needed.
@@ -628,7 +631,7 @@ exports._unrefActive = exports.active = function(item) {
 
 // setimmediate attaches itself to the global object
 __webpack_require__(/*! setimmediate */ "./node_modules/setimmediate/setImmediate.js");
-// On some exotic environments, it's not clear which object `setimmeidate` was
+// On some exotic environments, it's not clear which object `setimmediate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
 exports.setImmediate = (typeof self !== "undefined" && self.setImmediate) ||
@@ -1082,6 +1085,11 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "black" }, [
+    _c("div", {
+      staticClass: "visualization",
+      attrs: { id: "visualizationContainer" }
+    }),
+    _vm._v(" "),
     _c("div", { staticClass: "headline bold borderBlue alignCenter border" }, [
       _vm._v("\n        " + _vm._s(_vm.sessions.length) + "\n    ")
     ]),
@@ -12690,6 +12698,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var WebSocketEvents;
 (function (WebSocketEvents) {
     WebSocketEvents["START_SESSION"] = "start_session";
+    WebSocketEvents["RECONNECT_SESSION"] = "reconnect_session";
     WebSocketEvents["NEW_COMPANION"] = "new_companion";
     WebSocketEvents["COMPANIONS_SESSIONS"] = "companions_sessions";
     WebSocketEvents["COMPANION_LEFT"] = "companion_left";
