@@ -1,3 +1,9 @@
+// Classes for all colors
+// * Font colors
+// * Border colors
+// * Background colors
+// * Background gradients
+
 // Font colors
 .beige {
   color: $beige;
@@ -112,11 +118,26 @@
 
 // gradient backgrounds
 .gradient {
-  &Green {
-    background: $green linear-gradient(45deg, $green 0%, $lightGreen 100%); /* green, green to lightgreen gradient)*/
-  }
   &Blue {
-    background: $green linear-gradient(45deg, $blue 0%, lightBlue 100%); /* blue, blue to lightblue gradient)*/
+    background: $blue linear-gradient(45deg, $blue 0%, $lightBlue 100%); /* blue, blue to light blue gradient)*/
+  }
+  &Green {
+    background: $green linear-gradient(45deg, $green 0%, $lightGreen 100%); /* green, green to light green gradient)*/
+  }
+  &Indigo {
+    background: $indigo linear-gradient(45deg, $indigo 0%, $lightIndigo 100%); /* indigo, indigo to light indigo gradient)*/
+  }
+  &Orange {
+    background: $orange linear-gradient(45deg, $orange 0%, $lightOrange 100%); /* orange, orange to light orange gradient)*/
+  }
+  &Red {
+    background: $red linear-gradient(45deg, $red 0%, $lightRed 100%); /* red, red to light red gradient)*/
+  }
+  &Violet {
+    background: $violet linear-gradient(45deg, $violet 0%, $lightViolet 100%); /* violet, violet to light violet gradient)*/
+  }
+  &Yellow {
+    background: $yellow linear-gradient(45deg, $yellow 0%, $lightYellow 100%); /* yellow, yellow to light yellow gradient)*/
   }
 }
 
@@ -124,5 +145,8 @@
 .fill {
   &Green {
     fill: $green;
+  }
+  &White {
+    fill: $white;
   }
 }

@@ -1,15 +1,3 @@
-/* beige */
-/* black */
-/* blue */
-/* green */
-/* light green */
-/* indigo */
-/* orange */
-/* red */
-/* violet */
-/* light violet */
-/* yellow */
-/* white */
 .button {
   font-family: 'Josefin Sans', sans-serif;
   font-weight: 400;
@@ -33,14 +21,7 @@
   padding: .05em;
   box-sizing: border-box;
   font-size: 8rem;
-  margin: auto;
-  color: rgba(255, 255, 255, 0.9); }
-  .circle--blue {
-    background: #6bbfcd; }
-  .circle--red {
-    background: #da494d; }
-  .circle--green {
-    background: #93bd64; }
+  margin: auto; }
   .circle__content {
     font-family: 'Josefin Sans', sans-serif;
     line-height: 1;
@@ -54,6 +35,31 @@
       font-size: .125em;
       margin: 0 auto auto;
       font-weight: 300; }
+
+.iconBackground {
+  background-position: 50%;
+  background-size: 100%;
+  background-repeat: no-repeat; }
+  .iconBackground--Abundance {
+    background-image: url("../symbols/Abundance.svg"), linear-gradient(45deg, #6bbfcd 0%, #a9dae2 100%); }
+  .iconBackground--Celebration {
+    background-image: url("../symbols/Celebration.svg"), linear-gradient(45deg, #93bd64 0%, #aed899 100%); }
+  .iconBackground--Empathy {
+    background-image: url("../symbols/Empathy.svg"), linear-gradient(45deg, #7189dc 0%, #bcc8f3 100%); }
+  .iconBackground--Empowerment {
+    background-image: url("../symbols/Empowerment.svg"), linear-gradient(45deg, #df7a4b 0%, #f3bb94 100%); }
+  .iconBackground--Freedom {
+    background-image: url("../symbols/Freedom.svg"), linear-gradient(45deg, #da494d 0%, #f28386 100%); }
+  .iconBackground--Harmony {
+    background-image: url("../symbols/Harmony.svg"), linear-gradient(45deg, #b07abf 0%, #d6b9de 100%); }
+  .iconBackground--Love {
+    background-image: url("../symbols/Love.svg"), linear-gradient(45deg, #da494d 0%, #f28386 100%); }
+  .iconBackground--Resolution {
+    background-image: url("../symbols/Resolution.svg"), linear-gradient(45deg, #edc74f 0%, #f0d98c 100%); }
+  .iconBackground--Transformation {
+    background-image: url("../symbols/Transformation.svg"), linear-gradient(45deg, #93bd64 0%, #aed899 100%); }
+  .iconBackground--Wellbeing {
+    background-image: url("../symbols/Wellbeing.svg"), linear-gradient(45deg, #6bbfcd 0%, #a9dae2 100%); }
 
 .headline {
   font-family: 'Josefin Sans', sans-serif;
@@ -102,7 +108,7 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100; }
+  z-index: 1000; }
 
 .view {
   position: relative;
@@ -110,7 +116,6 @@
   width: 100vw;
   height: 100vh;
   margin-top: 3rem;
-  /* top bar */
   box-sizing: border-box; }
 
 .xSmallText {
@@ -207,15 +212,32 @@
 .backgroundLightYellow {
   background-color: #f0d98c; }
 
+.gradientBlue {
+  background: #6bbfcd linear-gradient(45deg, #6bbfcd 0%, #a9dae2 100%);
+  /* blue, blue to light blue gradient)*/ }
 .gradientGreen {
   background: #93bd64 linear-gradient(45deg, #93bd64 0%, #aed899 100%);
-  /* green, green to lightgreen gradient)*/ }
-.gradientBlue {
-  background: #93bd64 linear-gradient(45deg, #6bbfcd 0%, lightBlue 100%);
-  /* blue, blue to lightblue gradient)*/ }
+  /* green, green to light green gradient)*/ }
+.gradientIndigo {
+  background: #7189dc linear-gradient(45deg, #7189dc 0%, #bcc8f3 100%);
+  /* indigo, indigo to light indigo gradient)*/ }
+.gradientOrange {
+  background: #df7a4b linear-gradient(45deg, #df7a4b 0%, #f3bb94 100%);
+  /* orange, orange to light orange gradient)*/ }
+.gradientRed {
+  background: #da494d linear-gradient(45deg, #da494d 0%, #f28386 100%);
+  /* red, red to light red gradient)*/ }
+.gradientViolet {
+  background: #b07abf linear-gradient(45deg, #b07abf 0%, #d6b9de 100%);
+  /* violet, violet to light violet gradient)*/ }
+.gradientYellow {
+  background: #edc74f linear-gradient(45deg, #edc74f 0%, #f0d98c 100%);
+  /* yellow, yellow to light yellow gradient)*/ }
 
 .fillGreen {
   fill: #93bd64; }
+.fillWhite {
+  fill: #fff; }
 
 .margin--0 {
   margin: 0; }

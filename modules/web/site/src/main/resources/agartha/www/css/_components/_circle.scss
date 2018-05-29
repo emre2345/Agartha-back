@@ -1,3 +1,7 @@
+// CSS button component
+// Classes to achieve background-color or gradient is found in _utilities/_colors.scss
+// Example class="circle backgroundGreen"
+
 .circle {
   display: flex;
   flex-flow: row wrap;
@@ -8,17 +12,6 @@
   box-sizing: border-box;
   font-size: 8rem;
   margin: auto;
-  color: rgba(255,255,255,0.9);
-
-  &--blue {
-    background: $blue;
-  }
-  &--red {
-    background: $red;
-  }
-  &--green {
-    background: $green;
-  }
 
   &__content {
     font-family: 'Josefin Sans', sans-serif;

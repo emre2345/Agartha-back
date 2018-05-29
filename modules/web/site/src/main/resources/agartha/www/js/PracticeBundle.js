@@ -83,7 +83,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\n.blankList[data-v-53887aa4] {\n    list-style: none;\n    margin: 1rem;\n    padding: 0;\n}\n.blankList__item[data-v-53887aa4] {\n    margin: 0;\n}\n.practiceOption[data-v-53887aa4] {\n    padding: 1.2rem .5rem;\n    transition: background-color .15s ease-in;\n}\n.practiceOption[data-v-53887aa4]:hover,\n.practiceOption[data-v-53887aa4]:focus {\n    /* background-color: #f38e91; /* light red */\n    background-color: #f1de96; /* light yellow */\n}\n.pointer[data-v-53887aa4] {\n    cursor: pointer;\n}\n\n", "", {"version":3,"sources":["/Users/jorgen-kollektiva/code/Agartha-front/www/vue/www/vue/DisciplineComponent.vue"],"names":[],"mappings":";AAoCA;IACA,iBAAA;IACA,aAAA;IACA,WAAA;CACA;AAEA;IACA,UAAA;CACA;AAEA;IACA,sBAAA;IACA,0CAAA;CACA;AAEA;;IAEA,6CAAA;IACA,0BAAA,CAAA,kBAAA;CACA;AAEA;IACA,gBAAA;CACA","file":"DisciplineComponent.vue","sourcesContent":["<template>\n    <div class=\"backgroundWhite\">\n        <ul class=\"blankList\">\n            <li class=\"mediumText backgroundWhite blankList__item practiceOption pointer\" v-for=\"(discipline, index) in disciplines\" :index=\"index\"\n                :key=\"index\" @click=\"onSelect(discipline)\">\n                {{discipline.title}}\n            </li>\n        </ul>\n    </div>\n</template>\n\n<script lang=\"ts\">\n    import Vue from \"vue\";\n    import Component from \"vue-class-component\";\n    import {Discipline} from \"../ts/objects/Settings\";\n\n    @Component({\n        props: {\n            // Array of disciplines\n            disciplines: Array,\n            // Function to call on selecting practice\n            onSelect: Function\n        },\n        // Which components that will be used in this component\n        components: {}\n    })\n    export default class DisciplineAndPracticeComponent extends Vue {\n        // Declare properties again for TypeScript\n        disciplines: Array<Discipline>;\n        onSelect: Function;\n\n    }\n</script>\n\n<style scoped>\n\n    .blankList {\n        list-style: none;\n        margin: 1rem;\n        padding: 0;\n    }\n\n    .blankList__item {\n        margin: 0;\n    }\n\n    .practiceOption {\n        padding: 1.2rem .5rem;\n        transition: background-color .15s ease-in;\n    }\n\n    .practiceOption:hover,\n    .practiceOption:focus {\n        /* background-color: #f38e91; /* light red */\n        background-color: #f1de96; /* light yellow */\n    }\n\n    .pointer {\n        cursor: pointer;\n    }\n\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n.blankList[data-v-53887aa4] {\n    list-style: none;\n    margin: 1rem;\n    padding: 0;\n}\n.blankList__item[data-v-53887aa4] {\n    margin: 0;\n}\n.practiceOption[data-v-53887aa4] {\n    padding: 1.2rem .5rem;\n    transition: background-color .15s ease-in;\n}\n.practiceOption[data-v-53887aa4]:hover,\n.practiceOption[data-v-53887aa4]:focus {\n    background-color: #f1de96; /* light yellow, TODO: read this color from centralized source such as a generalized class or variable */\n}\n.pointer[data-v-53887aa4] {\n    cursor: pointer;\n}\n\n", "", {"version":3,"sources":["/Users/jorgen-kollektiva/code/Agartha-front/www/vue/www/vue/DisciplineComponent.vue"],"names":[],"mappings":";AAoCA;IACA,iBAAA;IACA,aAAA;IACA,WAAA;CACA;AAEA;IACA,UAAA;CACA;AAEA;IACA,sBAAA;IACA,0CAAA;CACA;AAEA;;IAEA,0BAAA,CAAA,yGAAA;CACA;AAEA;IACA,gBAAA;CACA","file":"DisciplineComponent.vue","sourcesContent":["<template>\n    <div class=\"backgroundWhite\">\n        <ul class=\"blankList\">\n            <li class=\"mediumText backgroundWhite blankList__item practiceOption pointer\" v-for=\"(discipline, index) in disciplines\" :index=\"index\"\n                :key=\"index\" @click=\"onSelect(discipline)\">\n                {{discipline.title}}\n            </li>\n        </ul>\n    </div>\n</template>\n\n<script lang=\"ts\">\n    import Vue from \"vue\";\n    import Component from \"vue-class-component\";\n    import {Discipline} from \"../ts/objects/Settings\";\n\n    @Component({\n        props: {\n            // Array of disciplines\n            disciplines: Array,\n            // Function to call on selecting practice\n            onSelect: Function\n        },\n        // Which components that will be used in this component\n        components: {}\n    })\n    export default class DisciplineAndPracticeComponent extends Vue {\n        // Declare properties again for TypeScript\n        disciplines: Array<Discipline>;\n        onSelect: Function;\n\n    }\n</script>\n\n<style scoped>\n\n    .blankList {\n        list-style: none;\n        margin: 1rem;\n        padding: 0;\n    }\n\n    .blankList__item {\n        margin: 0;\n    }\n\n    .practiceOption {\n        padding: 1.2rem .5rem;\n        transition: background-color .15s ease-in;\n    }\n\n    .practiceOption:hover,\n    .practiceOption:focus {\n        background-color: #f1de96; /* light yellow, TODO: read this color from centralized source such as a generalized class or variable */\n    }\n\n    .pointer {\n        cursor: pointer;\n    }\n\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -577,15 +577,18 @@ process.umask = function() { return 0; };
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {var apply = Function.prototype.apply;
+/* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
+            (typeof self !== "undefined" && self) ||
+            window;
+var apply = Function.prototype.apply;
 
 // DOM APIs, for completeness
 
 exports.setTimeout = function() {
-  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+  return new Timeout(apply.call(setTimeout, scope, arguments), clearTimeout);
 };
 exports.setInterval = function() {
-  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+  return new Timeout(apply.call(setInterval, scope, arguments), clearInterval);
 };
 exports.clearTimeout =
 exports.clearInterval = function(timeout) {
@@ -600,7 +603,7 @@ function Timeout(id, clearFn) {
 }
 Timeout.prototype.unref = Timeout.prototype.ref = function() {};
 Timeout.prototype.close = function() {
-  this._clearFn.call(window, this._id);
+  this._clearFn.call(scope, this._id);
 };
 
 // Does not start the time, just sets up the members needed.
@@ -628,7 +631,7 @@ exports._unrefActive = exports.active = function(item) {
 
 // setimmediate attaches itself to the global object
 __webpack_require__(/*! setimmediate */ "./node_modules/setimmediate/setImmediate.js");
-// On some exotic environments, it's not clear which object `setimmeidate` was
+// On some exotic environments, it's not clear which object `setimmediate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
 exports.setImmediate = (typeof self !== "undefined" && self.setImmediate) ||

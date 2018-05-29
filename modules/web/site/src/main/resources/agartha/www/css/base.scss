@@ -2,15 +2,20 @@
 // Specific rules and overrides will be placed within vue-components
 // This file is for generic, re-useable classes
 
+
 // Import resources; variables, colors
+// Settings that needs to be kept in check for consistency
 @import
 '_resources/colors'
 ;
 
-// Import CSS-variables; chunks of code to be re-used several times
+// Import CSS-components;
+// Chunks of code to be re-used
+// Purpose of layout consistency and/or avoid duplicated code
 @import
 '_components/button',
 '_components/circle',
+'_components/iconBackground',
 '_components/headline',
 '_components/mediumText',
 '_components/smallText',
@@ -20,7 +25,9 @@
 '_components/xSmallText'
 ;
 
-// Import utility-classes; frequent patterns of single rules ie margin-distances, padding, sizes
+// Import utility-classes;
+// Patterns of common used single rules ie margin-distances, padding, sizes
+// Purpose of easy implementation, consistent layout, and clear use of css in markup
 @import
 '_utilities/align',
 '_utilities/colors',
