@@ -16614,8 +16614,8 @@ var WebSocketCaller = (function () {
                 console.error("INSIDE RECONNECT");
                 var practitioner_1 = StorageUtil_1.StorageUtil.mPractitionerService.get();
                 if (practitioner_1) {
+                    _this.openSession(_this.onMessageFunction);
                     setTimeout(function () {
-                        _this.openSession(_this.onMessageFunction);
                         _this.webSocket.send(JSON.stringify(new WebSocketMessage_1.default(WebSocketEvents_1.WebSocketEvents.RECONNECT_SESSION, practitioner_1.practitionerId)));
                     }, 250);
                 }
