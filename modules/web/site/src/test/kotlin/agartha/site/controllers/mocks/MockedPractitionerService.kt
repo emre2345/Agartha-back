@@ -69,13 +69,6 @@ class MockedPractitionerService : IPractitionerService {
     }
 
     /**
-     * Return all with no logic (logic is not what we are testing here)
-     */
-    override fun getPractitionersWithSessionAfter(startDate: LocalDateTime): List<PractitionerDBO> {
-        return practitionerList
-    }
-
-    /**
      * Clear database
      */
     fun clear() {
