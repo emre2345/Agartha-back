@@ -10,12 +10,6 @@ import java.time.LocalDateTime
  */
 interface IPractitionerService : IBaseService<PractitionerDBO> {
 
-    /**
-     * Get all practitioners with session after a specific datetime
-     *
-     * @param startDate
-     */
-    fun getPractitionersWithSessionAfter(startDate : LocalDateTime): List<PractitionerDBO>
 
     /**
      * Function to update a document in database collection
