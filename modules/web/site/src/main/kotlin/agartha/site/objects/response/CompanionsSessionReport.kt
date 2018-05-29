@@ -18,7 +18,7 @@ data class CompanionsSessionReport(
         val endTime: LocalDateTime? = null) {
 
     /**
-     * constructor that creates the companionSession object from the sessionSBO
+     * constructor that creates the companionSession object from the sessionDBO
      */
     constructor(session: SessionDBO) : this(
             session.geolocation,
