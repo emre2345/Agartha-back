@@ -27,6 +27,7 @@ data class PractitionerDBO(
         this.email = email
         this.description = description
     }
+
     /**
      * Check if practitioner has at least one session considered active in this timespan
      *
@@ -41,6 +42,17 @@ data class PractitionerDBO(
                 }
                 .isNotEmpty()
     }
+
+    /**
+     * Check if practitioner has an ongoing session
+     */
+    fun hasOngoingSession(): Boolean {
+        if (sessions.isEmpty()) {
+            return false;
+        }
+        return sessions.last().ongoing()
+    }
+
     /**
      * Check if practitioner has left 'get involved'-information
      * Function cannot have name isInvolved (considered as property), hence rename
