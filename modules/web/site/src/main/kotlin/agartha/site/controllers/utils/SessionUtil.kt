@@ -1,9 +1,7 @@
 package agartha.site.controllers.utils
 
-import agartha.data.objects.GeolocationDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
-import agartha.data.services.IPractitionerService
 import java.time.LocalDateTime
 
 /**
@@ -77,7 +75,7 @@ class SessionUtil {
                     // Filter out those without session to avoid null pointer exception in map below
                     .filter { it.sessions.isNotEmpty() }
                     // Get the last/latest session
-                    .map {it.sessions.last() }
+                    .map { it.sessions.last() }
                     // Filter out the abandon and finished
                     .filter { it.ongoing() }
         }

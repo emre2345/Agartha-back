@@ -29,7 +29,7 @@ class ControllerUtil {
          * @param object
          * @return object as JSON string
          */
-        fun <T>objectToString(item: T): String {
+        fun <T> objectToString(item: T): String {
             return getSerializer()
                     .writeValueAsString(item)
         }
@@ -43,7 +43,7 @@ class ControllerUtil {
          * @param clazz object Java class
          * @return serailized object
          */
-        fun <T>stringToObject(value: String, clazz: Class<T>): T {
+        fun <T> stringToObject(value: String, clazz: Class<T>): T {
             return getDeserializer()
                     .readValue(value, clazz)
         }
@@ -53,7 +53,7 @@ class ControllerUtil {
          * @param items
          * @return list of objects as JSON string
          */
-        fun <T>objectListToString(items: List<T>): String {
+        fun <T> objectListToString(items: List<T>): String {
             return getSerializer()
                     .writeValueAsString(items)
         }
@@ -64,7 +64,7 @@ class ControllerUtil {
          * @param clazz object Java class
          * @return list of serailized objects
          */
-        fun <T>stringToObjectList(value: String, clazz: Class<T>): List<T> {
+        fun <T> stringToObjectList(value: String, clazz: Class<T>): List<T> {
             val objectMapper = getDeserializer()
             return objectMapper.readValue(value, objectMapper.getTypeFactory().constructCollectionType(List::class.java, clazz))
         }
@@ -86,7 +86,7 @@ class ControllerUtil {
 
         /**
          * Create and get mapper for deserialization
-         * 
+         *
          * @return Jackson ObjectMapper
          */
         private fun getDeserializer(): ObjectMapper {
