@@ -16609,14 +16609,18 @@ var WebSocketCaller = (function () {
             _this.onMessageFunction(message);
         };
         this.closeSession = function (err) {
+            console.error("Closing WS : " + err.code);
             if (err.code && err.code == 1006) {
-                var practitioner = StorageUtil_1.StorageUtil.mPractitionerService.get();
-                if (practitioner) {
-                    _this.webSocket.send(JSON.stringify(new WebSocketMessage_1.default(WebSocketEvents_1.WebSocketEvents.RECONNECT_SESSION, practitioner.practitionerId)));
+                console.error("INSIDE RECONNECT");
+                var practitioner_1 = StorageUtil_1.StorageUtil.mPractitionerService.get();
+                if (practitioner_1) {
+                    setTimeout(function () {
+                        _this.openSession(_this.onMessageFunction);
+                        _this.webSocket.send(JSON.stringify(new WebSocketMessage_1.default(WebSocketEvents_1.WebSocketEvents.RECONNECT_SESSION, practitioner_1.practitionerId)));
+                    }, 250);
                 }
                 return;
             }
-            console.error("Closing WS : " + err.code);
         };
         this.test = function () {
             return new Promise(function (resolve) {
