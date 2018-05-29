@@ -48,8 +48,8 @@ class MonitorControllerTest {
     @Test
     fun monitorController_monitorDbWrite_true() {
         //
-        val getRequest = testController.testServer.get("/monitoring/db/write", false)
-        val httpResponse = testController.testServer.execute(getRequest)
+        val request = testController.testServer.post("/monitoring/db/write", "", false)
+        val httpResponse = testController.testServer.execute(request)
         Assertions.assertThat(httpResponse.code()).isEqualTo(200)
         val body = String(httpResponse.body())
         Assertions.assertThat(body).isEqualTo("true")
@@ -58,7 +58,7 @@ class MonitorControllerTest {
     @Test
     fun monitorController_monitorDbRead_true() {
         //
-        testController.testServer.execute(testController.testServer.get("/monitoring/db/write", false))
+        testController.testServer.execute(testController.testServer.post("/monitoring/db/write", "", false))
         //
         val getRequest = testController.testServer.get("/monitoring/db/read", false)
         val httpResponse = testController.testServer.execute(getRequest)
