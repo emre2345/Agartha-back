@@ -39,10 +39,6 @@ class PractitionerController(private val mService: IPractitionerService) {
             Spark.post("/session/start/:userid", ::startSession)
             // End a Session
             Spark.post("/session/end/:userid", ::endSession)
-            //
-            // Prepare practitioner before starting a session
-            // Get all ongoing sessions to compare current practitioner with
-            Spark.get("/prepare/:userid", ::getPrepareReport)
         }
     }
 
@@ -142,20 +138,4 @@ class PractitionerController(private val mService: IPractitionerService) {
         return "$result"
     }
 
-
-    /**
-     * Get prepare report
-     * Information about other ongoing sessions
-     */
-    @Suppress("UNUSED_PARAMETER")
-    private fun getPrepareReport(request: Request, response: Response): String {
-        // Get current userid
-        val userId: String = request.params(":userid") ?: ""
-        // Get all practitioners
-        val practitioners = mService.getAll()
-        // Get all ongoing sessions
-        val sessions = SessionUtil.filterOngoingSessions(practitioners, userId)
-        // Write all sessions
-        return ControllerUtil.objectListToString(sessions)
-    }
 }

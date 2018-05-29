@@ -2,6 +2,7 @@ package agartha.data.objects
 
 import org.assertj.core.api.Assertions
 import org.junit.Test
+import java.time.LocalDateTime
 
 /**
  *
@@ -15,11 +16,22 @@ class PractitionerDBOTest {
      * addInvolvedInformation
      */
     @Test
+    fun practitionerInvolvedInformation_isInvolved_true() {
+        val practitioner = PractitionerDBO()
+        practitioner.addInvolvedInformation(expectedFullName, expectedEmail, expectedDescription)
+        Assertions.assertThat(practitioner.involved()).isTrue()
+    }
+
+    /**
+     * addInvolvedInformation
+     */
+    @Test
     fun practitionerInvolvedInformation_fullName_Rebecca() {
         val practitioner = PractitionerDBO()
         practitioner.addInvolvedInformation(expectedFullName, "", "")
         Assertions.assertThat(practitioner.fullName).isEqualTo(expectedFullName)
     }
+
     /**
      * addInvolvedInformation
      */
@@ -29,6 +41,7 @@ class PractitionerDBOTest {
         practitioner.addInvolvedInformation("", expectedEmail, "")
         Assertions.assertThat(practitioner.email).isEqualTo(expectedEmail)
     }
+
     /**
      * addInvolvedInformation
      */
@@ -37,6 +50,85 @@ class PractitionerDBOTest {
         val practitioner = PractitionerDBO()
         practitioner.addInvolvedInformation("", "", expectedDescription)
         Assertions.assertThat(practitioner.description).isEqualTo(expectedDescription)
+    }
+
+    @Test
+    fun hasOngoingSession_singleSessionOngoing_true() {
+        val practitioner = PractitionerDBO(
+                _id = "abc",
+                created = LocalDateTime.now().minusMinutes(21),
+                sessions = listOf(SessionDBO(
+                        index = 0,
+                        discipline = "d",
+                        intention = "i",
+                        startTime = LocalDateTime.now().minusMinutes(20))))
+        Assertions.assertThat(practitioner.hasOngoingSession()).isTrue()
+    }
+
+    @Test
+    fun hasOngoingSession_singleSessionAbandon_false() {
+        val practitioner = PractitionerDBO(
+                _id = "abc",
+                created = LocalDateTime.now().minusMinutes(182),
+                sessions = listOf(SessionDBO(
+                        index = 0,
+                        discipline = "d",
+                        intention = "i",
+                        startTime = LocalDateTime.now().minusMinutes(181))))
+        Assertions.assertThat(practitioner.hasOngoingSession()).isFalse()
+    }
+
+    @Test
+    fun hasOngoingSession_multipleSessionOngoing_true() {
+        val practitioner = PractitionerDBO(
+                _id = "abc",
+                created = LocalDateTime.now().minusMinutes(21),
+                sessions = listOf(
+                        SessionDBO(
+                                index = 0,
+                                discipline = "d",
+                                intention = "i",
+                                startTime = LocalDateTime.now().minusMinutes(20)),
+                        SessionDBO(
+                                index = 1,
+                                discipline = "d",
+                                intention = "i",
+                                startTime = LocalDateTime.now().minusMinutes(15))))
+        Assertions.assertThat(practitioner.hasOngoingSession()).isTrue()
+    }
+
+    @Test
+    fun hasOngoingSession_singleSessionClosed_false() {
+        val practitioner = PractitionerDBO(
+                _id = "abc",
+                created = LocalDateTime.now().minusMinutes(21),
+                sessions = listOf(SessionDBO(
+                        index = 0,
+                        discipline = "d",
+                        intention = "i",
+                        startTime = LocalDateTime.now().minusMinutes(20),
+                        endTime = LocalDateTime.now())))
+        Assertions.assertThat(practitioner.hasOngoingSession()).isFalse()
+    }
+
+    @Test
+    fun hasOngoingSession_multipleSessionSecondLastOngoing_false() {
+        val practitioner = PractitionerDBO(
+                _id = "abc",
+                created = LocalDateTime.now().minusMinutes(21),
+                sessions = listOf(
+                        SessionDBO(
+                                index = 0,
+                                discipline = "d",
+                                intention = "i",
+                                startTime = LocalDateTime.now().minusMinutes(20)),
+                        SessionDBO(
+                                index = 1,
+                                discipline = "d",
+                                intention = "i",
+                                startTime = LocalDateTime.now().minusMinutes(15),
+                                endTime = LocalDateTime.now())))
+        Assertions.assertThat(practitioner.hasOngoingSession()).isFalse()
     }
 
 }

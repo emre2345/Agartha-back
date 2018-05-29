@@ -18,11 +18,9 @@ class SessionUtilTest {
      */
     @Test
     fun filterSingleSession_emptyInputList_emptyList() {
-        val response = SessionUtil.filterSingleSessionActiveBetween(
+        val response = SessionUtil.filterSingleOngoingSession(
                 listOf(),
-                "abc",
-                LocalDateTime.now().minusMinutes(60),
-                LocalDateTime.now())
+                "abc")
         assertThat(response).isEmpty()
     }
 
@@ -31,7 +29,7 @@ class SessionUtilTest {
      */
     @Test
     fun filterSingleSessionPerPractitioner_nonFinishedSessionButNotAbandoned_oneSizeList() {
-        val response = SessionUtil.filterSingleSessionActiveBetween(
+        val response = SessionUtil.filterSingleOngoingSession(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -42,9 +40,7 @@ class SessionUtilTest {
                                         startTime = LocalDateTime.now().minusMinutes(175))
                         ))
                 ),
-                "abc",
-                LocalDateTime.now().minusMinutes(60),
-                LocalDateTime.now())
+                "abc")
         assertThat(response.size).isEqualTo(1)
     }
 
@@ -52,8 +48,8 @@ class SessionUtilTest {
      *
      */
     @Test
-    fun filterSingleSessionPerPractitioner_startedBeforeEndedWithin_oneSizeList() {
-        val response = SessionUtil.filterSingleSessionActiveBetween(
+    fun filterSingleSessionPerPractitioner_startedBeforeEndedWithin_zeroSizeList() {
+        val response = SessionUtil.filterSingleOngoingSession(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -65,18 +61,16 @@ class SessionUtilTest {
                                         endTime = LocalDateTime.now().minusMinutes(50))
                         ))
                 ),
-                "abc",
-                LocalDateTime.now().minusMinutes(60),
-                LocalDateTime.now())
-        assertThat(response.size).isEqualTo(1)
+                "abc")
+        assertThat(response.size).isEqualTo(0)
     }
 
     /**
      *
      */
     @Test
-    fun filterSingleSessionPerPractitioner_startedAndEndedWithin_oneSizeList() {
-        val response = SessionUtil.filterSingleSessionActiveBetween(
+    fun filterSingleSessionPerPractitioner_startedAndEndedWithin_zeroSizeList() {
+        val response = SessionUtil.filterSingleOngoingSession(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -88,10 +82,8 @@ class SessionUtilTest {
                                         endTime = LocalDateTime.now().minusMinutes(20))
                         ))
                 ),
-                "abc",
-                LocalDateTime.now().minusMinutes(60),
-                LocalDateTime.now())
-        assertThat(response.size).isEqualTo(1)
+                "abc")
+        assertThat(response.size).isEqualTo(0)
     }
 
     /**
@@ -99,7 +91,7 @@ class SessionUtilTest {
      */
     @Test
     fun filterSingleSessionPerPractitioner_multipleSessions_oneSizeList() {
-        val response = SessionUtil.filterSingleSessionActiveBetween(
+        val response = SessionUtil.filterSingleOngoingSession(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -114,13 +106,10 @@ class SessionUtilTest {
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(30),
-                                        endTime = LocalDateTime.now().minusMinutes(20))
+                                        startTime = LocalDateTime.now().minusMinutes(30))
                         ))
                 ),
-                "abc",
-                LocalDateTime.now().minusMinutes(60),
-                LocalDateTime.now())
+                "abc")
         assertThat(response.size).isEqualTo(1)
     }
 
@@ -129,7 +118,7 @@ class SessionUtilTest {
      */
     @Test
     fun filterSingleSessionPerPractitioner_multipleSessionsLastSelected_index1() {
-        val response = SessionUtil.filterSingleSessionActiveBetween(
+        val response = SessionUtil.filterSingleOngoingSession(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -144,13 +133,10 @@ class SessionUtilTest {
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(30),
-                                        endTime = LocalDateTime.now().minusMinutes(20))
+                                        startTime = LocalDateTime.now().minusMinutes(30))
                         ))
                 ),
-                "abc",
-                LocalDateTime.now().minusMinutes(60),
-                LocalDateTime.now())
+                "abc")
         assertThat(response.get(0).index).isEqualTo(1)
     }
 
@@ -159,7 +145,7 @@ class SessionUtilTest {
      */
     @Test
     fun filterSingleSessionPerPractitioner_currentUserRemoved_oneSizeList() {
-        val response = SessionUtil.filterSingleSessionActiveBetween(
+        val response = SessionUtil.filterSingleOngoingSession(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
@@ -167,8 +153,7 @@ class SessionUtilTest {
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(30),
-                                        endTime = LocalDateTime.now().minusMinutes(20))
+                                        startTime = LocalDateTime.now().minusMinutes(30))
                         )),
                         PractitionerDBO(_id = "abc", sessions = listOf(
                                 SessionDBO(
@@ -176,13 +161,10 @@ class SessionUtilTest {
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(30),
-                                        endTime = LocalDateTime.now().minusMinutes(20))
+                                        startTime = LocalDateTime.now().minusMinutes(30))
                         ))
                 ),
-                "abc",
-                LocalDateTime.now().minusMinutes(60),
-                LocalDateTime.now())
+                "abc")
         assertThat(response.size).isEqualTo(1)
     }
 

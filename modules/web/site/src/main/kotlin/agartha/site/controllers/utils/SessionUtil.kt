@@ -1,9 +1,7 @@
 package agartha.site.controllers.utils
 
-import agartha.data.objects.GeolocationDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
-import agartha.data.services.IPractitionerService
 import java.time.LocalDateTime
 
 /**
@@ -19,33 +17,26 @@ class SessionUtil {
     companion object {
 
         /**
-         * Extract sessions from practitioner based on their session start/end time
+         * Extract sessions from practitioner based on their session is ongoing
          * Max one session can be counted per practitioner since it is not possible have two concurrent sessions
+         * The argument practitioner Id is omitted
+         * Abandon sessions are omitted
          *
          * @param practitioners list of practitioner
          * @param practitionerId current practitioner
-         * @param startDateTime
-         * @param endDateTime
-         * @return Sessions with overlapping start/end time
+         * @return List of ongoing sessions
          */
-        fun filterSingleSessionActiveBetween(
+        fun filterSingleOngoingSession(
                 practitioners: List<PractitionerDBO>,
-                practitionerId: String,
-                startDateTime: LocalDateTime,
-                endDateTime: LocalDateTime): List<SessionDBO> {
+                practitionerId: String): List<SessionDBO> {
             return practitioners
                     // Filter out current user id
                     .filter { it._id != practitionerId }
+                    .filter { it.hasOngoingSession() }
                     // Map to first matching overlapping session
                     .map {
-                        // Filter out overlapping sessions
-                        it.sessions
-                                .filter {
-                                    // Session was active during any time during these dateTimes
-                                    it.sessionOverlap(startDateTime, endDateTime)
-                                }
-                                // Return last overlapping session for each practitioner
-                                .last()
+                        // Map to last session and return
+                        it.sessions.last()
                     }
         }
 
@@ -84,7 +75,7 @@ class SessionUtil {
                     // Filter out those without session to avoid null pointer exception in map below
                     .filter { it.sessions.isNotEmpty() }
                     // Get the last/latest session
-                    .map {it.sessions.last() }
+                    .map { it.sessions.last() }
                     // Filter out the abandon and finished
                     .filter { it.ongoing() }
         }

@@ -49,15 +49,13 @@ class MockedPractitionerService : IPractitionerService {
     }
 
     override fun endSession(practitionerId: String): Boolean {
-        val first = practitionerList
+        val last = practitionerList
                 .filter {
                     it._id.equals(practitionerId)
                 }
-                .first()
-        // Find last session
-        val session = first.sessions.last()
-        // Return a copy of this closed time
-        return true
+                .lastOrNull()
+        // Return if we have a last item
+        return last != null
     }
 
     override fun getAll(): List<PractitionerDBO> {
