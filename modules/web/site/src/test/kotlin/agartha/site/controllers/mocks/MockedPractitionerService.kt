@@ -44,7 +44,26 @@ class MockedPractitionerService : IPractitionerService {
 
         val nextIndex = first.sessions.count() + 1
         val session = SessionDBO(nextIndex, geolocation, disciplineName, intentionName)
-        first.sessions.plus(session)
+        // Due to sessions is unmutable list in practitionerDBO
+        // we must first extract sessions and add the new to new list
+        // drop practitioner from list
+        // add again
+        val sessions = first
+                .sessions
+                .toMutableList()
+                .plus(session)
+        // remove from list
+        practitionerList.remove(first)
+        // re-add
+        practitionerList.add(
+                PractitionerDBO(
+                        _id = first._id,
+                        created = first.created,
+                        sessions = sessions,
+                        fullName = first.fullName,
+                        email = first.email,
+                        description = first.description)
+        )
         return session
     }
 
