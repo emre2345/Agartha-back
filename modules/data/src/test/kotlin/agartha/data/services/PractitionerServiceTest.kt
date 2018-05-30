@@ -90,8 +90,8 @@ class PractitionerServiceTest : DatabaseHandler() {
         val updatedUser: PractitionerDBO = PractitionerService()
                 .updatePractitionerWithInvolvedInformation(
                         insertedUser,
-                        "Rebecca Fransson",
-                        "rebecca@kollektiva.se",
+                        "Santa Clause",
+                        "santa@agartha.com",
                         "Jag gillar yoga!")
 
         // Find the inserted user

@@ -23,8 +23,8 @@ class ControllerUtil {
 
         /**
          * Object to JSON string
-         * Example: ControllerUnit.objectToString(MyDBO(id=0, name="Jorgen", phone="+46733124426"))
-         * output: {"id":0,"name":"Jorgen","phone":"+46733124426"}
+         * Example: ControllerUnit.objectToString(MyDBO(id=0, name="Santa", phone="+15553332222"))
+         * output: {"id":0,"name":"Santa","phone":"+15553332222"}
          *
          * @param object
          * @return object as JSON string
@@ -36,8 +36,8 @@ class ControllerUtil {
 
         /**
          * JSON string
-         * Example: ControllerUnit.stringToObject({"id":0,"name":"Jorgen","phone":"+46733124426"}, MyDBO::class.java)
-         * output: MyDBO(id=0, name="Jorgen", phone="+46733124426")
+         * Example: ControllerUnit.stringToObject({"id":0,"name":"Santa","phone":"+15553332222"}, MyDBO::class.java)
+         * output: MyDBO(id=0, name="Santa", phone="+15553332222")
          *
          * @param value string value to make object from
          * @param clazz object Java class

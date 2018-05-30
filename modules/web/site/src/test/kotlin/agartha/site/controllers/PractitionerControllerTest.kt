@@ -188,8 +188,8 @@ class PractitionerControllerTest {
         mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
         //
         val involvedInformation = PractitionerInvolvedInformation(
-                "Rebecca",
-                "rebecca@kollektiva.se",
+                "Santa Clause",
+                "santa@agartha.com",
                 "Jag gillar yoga!")
         //
         val getRequest = testController.testServer.post(

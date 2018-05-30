@@ -1,5 +1,5 @@
-# WebServer Objects
+# WebServer/WebSocket Objects
 
-This directory contains response objects for API requests.
+This directory contains response objects for WebServer API and WebSocket requests/responses.
 
 Request objects are mapping incomming API data into objects where as response objects are data sent to clients.

@@ -8,8 +8,8 @@ import java.time.LocalDateTime
  *
  */
 class PractitionerDBOTest {
-    val expectedFullName = "Rebecca Fransson"
-    val expectedEmail = "rebecca@kollektiva.se"
+    val expectedFullName = "Santa Clause"
+    val expectedEmail = "santa@agartha.com"
     val expectedDescription = "Jag gillar yoga!"
 
     /**
@@ -26,7 +26,7 @@ class PractitionerDBOTest {
      * addInvolvedInformation
      */
     @Test
-    fun practitionerInvolvedInformation_fullName_Rebecca() {
+    fun practitionerInvolvedInformation_fullName_Stanta() {
         val practitioner = PractitionerDBO()
         practitioner.addInvolvedInformation(expectedFullName, "", "")
         Assertions.assertThat(practitioner.fullName).isEqualTo(expectedFullName)
@@ -36,7 +36,7 @@ class PractitionerDBOTest {
      * addInvolvedInformation
      */
     @Test
-    fun practitionerInvolvedInformation_email_RebeccaAtKollektivaSe() {
+    fun practitionerInvolvedInformation_email_SantaAtAgarthaCom() {
         val practitioner = PractitionerDBO()
         practitioner.addInvolvedInformation("", expectedEmail, "")
         Assertions.assertThat(practitioner.email).isEqualTo(expectedEmail)
