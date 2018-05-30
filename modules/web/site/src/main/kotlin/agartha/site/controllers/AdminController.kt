@@ -83,7 +83,6 @@ class AdminController(private val mService: IPractitionerService, private val se
                             PractitionerDBO(
                                     sessions = listOf(
                                             SessionDBO(
-                                                    index = 1,
                                                     geolocation = getRandomGeolocation(),
                                                     discipline = getRandomDiscipline().title,
                                                     intention = getRandomIntention().title)),

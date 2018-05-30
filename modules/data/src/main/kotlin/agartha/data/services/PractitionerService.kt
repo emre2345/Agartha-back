@@ -62,10 +62,8 @@ class PractitionerService : IPractitionerService {
             intentionName: String): SessionDBO {
         // Get current user
         val user: PractitionerDBO? = getById(practitionerId)
-        // Calculate next index (if any of user or user.sessions is null: rtn 0)
-        val nextIndex = user?.sessions?.count() ?: 0
         // Create a new Session
-        val session = SessionDBO(nextIndex, geolocation, disciplineName, intentionName)
+        val session = SessionDBO(geolocation, disciplineName, intentionName)
         // Push session to practitioner
         pushSession(practitionerId, session)
         // return next index
@@ -89,7 +87,6 @@ class PractitionerService : IPractitionerService {
                                 Document("sessions", 1)))
                 // Create new Session with ongoing session as base
                 val session = SessionDBO(
-                        index = ongoingSession.index,
                         geolocation = ongoingSession.geolocation,
                         discipline = ongoingSession.discipline,
                         intention = ongoingSession.intention,

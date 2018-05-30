@@ -58,7 +58,6 @@ class PractitionerDBOTest {
                 _id = "abc",
                 created = LocalDateTime.now().minusMinutes(21),
                 sessions = listOf(SessionDBO(
-                        index = 0,
                         discipline = "d",
                         intention = "i",
                         startTime = LocalDateTime.now().minusMinutes(20))))
@@ -71,7 +70,6 @@ class PractitionerDBOTest {
                 _id = "abc",
                 created = LocalDateTime.now().minusMinutes(182),
                 sessions = listOf(SessionDBO(
-                        index = 0,
                         discipline = "d",
                         intention = "i",
                         startTime = LocalDateTime.now().minusMinutes(181))))
@@ -85,12 +83,10 @@ class PractitionerDBOTest {
                 created = LocalDateTime.now().minusMinutes(21),
                 sessions = listOf(
                         SessionDBO(
-                                index = 0,
                                 discipline = "d",
                                 intention = "i",
                                 startTime = LocalDateTime.now().minusMinutes(20)),
                         SessionDBO(
-                                index = 1,
                                 discipline = "d",
                                 intention = "i",
                                 startTime = LocalDateTime.now().minusMinutes(15))))
@@ -103,7 +99,6 @@ class PractitionerDBOTest {
                 _id = "abc",
                 created = LocalDateTime.now().minusMinutes(21),
                 sessions = listOf(SessionDBO(
-                        index = 0,
                         discipline = "d",
                         intention = "i",
                         startTime = LocalDateTime.now().minusMinutes(20),
@@ -118,12 +113,10 @@ class PractitionerDBOTest {
                 created = LocalDateTime.now().minusMinutes(21),
                 sessions = listOf(
                         SessionDBO(
-                                index = 0,
                                 discipline = "d",
                                 intention = "i",
                                 startTime = LocalDateTime.now().minusMinutes(20)),
                         SessionDBO(
-                                index = 1,
                                 discipline = "d",
                                 intention = "i",
                                 startTime = LocalDateTime.now().minusMinutes(15),

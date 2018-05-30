@@ -31,7 +31,7 @@ class PractitionerServiceTest : DatabaseHandler() {
     private fun putUserInDatabase(sessionStart: String, sessionEnd: String) {
         PractitionerService().insert(
                 PractitionerDBO(sessions = listOf(
-                        SessionDBO(0, null,"Yoga", "Love",
+                        SessionDBO(null,"Yoga", "Love",
                                 DateTimeFormat.stringToLocalDateTime(sessionStart), DateTimeFormat.stringToLocalDateTime(sessionEnd)))))
     }
 
@@ -73,8 +73,8 @@ class PractitionerServiceTest : DatabaseHandler() {
     @Test
     fun insertUserWithSessions_collectionSize_1() {
         PractitionerService().insert(PractitionerDBO(sessions = listOf(
-                SessionDBO(0, null,"Yoga", "Love"),
-                SessionDBO(1, null,"Meditation", "Love"))))
+                SessionDBO(null,"Yoga", "Love"),
+                SessionDBO(null,"Meditation", "Love"))))
         val allUsers = PractitionerService().getAll()
         assertThat(allUsers.size).isEqualTo(1)
     }
@@ -103,13 +103,13 @@ class PractitionerServiceTest : DatabaseHandler() {
      * Add session
      */
     @Test
-    fun startSession_IndexReturned_1() {
-        val user = PractitionerDBO(sessions = listOf(SessionDBO(0, null,"Test", "TestIntention")))
+    fun startSession_disciplineName_Test2() {
+        val user = PractitionerDBO(sessions = listOf(SessionDBO(null,"Test 1", "TestIntention 1")))
         // Insert a new practitioning user
         val item = PractitionerService().insert(user)
         // Start session
-        val session = PractitionerService().startSession(item._id!!, null, "Test", "TestIntention")
-        assertThat(session.index).isEqualTo(1)
+        val session = PractitionerService().startSession(item._id!!, null, "Test 2", "TestIntention 2")
+        assertThat(session.discipline).isEqualTo("Test 2")
     }
 
     /**

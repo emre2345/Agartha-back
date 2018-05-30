@@ -49,13 +49,13 @@ class DevelopmentController(private val mService : IPractitionerService) {
         mService.insert(PractitionerDBO(
                 created = LocalDateTime.now().minusDays(30),
                 sessions = listOf(
-                        SessionDBO(0, DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga", "Harmony",
+                        SessionDBO(DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga", "Harmony",
                                 LocalDateTime.now().minusDays(30).minusMinutes(200),
                                 LocalDateTime.now().minusDays(30).minusMinutes(100)),
                         // Abandoned session
-                        SessionDBO(1, DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga", "Love",
+                        SessionDBO(DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga", "Love",
                                 LocalDateTime.now().minusDays(29).minusMinutes(200)),
-                        SessionDBO(2, DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga", "Empowerment",
+                        SessionDBO(DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga", "Empowerment",
                                 LocalDateTime.now().minusDays(28).minusMinutes(200),
                                 LocalDateTime.now().minusDays(28).minusMinutes(100))
                 )))
@@ -85,7 +85,7 @@ class DevelopmentController(private val mService : IPractitionerService) {
                     created = LocalDateTime.now().minusDays(3).minusMinutes(410),
                     sessions = addSession(
                             generateSessions(3, locations),
-                            SessionDBO(3, DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga", "Empowerment",
+                            SessionDBO(DevGeolocationSelect.NEW_YORK_ESB.geolocationDBO, "Yoga", "Empowerment",
                                     LocalDateTime.now().minusDays(1).minusMinutes(200))
                     )))
         }
@@ -109,7 +109,7 @@ class DevelopmentController(private val mService : IPractitionerService) {
             mService.insert(PractitionerDBO(
                     created = LocalDateTime.now().minusMinutes(minutesAgo.toLong() + 1),
                     sessions = listOf(
-                            SessionDBO(1, generateGeolocation(locations), generateDiscipline(), generateIntention(),
+                            SessionDBO(generateGeolocation(locations), generateDiscipline(), generateIntention(),
                                     LocalDateTime.now().minusMinutes(minutesAgo.toLong()))
                     )
             ))
@@ -141,7 +141,7 @@ class DevelopmentController(private val mService : IPractitionerService) {
         mService.insert(PractitionerDBO(
                 _id = id,
                 sessions = listOf(
-                        SessionDBO(0, DevGeolocationSelect.MALMO_KOLLEKTIVA.geolocationDBO, "Yoga", "Transformation",
+                        SessionDBO(DevGeolocationSelect.MALMO_KOLLEKTIVA.geolocationDBO, "Yoga", "Transformation",
                                 LocalDateTime.now().minusDays(2).minusMinutes(200),
                                 LocalDateTime.now().minusDays(2).minusMinutes(100))
                 )
@@ -170,7 +170,6 @@ class DevelopmentController(private val mService : IPractitionerService) {
             //
             sessions.add(
                     SessionDBO(
-                            index = i,
                             geolocation = generateGeolocation(geolocations),
                             discipline = generateDiscipline(),
                             intention = generateIntention(),
