@@ -45,34 +45,32 @@ class WebSocketHandler {
 
         // Do different things depending on the WebSocketMessage event
         when (webSocketMessage.event) {
+            // Start web socket session
             WebSocketEvents.START_SESSION.eventName -> {
-                // Get the practitioner
-                val practitioner: PractitionerDBO = mService.getById(webSocketMessage.data.toString())!!
-                // Get practitioners last session
-                val practitionersLatestSession: SessionDBO = practitioner.sessions.last()
-                // Put practitioners session and webSocket-session to a map
-                practitionersSessions.put(webSocketSession, practitionersLatestSession)
-                val returnSessions = ControllerUtil.objectListToString(practitionersSessions.values.toList())
-                // Broadcast to all users connected except this session
-                broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.NEW_COMPANION.eventName, returnSessions))
-                // Send to self
-                emit(webSocketSession, WebSocketMessage(WebSocketEvents.COMPANIONS_SESSIONS.eventName, returnSessions))
+                connect(webSocketSession, webSocketMessage)
             }
-
+            // Reconnect web socket session, should be when Heroku re-starts and client connection is lost
             WebSocketEvents.RECONNECT_SESSION.eventName -> {
-                // Get the practitioner
-                val practitioner: PractitionerDBO = mService.getById(webSocketMessage.data.toString())!!
-                // Get practitioners last session
-                val practitionersLatestSession: SessionDBO = practitioner.sessions.last()
-                // Put practitioners session and webSocket-session to a map
-                practitionersSessions.put(webSocketSession, practitionersLatestSession)
-                val returnSessions = ControllerUtil.objectListToString(practitionersSessions.values.toList())
-                // Broadcast to all users connected except this session
-                broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.NEW_COMPANION.eventName, returnSessions))
-                // Send to self
-                emit(webSocketSession, WebSocketMessage(WebSocketEvents.COMPANIONS_SESSIONS.eventName, returnSessions))
+                connect(webSocketSession, webSocketMessage)
             }
         }
+    }
+
+    /**
+     * Connect a web-socket session
+     */
+    private fun connect(webSocketSession: Session, webSocketMessage: WebSocketMessage) {
+        // Get the practitioner
+        val practitioner: PractitionerDBO = mService.getById(webSocketMessage.data.toString())!!
+        // Get practitioners last session
+        val practitionersLatestSession: SessionDBO = practitioner.sessions.last()
+        // Put practitioners session and webSocket-session to a map
+        practitionersSessions.put(webSocketSession, practitionersLatestSession)
+        val returnSessions = ControllerUtil.objectListToString(practitionersSessions.values.toList())
+        // Broadcast to all users connected except this session
+        broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.NEW_COMPANION.eventName, returnSessions))
+        // Send to self
+        emit(webSocketSession, WebSocketMessage(WebSocketEvents.COMPANIONS_SESSIONS.eventName, returnSessions))
     }
 
 
