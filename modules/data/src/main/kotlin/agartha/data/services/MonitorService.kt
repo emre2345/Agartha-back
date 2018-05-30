@@ -7,7 +7,7 @@ import org.litote.kmongo.getCollection
 import org.litote.kmongo.toList
 
 /**
- * Purpose of this file is Service for reading/writing MonitorItems to database
+ * Purpose of this Service is reading/writing MonitorItems to database
  * Its recommended that monitor collection is capped
  *
  * Created by Jorgen Andersson on 2018-04-06.

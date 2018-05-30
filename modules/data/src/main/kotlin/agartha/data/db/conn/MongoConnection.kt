@@ -5,7 +5,8 @@ import com.mongodb.client.MongoDatabase
 import org.litote.kmongo.KMongo
 
 /**
- * Purpose of this file is ...
+ * Purpose of this file is Connect to a database.
+ * Argument in setConnection decides which environment the instance is running
  *
  * Created by Jorgen Andersson on 2018-04-06.
  */

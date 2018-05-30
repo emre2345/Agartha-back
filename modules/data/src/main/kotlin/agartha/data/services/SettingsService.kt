@@ -10,6 +10,7 @@ import org.litote.kmongo.toList
 
 /**
  * Purpose of this file is reading settings from data storage
+ * Settings collection should hold one document only
  *
  * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-04-12.
  */

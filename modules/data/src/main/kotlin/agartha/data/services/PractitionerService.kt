@@ -1,6 +1,5 @@
 package agartha.data.services
 
-import agartha.common.utils.DateTimeFormat
 import agartha.data.db.conn.MongoConnection
 import agartha.data.objects.GeolocationDBO
 import agartha.data.objects.PractitionerDBO
@@ -10,7 +9,7 @@ import org.litote.kmongo.*
 import java.time.LocalDateTime
 
 /**
- * Purpose of this file is manipulating data for a practitioner in data storage
+ * Purpose of this implementation is functions for reading/writing practitioner data in storage
  *
  * Created by Jorgen Andersson on 2018-04-09.
  */
@@ -101,7 +100,7 @@ class PractitionerService : IPractitionerService {
                 return true
             }
         }
-       return false
+        return false
     }
 
     private fun pushSession(practitionerId: String, session: SessionDBO) {
