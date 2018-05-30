@@ -5,7 +5,7 @@ import agartha.common.config.Settings
 /**
  * Purpose of this file is representing data object for a settings
  *
- * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-04-12.
+ * Created by Jorgen Andersson on 2018-04-12.
  */
 data class SettingsDBO(
         // Database id

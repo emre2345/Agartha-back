@@ -90,8 +90,8 @@ class PractitionerServiceTest : DatabaseHandler() {
         val updatedUser: PractitionerDBO = PractitionerService()
                 .updatePractitionerWithInvolvedInformation(
                         insertedUser,
-                        "Rebecca Fransson",
-                        "rebecca@kollektiva.se",
+                        "Santa Clause",
+                        "santa@agartha.com",
                         "Jag gillar yoga!")
 
         // Find the inserted user
@@ -237,27 +237,5 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Get from database
         val item = PractitionerService().getById(practitioner._id!!)
         assertThat(item!!.sessions.last().endTime).isNotNull()
-    }
-
-    /**
-     *
-     */
-    @Test
-    fun practitioners_withMatchingSessions_4() {
-        // User with session before search
-        putUserInDatabase("2018-04-15 17:00:00", "2018-04-15 18:00:00")
-        // User with session end matching
-        putUserInDatabase("2018-04-15 18:00:00", "2018-04-15 20:00:00")
-        // User with session start and end matching
-        putUserInDatabase("2018-04-15 19:30:00", "2018-04-15 20:30:00")
-        // User with session start matching
-        putUserInDatabase("2018-04-15 20:00:00", "2018-04-15 23:00:00")
-        // User with session after search
-        putUserInDatabase("2018-04-15 22:00:00", "2018-04-15 23:00:00")
-        //
-        val list = PractitionerService().getPractitionersWithSessionAfter(
-                DateTimeFormat.stringToLocalDateTime("2018-04-15 19:00:00"))
-        // Count 'em
-        Assertions.assertThat(list.size).isEqualTo(4)
     }
 }

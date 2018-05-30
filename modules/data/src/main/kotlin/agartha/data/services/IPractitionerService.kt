@@ -4,18 +4,12 @@ import agartha.data.objects.*
 import java.time.LocalDateTime
 
 /**
- * Purpose of this file is inteface for Practitioner datasource service
+ * Purpose of this interface for Practitioner datasource service
+ * The interface extends the IBaseService holding functions all services must have
  *
  * Created by Jorgen Andersson on 2018-04-09.
  */
 interface IPractitionerService : IBaseService<PractitionerDBO> {
-
-    /**
-     * Get all practitioners with session after a specific datetime
-     *
-     * @param startDate
-     */
-    fun getPractitionersWithSessionAfter(startDate : LocalDateTime): List<PractitionerDBO>
 
     /**
      * Function to update a document in database collection

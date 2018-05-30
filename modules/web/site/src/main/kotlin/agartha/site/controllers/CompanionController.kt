@@ -15,7 +15,7 @@ import java.time.LocalDateTime
 /**
  * Purpose of this class is handling companion Practitioners
  *
- * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-05-03.
+ * Created by Jorgen Andersson on 2018-05-03.
  *
  * @param mService object for reading data from data source
  */

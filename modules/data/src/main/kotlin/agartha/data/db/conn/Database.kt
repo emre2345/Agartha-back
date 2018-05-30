@@ -4,7 +4,7 @@ import io.schinzel.basicutils.RandomUtil
 import io.schinzel.basicutils.configvar.ConfigVar
 
 /**
- * Purpose of this file is ...
+ * Purpose of this enumeration is to hold connection variables for environment specific databases
  *
  * Created by Jorgen Andersson on 2018-04-06.
  */

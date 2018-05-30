@@ -1,6 +1,5 @@
 package agartha.data.services
 
-import agartha.common.utils.DateTimeFormat
 import agartha.data.db.conn.MongoConnection
 import agartha.data.objects.GeolocationDBO
 import agartha.data.objects.PractitionerDBO
@@ -10,7 +9,7 @@ import org.litote.kmongo.*
 import java.time.LocalDateTime
 
 /**
- * Purpose of this file is manipulating data for a practitioner in data storage
+ * Purpose of this implementation is functions for reading/writing practitioner data in storage
  *
  * Created by Jorgen Andersson on 2018-04-09.
  */
@@ -101,7 +100,7 @@ class PractitionerService : IPractitionerService {
                 return true
             }
         }
-       return false
+        return false
     }
 
     private fun pushSession(practitionerId: String, session: SessionDBO) {
@@ -111,27 +110,6 @@ class PractitionerService : IPractitionerService {
                 Document("${MongoOperator.push}",
                         // Create Mongo Document to be added to sessions list
                         Document("sessions", session)))
-    }
-
-    /**
-     * Get all practitioner with session that has been ongoing any time after argument dateTime
-     * @param dateTime LocalDateTime
-     * @return List of pracitioner with at least one session active after argument dateTime
-     */
-    override fun getPractitionersWithSessionAfter(startDate: LocalDateTime): List<PractitionerDBO> {
-        val mongoFormattedStart = DateTimeFormat.formatDateTimeAsMongoString(startDate)
-        // Practitioner should have start dateTime after argument dateTime
-        val start = """{sessions: {${MongoOperator.elemMatch}: { startTime: { ${MongoOperator.gte}: ISODate('${mongoFormattedStart}') } } } }"""
-        // OR
-        // Practitioner should have end dateTime after argument dateTime
-        val end = """{sessions: {${MongoOperator.elemMatch}: { endTime: { ${MongoOperator.gte}: ISODate('${mongoFormattedStart}') } } } }"""
-        //
-        // Join the two for getting practitioners with start or end time in argument date, ie find overlapping sessions
-        val condition = """{${MongoOperator.or}: [${start},${end}]}"""
-        // Get the stuff
-        return collection
-                .find(condition)
-                .toList()
     }
 
 }

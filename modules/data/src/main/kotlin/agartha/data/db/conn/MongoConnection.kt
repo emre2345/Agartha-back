@@ -5,12 +5,9 @@ import com.mongodb.client.MongoDatabase
 import org.litote.kmongo.KMongo
 
 /**
- * Purpose of this file is ...
- *
- * Created by Jorgen Andersson on 2018-04-06.
- */
-/**
  * Purpose of this file is to handle the connection to the Mongo database
+ * Argument in setConnection decides which environment the instance is running
+ *
  * Written by Rebecca Fransson on 2018-03-13
  */
 object MongoConnection {
