@@ -40,7 +40,7 @@ class AdminControllerTest {
         mockedService.insert(PractitionerDBO())
         mockedService.insert(PractitionerDBO())
     }
-    
+
     @Test
     fun getPractitioners_responseStatus_200() {
         prepopulate()
