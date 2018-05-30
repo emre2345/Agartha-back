@@ -49,6 +49,8 @@ fun startServer(args: Array<String>) {
         CompanionController(PractitionerService())
         // Developer stuff
         DevelopmentController(PractitionerService())
+        // TODO: Admin stuff, this will maniuplate database. Remove before sharp production mode
+        AdminController(PractitionerService(), SettingsService().getAll().firstOrNull())
     }
 
     // Add Paths for Monitoring - No need to have CORS since this should be called from Monitoring tool fx Pingdom
