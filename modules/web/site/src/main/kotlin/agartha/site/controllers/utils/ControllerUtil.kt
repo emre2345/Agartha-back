@@ -60,6 +60,7 @@ class ControllerUtil {
 
         /**
          * String to list of objects
+         * Example: ControllerUnit.stringToObjectList([{"id":0,"name":"Santa","phone":"+15553332222"}], MyDBO::class.java)
          * @param value
          * @param clazz object Java class
          * @return list of serailized objects

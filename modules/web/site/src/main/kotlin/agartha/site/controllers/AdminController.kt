@@ -49,11 +49,10 @@ class AdminController(private val mService: IPractitionerService, private val se
 
     init {
         Spark.path("/admin") {
-
+            // Get all practitioners from data source
             Spark.get("/practitioners", ::getPractitioners)
-
-            // TODO: CHANGE TO POST
-            Spark.get("/generate/:count", ::generatePractitioners)
+            // Generate [COUNT] number of new practitioners
+            Spark.post("/generate/:count", ::generatePractitioners)
         }
     }
 
