@@ -53,6 +53,8 @@ class AdminController(private val mService: IPractitionerService, private val se
             Spark.get("/practitioners", ::getPractitioners)
             // Generate [COUNT] number of new practitioners
             Spark.post("/generate/:count", ::generatePractitioners)
+            // Add Session to existing practitioner
+            Spark.post("/session/add/:id/:discipline/:intention", ::addSession)
         }
     }
 
@@ -90,6 +92,29 @@ class AdminController(private val mService: IPractitionerService, private val se
 
         // Return list of inserted practitioners
         return ControllerUtil.objectListToString(practitioners)
+    }
+
+    /**
+     * Add/Start a session for an existing practitioner
+     */
+    private fun addSession(request: Request, response: Response): String {
+        val userId = request.params(":id")
+        val discipline = request.params(":discipline")
+        val intention = request.params(":intention")
+
+        var practitioner = mService.getById(userId)
+        if (practitioner != null) {
+            val session = mService.startSession(
+                    practitionerId = userId,
+                    geolocation = getRandomGeolocation(),
+                    disciplineName = if (discipline.startsWith("random", true)) getRandomDiscipline().title else discipline,
+                    intentionName = if (intention.startsWith("random", true)) getRandomIntention().title else intention)
+
+            return ControllerUtil.objectToString(session)
+        }
+
+        response.status(400)
+        return "Practitioner id $userId does not exist in database"
     }
 
 

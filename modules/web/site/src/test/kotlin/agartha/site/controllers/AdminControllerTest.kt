@@ -1,6 +1,7 @@
 package agartha.site.controllers
 
 import agartha.data.objects.PractitionerDBO
+import agartha.data.objects.SessionDBO
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import org.assertj.core.api.Assertions.assertThat
@@ -36,9 +37,9 @@ class AdminControllerTest {
     }
 
     private fun prepopulate() {
-        mockedService.insert(PractitionerDBO())
-        mockedService.insert(PractitionerDBO())
-        mockedService.insert(PractitionerDBO())
+        mockedService.insert(PractitionerDBO(_id = "aaa"))
+        mockedService.insert(PractitionerDBO(_id = "bbb"))
+        mockedService.insert(PractitionerDBO(_id = "ccc"))
     }
 
     @Test
@@ -57,6 +58,66 @@ class AdminControllerTest {
         val body = String(httpResponse.body())
         val dataList = ControllerUtil.stringToObjectList(body, PractitionerDBO::class.java)
         assertThat(dataList.size).isEqualTo(3)
+    }
+
+    @Test
+    fun addSessionExistingUser_responseStatus_200() {
+        prepopulate()
+        val request = testController.testServer.post(
+                "/admin/session/add/bbb/Yoga/Love", "", false)
+        val httpResponse = testController.testServer.execute(request)
+        assertThat(httpResponse.code()).isEqualTo(200)
+    }
+
+    @Test
+    fun addSessionExistingUser_responseBodyDiscipline_Yoga() {
+        prepopulate()
+        val request = testController.testServer.post(
+                "/admin/session/add/bbb/Yoga/Love", "", false)
+        val httpResponse = testController.testServer.execute(request)
+        val body = String(httpResponse.body())
+        val data = ControllerUtil.stringToObject(body, SessionDBO::class.java)
+        assertThat(data.discipline).isEqualTo("Yoga")
+    }
+
+    @Test
+    fun addSessionExistingUser_responseBodyIntention_Love() {
+        prepopulate()
+        val request = testController.testServer.post(
+                "/admin/session/add/bbb/Yoga/Love", "", false)
+        val httpResponse = testController.testServer.execute(request)
+        val body = String(httpResponse.body())
+        val data = ControllerUtil.stringToObject(body, SessionDBO::class.java)
+        assertThat(data.intention).isEqualTo("Love")
+    }
+
+    @Test
+    fun addSessionExistingUser_storedSessionCount_1() {
+        prepopulate()
+        val request = testController.testServer.post(
+                "/admin/session/add/bbb/Yoga/Love", "", false)
+         testController.testServer.execute(request)
+        val p = mockedService.getById("bbb")
+        assertThat(mockedService.getById("bbb")!!.sessions.size).isEqualTo(1)
+    }
+
+    @Test
+    fun addSessionNonExistingUser_responseStatus_400() {
+        prepopulate()
+        val request = testController.testServer.post(
+                "/admin/session/add/sss/Yoga/Love", "", false)
+        val httpResponse = testController.testServer.execute(request)
+        assertThat(httpResponse.code()).isEqualTo(400)
+    }
+
+    @Test
+    fun addSessionNonExistingUser_body_missing() {
+        prepopulate()
+        val request = testController.testServer.post(
+                "/admin/session/add/sss/Yoga/Love", "", false)
+        val httpResponse = testController.testServer.execute(request)
+        val body = String(httpResponse.body())
+        assertThat(body).isEqualTo("Practitioner id sss does not exist in database")
     }
 
     @Test
