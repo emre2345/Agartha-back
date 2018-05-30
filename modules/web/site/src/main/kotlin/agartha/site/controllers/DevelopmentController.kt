@@ -120,7 +120,7 @@ class DevelopmentController(private val mService : IPractitionerService) {
         mService.insert(PractitionerDBO(
                 created = LocalDateTime.now().minusDays(5).minusMinutes(405),
                 fullName = "John Hanibal Smith",
-                email = "john@kollektiva.se",
+                email = "john@agartha.com",
                 description = "I love it when a plan comes together",
                 sessions = generateSessions(5, listOf(
                         DevGeolocationSelect.SYDNEY_OPERA_HOUSE.geolocationDBO,

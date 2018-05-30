@@ -11,7 +11,7 @@ import org.junit.Test
 /**
  * Purpose of this file is to test the Setting controller
  *
- * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-04-12.
+ * Created by Jorgen Andersson on 2018-04-12.
  */
 class SettingsControllerTest {
 

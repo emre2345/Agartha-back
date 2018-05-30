@@ -10,7 +10,7 @@ import org.junit.Test
 /**
  * Purpose of this class is test Settings service
  *
- * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-04-12.
+ * Created by Jorgen Andersson on 2018-04-12.
  */
 class SettingsServiceTest : DatabaseHandler() {
     private val settingsOne = SettingsDBO(

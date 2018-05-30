@@ -81,8 +81,8 @@ class PractitionerReportTest {
         val user = PractitionerReport(PractitionerDBO(
                 "abc",
                 sessions = generateSessions(),
-                fullName = "Jörgen Andersson",
-                email = "jorgen@kollektiva.se",
+                fullName = "Santa Clause",
+                email = "santa@agartha.com",
                 description = "This is me"))
         assertThat(user.isInvolved).isTrue()
     }

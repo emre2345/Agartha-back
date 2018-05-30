@@ -12,7 +12,7 @@ import org.junit.Test
 import java.time.LocalDateTime
 
 /**
- * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-05-03.
+ * Created by Jorgen Andersson on 2018-05-03.
  */
 class CompanionControllerTest {
     companion object {

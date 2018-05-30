@@ -7,7 +7,7 @@ import java.util.*
 
 /**
  * Mocked service for settings for testing SettingController
- * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-04-12.
+ * Created by Jorgen Andersson on 2018-04-12.
  */
 class MockedSettingsService : ISettingsService {
     private val settingsList: MutableList<SettingsDBO> = mutableListOf()

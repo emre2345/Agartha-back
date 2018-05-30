@@ -12,7 +12,7 @@ import spark.Spark
 /**
  * Purpose of this file is handling API requests for settings
  *
- * Created by Jorgen Andersson (jorgen@kollektiva.se) on 2018-04-12.
+ * Created by Jorgen Andersson on 2018-04-12.
  *
  * @param mService object for reading data from data source
  */
