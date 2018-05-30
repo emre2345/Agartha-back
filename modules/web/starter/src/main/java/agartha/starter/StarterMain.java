@@ -17,13 +17,4 @@ public class StarterMain {
         System.out.println("**              Agartha Site                     **");
         System.out.println("***************************************************");
     }
-
-    protected void finalize ()  {
-        System.out.println("***************************************************");
-        System.out.println("**              Agartha Site FINALIZE            **");
-        System.out.println("***************************************************");
-    }
-
-
-
 }
