@@ -83,7 +83,7 @@ class WebSocketHandler {
     fun disconnect(webSocketSession: Session, code: Int, reason: String?) {
         // Remove the practitioners session from the list
         val practitionersSession: SessionDBO? = practitionersSessions.remove(webSocketSession)
-        println("closing '${practitionersSession?.index}' lasted for '${practitionersSession?.sessionDurationMinutes()}' minutes")
+        println("closing '${practitionersSession?.discipline}' for '${practitionersSession?.intention}' lasted for '${practitionersSession?.sessionDurationMinutes()}' minutes")
         println("Practitioners left: '${practitionersSessions.values.size}'")
         val returnSessions = ControllerUtil.objectListToString(practitionersSessions.values.toList())
         // Notify all other practitionersSessions this practitioner has left the webSocketSession

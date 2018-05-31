@@ -33,7 +33,6 @@ class SessionUtilTest {
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
@@ -53,7 +52,6 @@ class SessionUtilTest {
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
@@ -74,7 +72,6 @@ class SessionUtilTest {
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
@@ -95,14 +92,12 @@ class SessionUtilTest {
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(100),
                                         endTime = LocalDateTime.now().minusMinutes(50)),
                                 SessionDBO(
-                                        index = 1,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
@@ -117,27 +112,25 @@ class SessionUtilTest {
      *
      */
     @Test
-    fun filterSingleSessionPerPractitioner_multipleSessionsLastSelected_index1() {
+    fun filterSingleSessionPerPractitioner_multipleSessionsLastSelected_Love() {
         val response = SessionUtil.filterSingleOngoingSession(
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(100),
                                         endTime = LocalDateTime.now().minusMinutes(50)),
                                 SessionDBO(
-                                        index = 1,
                                         geolocation = null,
                                         discipline = "Yoga",
-                                        intention = "Wellbeing",
+                                        intention = "Love",
                                         startTime = LocalDateTime.now().minusMinutes(30))
                         ))
                 ),
                 "abc")
-        assertThat(response.get(0).index).isEqualTo(1)
+        assertThat(response.get(0).intention).isEqualTo("Love")
     }
 
     /**
@@ -149,7 +142,6 @@ class SessionUtilTest {
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
@@ -157,7 +149,6 @@ class SessionUtilTest {
                         )),
                         PractitionerDBO(_id = "abc", sessions = listOf(
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
@@ -204,7 +195,6 @@ class SessionUtilTest {
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
@@ -226,14 +216,12 @@ class SessionUtilTest {
                         // No sessions should be included, both sessions ends before time
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(500),
                                         endTime = LocalDateTime.now().minusMinutes(400)),
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
@@ -244,7 +232,6 @@ class SessionUtilTest {
                         // No session should be included, abandon
                         PractitionerDBO(_id = "bbb", sessions = listOf(
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
@@ -253,14 +240,12 @@ class SessionUtilTest {
                         // One session should be included, started but ongoing
                         PractitionerDBO(_id = "ccc", sessions = listOf(
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(500),
                                         endTime = LocalDateTime.now().minusMinutes(400)),
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
@@ -270,14 +255,12 @@ class SessionUtilTest {
                         // Both sessions should be included
                         PractitionerDBO(_id = "ddd", sessions = listOf(
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(200),
                                         endTime = LocalDateTime.now().minusMinutes(100)),
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
@@ -312,7 +295,6 @@ class SessionUtilTest {
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
@@ -332,7 +314,6 @@ class SessionUtilTest {
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
@@ -352,7 +333,6 @@ class SessionUtilTest {
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
@@ -373,7 +353,6 @@ class SessionUtilTest {
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
@@ -394,14 +373,12 @@ class SessionUtilTest {
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
                                         startTime = LocalDateTime.now().minusMinutes(100),
                                         endTime = LocalDateTime.now().minusMinutes(50)),
                                 SessionDBO(
-                                        index = 1,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
@@ -421,7 +398,6 @@ class SessionUtilTest {
                 listOf(
                         PractitionerDBO(_id = "aaa", sessions = listOf(
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
@@ -429,7 +405,6 @@ class SessionUtilTest {
                         )),
                         PractitionerDBO(_id = "abc", sessions = listOf(
                                 SessionDBO(
-                                        index = 0,
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",

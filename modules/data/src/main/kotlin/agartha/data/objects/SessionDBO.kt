@@ -11,8 +11,6 @@ import java.time.LocalDateTime
  * Created by Jorgen Andersson on 2018-04-09.
  */
 data class SessionDBO(
-        // Session index for this user
-        val index: Int,
         // Geolocation for current session/practice
         val geolocation: GeolocationDBO? = null,
         // Type of discipline

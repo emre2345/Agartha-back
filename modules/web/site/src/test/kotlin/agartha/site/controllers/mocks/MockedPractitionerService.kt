@@ -42,8 +42,7 @@ class MockedPractitionerService : IPractitionerService {
                 }
                 .first()
 
-        val nextIndex = first.sessions.count() + 1
-        val session = SessionDBO(nextIndex, geolocation, disciplineName, intentionName)
+        val session = SessionDBO( geolocation, disciplineName, intentionName)
         // Due to sessions is unmutable list in practitionerDBO
         // we must first extract sessions and add the new to new list
         // drop practitioner from list
@@ -75,7 +74,7 @@ class MockedPractitionerService : IPractitionerService {
                 .lastOrNull()
         // Set endTime on last session
         val lastSession = practitioner!!.sessions.last()
-        val session = SessionDBO(lastSession.index, lastSession.geolocation, lastSession.discipline, lastSession.intention, lastSession.startTime, LocalDateTime.now())
+        val session = SessionDBO(lastSession.geolocation, lastSession.discipline, lastSession.intention, lastSession.startTime, LocalDateTime.now())
         val sessions = practitioner.sessions.toMutableList()
         sessions.removeAt(0)
         sessions.add(session)
