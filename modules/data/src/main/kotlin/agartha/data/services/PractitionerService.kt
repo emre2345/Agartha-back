@@ -60,8 +60,6 @@ class PractitionerService : IPractitionerService {
             geolocation: GeolocationDBO?,
             disciplineName: String,
             intentionName: String): SessionDBO {
-        // Get current user
-        val user: PractitionerDBO? = getById(practitionerId)
         // Create a new Session
         val session = SessionDBO(geolocation, disciplineName, intentionName)
         // Push session to practitioner
@@ -76,26 +74,24 @@ class PractitionerService : IPractitionerService {
         if (user != null && user.sessions.isNotEmpty()) {
             // get the current session
             val ongoingSession = user.sessions.last()
-            // If there is a matching user with sessions
-            if (ongoingSession != null) {
-                // Remove last item from sessions array
-                collection.updateOneById(
-                        practitionerId,
-                        // Create Mongo Document to pop/remove item from array
-                        Document("${MongoOperator.pop}",
-                                // Create Mongo Document to indicate last item in array
-                                Document("sessions", 1)))
-                // Create new Session with ongoing session as base
-                val session = SessionDBO(
-                        geolocation = ongoingSession.geolocation,
-                        discipline = ongoingSession.discipline,
-                        intention = ongoingSession.intention,
-                        startTime = ongoingSession.startTime,
-                        endTime = LocalDateTime.now())
-                // Add it to sessions array
-                pushSession(practitionerId, session)
-                return true
-            }
+            // Remove last item from sessions array
+            collection.updateOneById(
+                    practitionerId,
+                    // Create Mongo Document to pop/remove item from array
+                    Document("${MongoOperator.pop}",
+                            // Create Mongo Document to indicate last item in array
+                            Document("sessions", 1)))
+            // Create new Session with ongoing session as base
+            val session = SessionDBO(
+                    geolocation = ongoingSession.geolocation,
+                    discipline = ongoingSession.discipline,
+                    intention = ongoingSession.intention,
+                    startTime = ongoingSession.startTime,
+                    endTime = LocalDateTime.now())
+            // Add it to sessions array
+            pushSession(practitionerId, session)
+            return true
+
         }
         return false
     }
