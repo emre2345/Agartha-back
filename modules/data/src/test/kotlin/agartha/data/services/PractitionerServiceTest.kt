@@ -135,7 +135,7 @@ class PractitionerServiceTest : DatabaseHandler() {
     @Test
     fun endSession_userIdMissing_false() {
         val response = PractitionerService().endSession("AnIdNotExisting")
-        assertThat(response).isFalse()
+        assertThat(response).isNull()
     }
 
     /**
@@ -147,7 +147,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert a new practising user
         val practitioner = PractitionerService().insert(user)
         val response = PractitionerService().endSession(practitioner._id!!)
-        assertThat(response).isFalse()
+        assertThat(response).isEqualTo(practitioner)
     }
 
     /**
@@ -161,7 +161,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert sessions
         PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
         val response = PractitionerService().endSession(practitioner._id!!)
-        assertThat(response).isTrue()
+        assertThat(response!!.sessions.last().endTime).isNotNull()
     }
 
     /**

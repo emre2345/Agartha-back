@@ -132,10 +132,10 @@ class PractitionerController(private val mService: IPractitionerService) {
     private fun endSession(request: Request, response: Response): String {
         // Get current userid
         val userId: String = request.params(":userid")
-        // Stop the last sesson for user
-        val result = mService.endSession(userId)
-        // Return "true"/"false" depending on outcome of data soure query
-        return "$result"
+        // Stop the last session for user
+        val practitioner = mService.endSession(userId)
+        // Return the updated practitioner
+        return ControllerUtil.objectToString(practitioner)
     }
 
 }
