@@ -72,12 +72,12 @@ class PractitionerService : IPractitionerService {
         return session
     }
 
-    override fun endSession(practitionerId: String): Boolean {
+    override fun endSession(practitionerId: String): PractitionerDBO? {
         // Get current user
         val user: PractitionerDBO? = getById(practitionerId)
         if (user != null && user.sessions.isNotEmpty()) {
             // get the current session
-            val ongoingSession = user.sessions.last()
+            val ongoingSession = user.sessions.lastOrNull()
             // If there is a matching user with sessions
             if (ongoingSession != null) {
                 // Remove last item from sessions array
@@ -97,10 +97,11 @@ class PractitionerService : IPractitionerService {
                         endTime = LocalDateTime.now())
                 // Add it to sessions array
                 pushSession(practitionerId, session)
-                return true
+                // Return the new updated practitioner
+                return getById(practitionerId)
             }
         }
-        return false
+        return user
     }
 
     private fun pushSession(practitionerId: String, session: SessionDBO) {

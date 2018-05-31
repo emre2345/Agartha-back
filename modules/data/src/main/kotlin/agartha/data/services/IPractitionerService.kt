@@ -40,5 +40,5 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      * @param practitionerId id for user ending a session
      */
     fun endSession(
-            practitionerId: String): Boolean
+            practitionerId: String): PractitionerDBO?
 }
