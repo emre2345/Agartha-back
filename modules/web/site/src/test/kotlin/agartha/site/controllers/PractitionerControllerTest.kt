@@ -231,6 +231,7 @@ class PractitionerControllerTest {
         val postRequest = testController.testServer.post("/practitioner/session/end/abc", "", false)
         val httpResponse = testController.testServer.execute(postRequest)
         val responseBody = String(httpResponse.body())
-        assertThat(responseBody).isEqualTo("true")
+        val prac = ControllerUtil.stringToObject(responseBody, PractitionerDBO::class.java)
+        assertThat(prac.sessions.last().endTime).isNotNull()
     }
 }
