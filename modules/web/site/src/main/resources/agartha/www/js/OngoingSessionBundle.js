@@ -36,17 +36,32 @@
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
 /******/ 	};
 /******/
 /******/ 	// define __esModule on exports
 /******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
 /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -83,7 +98,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\n.visualization[data-v-4aa65ce3] {\n    overflow: hidden;\n    display: flex;\n    justify-content: center;\n}\n.companionSession[data-v-4aa65ce3] {\n    margin-bottom: 2rem;\n}\n.list[data-v-4aa65ce3] {\n    list-style: none;\n}\n.border[data-v-4aa65ce3] {\n    border-bottom-width: .2em;\n    border-bottom-style: solid;\n    min-width: 13rem;\n    margin: 2rem auto;\n}\n", "", {"version":3,"sources":["/Users/jorgen-kollektiva/code/Agartha-front/www/vue/www/vue/OngoingSessionComponent.vue"],"names":[],"mappings":";AAqFA;IACA,iBAAA;IACA,cAAA;IACA,wBAAA;CACA;AACA;IACA,oBAAA;CACA;AACA;IACA,iBAAA;CACA;AACA;IACA,0BAAA;IACA,2BAAA;IACA,iBAAA;IACA,kBAAA;CACA","file":"OngoingSessionComponent.vue","sourcesContent":["<template>\n\n    <div class=\"black\">\n        <div id=\"visualizationContainer\" class=\"visualization\"></div>\n        <div class=\"headline bold borderBlue alignCenter border\">\n            {{sessions.length}}\n        </div>\n        <div class=\"smallText alignCenter\">\n            Companions connected in your session\n        </div>\n        <div class=\"alignCenter\">\n            <button class=\"button borderBlack black\" @click=\"onButtonClick\">End Practice</button>\n        </div>\n        <div class=\"companionSession\">\n            <ul class=\"list\" v-for=\"session in sessions\">\n                <li class=\"smallText\"><span class=\"bold\">Discipline:</span> {{session.discipline}}</li>\n                <li class=\"smallText\"><span class=\"bold\">Intention:</span> {{session.intention}}</li>\n                <li class=\"smallText\" v-if=\"session.points\"><span class=\"bold\">MatchPoints:</span> {{ session.points }}</li>\n                <li class=\"smallText\" v-if=\"userGeolocation\"><span class=\"bold\">Distance km:</span> {{ session.distanceAsString(userGeolocation) }}</li>\n            </ul>\n        </div>\n\n    </div>\n</template>\n\n<script lang=\"ts\">\n    import Vue from \"vue\";\n    import Component from \"vue-class-component\";\n    import Session from \"../ts/objects/Session\";\n    import {Discipline, Intention} from \"../ts/objects/Settings\";\n    import {SessionList} from \"../ts/objects/SessionList\";\n    import GeolocationInfo from \"../ts/objects/GeolocationInfo\";\n\n    @Component({\n        // Which properties that is passed to the component\n        props: {\n            selectedDiscipline: Object,\n            selectedIntention: Object,\n            userGeolocation: Object,\n            connectedCompanionsSessions: Array,\n            onButtonClick: Function\n        },\n        components: {}\n    })\n    export default class OngoingSessionComponent extends Vue {\n        // Declare properties again for TypeScript\n        connectedCompanionsSessions: Array<Session>;\n        onButtonClick: Function;\n        // Get this practitioners selected discipline and intention\n        selectedDiscipline: Discipline;\n        selectedIntention: Intention;\n        userGeolocation: GeolocationInfo;\n\n        /** COMPUTED **\n         * Calls on a method to map the array of sessions\n         * (This is done because the test would be able to test the map-function)\n         * @returns {Session[]}\n         */\n        get sessions() {\n            return this.mapListWithSessions(this.connectedCompanionsSessions, this.selectedDiscipline, this.selectedIntention)\n        }\n\n        /**\n         * Maps the array of sessions to sessions\n         * and adds the match-points\n         * and sorts it descending depending on match-point\n         * @param sessionList - Array with sessions\n         * @param selectedDiscipline - the discipline the practitioner has selected tot his practice\n         * @param selectedIntention - the intention the practitioner has selected tot his practice\n         * @returns {Session[]}\n         */\n        mapListWithSessions(sessionList: Array<Session>, selectedDiscipline: Discipline, selectedIntention: Intention) {\n            // Map the temp list to become sessions and add the points to the session\n            return new SessionList(sessionList)\n            // Set points for sessions\n                .match(selectedDiscipline, selectedIntention)\n                // Sort list by matching point\n                .sortByMatchPointDescending()\n                // Get the list\n                .get();\n        }\n    }\n</script>\n\n<style scoped>\n    .visualization {\n        overflow: hidden;\n        display: flex;\n        justify-content: center;\n    }\n    .companionSession {\n        margin-bottom: 2rem;\n    }\n    .list {\n        list-style: none;\n    }\n    .border {\n        border-bottom-width: .2em;\n        border-bottom-style: solid;\n        min-width: 13rem;\n        margin: 2rem auto;\n    }\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n.visualization[data-v-4aa65ce3] {\n    overflow: hidden;\n    display: flex;\n    justify-content: center;\n}\n.companionSession[data-v-4aa65ce3] {\n    margin-bottom: 2rem;\n}\n.list[data-v-4aa65ce3] {\n    list-style: none;\n}\n.border[data-v-4aa65ce3] {\n    border-bottom-width: .2em;\n    border-bottom-style: solid;\n    min-width: 13rem;\n    margin: 2rem auto;\n}\n", "", {"version":3,"sources":["/Users/joho/code/Agartha-front/www/vue/www/vue/OngoingSessionComponent.vue"],"names":[],"mappings":";AAuFA;IACA,iBAAA;IACA,cAAA;IACA,wBAAA;CACA;AACA;IACA,oBAAA;CACA;AACA;IACA,iBAAA;CACA;AACA;IACA,0BAAA;IACA,2BAAA;IACA,iBAAA;IACA,kBAAA;CACA","file":"OngoingSessionComponent.vue","sourcesContent":["<template>\n\n    <div class=\"black\">\n        <div id=\"visualizationContainer\" class=\"visualization\"></div>\n        <div class=\"headline bold borderBlue alignCenter border\">\n            {{sessions.length}}\n        </div>\n        <div class=\"smallText alignCenter\">\n            Companions connected in your session\n        </div>\n        <div class=\"alignCenter\">\n            <button class=\"button borderBlack black\" @click=\"onButtonClick\">End Practice</button>\n        </div>\n        <div class=\"companionSession\">\n            <ul class=\"list\" v-for=\"session in sessions\">\n                <li class=\"smallText\"><span class=\"bold\">Discipline:</span> {{session.discipline}}</li>\n                <li class=\"smallText\"><span class=\"bold\">Intention:</span> {{session.intention}}</li>\n                <!-- Only print if match point is more than zero -->\n                <li class=\"smallText\" v-if=\"session.points\"><span class=\"bold\">MatchPoints:</span> {{ session.points }}</li>\n                <!-- Only print if both of geolocation, current user and the \"loop\" session geolocation exists -->\n                <li class=\"smallText\" v-if=\"userGeolocation && session.geolocation\"><span class=\"bold\">Distance km:</span> {{ session.distanceAsString(userGeolocation) }}</li>\n            </ul>\n        </div>\n\n    </div>\n</template>\n\n<script lang=\"ts\">\n    import Vue from \"vue\";\n    import Component from \"vue-class-component\";\n    import Session from \"../ts/objects/Session\";\n    import {Discipline, Intention} from \"../ts/objects/Settings\";\n    import {SessionList} from \"../ts/objects/SessionList\";\n    import GeolocationInfo from \"../ts/objects/GeolocationInfo\";\n\n    @Component({\n        // Which properties that is passed to the component\n        props: {\n            selectedDiscipline: Object,\n            selectedIntention: Object,\n            userGeolocation: Object,\n            connectedCompanionsSessions: Array,\n            onButtonClick: Function\n        },\n        components: {}\n    })\n    export default class OngoingSessionComponent extends Vue {\n        // Declare properties again for TypeScript\n        connectedCompanionsSessions: Array<Session>;\n        onButtonClick: Function;\n        // Get this practitioners selected discipline and intention\n        selectedDiscipline: Discipline;\n        selectedIntention: Intention;\n        userGeolocation: GeolocationInfo;\n\n        /** COMPUTED **\n         * Calls on a method to map the array of sessions\n         * (This is done because the test would be able to test the map-function)\n         * @returns {Session[]}\n         */\n        get sessions() {\n            return this.mapListWithSessions(this.connectedCompanionsSessions, this.selectedDiscipline, this.selectedIntention)\n        }\n\n        /**\n         * Maps the array of sessions to sessions\n         * and adds the match-points\n         * and sorts it descending depending on match-point\n         * @param sessionList - Array with sessions\n         * @param selectedDiscipline - the discipline the practitioner has selected tot his practice\n         * @param selectedIntention - the intention the practitioner has selected tot his practice\n         * @returns {Session[]}\n         */\n        mapListWithSessions(sessionList: Array<Session>, selectedDiscipline: Discipline, selectedIntention: Intention) {\n            // Map the temp list to become sessions and add the points to the session\n            return new SessionList(sessionList)\n            // Set points for sessions\n                .match(selectedDiscipline, selectedIntention)\n                // Sort list by matching point\n                .sortByMatchPointDescending()\n                // Get the list\n                .get();\n        }\n    }\n</script>\n\n<style scoped>\n    .visualization {\n        overflow: hidden;\n        display: flex;\n        justify-content: center;\n    }\n    .companionSession {\n        margin-bottom: 2rem;\n    }\n    .list {\n        list-style: none;\n    }\n    .border {\n        border-bottom-width: .2em;\n        border-bottom-style: solid;\n        min-width: 13rem;\n        margin: 2rem auto;\n    }\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -177,10 +192,10 @@ function toComment(sourceMap) {
 
 /***/ }),
 
-/***/ "./node_modules/process/browser.js":
-/*!*****************************************!*\
-  !*** ./node_modules/process/browser.js ***!
-  \*****************************************/
+/***/ "./node_modules/node-libs-browser/node_modules/process/browser.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/node-libs-browser/node_modules/process/browser.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -566,7 +581,7 @@ process.umask = function() { return 0; };
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js"), __webpack_require__(/*! ./../process/browser.js */ "./node_modules/process/browser.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js"), __webpack_require__(/*! ./../node-libs-browser/node_modules/process/browser.js */ "./node_modules/node-libs-browser/node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -1131,7 +1146,7 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _vm.userGeolocation
+          _vm.userGeolocation && session.geolocation
             ? _c("li", { staticClass: "smallText" }, [
                 _c("span", { staticClass: "bold" }, [_vm._v("Distance km:")]),
                 _vm._v(
@@ -12475,7 +12490,6 @@ new vue_1.default({
     methods: {
         addSession: function () {
             var session = new Session_1.default({
-                index: this.connectedCompanionsSessions.length,
                 geolocation: null,
                 discipline: this.newSessionDiscipline,
                 intention: this.newSessionIntention,
@@ -12567,13 +12581,6 @@ var Session = (function () {
             this.points++;
         }
         return this.points;
-    };
-    Session.prototype.shouldRemove = function (session) {
-        return this.index !== session.index
-            && this.geolocation !== session.geolocation
-            && this.discipline !== session.discipline
-            && this.intention !== session.intention
-            && this.startTime !== session.startTime;
     };
     Session.prototype.distance = function (geolocation) {
         if (geolocation == null || this.geolocation == null) {

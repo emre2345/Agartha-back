@@ -36,17 +36,32 @@
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
 /******/ 	};
 /******/
 /******/ 	// define __esModule on exports
 /******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
 /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -83,7 +98,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\n.row[data-v-c9899b68] {\n    margin: 1rem auto;\n}\n.textInput[data-v-c9899b68] {\n    box-sizing: border-box;\n    border: 1px solid #000;\n    border-radius: .25rem;\n\n    padding: 1rem .75rem .75rem;\n    width: 100%;\n}\n.feedback[data-v-c9899b68] {\n    margin: 2rem auto;\n}\n.check[data-v-c9899b68] {\n    margin: auto;\n    width: .5em;\n    height: .5em;\n}\n.marginTop[data-v-c9899b68] {\n    margin: 1rem 0 0;\n}\n\n", "", {"version":3,"sources":["/Users/jorgen-kollektiva/code/Agartha-front/www/vue/www/vue/ContactComponent.vue"],"names":[],"mappings":";AAiFA;IACA,kBAAA;CACA;AAEA;IACA,uBAAA;IACA,uBAAA;IACA,sBAAA;;IAEA,4BAAA;IACA,YAAA;CACA;AAEA;IACA,kBAAA;CACA;AACA;IACA,aAAA;IACA,YAAA;IACA,aAAA;CACA;AAEA;IACA,iBAAA;CACA","file":"ContactComponent.vue","sourcesContent":["<template>\n    <div class=\"backgroundWhite\">\n        <div v-if=\"!isSubmitted\">\n            <form>\n                <div class=\"row\">\n                    <label class=\"smallText italic\" for=\"firstname\">Full name:</label>\n                    <input v-model=\"fullName\" type=\"text\" class=\"textInput mediumText\" id=\"firstname\"/>\n                </div>\n                <div class=\"row\">\n                    <label class=\"smallText italic\" for=\"email\">Email:</label>\n                    <input v-model=\"email\" type=\"text\" class=\"textInput mediumText\" id=\"email\">\n                </div>\n                <div class=\"row\">\n                    <label class=\"smallText italic\" for=\"description\">Short description of you:</label>\n                    <input v-model=\"description\" type=\"text\" class=\"textInput mediumText\" id=\"description\">\n                </div>\n                <div class=\"alignCenter\">\n                    <button @click=\"onSubmitContact\" class=\"button borderGreen green\">Submit</button>\n                </div>\n            </form>\n        </div>\n        <div v-else>\n            <div class=\"feedback\">\n                <div class=\"circle gradientGreen\">\n                    <svg class=\"check fillWhite\"\n                         xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"none\" viewBox=\"0 0 24 24\">\n                        <path d=\"M10 23L0 11l10 4.3c2.1-4 7.9-12 13.8-13.3C20.6 3 13.3 16.3 10 23z\"/>\n                    </svg>\n                </div>\n                <div class=\"mediumText alignCenter marginTop\">Thank you!</div>\n            </div>\n            <div class=\"alignCenter\">\n                <button @click=\"onClosePamphlet\" class=\"button borderRed red\">Close</button>\n            </div>\n        </div>\n    </div>\n</template>\n\n<script lang=\"ts\">\n    import Vue from \"vue\";\n    import Component from \"vue-class-component\";\n\n    @Component({\n        // Which properties that is passed to the component\n        props: {\n            isSubmitted: Boolean,\n            onSubmit: Function,\n            onClose: Function\n        },\n        // Which components that will be used in this component\n        components: {}\n    })\n    export default class ContactComponent extends Vue {\n        // Declare properties again for TypeScript\n        isSubmitted: boolean;\n        onSubmit: Function;\n        onClose: Function;\n        // Data variables\n        fullName: string = \"\";\n        email: string = \"\";\n        description: string = \"\";\n\n        // Methods\n        onSubmitContact(e: Event = new Event(\"\")) { // new Event(\"\") is for the tests to know what a Event is without a button click, does'nt effect the code\n            // Prevent the site to reload\n            e.preventDefault();\n            // Send the data to the method that talks to the server\n            this.onSubmit(this.fullName, this.email, this.description);\n        }\n\n        onClosePamphlet(e: Event = new Event(\"\")) { // new Event(\"\") is for the tests to know what a Event is without a button click, does'nt effect the code\n            // Prevent the site to reload\n            e.preventDefault();\n            // Call the method closes the pamphlet\n            this.onClose()\n        }\n    }\n</script>\n\n<style scoped>\n\n    .row {\n        margin: 1rem auto;\n    }\n\n    .textInput {\n        box-sizing: border-box;\n        border: 1px solid #000;\n        border-radius: .25rem;\n\n        padding: 1rem .75rem .75rem;\n        width: 100%;\n    }\n\n    .feedback {\n        margin: 2rem auto;\n    }\n    .check {\n        margin: auto;\n        width: .5em;\n        height: .5em;\n    }\n\n    .marginTop {\n        margin: 1rem 0 0;\n    }\n\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n.row[data-v-c9899b68] {\n    margin: 1rem auto;\n}\n.textInput[data-v-c9899b68] {\n    box-sizing: border-box;\n    border: 1px solid #000;\n    border-radius: .25rem;\n\n    padding: 1rem .75rem .75rem;\n    width: 100%;\n}\n.feedback[data-v-c9899b68] {\n    margin: 2rem auto;\n}\n.check[data-v-c9899b68] {\n    margin: auto;\n    width: .5em;\n    height: .5em;\n}\n.marginTop[data-v-c9899b68] {\n    margin: 1rem 0 0;\n}\n\n", "", {"version":3,"sources":["/Users/joho/code/Agartha-front/www/vue/www/vue/ContactComponent.vue"],"names":[],"mappings":";AAiFA;IACA,kBAAA;CACA;AAEA;IACA,uBAAA;IACA,uBAAA;IACA,sBAAA;;IAEA,4BAAA;IACA,YAAA;CACA;AAEA;IACA,kBAAA;CACA;AACA;IACA,aAAA;IACA,YAAA;IACA,aAAA;CACA;AAEA;IACA,iBAAA;CACA","file":"ContactComponent.vue","sourcesContent":["<template>\n    <div class=\"backgroundWhite\">\n        <div v-if=\"!isSubmitted\">\n            <form>\n                <div class=\"row\">\n                    <label class=\"smallText italic\" for=\"firstname\">Full name:</label>\n                    <input v-model=\"fullName\" type=\"text\" class=\"textInput mediumText\" id=\"firstname\"/>\n                </div>\n                <div class=\"row\">\n                    <label class=\"smallText italic\" for=\"email\">Email:</label>\n                    <input v-model=\"email\" type=\"text\" class=\"textInput mediumText\" id=\"email\">\n                </div>\n                <div class=\"row\">\n                    <label class=\"smallText italic\" for=\"description\">Short description of you:</label>\n                    <input v-model=\"description\" type=\"text\" class=\"textInput mediumText\" id=\"description\">\n                </div>\n                <div class=\"alignCenter\">\n                    <button @click=\"onSubmitContact\" class=\"button borderGreen green\">Submit</button>\n                </div>\n            </form>\n        </div>\n        <div v-else>\n            <div class=\"feedback\">\n                <div class=\"circle gradientGreen\">\n                    <svg class=\"check fillWhite\"\n                         xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"none\" viewBox=\"0 0 24 24\">\n                        <path d=\"M10 23L0 11l10 4.3c2.1-4 7.9-12 13.8-13.3C20.6 3 13.3 16.3 10 23z\"/>\n                    </svg>\n                </div>\n                <div class=\"mediumText alignCenter marginTop\">Thank you!</div>\n            </div>\n            <div class=\"alignCenter\">\n                <button @click=\"onClosePamphlet\" class=\"button borderRed red\">Close</button>\n            </div>\n        </div>\n    </div>\n</template>\n\n<script lang=\"ts\">\n    import Vue from \"vue\";\n    import Component from \"vue-class-component\";\n\n    @Component({\n        // Which properties that is passed to the component\n        props: {\n            isSubmitted: Boolean,\n            onSubmit: Function,\n            onClose: Function\n        },\n        // Which components that will be used in this component\n        components: {}\n    })\n    export default class ContactComponent extends Vue {\n        // Declare properties again for TypeScript\n        isSubmitted: boolean;\n        onSubmit: Function;\n        onClose: Function;\n        // Data variables\n        fullName: string = \"\";\n        email: string = \"\";\n        description: string = \"\";\n\n        // Methods\n        onSubmitContact(e: Event = new Event(\"\")) { // new Event(\"\") is for the tests to know what a Event is without a button click, does'nt effect the code\n            // Prevent the site to reload\n            e.preventDefault();\n            // Send the data to the method that talks to the server\n            this.onSubmit(this.fullName, this.email, this.description);\n        }\n\n        onClosePamphlet(e: Event = new Event(\"\")) { // new Event(\"\") is for the tests to know what a Event is without a button click, does'nt effect the code\n            // Prevent the site to reload\n            e.preventDefault();\n            // Call the method closes the pamphlet\n            this.onClose()\n        }\n    }\n</script>\n\n<style scoped>\n\n    .row {\n        margin: 1rem auto;\n    }\n\n    .textInput {\n        box-sizing: border-box;\n        border: 1px solid #000;\n        border-radius: .25rem;\n\n        padding: 1rem .75rem .75rem;\n        width: 100%;\n    }\n\n    .feedback {\n        margin: 2rem auto;\n    }\n    .check {\n        margin: auto;\n        width: .5em;\n        height: .5em;\n    }\n\n    .marginTop {\n        margin: 1rem 0 0;\n    }\n\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -177,10 +192,10 @@ function toComment(sourceMap) {
 
 /***/ }),
 
-/***/ "./node_modules/process/browser.js":
-/*!*****************************************!*\
-  !*** ./node_modules/process/browser.js ***!
-  \*****************************************/
+/***/ "./node_modules/node-libs-browser/node_modules/process/browser.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/node-libs-browser/node_modules/process/browser.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -566,7 +581,7 @@ process.umask = function() { return 0; };
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js"), __webpack_require__(/*! ./../process/browser.js */ "./node_modules/process/browser.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js"), __webpack_require__(/*! ./../node-libs-browser/node_modules/process/browser.js */ "./node_modules/node-libs-browser/node_modules/process/browser.js")))
 
 /***/ }),
 

@@ -36,17 +36,32 @@
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
 /******/ 	};
 /******/
 /******/ 	// define __esModule on exports
 /******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
 /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -83,7 +98,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "\n.blankList[data-v-53887aa4] {\n    list-style: none;\n    margin: 1rem;\n    padding: 0;\n}\n.blankList__item[data-v-53887aa4] {\n    margin: 0;\n}\n.practiceOption[data-v-53887aa4] {\n    padding: 1.2rem .5rem;\n    transition: background-color .15s ease-in;\n}\n.practiceOption[data-v-53887aa4]:hover,\n.practiceOption[data-v-53887aa4]:focus {\n    background-color: #f1de96; /* light yellow, TODO: read this color from centralized source such as a generalized class or variable */\n}\n.pointer[data-v-53887aa4] {\n    cursor: pointer;\n}\n\n", "", {"version":3,"sources":["/Users/jorgen-kollektiva/code/Agartha-front/www/vue/www/vue/DisciplineComponent.vue"],"names":[],"mappings":";AAoCA;IACA,iBAAA;IACA,aAAA;IACA,WAAA;CACA;AAEA;IACA,UAAA;CACA;AAEA;IACA,sBAAA;IACA,0CAAA;CACA;AAEA;;IAEA,0BAAA,CAAA,yGAAA;CACA;AAEA;IACA,gBAAA;CACA","file":"DisciplineComponent.vue","sourcesContent":["<template>\n    <div class=\"backgroundWhite\">\n        <ul class=\"blankList\">\n            <li class=\"mediumText backgroundWhite blankList__item practiceOption pointer\" v-for=\"(discipline, index) in disciplines\" :index=\"index\"\n                :key=\"index\" @click=\"onSelect(discipline)\">\n                {{discipline.title}}\n            </li>\n        </ul>\n    </div>\n</template>\n\n<script lang=\"ts\">\n    import Vue from \"vue\";\n    import Component from \"vue-class-component\";\n    import {Discipline} from \"../ts/objects/Settings\";\n\n    @Component({\n        props: {\n            // Array of disciplines\n            disciplines: Array,\n            // Function to call on selecting practice\n            onSelect: Function\n        },\n        // Which components that will be used in this component\n        components: {}\n    })\n    export default class DisciplineAndPracticeComponent extends Vue {\n        // Declare properties again for TypeScript\n        disciplines: Array<Discipline>;\n        onSelect: Function;\n\n    }\n</script>\n\n<style scoped>\n\n    .blankList {\n        list-style: none;\n        margin: 1rem;\n        padding: 0;\n    }\n\n    .blankList__item {\n        margin: 0;\n    }\n\n    .practiceOption {\n        padding: 1.2rem .5rem;\n        transition: background-color .15s ease-in;\n    }\n\n    .practiceOption:hover,\n    .practiceOption:focus {\n        background-color: #f1de96; /* light yellow, TODO: read this color from centralized source such as a generalized class or variable */\n    }\n\n    .pointer {\n        cursor: pointer;\n    }\n\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n.blankList[data-v-53887aa4] {\n    list-style: none;\n    margin: 1rem;\n    padding: 0;\n}\n.blankList__item[data-v-53887aa4] {\n    margin: 0;\n}\n.practiceOption[data-v-53887aa4] {\n    padding: 1.2rem .5rem;\n    transition: background-color .15s ease-in;\n}\n.practiceOption[data-v-53887aa4]:hover,\n.practiceOption[data-v-53887aa4]:focus {\n    background-color: #f1de96; /* light yellow, TODO: read this color from centralized source such as a generalized class or variable */\n}\n.pointer[data-v-53887aa4] {\n    cursor: pointer;\n}\n\n", "", {"version":3,"sources":["/Users/joho/code/Agartha-front/www/vue/www/vue/DisciplineComponent.vue"],"names":[],"mappings":";AAoCA;IACA,iBAAA;IACA,aAAA;IACA,WAAA;CACA;AAEA;IACA,UAAA;CACA;AAEA;IACA,sBAAA;IACA,0CAAA;CACA;AAEA;;IAEA,0BAAA,CAAA,yGAAA;CACA;AAEA;IACA,gBAAA;CACA","file":"DisciplineComponent.vue","sourcesContent":["<template>\n    <div class=\"backgroundWhite\">\n        <ul class=\"blankList\">\n            <li class=\"mediumText backgroundWhite blankList__item practiceOption pointer\" v-for=\"(discipline, index) in disciplines\" :index=\"index\"\n                :key=\"index\" @click=\"onSelect(discipline)\">\n                {{discipline.title}}\n            </li>\n        </ul>\n    </div>\n</template>\n\n<script lang=\"ts\">\n    import Vue from \"vue\";\n    import Component from \"vue-class-component\";\n    import {Discipline} from \"../ts/objects/Settings\";\n\n    @Component({\n        props: {\n            // Array of disciplines\n            disciplines: Array,\n            // Function to call on selecting practice\n            onSelect: Function\n        },\n        // Which components that will be used in this component\n        components: {}\n    })\n    export default class DisciplineAndPracticeComponent extends Vue {\n        // Declare properties again for TypeScript\n        disciplines: Array<Discipline>;\n        onSelect: Function;\n\n    }\n</script>\n\n<style scoped>\n\n    .blankList {\n        list-style: none;\n        margin: 1rem;\n        padding: 0;\n    }\n\n    .blankList__item {\n        margin: 0;\n    }\n\n    .practiceOption {\n        padding: 1.2rem .5rem;\n        transition: background-color .15s ease-in;\n    }\n\n    .practiceOption:hover,\n    .practiceOption:focus {\n        background-color: #f1de96; /* light yellow, TODO: read this color from centralized source such as a generalized class or variable */\n    }\n\n    .pointer {\n        cursor: pointer;\n    }\n\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -177,10 +192,10 @@ function toComment(sourceMap) {
 
 /***/ }),
 
-/***/ "./node_modules/process/browser.js":
-/*!*****************************************!*\
-  !*** ./node_modules/process/browser.js ***!
-  \*****************************************/
+/***/ "./node_modules/node-libs-browser/node_modules/process/browser.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/node-libs-browser/node_modules/process/browser.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -566,7 +581,7 @@ process.umask = function() { return 0; };
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js"), __webpack_require__(/*! ./../process/browser.js */ "./node_modules/process/browser.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js"), __webpack_require__(/*! ./../node-libs-browser/node_modules/process/browser.js */ "./node_modules/node-libs-browser/node_modules/process/browser.js")))
 
 /***/ }),
 

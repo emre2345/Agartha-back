@@ -81,34 +81,15 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./www/ts/IndexLoader.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./www/ts/debug/AdminLoader.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-0e1797ce\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ContributionComponent.vue":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-0e1797ce","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ContributionComponent.vue ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(true);
-// imports
-
-
-// module
-exports.push([module.i, "\n.height[data-v-0e1797ce] {\n    height: 100vh; /* arbitrary, needs som height in order for swipe thing to render visible\n    TODO: Work out some sustainable system for this */\n}\n.iconMargin[data-v-0e1797ce] {\n    margin: 2rem auto;\n}\n.intentionTitle[data-v-0e1797ce] {\n    margin: 2rem auto;\n    padding: 0 1rem;\n}\n.intentionDescription[data-v-0e1797ce] {\n    margin: 2rem auto;\n    padding: 0 3rem;\n}\n.searchBox[data-v-0e1797ce] {\n    position: relative;\n}\n.searchBox__result[data-v-0e1797ce] {\n    width: 100%;\n    position: absolute;\n    top: 100%;\n    box-shadow: 0 .1rem .25rem rgba(0, 0, 0, .1);\n}\n.searchBox__resultTitle[data-v-0e1797ce] {\n    padding: .75rem 0;\n}\n.searchBox__resultList[data-v-0e1797ce] {\n    list-style: none;\n    margin: 0;\n    padding: 0;\n}\n.searchBox__resultItem[data-v-0e1797ce] {\n    margin: 0;\n    padding: 1.2rem .5rem;\n    transition: background-color .15s ease-in;\n}\n.searchBox__resultItem[data-v-0e1797ce]:hover,\n.searchBox__resultItem[data-v-0e1797ce]:focus {\n    /* background-color: #f38e91; /* light red */\n    background-color: #f1de96; /* light yellow */\n}\n.pointer[data-v-0e1797ce] {\n    cursor: pointer;\n}\n.searchBox__titleInput[data-v-0e1797ce] {\n    -webkit-appearance: none;\n    display: block;\n    box-sizing: border-box;\n    width: 100%;\n    padding: .75rem .5rem .5rem;\n    text-transform: uppercase;\n    margin: -.75rem 0;\n    border: none;\n    border-radius: 0;\n}\n.searchBox__titleInput[data-v-0e1797ce]::placeholder,\n.intentionDescriptionInput[data-v-0e1797ce]::placeholder {\n    font-style: italic;\n    color: rgba(0, 0, 0, .5);\n}\n.intentionDescriptionInput[data-v-0e1797ce] {\n    -webkit-appearance: none;\n    box-sizing: border-box;\n    width: 100%;\n    margin: 2rem 0 1rem;\n    padding: 1rem;\n    border: none;\n    border-radius: 0;\n}\n\n/* Swipe stuff */\n.swipeBox[data-v-0e1797ce] {\n    width: 100%;\n    height: 100%;\n    overflow: hidden;\n    -webkit-transform: translate3d(0, 0, 0);\n}\n.swipeBox__item[data-v-0e1797ce] {\n    position: absolute;\n    width: 100%;\n    /*Need to take the whole screen otherwise the other pages will show*/\n    height: 100%;\n}\n.swipeBox__item--transition[data-v-0e1797ce] {\n    transition-duration: .250s;\n}\n\n/* Classes below are toggled by js in order to trigger animation/position */\n.swipeBox--stageCenter[data-v-0e1797ce] {\n    top: 0;\n    left: 0;\n    z-index: 1;\n}\n.swipeBox--stageLeft[data-v-0e1797ce] {\n    left: -100%;\n    z-index: 0;\n}\n.swipeBox--stageRight[data-v-0e1797ce] {\n    left: 100%;\n    z-index: 0;\n}\n\n", "", {"version":3,"sources":["/Users/joho/code/Agartha-front/www/vue/www/vue/ContributionComponent.vue"],"names":[],"mappings":";AA+KA;IACA,cAAA,CAAA;sDACA;CACA;AAEA;IACA,kBAAA;CACA;AAEA;IACA,kBAAA;IACA,gBAAA;CACA;AAEA;IACA,kBAAA;IACA,gBAAA;CACA;AAEA;IACA,mBAAA;CACA;AAEA;IACA,YAAA;IACA,mBAAA;IACA,UAAA;IACA,6CAAA;CACA;AAEA;IACA,kBAAA;CACA;AAEA;IACA,iBAAA;IACA,UAAA;IACA,WAAA;CACA;AAEA;IACA,UAAA;IACA,sBAAA;IACA,0CAAA;CACA;AAEA;;IAEA,6CAAA;IACA,0BAAA,CAAA,kBAAA;CACA;AAEA;IACA,gBAAA;CACA;AAEA;IACA,yBAAA;IACA,eAAA;IACA,uBAAA;IACA,YAAA;IACA,4BAAA;IACA,0BAAA;IACA,kBAAA;IACA,aAAA;IACA,iBAAA;CACA;AAEA;;IAEA,mBAAA;IACA,yBAAA;CACA;AAEA;IACA,yBAAA;IACA,uBAAA;IACA,YAAA;IACA,oBAAA;IACA,cAAA;IACA,aAAA;IACA,iBAAA;CACA;;AAEA,iBAAA;AACA;IACA,YAAA;IACA,aAAA;IACA,iBAAA;IACA,wCAAA;CACA;AAEA;IACA,mBAAA;IACA,YAAA;IACA,qEAAA;IACA,aAAA;CACA;AAEA;IACA,2BAAA;CACA;;AAEA,4EAAA;AACA;IACA,OAAA;IACA,QAAA;IACA,WAAA;CACA;AAEA;IACA,YAAA;IACA,WAAA;CACA;AAEA;IACA,WAAA;IACA,WAAA;CACA","file":"ContributionComponent.vue","sourcesContent":["<template>\n    <div class=\"backgroundWhite height\" id=\"contributionComponent\">\n        <div class=\"swipeBox\">\n\n            <!-- LOOP THROUGH EXISTING INTENTIONS -->\n            <div v-for=\"(intention, index) in intentions\" class=\"alignCenter swipeBox__item swipeBox__item--transition\"\n                 v-bind:class=\"getAdditionalClass(index, currentIndex)\">\n\n                <div class=\"iconBackground circle iconMargin\" :class=\"['iconBackground--'+intention.title]\">\n\n\n                </div>\n\n                <h2 class=\"headline alignCenter bold black intentionTitle\">{{intention.title}}</h2>\n                <p class=\"smallText alignJustify black intentionDescription\">{{intention.description}}</p>\n                <button class=\"button violet borderViolet\" @click=\"onSelectIntention(intention)\">Select intention</button>\n            </div>\n\n\n            <!-- ADD INTENTION FORM SWIPE ITEM -->\n            <div class=\"alignCenter swipeBox__item swipeBox__item--transition\"\n                 v-bind:class=\"getAdditionalClass(intentions.length, currentIndex)\">\n\n                <div class=\"backgroundViolet circle iconMargin\"></div>\n                <div class=\"searchBox\">\n                    <input class=\"mediumText bold black alignCenter backgroundLightYellow searchBox__titleInput\" type=\"text\" placeholder=\"Add intention\" v-model=\"newIntention\"\n                           @keyup=\"onSearchIntention\"/>\n                    <div class=\"backgroundWhite searchBox__result\" v-if=\"searchedIntentions.length > 0\">\n                        <div class=\"xSmallText bold alignLeft searchBox__resultTitle\">Did you mean...</div>\n                        <ul class=\"searchBox__resultList\">\n                            <li class=\"mediumText backgroundWhite searchBox__resultItem pointer\" v-for=\"intention in searchedIntentions\"\n                                @click=\"onSelectIntention(intention)\">{{intention.title}}\n                            </li>\n                        </ul>\n                    </div>\n                </div>\n                <input class=\"mediumText backgroundLightYellow alignLeft black bold intentionDescriptionInput\" type=\"text\" placeholder=\"Describe your intention here\"\n                       v-model=\"newDescription\"/>\n\n                <button class=\"button orange borderOrange\" @click=\"onAddIntention\">Add intention</button>\n            </div>\n\n        </div>\n    </div>\n\n</template>\n\n<script lang=\"ts\">\n\n    import Vue from \"vue\";\n    import Component from \"vue-class-component\";\n    import {Intention} from \"../ts/objects/Settings\";\n\n    declare var jQuery: any;\n\n    @Component({\n        // Properties passed to the component\n        props: {\n            // Array of intentions\n            intentions: Array,\n            // Function to call on selecting intention\n            onSelect: Function,\n            // Function to send new intention to server\n            onAdd: Function,\n            // Function that searches in the intentions after a intention that matches a work\n            onSearch: Function,\n            // The intentions that matched the search on key up\n            searchedIntentions: Array\n        },\n        components: {}\n    })\n\n    export default class ContributionComponent extends Vue {\n        // Component name\n        name: \"ContributionComponent\";\n        // Array of intentions for user to choose\n        intentions: Array<Intention>;\n        // Function to call on selecting intention\n        onSelect: Function;\n        // Function to send new intention to server\n        onAdd: Function;\n        // Function that searches in the intentions after a intention that matches a work\n        onSearch: Function;\n        // The intentions that matched the search on key up\n        searchedIntentions: Array<Intention>;\n        //\n        // Current swipe index of intention\n        currentIndex: number = 0;\n        // The new intention that the user has put in\n        newIntention: string = \"\";\n        // The new intentions description that the user has put in\n        newDescription: string = \"\";\n\n\n        /**\n         * Function called by Vue when Component is mounted\n         */\n        mounted() {\n            // Swipe left/right for selecting intention\n            jQuery(\"#contributionComponent\").on(\"swipeleft\", this.scrollLeft);\n            jQuery(\"#contributionComponent\").on(\"swiperight\", this.scrollRight);\n        }\n\n        /**\n         * Get additional class depending on where an intention are compared to intention in focus\n         * @param {number} intentionIndex index of intention we should add a class to\n         * @param {number} pageIndex current index, which intention is in focus\n         * @returns {string} class name\n         */\n        getAdditionalClass(intentionIndex: number, pageIndex: number) {\n            // If this intention is to left of intention in focus\n            if (intentionIndex < pageIndex) {\n                return \"swipeBox--stageLeft\";\n            }\n            // If this intention is to right of intention in focus\n            if (intentionIndex > pageIndex) {\n                return \"swipeBox--stageRight\";\n            }\n            // If this intention is the one in focus\n            return \"swipeBox--stageCenter\";\n        }\n\n        /**\n         * Scroll/Swipe right, move focus to the previous intention\n         */\n        scrollRight() {\n            console.log(\"WTF\");\n            // If we are on first, exit\n            if (this.currentIndex === 0) {\n                return;\n            }\n            // move to previous\n            this.currentIndex--;\n        }\n\n        /**\n         * Scroll/Swipe left, move focus to the next intention\n         */\n        scrollLeft() {\n            // If we are at last (plus one for the hardcoded \"add intention form\"), exit\n            if (this.currentIndex >= this.intentions.length) {\n                return;\n            }\n            // move next\n            this.currentIndex++;\n        }\n\n        /**\n         *  Click the select intention button\n         */\n        onSelectIntention(intention: Intention) {\n            // Pass selected object to the parameter function\n            this.onSelect(intention);\n        }\n\n        /**\n         * Adds a new intention\n         */\n        onAddIntention() {\n            // If there text is valid then create new intention\n            if (this.newIntention.trim().length > 0 && this.newDescription.trim().length > 0) {\n                this.onAdd(new Intention(this.newIntention.trim(), this.newDescription.trim()))\n            }\n        }\n\n        /**\n         * Searches for intentions with a text from user\n         */\n        onSearchIntention() {\n            this.onSearch(this.newIntention)\n        }\n    }\n</script>\n\n<style scoped>\n    .height {\n        height: 100vh; /* arbitrary, needs som height in order for swipe thing to render visible\n        TODO: Work out some sustainable system for this */\n    }\n\n    .iconMargin {\n        margin: 2rem auto;\n    }\n\n    .intentionTitle {\n        margin: 2rem auto;\n        padding: 0 1rem;\n    }\n\n    .intentionDescription {\n        margin: 2rem auto;\n        padding: 0 3rem;\n    }\n\n    .searchBox {\n        position: relative;\n    }\n\n    .searchBox__result {\n        width: 100%;\n        position: absolute;\n        top: 100%;\n        box-shadow: 0 .1rem .25rem rgba(0, 0, 0, .1);\n    }\n\n    .searchBox__resultTitle {\n        padding: .75rem 0;\n    }\n\n    .searchBox__resultList {\n        list-style: none;\n        margin: 0;\n        padding: 0;\n    }\n\n    .searchBox__resultItem {\n        margin: 0;\n        padding: 1.2rem .5rem;\n        transition: background-color .15s ease-in;\n    }\n\n    .searchBox__resultItem:hover,\n    .searchBox__resultItem:focus {\n        /* background-color: #f38e91; /* light red */\n        background-color: #f1de96; /* light yellow */\n    }\n\n    .pointer {\n        cursor: pointer;\n    }\n\n    .searchBox__titleInput {\n        -webkit-appearance: none;\n        display: block;\n        box-sizing: border-box;\n        width: 100%;\n        padding: .75rem .5rem .5rem;\n        text-transform: uppercase;\n        margin: -.75rem 0;\n        border: none;\n        border-radius: 0;\n    }\n\n    .searchBox__titleInput::placeholder,\n    .intentionDescriptionInput::placeholder {\n        font-style: italic;\n        color: rgba(0, 0, 0, .5);\n    }\n\n    .intentionDescriptionInput {\n        -webkit-appearance: none;\n        box-sizing: border-box;\n        width: 100%;\n        margin: 2rem 0 1rem;\n        padding: 1rem;\n        border: none;\n        border-radius: 0;\n    }\n\n    /* Swipe stuff */\n    .swipeBox {\n        width: 100%;\n        height: 100%;\n        overflow: hidden;\n        -webkit-transform: translate3d(0, 0, 0);\n    }\n\n    .swipeBox__item {\n        position: absolute;\n        width: 100%;\n        /*Need to take the whole screen otherwise the other pages will show*/\n        height: 100%;\n    }\n\n    .swipeBox__item--transition {\n        transition-duration: .250s;\n    }\n\n    /* Classes below are toggled by js in order to trigger animation/position */\n    .swipeBox--stageCenter {\n        top: 0;\n        left: 0;\n        z-index: 1;\n    }\n\n    .swipeBox--stageLeft {\n        left: -100%;\n        z-index: 0;\n    }\n\n    .swipeBox--stageRight {\n        left: 100%;\n        z-index: 0;\n    }\n\n</style>"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-3312cc56\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-3312cc56","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-9b4e4d8e\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/debug/AdminComponent.vue":
+/*!****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-9b4e4d8e","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/debug/AdminComponent.vue ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -117,121 +98,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.container[data-v-3312cc56] {\n        position: relative;\n}\n.svg[data-v-3312cc56] {\n        transform: rotate(-90deg);\n        display:block;\n        width: 100%;\n        height: 100%;\n}\n.centerSpace[data-v-3312cc56] {\n        display: flex;\n        flex-flow: row wrap;\n        border-radius: 50%;\n        position: absolute;\n        top: .15em;\n        left: .15em;\n        right: .15em;\n        bottom: .15em;\n}\n\n/*  These colors are copies from css/_resources/_colors.scss\n*   TODO: They should be based on a centralized source; variable or class\n*/\n.roundChart--color-empty[data-v-3312cc56] {\n        fill: #dee5dc; /* beige */\n}\n.roundChart--color1[data-v-3312cc56] {\n        fill: #b07abf; /* violet */\n}\n.roundChart--color2[data-v-3312cc56] {\n        fill: #7189dc; /* indigo */\n}\n.roundChart--color3[data-v-3312cc56] {\n        fill: #6bbfcd; /* blue */\n}\n.roundChart--color4[data-v-3312cc56] {\n        fill: #93bd64; /* green */\n}\n.roundChart--color5[data-v-3312cc56] {\n        fill: #edc74f; /* yellow */\n}\n.roundChart--color6[data-v-3312cc56] {\n        fill: #df7a4b; /* orange */\n}\n.roundChart--color7[data-v-3312cc56] {\n        fill: #da494d; /* red */\n}\n\n\n\n", "", {"version":3,"sources":["/Users/joho/code/Agartha-front/www/vue/icon/www/vue/icon/PieAndDonutChartIconComponent.vue"],"names":[],"mappings":";AA8NA;QACA,mBAAA;CACA;AACA;QACA,0BAAA;QACA,cAAA;QACA,YAAA;QACA,aAAA;CACA;AACA;QACA,cAAA;QACA,oBAAA;QACA,mBAAA;QACA,mBAAA;QACA,WAAA;QACA,YAAA;QACA,aAAA;QACA,cAAA;CACA;;AAEA;;EAEA;AACA;QACA,cAAA,CAAA,WAAA;CACA;AACA;QACA,cAAA,CAAA,YAAA;CACA;AACA;QACA,cAAA,CAAA,YAAA;CACA;AACA;QACA,cAAA,CAAA,UAAA;CACA;AACA;QACA,cAAA,CAAA,WAAA;CACA;AACA;QACA,cAAA,CAAA,YAAA;CACA;AACA;QACA,cAAA,CAAA,YAAA;CACA;AACA;QACA,cAAA,CAAA,SAAA;CACA","file":"PieAndDonutChartIconComponent.vue","sourcesContent":["<template>\n    <div class=\"circle container\">\n        <svg viewBox=\"-1 -1 2 2\" class=\"svg\">\n            <!-- Loop all slices and create a path for every one -->\n            <path v-for=\"slice in slices\" :d=\"slice.path\" :class=\"slice.color\"></path>\n        </svg>\n        <div v-if=\"isDonutChart\" class=\"centerSpace backgroundWhite\">\n            <div class=\"circle__content circle__content--main roundChart__centerText roundChart__centerText--main\">{{achievedGoalInHours}}</div>\n            <div class=\"circle__content circle__content--sub roundChart__centerText roundChart__centerText--sub\">reached in {{ reachedInHours }}</div>\n        </div>\n    </div>\n</template>\n\n<script lang=\"ts\">\n    import Vue from \"vue\";\n    import Component from \"vue-class-component\";\n    import TimeUtil from \"../../ts/utils/TimeUtil\";\n\n    @Component({\n        props: {\n            /**\n             * intentions is a object that has intentions in it\n             * and the number of intentions that intentions was used in the session\n             * When this object is present the PieChart will not have a centerSpace\n             * and the slices will be calculated by the intentions,\n             * EX: {WELLBEING: 2, LOVE: 7}\n             */\n            intentions: {\n                type: Object,\n                required: false,\n                default: function () {\n                    return {}\n                }\n            },\n            /**\n             * When these THREE numbers is present the PieChart will become a DonutChart with a centerSpace\n             * and the slices will be calculated by the achieved goal and the goal\n             */\n            /* The number hours that is achieved in the goal */\n            achievedGoal: {\n                type: Number || null,\n                required: false,\n                default: null\n            },\n            /* The number of hours that the goal is */\n            goal: {\n                type: Number || null,\n                required: false,\n                default: null\n            },\n            /* The number of minutes the goal is achieved in */\n            achievedInNumberOfMinutes: {\n                type: Number || null,\n                required: false,\n                default: null\n            }\n        },\n        // Which components that will be used in this component\n        components: {}\n    })\n    export default class PieAndDonutChartIconComponent extends Vue {\n        // Declare properties again for TypeScript\n        intentions: Object;\n        achievedGoal: number | null;\n        goal: number | null;\n        achievedInNumberOfMinutes: number | null;\n\n        // Computed\n        /**\n         * Converts the intentions object to an array with percentage\n         * Loops through the array and creates an object with a path and a color for every value in array\n         * Return an array with the new objects\n         * @returns [\n         *  {\n         *    path:\"M -0.6772815716257414 -0.7357239106731313 A 1 1 0 0 1 0.2454854871407988 -0.9694002659393305 L 0 0\",\n         *    color:\"roundChart--color4\"\n         *  },\n         * ]\n         */\n        get slices() {\n            let cumulativePercent = 0;\n            const percentages: Array<number> = this.getTheRightPercentage();\n\n            // Return a new Array of the intentionsInPercentage-array\n            return percentages.map((value, index) => {\n                // destructuring assignment sets the two variables at once\n                const start = this.getCoordinatesForPercent(cumulativePercent);\n                // each slice starts where the last slice ended, so keep a cumulative percent\n                cumulativePercent += value;\n                const end = this.getCoordinatesForPercent(cumulativePercent);\n                // if the slice is more than 50%, take the large arc (the long way around)\n                const largeArcFlag = value > .5 ? 1 : 0;\n                // Create the pathData string that only the path-tag can read\n                const pathData = `M ${start.x.toPrecision(10)} ${start.y.toPrecision(10)} A 1 1 0 ${largeArcFlag} 1 ${end.x.toPrecision(10)} ${end.y.toPrecision(10)} L 0 0`;\n                // return the new object\n                return {\n                    path: pathData,\n                    color: this.decideColor(index + 1)\n                };\n            });\n        }\n\n        /**\n         * Decides if the center should show, depending on if there is a goal and a achieved part of the goal or not\n         */\n        get isDonutChart(): Boolean {\n            return this.achievedGoal !== null\n                && this.goal !== null\n                && this.achievedInNumberOfMinutes !== null;\n        }\n\n        get reachedInHours(): String {\n            if (this.achievedInNumberOfMinutes) {\n                return TimeUtil.minutesToHours(this.achievedInNumberOfMinutes) + \" hours\";\n            }\n            return \"\";\n        }\n\n        get achievedGoalInHours(): String {\n            if (this.achievedGoal) {\n                return TimeUtil.minutesToHours(this.achievedGoal) + \" h\";\n            }\n            return \"\";\n        }\n\n        // Methods\n        /**\n         * Calculates which data should become the slices\n         * and makes them to a array with percentage\n         *\n         * @returns Array with percentages\n         */\n        getTheRightPercentage(): Array<number> {\n            // If the center should show (= donutChart) then use the goal-data\n            if (this.isDonutChart) {\n                // TypeScript complained about goal and achieved goal could be null even if checks in the if-statement\n                return this.convertGoalToPercentageArray(this.goal as number, this.achievedGoal as number);\n            } else {\n                // Else use the intentions\n                return this.convertObjectToOrderedPercentageArray(this.intentions);\n            }\n        }\n\n        /**\n         * Function to map keys from an Object into percent values in an Array\n         * Orders the array in descending order\n         * ex: input {love: 2, hate: 2} == output [.5, .5]\n         * ex: input {love: 4, hate: 1, fun: 5} == output [0.5, 0.4, 0.1]\n         */\n        convertObjectToOrderedPercentageArray(object: any): Array<number> {\n            // Loop through object and get total for all elements\n            let total = 0;\n            const objectKeys = Object.keys(object);\n            objectKeys.forEach((key) => {\n                total += (<any>object)[key];\n            });\n            // Loop through object and divide all elements with the total\n            // return array with percentage\n            return objectKeys.map((key) => {\n                return (<any>object)[key] / total;\n            }).sort(this.compare);\n        }\n\n        /**\n         * Function to creates an Array with percent values from the goal and achieved goal\n         * Orders the array in descending order\n         * ex: input goal: 10 000, achievedGoal: 3489 == output [0.3489, 0.6511]\n         */\n        convertGoalToPercentageArray(goal: number, achievedGoal: number): Array<number> {\n            let percentageAchieved = achievedGoal / goal;\n            let percentageLeft = 1 - percentageAchieved;\n            return [percentageAchieved, percentageLeft]\n        }\n\n        /**\n         * Return the position the path should start or end with\n         * @param percent\n         * @returns {{x: number, y: number}}\n         */\n        getCoordinatesForPercent(percent: number) {\n            const x = Math.cos(2 * Math.PI * percent);\n            const y = Math.sin(2 * Math.PI * percent);\n            return {x: x, y: y};\n        }\n\n        /**\n         * Compare function that sorts the array with the sort() function in descending order\n         * @param a - number\n         * @param b - number\n         * @returns {number}\n         */\n        compare(a: number, b: number) {\n            if (a > b) {\n                return -1;\n            }\n            if (a < b) {\n                return 1;\n            }\n            return 0;\n        }\n\n        /**\n         * Decides the color on the pie-slices depending on if it is a donutChart or a pieChart\n         * @param index\n         * @returns {number}\n         */\n        decideColor(index: number) {\n            if (this.isDonutChart) {\n                if (index == 2) {\n                    return 'roundChart--color-empty'\n                }\n                return 'roundChart--color' + index;\n            } else {\n                return 'roundChart--color' + index;\n            }\n        }\n\n    }\n</script>\n\n<style scoped>\n\n    .container {\n        position: relative;\n    }\n    .svg {\n        transform: rotate(-90deg);\n        display:block;\n        width: 100%;\n        height: 100%;\n    }\n    .centerSpace {\n        display: flex;\n        flex-flow: row wrap;\n        border-radius: 50%;\n        position: absolute;\n        top: .15em;\n        left: .15em;\n        right: .15em;\n        bottom: .15em;\n    }\n\n/*  These colors are copies from css/_resources/_colors.scss\n*   TODO: They should be based on a centralized source; variable or class\n*/\n    .roundChart--color-empty {\n        fill: #dee5dc; /* beige */\n    }\n    .roundChart--color1 {\n        fill: #b07abf; /* violet */\n    }\n    .roundChart--color2 {\n        fill: #7189dc; /* indigo */\n    }\n    .roundChart--color3 {\n        fill: #6bbfcd; /* blue */\n    }\n    .roundChart--color4 {\n        fill: #93bd64; /* green */\n    }\n    .roundChart--color5 {\n        fill: #edc74f; /* yellow */\n    }\n    .roundChart--color6 {\n        fill: #df7a4b; /* orange */\n    }\n    .roundChart--color7 {\n        fill: #da494d; /* red */\n    }\n\n\n\n</style>"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-34330ed2\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/CompanionsComponent.vue":
-/*!***************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-34330ed2","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/CompanionsComponent.vue ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(true);
-// imports
-
-
-// module
-exports.push([module.i, "\n.wrapper[data-v-34330ed2] {\n    display: flex;\n    flex-flow: column;\n    padding: 1rem;\n}\n.container[data-v-34330ed2] {\n    margin: auto;\n}\n.container--center[data-v-34330ed2] {\n    margin-top: 2rem;\n    margin-bottom: 2rem;\n}\n.container--left[data-v-34330ed2] {\n    margin-left: 0;\n}\n.container--right[data-v-34330ed2] {\n    margin-right: 0;\n}\n.maxWidth[data-v-34330ed2] {\n    max-width: 13rem;\n}\n.marginTop[data-v-34330ed2] {\n    margin-top: .5rem;\n}\n\n\n", "", {"version":3,"sources":["/Users/joho/code/Agartha-front/www/vue/www/vue/CompanionsComponent.vue"],"names":[],"mappings":";AAuFA;IACA,cAAA;IACA,kBAAA;IACA,cAAA;CACA;AAEA;IACA,aAAA;CACA;AAEA;IACA,iBAAA;IACA,oBAAA;CACA;AAEA;IACA,eAAA;CACA;AAEA;IACA,gBAAA;CACA;AAEA;IACA,iBAAA;CACA;AACA;IACA,kBAAA;CACA","file":"CompanionsComponent.vue","sourcesContent":["<template>\n    <div>\n        <div class=\"wrapper\">\n\n            <!-- circle with text of how many current users/sessions is active -->\n            <div class=\"container maxWidth container--left\">\n                <div class=\"circle white backgroundBlue\">\n                    <div class=\"circle__content circle__content--main\">{{companionsOnlineCount}}</div>\n                    <div class=\"circle__content circle__content--sub\">companions online</div>\n                </div>\n                <div class=\"smallText alignCenter marginTop\">Current activity</div>\n            </div>\n\n            <!-- -->\n            <div class=\"container maxWidth container--right\">\n                <pie-chart :achieved-goal=\"achievedGoal\"\n                           :goal=\"goalMinutes\"\n                           :achieved-in-number-of-minutes=\"achievedInNumberOfMinutes\"></pie-chart>\n                <div class=\"smallText alignCenter marginTop\">Goal: <span class=\"bold\">{{goalHours}} h</span></div>\n            </div>\n\n            <!-- The most popular intention among active sessions is -->\n            <div class=\"container maxWidth container--left\">\n                <div class=\"circle white backgroundRed\"></div>\n                <div class=\"smallText alignCenter marginTop\">\n                    <div class=\"bold\">Trend</div>\n                    <div>\n                        <span class=\"bold\">{{nrWithSameIntention}}</span> people have practiced with the shared\n                        intention of\n                        <span class=\"bold\">{{popularIntention}}</span>\n                    </div>\n                </div>\n            </div>\n\n            <!-- Button to move to next step -->\n            <div class=\"container container--center\">\n                <button class=\"button borderBlack black\" @click=\"onJoin\">Join companions</button>\n            </div>\n        </div>\n    </div>\n</template>\n\n<script lang=\"ts\">\n    import Vue from \"vue\";\n    import Component from \"vue-class-component\";\n    import PieChart from \"./icon/PieAndDonutChartIconComponent.vue\";\n    import TimeUtil from \"../ts/utils/TimeUtil\";\n\n    @Component({\n        props: {\n            /* The number of companions online at the session */\n            companionsOnlineCount: Number,\n            /* The number hours that is achieved in the goal */\n            achievedGoal: Number,\n            /* The number of hours that the goal is */\n            goalMinutes: Number,\n            /* The number of minutes the goal is achieved in */\n            achievedInNumberOfMinutes: Number,\n            /* Number of people with the same most popular intention */\n            nrWithSameIntention: Number,\n            /* The most popular intentions */\n            popularIntention: String,\n            // Function to call on selecting practice\n            onJoin: Function\n        },\n        // Which components that will be used in this component\n        components: {\n            PieChart\n        }\n    })\n    export default class CompanionsComponent extends Vue {\n        // Declare properties again for TypeScript\n        companionsOnlineCount: number;\n        achievedGoal: number | null;\n        goalMinutes: number;\n        achievedInNumberOfMinutes: number | null;\n        popularIntention: string | null;\n        onJoin: Function;\n\n\n        get goalHours () {\n            return TimeUtil.minutesToHours(this.goalMinutes);\n        }\n    }\n</script>\n\n<style scoped>\n    .wrapper {\n        display: flex;\n        flex-flow: column;\n        padding: 1rem;\n    }\n\n    .container {\n        margin: auto;\n    }\n\n    .container--center {\n        margin-top: 2rem;\n        margin-bottom: 2rem;\n    }\n\n    .container--left {\n        margin-left: 0;\n    }\n\n    .container--right {\n        margin-right: 0;\n    }\n\n    .maxWidth {\n        max-width: 13rem;\n    }\n    .marginTop {\n        margin-top: .5rem;\n    }\n\n\n</style>"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-3df8586e\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ConfirmationComponent.vue":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-3df8586e","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ConfirmationComponent.vue ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(true);
-// imports
-
-
-// module
-exports.push([module.i, "\n.wrapper[data-v-3df8586e] {\n    display: flex;\n    flex-flow: column;\n    padding: 1rem;\n}\n.container[data-v-3df8586e] {\n    margin: 1rem auto;\n}\n.container--row[data-v-3df8586e] {\n    display: flex;\n    align-items: center;\n}\n.container--alignBottom[data-v-3df8586e] {\n    align-items: flex-end;\n}\n.container__column[data-v-3df8586e] {\n    margin: 0 auto;\n    padding: 1rem;\n    box-sizing: border-box;\n    flex: 0 0 50%;\n    max-width: 50%;\n}\n.container__column--first[data-v-3df8586e] {\n    order: 1;\n}\n.container__column--second[data-v-3df8586e] {\n    order: 2;\n}\n.maxWidth[data-v-3df8586e] {\n    max-width: 13rem;\n}\n.marginTop[data-v-3df8586e] {\n    margin-top: .5rem;\n}\n.textLarger[data-v-3df8586e] {\n    font-size: 1.5em;\n}\n\n", "", {"version":3,"sources":["/Users/joho/code/Agartha-front/www/vue/www/vue/ConfirmationComponent.vue"],"names":[],"mappings":";AAmJA;IACA,cAAA;IACA,kBAAA;IACA,cAAA;CACA;AAEA;IACA,kBAAA;CACA;AAEA;IACA,cAAA;IACA,oBAAA;CACA;AAEA;IACA,sBAAA;CACA;AAEA;IACA,eAAA;IACA,cAAA;IACA,uBAAA;IACA,cAAA;IACA,eAAA;CACA;AAEA;IACA,SAAA;CACA;AAEA;IACA,SAAA;CACA;AAEA;IACA,iBAAA;CACA;AAEA;IACA,kBAAA;CACA;AAEA;IACA,iBAAA;CACA","file":"ConfirmationComponent.vue","sourcesContent":["<template>\n    <div>\n        <div class=\"wrapper\">\n            <h2 class=\"headline alignCenter\">Your contribution</h2>\n\n            <div class=\"container maxWidth\">\n                <div class=\"circle white backgroundRed\"></div>\n                <div class=\"smallText alignCenter marginTop\">\n                    <span class=\"bold\">{{discipline}}</span> with the intention of\n                    <span class=\"bold\">{{intention}}</span>\n                </div>\n            </div>\n\n            <div class=\"container container--row container--alignBottom\">\n\n                <div class=\"container__column container__column--first smallText alignCenter marginTop\">\n                    <div>Session lasted</div>\n                    <div class=\"textLarger bold\">{{ transformedSessionLasted }}</div>\n                </div>\n\n                <div class=\"container__column container__column--second smallText alignCenter marginTop\">\n                    <div>Total contribution</div>\n                    <div class=\"textLarger bold\">{{ transformedUserTotalContribution }}</div>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"wrapper\">\n            <h2 class=\"headline alignCenter\">Your session</h2>\n\n            <div class=\"container container--row\">\n                <div class=\"container__column\">\n                    <div class=\"circle white backgroundGreen\">\n                        <div class=\"circle__content circle__content--main\">{{ sessionCompanionCount }}</div>\n                        <div class=\"circle__content circle__content--sub\">companions online</div>\n                    </div>\n                    <div class=\"smallText alignCenter marginTop\">During your session</div>\n                </div>\n                <div class=\"container__column\">\n                    <div class=\"smallText alignCenter marginTop\">\n                        <div>Collective contribution</div>\n                        <div class=\"textLarger bold\">{{ transformedCollectiveContribution }}</div>\n                    </div>\n                </div>\n            </div>\n\n\n            <div class=\"container container--row\" v-show=\"numberOfIntentions > 0\">\n\n                <div class=\"container__column container__column--second\">\n                    <pie-chart :intentions=\"sessionCompanionIntentions\"></pie-chart>\n                </div>\n\n                <div class=\"container__column container__column--first maxWidth smallText alignCenter marginTop\">\n                    <span class=\"bold alignRight\">{{numberOfIntentions}}</span>\n                    intentions<br/>\n                    in your session\n                </div>\n\n            </div>\n\n        </div>\n        <!-- If user is not ready involved show the 'get involved' button -->\n        <div class=\"wrapper\">\n            <button v-if=\"!isInvolved\" @click=\"onParticipate\" class=\"button borderRed red\">\n                Participate in Agartha\n            </button>\n\n            <button @click=\"onRestart\" class=\"button borderBlack black\">\n                Restart\n            </button>\n        </div>\n\n    </div>\n</template>\n\n<script lang=\"ts\">\n    import Vue from \"vue\";\n    import Component from \"vue-class-component\";\n    import PieChart from \"./icon/PieAndDonutChartIconComponent.vue\";\n    import TimeUtil from \"../ts/utils/TimeUtil\";\n\n    @Component({\n        // Which properties that is passed to the component\n        props: {\n            //The discipline that the user did in this session\n            discipline: String,\n            //The intention that the user did in this session\n            intention: String,\n            // Minutes the session lasted\n            sessionLastedMinutes: Number,\n            // Minutes the user has contributed with\n            userContributionMinutes: Number,\n            // Number of companions online at the same time as the session\n            sessionCompanionCount: Number,\n            // Minutes that all in the users session has contributed with\n            collectiveContributionMinutes: Number,\n            // Object of the intentions that was used by the users in the session\n            sessionCompanionIntentions: Object,\n            // Is the user already involved in Agartha, changes the appearance of the button\n            isInvolved: Boolean,\n            // Event for button click participate\n            onParticipate: Function,\n            // Event for button click restart\n            onRestart: Function\n        },\n        components: {\n            PieChart\n        }\n    })\n    export default class ConfirmationComponent extends Vue {\n        // Declare properties again for TypeScript\n        discipline: string;\n        intention: string;\n        sessionLastedMinutes: number;\n        userContributionMinutes: number;\n        sessionCompanionCount: number;\n        collectiveContributionMinutes: number;\n        sessionCompanionIntentions: Map<String, number>;\n        isInvolved: boolean;\n        onParticipate: Function;\n        onRestart: Function;\n\n        //\n        get numberOfIntentions() {\n            // Return the number on object in the object\n            return Object.keys(this.sessionCompanionIntentions).length\n        }\n\n        // Computed value: Makes fx. 650 minutes to 10:50\n        get transformedUserTotalContribution() {\n            return TimeUtil.minutesToHoursAndMinutes(this.userContributionMinutes);\n        }\n\n        // Computed value: Makes fx. 650 minutes to 10:50\n        get transformedSessionLasted() {\n            return TimeUtil.minutesToHoursAndMinutes(this.sessionLastedMinutes);\n        }\n\n        // Computed value: Makes fx. 650 minutes to 10:50\n        get transformedCollectiveContribution() {\n            return TimeUtil.minutesToHoursAndMinutes(this.collectiveContributionMinutes);\n        }\n    }\n</script>\n\n<style scoped>\n    .wrapper {\n        display: flex;\n        flex-flow: column;\n        padding: 1rem;\n    }\n\n    .container {\n        margin: 1rem auto;\n    }\n\n    .container--row {\n        display: flex;\n        align-items: center;\n    }\n\n    .container--alignBottom {\n        align-items: flex-end;\n    }\n\n    .container__column {\n        margin: 0 auto;\n        padding: 1rem;\n        box-sizing: border-box;\n        flex: 0 0 50%;\n        max-width: 50%;\n    }\n\n    .container__column--first {\n        order: 1;\n    }\n\n    .container__column--second {\n        order: 2;\n    }\n\n    .maxWidth {\n        max-width: 13rem;\n    }\n\n    .marginTop {\n        margin-top: .5rem;\n    }\n\n    .textLarger {\n        font-size: 1.5em;\n    }\n\n</style>"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-4aa65ce3\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/OngoingSessionComponent.vue":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-4aa65ce3","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/OngoingSessionComponent.vue ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(true);
-// imports
-
-
-// module
-exports.push([module.i, "\n.visualization[data-v-4aa65ce3] {\n    overflow: hidden;\n    display: flex;\n    justify-content: center;\n}\n.companionSession[data-v-4aa65ce3] {\n    margin-bottom: 2rem;\n}\n.list[data-v-4aa65ce3] {\n    list-style: none;\n}\n.border[data-v-4aa65ce3] {\n    border-bottom-width: .2em;\n    border-bottom-style: solid;\n    min-width: 13rem;\n    margin: 2rem auto;\n}\n", "", {"version":3,"sources":["/Users/joho/code/Agartha-front/www/vue/www/vue/OngoingSessionComponent.vue"],"names":[],"mappings":";AAuFA;IACA,iBAAA;IACA,cAAA;IACA,wBAAA;CACA;AACA;IACA,oBAAA;CACA;AACA;IACA,iBAAA;CACA;AACA;IACA,0BAAA;IACA,2BAAA;IACA,iBAAA;IACA,kBAAA;CACA","file":"OngoingSessionComponent.vue","sourcesContent":["<template>\n\n    <div class=\"black\">\n        <div id=\"visualizationContainer\" class=\"visualization\"></div>\n        <div class=\"headline bold borderBlue alignCenter border\">\n            {{sessions.length}}\n        </div>\n        <div class=\"smallText alignCenter\">\n            Companions connected in your session\n        </div>\n        <div class=\"alignCenter\">\n            <button class=\"button borderBlack black\" @click=\"onButtonClick\">End Practice</button>\n        </div>\n        <div class=\"companionSession\">\n            <ul class=\"list\" v-for=\"session in sessions\">\n                <li class=\"smallText\"><span class=\"bold\">Discipline:</span> {{session.discipline}}</li>\n                <li class=\"smallText\"><span class=\"bold\">Intention:</span> {{session.intention}}</li>\n                <!-- Only print if match point is more than zero -->\n                <li class=\"smallText\" v-if=\"session.points\"><span class=\"bold\">MatchPoints:</span> {{ session.points }}</li>\n                <!-- Only print if both of geolocation, current user and the \"loop\" session geolocation exists -->\n                <li class=\"smallText\" v-if=\"userGeolocation && session.geolocation\"><span class=\"bold\">Distance km:</span> {{ session.distanceAsString(userGeolocation) }}</li>\n            </ul>\n        </div>\n\n    </div>\n</template>\n\n<script lang=\"ts\">\n    import Vue from \"vue\";\n    import Component from \"vue-class-component\";\n    import Session from \"../ts/objects/Session\";\n    import {Discipline, Intention} from \"../ts/objects/Settings\";\n    import {SessionList} from \"../ts/objects/SessionList\";\n    import GeolocationInfo from \"../ts/objects/GeolocationInfo\";\n\n    @Component({\n        // Which properties that is passed to the component\n        props: {\n            selectedDiscipline: Object,\n            selectedIntention: Object,\n            userGeolocation: Object,\n            connectedCompanionsSessions: Array,\n            onButtonClick: Function\n        },\n        components: {}\n    })\n    export default class OngoingSessionComponent extends Vue {\n        // Declare properties again for TypeScript\n        connectedCompanionsSessions: Array<Session>;\n        onButtonClick: Function;\n        // Get this practitioners selected discipline and intention\n        selectedDiscipline: Discipline;\n        selectedIntention: Intention;\n        userGeolocation: GeolocationInfo;\n\n        /** COMPUTED **\n         * Calls on a method to map the array of sessions\n         * (This is done because the test would be able to test the map-function)\n         * @returns {Session[]}\n         */\n        get sessions() {\n            return this.mapListWithSessions(this.connectedCompanionsSessions, this.selectedDiscipline, this.selectedIntention)\n        }\n\n        /**\n         * Maps the array of sessions to sessions\n         * and adds the match-points\n         * and sorts it descending depending on match-point\n         * @param sessionList - Array with sessions\n         * @param selectedDiscipline - the discipline the practitioner has selected tot his practice\n         * @param selectedIntention - the intention the practitioner has selected tot his practice\n         * @returns {Session[]}\n         */\n        mapListWithSessions(sessionList: Array<Session>, selectedDiscipline: Discipline, selectedIntention: Intention) {\n            // Map the temp list to become sessions and add the points to the session\n            return new SessionList(sessionList)\n            // Set points for sessions\n                .match(selectedDiscipline, selectedIntention)\n                // Sort list by matching point\n                .sortByMatchPointDescending()\n                // Get the list\n                .get();\n        }\n    }\n</script>\n\n<style scoped>\n    .visualization {\n        overflow: hidden;\n        display: flex;\n        justify-content: center;\n    }\n    .companionSession {\n        margin-bottom: 2rem;\n    }\n    .list {\n        list-style: none;\n    }\n    .border {\n        border-bottom-width: .2em;\n        border-bottom-style: solid;\n        min-width: 13rem;\n        margin: 2rem auto;\n    }\n</style>"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-53887aa4\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/DisciplineComponent.vue":
-/*!***************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-53887aa4","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/DisciplineComponent.vue ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(true);
-// imports
-
-
-// module
-exports.push([module.i, "\n.blankList[data-v-53887aa4] {\n    list-style: none;\n    margin: 1rem;\n    padding: 0;\n}\n.blankList__item[data-v-53887aa4] {\n    margin: 0;\n}\n.practiceOption[data-v-53887aa4] {\n    padding: 1.2rem .5rem;\n    transition: background-color .15s ease-in;\n}\n.practiceOption[data-v-53887aa4]:hover,\n.practiceOption[data-v-53887aa4]:focus {\n    background-color: #f1de96; /* light yellow, TODO: read this color from centralized source such as a generalized class or variable */\n}\n.pointer[data-v-53887aa4] {\n    cursor: pointer;\n}\n\n", "", {"version":3,"sources":["/Users/joho/code/Agartha-front/www/vue/www/vue/DisciplineComponent.vue"],"names":[],"mappings":";AAoCA;IACA,iBAAA;IACA,aAAA;IACA,WAAA;CACA;AAEA;IACA,UAAA;CACA;AAEA;IACA,sBAAA;IACA,0CAAA;CACA;AAEA;;IAEA,0BAAA,CAAA,yGAAA;CACA;AAEA;IACA,gBAAA;CACA","file":"DisciplineComponent.vue","sourcesContent":["<template>\n    <div class=\"backgroundWhite\">\n        <ul class=\"blankList\">\n            <li class=\"mediumText backgroundWhite blankList__item practiceOption pointer\" v-for=\"(discipline, index) in disciplines\" :index=\"index\"\n                :key=\"index\" @click=\"onSelect(discipline)\">\n                {{discipline.title}}\n            </li>\n        </ul>\n    </div>\n</template>\n\n<script lang=\"ts\">\n    import Vue from \"vue\";\n    import Component from \"vue-class-component\";\n    import {Discipline} from \"../ts/objects/Settings\";\n\n    @Component({\n        props: {\n            // Array of disciplines\n            disciplines: Array,\n            // Function to call on selecting practice\n            onSelect: Function\n        },\n        // Which components that will be used in this component\n        components: {}\n    })\n    export default class DisciplineAndPracticeComponent extends Vue {\n        // Declare properties again for TypeScript\n        disciplines: Array<Discipline>;\n        onSelect: Function;\n\n    }\n</script>\n\n<style scoped>\n\n    .blankList {\n        list-style: none;\n        margin: 1rem;\n        padding: 0;\n    }\n\n    .blankList__item {\n        margin: 0;\n    }\n\n    .practiceOption {\n        padding: 1.2rem .5rem;\n        transition: background-color .15s ease-in;\n    }\n\n    .practiceOption:hover,\n    .practiceOption:focus {\n        background-color: #f1de96; /* light yellow, TODO: read this color from centralized source such as a generalized class or variable */\n    }\n\n    .pointer {\n        cursor: pointer;\n    }\n\n</style>"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-b8f38e76\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/PrepareComponent.vue":
-/*!************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-b8f38e76","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/PrepareComponent.vue ***!
-  \************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(true);
-// imports
-
-
-// module
-exports.push([module.i, "\n.container[data-v-b8f38e76] {\n    display: flex;\n}\n.maxWidth[data-v-b8f38e76] {\n    max-width: 20rem;\n}\n.preparationList[data-v-b8f38e76] {\n    margin: 2rem auto;\n    padding: 0;\n}\n.preparationList__title[data-v-b8f38e76] {\n    position: relative;\n    margin: 0 0 0 3rem;\n    padding: 0;\n}\n.preparationList__description[data-v-b8f38e76] {\n    position: relative;\n    margin: 0 0 1.5rem 3rem;\n    padding: 0;\n}\n.check[data-v-b8f38e76] {\n    width: 1em;\n    height: 1em;\n    display: inline-block;\n    font-size: 2.5rem;\n    position: absolute;\n    bottom: .1em;\n    margin-left: -1.17em;\n}\n.dim[data-v-b8f38e76] {\n    opacity: .3;\n}\n.dim--animate[data-v-b8f38e76] {\n    transition: opacity .2s ease-in;\n}\n.dim--hide[data-v-b8f38e76] {\n    opacity: 0;\n}\n", "", {"version":3,"sources":["/Users/joho/code/Agartha-front/www/vue/www/vue/PrepareComponent.vue"],"names":[],"mappings":";AA8GA;IACA,cAAA;CACA;AAEA;IACA,iBAAA;CACA;AAEA;IACA,kBAAA;IACA,WAAA;CACA;AAEA;IACA,mBAAA;IACA,mBAAA;IACA,WAAA;CACA;AAEA;IACA,mBAAA;IACA,wBAAA;IACA,WAAA;CACA;AAEA;IACA,WAAA;IACA,YAAA;IACA,sBAAA;IACA,kBAAA;IACA,mBAAA;IACA,aAAA;IACA,qBAAA;CAEA;AAEA;IACA,YAAA;CACA;AAEA;IACA,gCAAA;CACA;AAEA;IACA,WAAA;CACA","file":"PrepareComponent.vue","sourcesContent":["<template>\n    <div id=\"prepareComponent\">\n        <div class=\"container\">\n            <dl class=\"preparationList maxWidth\">\n                <dt class=\"headline bold black preparationList__title\">\n                    <svg class=\"fillGreen check dim--animate\" :class=\"{'dim--hide': !checks[0]}\"\n                         xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"none\" viewBox=\"0 0 24 24\">\n                        <path d=\"M10 23L0 11l10 4.3c2.1-4 7.9-12 13.8-13.3C20.6 3 13.3 16.3 10 23z\"/>\n                    </svg>\n                    Connecting\n                </dt>\n                <dd class=\"smallText black preparationList__description dim--animate\" :class=\"{'dim--hide': !checks[0]}\">\n                    Found {{userCount}} simultaneous sessions\n                </dd>\n\n                <dt class=\"headline bold black preparationList__title dim--animate\" :class=\"{dim: !checks[0]}\">\n                    <svg class=\"fillGreen check dim--animate\" :class=\"{'dim--hide': !checks[1]}\"\n                         xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"none\" viewBox=\"0 0 24 24\">\n                        <path d=\"M10 23L0 11l10 4.3c2.1-4 7.9-12 13.8-13.3C20.6 3 13.3 16.3 10 23z\"/>\n                    </svg>\n                    Visualizing\n                </dt>\n                <dd class=\"smallText black preparationList__description dim--animate\" :class=\"{'dim--hide': !checks[1]}\">\n                    Adding your contribution to visualization\n                </dd>\n\n                <dt class=\"headline bold black preparationList__title dim--animate\" :class=\"{dim: !checks[1]}\">\n                    <svg class=\"fillGreen check dim--animate\" :class=\"{'dim--hide': !checks[2]}\"\n                         xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"none\" viewBox=\"0 0 24 24\">\n                        <path d=\"M10 23L0 11l10 4.3c2.1-4 7.9-12 13.8-13.3C20.6 3 13.3 16.3 10 23z\"/>\n                    </svg>\n                    Synchronizing\n                </dt>\n                <dd class=\"smallText black preparationList__description dim--animate\" :class=\"{'dim--hide': !checks[2]}\">\n                    Finding your companions\n                </dd>\n\n            </dl>\n        </div>\n        <div class=\"container\">\n            <button class=\"button borderBlack black dim--animate\" :disabled=\"!canSeeButton\"\n                    :class=\"{'dim': !canSeeButton, 'pointer': canSeeButton}\" @click=\"onButtonClick\">Start Practice\n            </button>\n        </div>\n    </div>\n</template>\n\n<script lang=\"ts\">\n    import Vue from \"vue\";\n    import Component from \"vue-class-component\";\n    import {Watch} from \"vue-property-decorator\";\n\n    @Component({\n        // Properties passed to the component\n        props: {\n            onButtonClick: Function,\n            intervalMilliSeconds: Number,\n            userCount: Number,\n            isDisplayed: Boolean\n        },\n        // Sub-Components in this component\n        components: {}\n    })\n\n    export default class PrepareComponent extends Vue {\n        // Declare properties again for TypeScript\n        // Function that triggers when user clicks on button\n        onButtonClick: Function;\n        // Time to sleep between steps\n        intervalMilliSeconds: Number;\n        // Number of ongoing sessions\n        userCount: number;\n        // Is this step displayed\n        isDisplayed: boolean;\n\n        // Boolean that is true when all checks is true\n        canSeeButton: Boolean = false;\n        // An array with the value of the checked events\n        checks: Array<Boolean> = [false, false, false];\n\n        /**\n         * Watch the boolean that indicates when this component is shown / hidden\n         * @param {boolean} value\n         */\n        @Watch(\"isDisplayed\") onDisplayChange(value: boolean) {\n            // If we start watching\n            if (value) {\n                // reset variables, required for re-start, ie user starts a second session without leaving app\n                this.canSeeButton = false;\n                this.checks[0] = false;\n                this.checks[1] = false;\n                this.checks[2] = false;\n                // Loop though the checks array and set them to true\n                let i = 0;\n                let interval = setInterval(() => {\n                    // Need to write it with 'splice' because vue cannot see changes in an array\n                    this.checks.splice(i, 1, true);\n                    i++;\n                    if (i === this.checks.length) {\n                        clearInterval(interval);\n                        this.canSeeButton = true;\n                    }\n                }, this.intervalMilliSeconds);\n            }\n        }\n\n    }\n</script>\n\n<style scoped>\n    .container {\n        display: flex;\n    }\n\n    .maxWidth {\n        max-width: 20rem;\n    }\n\n    .preparationList {\n        margin: 2rem auto;\n        padding: 0;\n    }\n\n    .preparationList__title {\n        position: relative;\n        margin: 0 0 0 3rem;\n        padding: 0;\n    }\n\n    .preparationList__description {\n        position: relative;\n        margin: 0 0 1.5rem 3rem;\n        padding: 0;\n    }\n\n    .check {\n        width: 1em;\n        height: 1em;\n        display: inline-block;\n        font-size: 2.5rem;\n        position: absolute;\n        bottom: .1em;\n        margin-left: -1.17em;\n\n    }\n\n    .dim {\n        opacity: .3;\n    }\n\n    .dim--animate {\n        transition: opacity .2s ease-in;\n    }\n\n    .dim--hide {\n        opacity: 0;\n    }\n</style>"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-c9899b68\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ContactComponent.vue":
-/*!************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-c9899b68","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ContactComponent.vue ***!
-  \************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(true);
-// imports
-
-
-// module
-exports.push([module.i, "\n.row[data-v-c9899b68] {\n    margin: 1rem auto;\n}\n.textInput[data-v-c9899b68] {\n    box-sizing: border-box;\n    border: 1px solid #000;\n    border-radius: .25rem;\n\n    padding: 1rem .75rem .75rem;\n    width: 100%;\n}\n.feedback[data-v-c9899b68] {\n    margin: 2rem auto;\n}\n.check[data-v-c9899b68] {\n    margin: auto;\n    width: .5em;\n    height: .5em;\n}\n.marginTop[data-v-c9899b68] {\n    margin: 1rem 0 0;\n}\n\n", "", {"version":3,"sources":["/Users/joho/code/Agartha-front/www/vue/www/vue/ContactComponent.vue"],"names":[],"mappings":";AAiFA;IACA,kBAAA;CACA;AAEA;IACA,uBAAA;IACA,uBAAA;IACA,sBAAA;;IAEA,4BAAA;IACA,YAAA;CACA;AAEA;IACA,kBAAA;CACA;AACA;IACA,aAAA;IACA,YAAA;IACA,aAAA;CACA;AAEA;IACA,iBAAA;CACA","file":"ContactComponent.vue","sourcesContent":["<template>\n    <div class=\"backgroundWhite\">\n        <div v-if=\"!isSubmitted\">\n            <form>\n                <div class=\"row\">\n                    <label class=\"smallText italic\" for=\"firstname\">Full name:</label>\n                    <input v-model=\"fullName\" type=\"text\" class=\"textInput mediumText\" id=\"firstname\"/>\n                </div>\n                <div class=\"row\">\n                    <label class=\"smallText italic\" for=\"email\">Email:</label>\n                    <input v-model=\"email\" type=\"text\" class=\"textInput mediumText\" id=\"email\">\n                </div>\n                <div class=\"row\">\n                    <label class=\"smallText italic\" for=\"description\">Short description of you:</label>\n                    <input v-model=\"description\" type=\"text\" class=\"textInput mediumText\" id=\"description\">\n                </div>\n                <div class=\"alignCenter\">\n                    <button @click=\"onSubmitContact\" class=\"button borderGreen green\">Submit</button>\n                </div>\n            </form>\n        </div>\n        <div v-else>\n            <div class=\"feedback\">\n                <div class=\"circle gradientGreen\">\n                    <svg class=\"check fillWhite\"\n                         xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"none\" viewBox=\"0 0 24 24\">\n                        <path d=\"M10 23L0 11l10 4.3c2.1-4 7.9-12 13.8-13.3C20.6 3 13.3 16.3 10 23z\"/>\n                    </svg>\n                </div>\n                <div class=\"mediumText alignCenter marginTop\">Thank you!</div>\n            </div>\n            <div class=\"alignCenter\">\n                <button @click=\"onClosePamphlet\" class=\"button borderRed red\">Close</button>\n            </div>\n        </div>\n    </div>\n</template>\n\n<script lang=\"ts\">\n    import Vue from \"vue\";\n    import Component from \"vue-class-component\";\n\n    @Component({\n        // Which properties that is passed to the component\n        props: {\n            isSubmitted: Boolean,\n            onSubmit: Function,\n            onClose: Function\n        },\n        // Which components that will be used in this component\n        components: {}\n    })\n    export default class ContactComponent extends Vue {\n        // Declare properties again for TypeScript\n        isSubmitted: boolean;\n        onSubmit: Function;\n        onClose: Function;\n        // Data variables\n        fullName: string = \"\";\n        email: string = \"\";\n        description: string = \"\";\n\n        // Methods\n        onSubmitContact(e: Event = new Event(\"\")) { // new Event(\"\") is for the tests to know what a Event is without a button click, does'nt effect the code\n            // Prevent the site to reload\n            e.preventDefault();\n            // Send the data to the method that talks to the server\n            this.onSubmit(this.fullName, this.email, this.description);\n        }\n\n        onClosePamphlet(e: Event = new Event(\"\")) { // new Event(\"\") is for the tests to know what a Event is without a button click, does'nt effect the code\n            // Prevent the site to reload\n            e.preventDefault();\n            // Call the method closes the pamphlet\n            this.onClose()\n        }\n    }\n</script>\n\n<style scoped>\n\n    .row {\n        margin: 1rem auto;\n    }\n\n    .textInput {\n        box-sizing: border-box;\n        border: 1px solid #000;\n        border-radius: .25rem;\n\n        padding: 1rem .75rem .75rem;\n        width: 100%;\n    }\n\n    .feedback {\n        margin: 2rem auto;\n    }\n    .check {\n        margin: auto;\n        width: .5em;\n        height: .5em;\n    }\n\n    .marginTop {\n        margin: 1rem 0 0;\n    }\n\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"AdminComponent.vue","sourceRoot":""}]);
 
 // exports
 
@@ -539,1149 +406,6 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ "./node_modules/reflect-metadata/Reflect.js":
-/*!**************************************************!*\
-  !*** ./node_modules/reflect-metadata/Reflect.js ***!
-  \**************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(process, global) {/*! *****************************************************************************
-Copyright (C) Microsoft. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
-
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
-
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
-***************************************************************************** */
-var Reflect;
-(function (Reflect) {
-    // Metadata Proposal
-    // https://rbuckton.github.io/reflect-metadata/
-    (function (factory) {
-        var root = typeof global === "object" ? global :
-            typeof self === "object" ? self :
-                typeof this === "object" ? this :
-                    Function("return this;")();
-        var exporter = makeExporter(Reflect);
-        if (typeof root.Reflect === "undefined") {
-            root.Reflect = Reflect;
-        }
-        else {
-            exporter = makeExporter(root.Reflect, exporter);
-        }
-        factory(exporter);
-        function makeExporter(target, previous) {
-            return function (key, value) {
-                if (typeof target[key] !== "function") {
-                    Object.defineProperty(target, key, { configurable: true, writable: true, value: value });
-                }
-                if (previous)
-                    previous(key, value);
-            };
-        }
-    })(function (exporter) {
-        var hasOwn = Object.prototype.hasOwnProperty;
-        // feature test for Symbol support
-        var supportsSymbol = typeof Symbol === "function";
-        var toPrimitiveSymbol = supportsSymbol && typeof Symbol.toPrimitive !== "undefined" ? Symbol.toPrimitive : "@@toPrimitive";
-        var iteratorSymbol = supportsSymbol && typeof Symbol.iterator !== "undefined" ? Symbol.iterator : "@@iterator";
-        var supportsCreate = typeof Object.create === "function"; // feature test for Object.create support
-        var supportsProto = { __proto__: [] } instanceof Array; // feature test for __proto__ support
-        var downLevel = !supportsCreate && !supportsProto;
-        var HashMap = {
-            // create an object in dictionary mode (a.k.a. "slow" mode in v8)
-            create: supportsCreate
-                ? function () { return MakeDictionary(Object.create(null)); }
-                : supportsProto
-                    ? function () { return MakeDictionary({ __proto__: null }); }
-                    : function () { return MakeDictionary({}); },
-            has: downLevel
-                ? function (map, key) { return hasOwn.call(map, key); }
-                : function (map, key) { return key in map; },
-            get: downLevel
-                ? function (map, key) { return hasOwn.call(map, key) ? map[key] : undefined; }
-                : function (map, key) { return map[key]; },
-        };
-        // Load global or shim versions of Map, Set, and WeakMap
-        var functionPrototype = Object.getPrototypeOf(Function);
-        var usePolyfill = typeof process === "object" && process.env && process.env["REFLECT_METADATA_USE_MAP_POLYFILL"] === "true";
-        var _Map = !usePolyfill && typeof Map === "function" && typeof Map.prototype.entries === "function" ? Map : CreateMapPolyfill();
-        var _Set = !usePolyfill && typeof Set === "function" && typeof Set.prototype.entries === "function" ? Set : CreateSetPolyfill();
-        var _WeakMap = !usePolyfill && typeof WeakMap === "function" ? WeakMap : CreateWeakMapPolyfill();
-        // [[Metadata]] internal slot
-        // https://rbuckton.github.io/reflect-metadata/#ordinary-object-internal-methods-and-internal-slots
-        var Metadata = new _WeakMap();
-        /**
-         * Applies a set of decorators to a property of a target object.
-         * @param decorators An array of decorators.
-         * @param target The target object.
-         * @param propertyKey (Optional) The property key to decorate.
-         * @param attributes (Optional) The property descriptor for the target key.
-         * @remarks Decorators are applied in reverse order.
-         * @example
-         *
-         *     class Example {
-         *         // property declarations are not part of ES6, though they are valid in TypeScript:
-         *         // static staticProperty;
-         *         // property;
-         *
-         *         constructor(p) { }
-         *         static staticMethod(p) { }
-         *         method(p) { }
-         *     }
-         *
-         *     // constructor
-         *     Example = Reflect.decorate(decoratorsArray, Example);
-         *
-         *     // property (on constructor)
-         *     Reflect.decorate(decoratorsArray, Example, "staticProperty");
-         *
-         *     // property (on prototype)
-         *     Reflect.decorate(decoratorsArray, Example.prototype, "property");
-         *
-         *     // method (on constructor)
-         *     Object.defineProperty(Example, "staticMethod",
-         *         Reflect.decorate(decoratorsArray, Example, "staticMethod",
-         *             Object.getOwnPropertyDescriptor(Example, "staticMethod")));
-         *
-         *     // method (on prototype)
-         *     Object.defineProperty(Example.prototype, "method",
-         *         Reflect.decorate(decoratorsArray, Example.prototype, "method",
-         *             Object.getOwnPropertyDescriptor(Example.prototype, "method")));
-         *
-         */
-        function decorate(decorators, target, propertyKey, attributes) {
-            if (!IsUndefined(propertyKey)) {
-                if (!IsArray(decorators))
-                    throw new TypeError();
-                if (!IsObject(target))
-                    throw new TypeError();
-                if (!IsObject(attributes) && !IsUndefined(attributes) && !IsNull(attributes))
-                    throw new TypeError();
-                if (IsNull(attributes))
-                    attributes = undefined;
-                propertyKey = ToPropertyKey(propertyKey);
-                return DecorateProperty(decorators, target, propertyKey, attributes);
-            }
-            else {
-                if (!IsArray(decorators))
-                    throw new TypeError();
-                if (!IsConstructor(target))
-                    throw new TypeError();
-                return DecorateConstructor(decorators, target);
-            }
-        }
-        exporter("decorate", decorate);
-        // 4.1.2 Reflect.metadata(metadataKey, metadataValue)
-        // https://rbuckton.github.io/reflect-metadata/#reflect.metadata
-        /**
-         * A default metadata decorator factory that can be used on a class, class member, or parameter.
-         * @param metadataKey The key for the metadata entry.
-         * @param metadataValue The value for the metadata entry.
-         * @returns A decorator function.
-         * @remarks
-         * If `metadataKey` is already defined for the target and target key, the
-         * metadataValue for that key will be overwritten.
-         * @example
-         *
-         *     // constructor
-         *     @Reflect.metadata(key, value)
-         *     class Example {
-         *     }
-         *
-         *     // property (on constructor, TypeScript only)
-         *     class Example {
-         *         @Reflect.metadata(key, value)
-         *         static staticProperty;
-         *     }
-         *
-         *     // property (on prototype, TypeScript only)
-         *     class Example {
-         *         @Reflect.metadata(key, value)
-         *         property;
-         *     }
-         *
-         *     // method (on constructor)
-         *     class Example {
-         *         @Reflect.metadata(key, value)
-         *         static staticMethod() { }
-         *     }
-         *
-         *     // method (on prototype)
-         *     class Example {
-         *         @Reflect.metadata(key, value)
-         *         method() { }
-         *     }
-         *
-         */
-        function metadata(metadataKey, metadataValue) {
-            function decorator(target, propertyKey) {
-                if (!IsObject(target))
-                    throw new TypeError();
-                if (!IsUndefined(propertyKey) && !IsPropertyKey(propertyKey))
-                    throw new TypeError();
-                OrdinaryDefineOwnMetadata(metadataKey, metadataValue, target, propertyKey);
-            }
-            return decorator;
-        }
-        exporter("metadata", metadata);
-        /**
-         * Define a unique metadata entry on the target.
-         * @param metadataKey A key used to store and retrieve metadata.
-         * @param metadataValue A value that contains attached metadata.
-         * @param target The target object on which to define metadata.
-         * @param propertyKey (Optional) The property key for the target.
-         * @example
-         *
-         *     class Example {
-         *         // property declarations are not part of ES6, though they are valid in TypeScript:
-         *         // static staticProperty;
-         *         // property;
-         *
-         *         constructor(p) { }
-         *         static staticMethod(p) { }
-         *         method(p) { }
-         *     }
-         *
-         *     // constructor
-         *     Reflect.defineMetadata("custom:annotation", options, Example);
-         *
-         *     // property (on constructor)
-         *     Reflect.defineMetadata("custom:annotation", options, Example, "staticProperty");
-         *
-         *     // property (on prototype)
-         *     Reflect.defineMetadata("custom:annotation", options, Example.prototype, "property");
-         *
-         *     // method (on constructor)
-         *     Reflect.defineMetadata("custom:annotation", options, Example, "staticMethod");
-         *
-         *     // method (on prototype)
-         *     Reflect.defineMetadata("custom:annotation", options, Example.prototype, "method");
-         *
-         *     // decorator factory as metadata-producing annotation.
-         *     function MyAnnotation(options): Decorator {
-         *         return (target, key?) => Reflect.defineMetadata("custom:annotation", options, target, key);
-         *     }
-         *
-         */
-        function defineMetadata(metadataKey, metadataValue, target, propertyKey) {
-            if (!IsObject(target))
-                throw new TypeError();
-            if (!IsUndefined(propertyKey))
-                propertyKey = ToPropertyKey(propertyKey);
-            return OrdinaryDefineOwnMetadata(metadataKey, metadataValue, target, propertyKey);
-        }
-        exporter("defineMetadata", defineMetadata);
-        /**
-         * Gets a value indicating whether the target object or its prototype chain has the provided metadata key defined.
-         * @param metadataKey A key used to store and retrieve metadata.
-         * @param target The target object on which the metadata is defined.
-         * @param propertyKey (Optional) The property key for the target.
-         * @returns `true` if the metadata key was defined on the target object or its prototype chain; otherwise, `false`.
-         * @example
-         *
-         *     class Example {
-         *         // property declarations are not part of ES6, though they are valid in TypeScript:
-         *         // static staticProperty;
-         *         // property;
-         *
-         *         constructor(p) { }
-         *         static staticMethod(p) { }
-         *         method(p) { }
-         *     }
-         *
-         *     // constructor
-         *     result = Reflect.hasMetadata("custom:annotation", Example);
-         *
-         *     // property (on constructor)
-         *     result = Reflect.hasMetadata("custom:annotation", Example, "staticProperty");
-         *
-         *     // property (on prototype)
-         *     result = Reflect.hasMetadata("custom:annotation", Example.prototype, "property");
-         *
-         *     // method (on constructor)
-         *     result = Reflect.hasMetadata("custom:annotation", Example, "staticMethod");
-         *
-         *     // method (on prototype)
-         *     result = Reflect.hasMetadata("custom:annotation", Example.prototype, "method");
-         *
-         */
-        function hasMetadata(metadataKey, target, propertyKey) {
-            if (!IsObject(target))
-                throw new TypeError();
-            if (!IsUndefined(propertyKey))
-                propertyKey = ToPropertyKey(propertyKey);
-            return OrdinaryHasMetadata(metadataKey, target, propertyKey);
-        }
-        exporter("hasMetadata", hasMetadata);
-        /**
-         * Gets a value indicating whether the target object has the provided metadata key defined.
-         * @param metadataKey A key used to store and retrieve metadata.
-         * @param target The target object on which the metadata is defined.
-         * @param propertyKey (Optional) The property key for the target.
-         * @returns `true` if the metadata key was defined on the target object; otherwise, `false`.
-         * @example
-         *
-         *     class Example {
-         *         // property declarations are not part of ES6, though they are valid in TypeScript:
-         *         // static staticProperty;
-         *         // property;
-         *
-         *         constructor(p) { }
-         *         static staticMethod(p) { }
-         *         method(p) { }
-         *     }
-         *
-         *     // constructor
-         *     result = Reflect.hasOwnMetadata("custom:annotation", Example);
-         *
-         *     // property (on constructor)
-         *     result = Reflect.hasOwnMetadata("custom:annotation", Example, "staticProperty");
-         *
-         *     // property (on prototype)
-         *     result = Reflect.hasOwnMetadata("custom:annotation", Example.prototype, "property");
-         *
-         *     // method (on constructor)
-         *     result = Reflect.hasOwnMetadata("custom:annotation", Example, "staticMethod");
-         *
-         *     // method (on prototype)
-         *     result = Reflect.hasOwnMetadata("custom:annotation", Example.prototype, "method");
-         *
-         */
-        function hasOwnMetadata(metadataKey, target, propertyKey) {
-            if (!IsObject(target))
-                throw new TypeError();
-            if (!IsUndefined(propertyKey))
-                propertyKey = ToPropertyKey(propertyKey);
-            return OrdinaryHasOwnMetadata(metadataKey, target, propertyKey);
-        }
-        exporter("hasOwnMetadata", hasOwnMetadata);
-        /**
-         * Gets the metadata value for the provided metadata key on the target object or its prototype chain.
-         * @param metadataKey A key used to store and retrieve metadata.
-         * @param target The target object on which the metadata is defined.
-         * @param propertyKey (Optional) The property key for the target.
-         * @returns The metadata value for the metadata key if found; otherwise, `undefined`.
-         * @example
-         *
-         *     class Example {
-         *         // property declarations are not part of ES6, though they are valid in TypeScript:
-         *         // static staticProperty;
-         *         // property;
-         *
-         *         constructor(p) { }
-         *         static staticMethod(p) { }
-         *         method(p) { }
-         *     }
-         *
-         *     // constructor
-         *     result = Reflect.getMetadata("custom:annotation", Example);
-         *
-         *     // property (on constructor)
-         *     result = Reflect.getMetadata("custom:annotation", Example, "staticProperty");
-         *
-         *     // property (on prototype)
-         *     result = Reflect.getMetadata("custom:annotation", Example.prototype, "property");
-         *
-         *     // method (on constructor)
-         *     result = Reflect.getMetadata("custom:annotation", Example, "staticMethod");
-         *
-         *     // method (on prototype)
-         *     result = Reflect.getMetadata("custom:annotation", Example.prototype, "method");
-         *
-         */
-        function getMetadata(metadataKey, target, propertyKey) {
-            if (!IsObject(target))
-                throw new TypeError();
-            if (!IsUndefined(propertyKey))
-                propertyKey = ToPropertyKey(propertyKey);
-            return OrdinaryGetMetadata(metadataKey, target, propertyKey);
-        }
-        exporter("getMetadata", getMetadata);
-        /**
-         * Gets the metadata value for the provided metadata key on the target object.
-         * @param metadataKey A key used to store and retrieve metadata.
-         * @param target The target object on which the metadata is defined.
-         * @param propertyKey (Optional) The property key for the target.
-         * @returns The metadata value for the metadata key if found; otherwise, `undefined`.
-         * @example
-         *
-         *     class Example {
-         *         // property declarations are not part of ES6, though they are valid in TypeScript:
-         *         // static staticProperty;
-         *         // property;
-         *
-         *         constructor(p) { }
-         *         static staticMethod(p) { }
-         *         method(p) { }
-         *     }
-         *
-         *     // constructor
-         *     result = Reflect.getOwnMetadata("custom:annotation", Example);
-         *
-         *     // property (on constructor)
-         *     result = Reflect.getOwnMetadata("custom:annotation", Example, "staticProperty");
-         *
-         *     // property (on prototype)
-         *     result = Reflect.getOwnMetadata("custom:annotation", Example.prototype, "property");
-         *
-         *     // method (on constructor)
-         *     result = Reflect.getOwnMetadata("custom:annotation", Example, "staticMethod");
-         *
-         *     // method (on prototype)
-         *     result = Reflect.getOwnMetadata("custom:annotation", Example.prototype, "method");
-         *
-         */
-        function getOwnMetadata(metadataKey, target, propertyKey) {
-            if (!IsObject(target))
-                throw new TypeError();
-            if (!IsUndefined(propertyKey))
-                propertyKey = ToPropertyKey(propertyKey);
-            return OrdinaryGetOwnMetadata(metadataKey, target, propertyKey);
-        }
-        exporter("getOwnMetadata", getOwnMetadata);
-        /**
-         * Gets the metadata keys defined on the target object or its prototype chain.
-         * @param target The target object on which the metadata is defined.
-         * @param propertyKey (Optional) The property key for the target.
-         * @returns An array of unique metadata keys.
-         * @example
-         *
-         *     class Example {
-         *         // property declarations are not part of ES6, though they are valid in TypeScript:
-         *         // static staticProperty;
-         *         // property;
-         *
-         *         constructor(p) { }
-         *         static staticMethod(p) { }
-         *         method(p) { }
-         *     }
-         *
-         *     // constructor
-         *     result = Reflect.getMetadataKeys(Example);
-         *
-         *     // property (on constructor)
-         *     result = Reflect.getMetadataKeys(Example, "staticProperty");
-         *
-         *     // property (on prototype)
-         *     result = Reflect.getMetadataKeys(Example.prototype, "property");
-         *
-         *     // method (on constructor)
-         *     result = Reflect.getMetadataKeys(Example, "staticMethod");
-         *
-         *     // method (on prototype)
-         *     result = Reflect.getMetadataKeys(Example.prototype, "method");
-         *
-         */
-        function getMetadataKeys(target, propertyKey) {
-            if (!IsObject(target))
-                throw new TypeError();
-            if (!IsUndefined(propertyKey))
-                propertyKey = ToPropertyKey(propertyKey);
-            return OrdinaryMetadataKeys(target, propertyKey);
-        }
-        exporter("getMetadataKeys", getMetadataKeys);
-        /**
-         * Gets the unique metadata keys defined on the target object.
-         * @param target The target object on which the metadata is defined.
-         * @param propertyKey (Optional) The property key for the target.
-         * @returns An array of unique metadata keys.
-         * @example
-         *
-         *     class Example {
-         *         // property declarations are not part of ES6, though they are valid in TypeScript:
-         *         // static staticProperty;
-         *         // property;
-         *
-         *         constructor(p) { }
-         *         static staticMethod(p) { }
-         *         method(p) { }
-         *     }
-         *
-         *     // constructor
-         *     result = Reflect.getOwnMetadataKeys(Example);
-         *
-         *     // property (on constructor)
-         *     result = Reflect.getOwnMetadataKeys(Example, "staticProperty");
-         *
-         *     // property (on prototype)
-         *     result = Reflect.getOwnMetadataKeys(Example.prototype, "property");
-         *
-         *     // method (on constructor)
-         *     result = Reflect.getOwnMetadataKeys(Example, "staticMethod");
-         *
-         *     // method (on prototype)
-         *     result = Reflect.getOwnMetadataKeys(Example.prototype, "method");
-         *
-         */
-        function getOwnMetadataKeys(target, propertyKey) {
-            if (!IsObject(target))
-                throw new TypeError();
-            if (!IsUndefined(propertyKey))
-                propertyKey = ToPropertyKey(propertyKey);
-            return OrdinaryOwnMetadataKeys(target, propertyKey);
-        }
-        exporter("getOwnMetadataKeys", getOwnMetadataKeys);
-        /**
-         * Deletes the metadata entry from the target object with the provided key.
-         * @param metadataKey A key used to store and retrieve metadata.
-         * @param target The target object on which the metadata is defined.
-         * @param propertyKey (Optional) The property key for the target.
-         * @returns `true` if the metadata entry was found and deleted; otherwise, false.
-         * @example
-         *
-         *     class Example {
-         *         // property declarations are not part of ES6, though they are valid in TypeScript:
-         *         // static staticProperty;
-         *         // property;
-         *
-         *         constructor(p) { }
-         *         static staticMethod(p) { }
-         *         method(p) { }
-         *     }
-         *
-         *     // constructor
-         *     result = Reflect.deleteMetadata("custom:annotation", Example);
-         *
-         *     // property (on constructor)
-         *     result = Reflect.deleteMetadata("custom:annotation", Example, "staticProperty");
-         *
-         *     // property (on prototype)
-         *     result = Reflect.deleteMetadata("custom:annotation", Example.prototype, "property");
-         *
-         *     // method (on constructor)
-         *     result = Reflect.deleteMetadata("custom:annotation", Example, "staticMethod");
-         *
-         *     // method (on prototype)
-         *     result = Reflect.deleteMetadata("custom:annotation", Example.prototype, "method");
-         *
-         */
-        function deleteMetadata(metadataKey, target, propertyKey) {
-            if (!IsObject(target))
-                throw new TypeError();
-            if (!IsUndefined(propertyKey))
-                propertyKey = ToPropertyKey(propertyKey);
-            var metadataMap = GetOrCreateMetadataMap(target, propertyKey, /*Create*/ false);
-            if (IsUndefined(metadataMap))
-                return false;
-            if (!metadataMap.delete(metadataKey))
-                return false;
-            if (metadataMap.size > 0)
-                return true;
-            var targetMetadata = Metadata.get(target);
-            targetMetadata.delete(propertyKey);
-            if (targetMetadata.size > 0)
-                return true;
-            Metadata.delete(target);
-            return true;
-        }
-        exporter("deleteMetadata", deleteMetadata);
-        function DecorateConstructor(decorators, target) {
-            for (var i = decorators.length - 1; i >= 0; --i) {
-                var decorator = decorators[i];
-                var decorated = decorator(target);
-                if (!IsUndefined(decorated) && !IsNull(decorated)) {
-                    if (!IsConstructor(decorated))
-                        throw new TypeError();
-                    target = decorated;
-                }
-            }
-            return target;
-        }
-        function DecorateProperty(decorators, target, propertyKey, descriptor) {
-            for (var i = decorators.length - 1; i >= 0; --i) {
-                var decorator = decorators[i];
-                var decorated = decorator(target, propertyKey, descriptor);
-                if (!IsUndefined(decorated) && !IsNull(decorated)) {
-                    if (!IsObject(decorated))
-                        throw new TypeError();
-                    descriptor = decorated;
-                }
-            }
-            return descriptor;
-        }
-        function GetOrCreateMetadataMap(O, P, Create) {
-            var targetMetadata = Metadata.get(O);
-            if (IsUndefined(targetMetadata)) {
-                if (!Create)
-                    return undefined;
-                targetMetadata = new _Map();
-                Metadata.set(O, targetMetadata);
-            }
-            var metadataMap = targetMetadata.get(P);
-            if (IsUndefined(metadataMap)) {
-                if (!Create)
-                    return undefined;
-                metadataMap = new _Map();
-                targetMetadata.set(P, metadataMap);
-            }
-            return metadataMap;
-        }
-        // 3.1.1.1 OrdinaryHasMetadata(MetadataKey, O, P)
-        // https://rbuckton.github.io/reflect-metadata/#ordinaryhasmetadata
-        function OrdinaryHasMetadata(MetadataKey, O, P) {
-            var hasOwn = OrdinaryHasOwnMetadata(MetadataKey, O, P);
-            if (hasOwn)
-                return true;
-            var parent = OrdinaryGetPrototypeOf(O);
-            if (!IsNull(parent))
-                return OrdinaryHasMetadata(MetadataKey, parent, P);
-            return false;
-        }
-        // 3.1.2.1 OrdinaryHasOwnMetadata(MetadataKey, O, P)
-        // https://rbuckton.github.io/reflect-metadata/#ordinaryhasownmetadata
-        function OrdinaryHasOwnMetadata(MetadataKey, O, P) {
-            var metadataMap = GetOrCreateMetadataMap(O, P, /*Create*/ false);
-            if (IsUndefined(metadataMap))
-                return false;
-            return ToBoolean(metadataMap.has(MetadataKey));
-        }
-        // 3.1.3.1 OrdinaryGetMetadata(MetadataKey, O, P)
-        // https://rbuckton.github.io/reflect-metadata/#ordinarygetmetadata
-        function OrdinaryGetMetadata(MetadataKey, O, P) {
-            var hasOwn = OrdinaryHasOwnMetadata(MetadataKey, O, P);
-            if (hasOwn)
-                return OrdinaryGetOwnMetadata(MetadataKey, O, P);
-            var parent = OrdinaryGetPrototypeOf(O);
-            if (!IsNull(parent))
-                return OrdinaryGetMetadata(MetadataKey, parent, P);
-            return undefined;
-        }
-        // 3.1.4.1 OrdinaryGetOwnMetadata(MetadataKey, O, P)
-        // https://rbuckton.github.io/reflect-metadata/#ordinarygetownmetadata
-        function OrdinaryGetOwnMetadata(MetadataKey, O, P) {
-            var metadataMap = GetOrCreateMetadataMap(O, P, /*Create*/ false);
-            if (IsUndefined(metadataMap))
-                return undefined;
-            return metadataMap.get(MetadataKey);
-        }
-        // 3.1.5.1 OrdinaryDefineOwnMetadata(MetadataKey, MetadataValue, O, P)
-        // https://rbuckton.github.io/reflect-metadata/#ordinarydefineownmetadata
-        function OrdinaryDefineOwnMetadata(MetadataKey, MetadataValue, O, P) {
-            var metadataMap = GetOrCreateMetadataMap(O, P, /*Create*/ true);
-            metadataMap.set(MetadataKey, MetadataValue);
-        }
-        // 3.1.6.1 OrdinaryMetadataKeys(O, P)
-        // https://rbuckton.github.io/reflect-metadata/#ordinarymetadatakeys
-        function OrdinaryMetadataKeys(O, P) {
-            var ownKeys = OrdinaryOwnMetadataKeys(O, P);
-            var parent = OrdinaryGetPrototypeOf(O);
-            if (parent === null)
-                return ownKeys;
-            var parentKeys = OrdinaryMetadataKeys(parent, P);
-            if (parentKeys.length <= 0)
-                return ownKeys;
-            if (ownKeys.length <= 0)
-                return parentKeys;
-            var set = new _Set();
-            var keys = [];
-            for (var _i = 0, ownKeys_1 = ownKeys; _i < ownKeys_1.length; _i++) {
-                var key = ownKeys_1[_i];
-                var hasKey = set.has(key);
-                if (!hasKey) {
-                    set.add(key);
-                    keys.push(key);
-                }
-            }
-            for (var _a = 0, parentKeys_1 = parentKeys; _a < parentKeys_1.length; _a++) {
-                var key = parentKeys_1[_a];
-                var hasKey = set.has(key);
-                if (!hasKey) {
-                    set.add(key);
-                    keys.push(key);
-                }
-            }
-            return keys;
-        }
-        // 3.1.7.1 OrdinaryOwnMetadataKeys(O, P)
-        // https://rbuckton.github.io/reflect-metadata/#ordinaryownmetadatakeys
-        function OrdinaryOwnMetadataKeys(O, P) {
-            var keys = [];
-            var metadataMap = GetOrCreateMetadataMap(O, P, /*Create*/ false);
-            if (IsUndefined(metadataMap))
-                return keys;
-            var keysObj = metadataMap.keys();
-            var iterator = GetIterator(keysObj);
-            var k = 0;
-            while (true) {
-                var next = IteratorStep(iterator);
-                if (!next) {
-                    keys.length = k;
-                    return keys;
-                }
-                var nextValue = IteratorValue(next);
-                try {
-                    keys[k] = nextValue;
-                }
-                catch (e) {
-                    try {
-                        IteratorClose(iterator);
-                    }
-                    finally {
-                        throw e;
-                    }
-                }
-                k++;
-            }
-        }
-        // 6 ECMAScript Data Typ0es and Values
-        // https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values
-        function Type(x) {
-            if (x === null)
-                return 1 /* Null */;
-            switch (typeof x) {
-                case "undefined": return 0 /* Undefined */;
-                case "boolean": return 2 /* Boolean */;
-                case "string": return 3 /* String */;
-                case "symbol": return 4 /* Symbol */;
-                case "number": return 5 /* Number */;
-                case "object": return x === null ? 1 /* Null */ : 6 /* Object */;
-                default: return 6 /* Object */;
-            }
-        }
-        // 6.1.1 The Undefined Type
-        // https://tc39.github.io/ecma262/#sec-ecmascript-language-types-undefined-type
-        function IsUndefined(x) {
-            return x === undefined;
-        }
-        // 6.1.2 The Null Type
-        // https://tc39.github.io/ecma262/#sec-ecmascript-language-types-null-type
-        function IsNull(x) {
-            return x === null;
-        }
-        // 6.1.5 The Symbol Type
-        // https://tc39.github.io/ecma262/#sec-ecmascript-language-types-symbol-type
-        function IsSymbol(x) {
-            return typeof x === "symbol";
-        }
-        // 6.1.7 The Object Type
-        // https://tc39.github.io/ecma262/#sec-object-type
-        function IsObject(x) {
-            return typeof x === "object" ? x !== null : typeof x === "function";
-        }
-        // 7.1 Type Conversion
-        // https://tc39.github.io/ecma262/#sec-type-conversion
-        // 7.1.1 ToPrimitive(input [, PreferredType])
-        // https://tc39.github.io/ecma262/#sec-toprimitive
-        function ToPrimitive(input, PreferredType) {
-            switch (Type(input)) {
-                case 0 /* Undefined */: return input;
-                case 1 /* Null */: return input;
-                case 2 /* Boolean */: return input;
-                case 3 /* String */: return input;
-                case 4 /* Symbol */: return input;
-                case 5 /* Number */: return input;
-            }
-            var hint = PreferredType === 3 /* String */ ? "string" : PreferredType === 5 /* Number */ ? "number" : "default";
-            var exoticToPrim = GetMethod(input, toPrimitiveSymbol);
-            if (exoticToPrim !== undefined) {
-                var result = exoticToPrim.call(input, hint);
-                if (IsObject(result))
-                    throw new TypeError();
-                return result;
-            }
-            return OrdinaryToPrimitive(input, hint === "default" ? "number" : hint);
-        }
-        // 7.1.1.1 OrdinaryToPrimitive(O, hint)
-        // https://tc39.github.io/ecma262/#sec-ordinarytoprimitive
-        function OrdinaryToPrimitive(O, hint) {
-            if (hint === "string") {
-                var toString_1 = O.toString;
-                if (IsCallable(toString_1)) {
-                    var result = toString_1.call(O);
-                    if (!IsObject(result))
-                        return result;
-                }
-                var valueOf = O.valueOf;
-                if (IsCallable(valueOf)) {
-                    var result = valueOf.call(O);
-                    if (!IsObject(result))
-                        return result;
-                }
-            }
-            else {
-                var valueOf = O.valueOf;
-                if (IsCallable(valueOf)) {
-                    var result = valueOf.call(O);
-                    if (!IsObject(result))
-                        return result;
-                }
-                var toString_2 = O.toString;
-                if (IsCallable(toString_2)) {
-                    var result = toString_2.call(O);
-                    if (!IsObject(result))
-                        return result;
-                }
-            }
-            throw new TypeError();
-        }
-        // 7.1.2 ToBoolean(argument)
-        // https://tc39.github.io/ecma262/2016/#sec-toboolean
-        function ToBoolean(argument) {
-            return !!argument;
-        }
-        // 7.1.12 ToString(argument)
-        // https://tc39.github.io/ecma262/#sec-tostring
-        function ToString(argument) {
-            return "" + argument;
-        }
-        // 7.1.14 ToPropertyKey(argument)
-        // https://tc39.github.io/ecma262/#sec-topropertykey
-        function ToPropertyKey(argument) {
-            var key = ToPrimitive(argument, 3 /* String */);
-            if (IsSymbol(key))
-                return key;
-            return ToString(key);
-        }
-        // 7.2 Testing and Comparison Operations
-        // https://tc39.github.io/ecma262/#sec-testing-and-comparison-operations
-        // 7.2.2 IsArray(argument)
-        // https://tc39.github.io/ecma262/#sec-isarray
-        function IsArray(argument) {
-            return Array.isArray
-                ? Array.isArray(argument)
-                : argument instanceof Object
-                    ? argument instanceof Array
-                    : Object.prototype.toString.call(argument) === "[object Array]";
-        }
-        // 7.2.3 IsCallable(argument)
-        // https://tc39.github.io/ecma262/#sec-iscallable
-        function IsCallable(argument) {
-            // NOTE: This is an approximation as we cannot check for [[Call]] internal method.
-            return typeof argument === "function";
-        }
-        // 7.2.4 IsConstructor(argument)
-        // https://tc39.github.io/ecma262/#sec-isconstructor
-        function IsConstructor(argument) {
-            // NOTE: This is an approximation as we cannot check for [[Construct]] internal method.
-            return typeof argument === "function";
-        }
-        // 7.2.7 IsPropertyKey(argument)
-        // https://tc39.github.io/ecma262/#sec-ispropertykey
-        function IsPropertyKey(argument) {
-            switch (Type(argument)) {
-                case 3 /* String */: return true;
-                case 4 /* Symbol */: return true;
-                default: return false;
-            }
-        }
-        // 7.3 Operations on Objects
-        // https://tc39.github.io/ecma262/#sec-operations-on-objects
-        // 7.3.9 GetMethod(V, P)
-        // https://tc39.github.io/ecma262/#sec-getmethod
-        function GetMethod(V, P) {
-            var func = V[P];
-            if (func === undefined || func === null)
-                return undefined;
-            if (!IsCallable(func))
-                throw new TypeError();
-            return func;
-        }
-        // 7.4 Operations on Iterator Objects
-        // https://tc39.github.io/ecma262/#sec-operations-on-iterator-objects
-        function GetIterator(obj) {
-            var method = GetMethod(obj, iteratorSymbol);
-            if (!IsCallable(method))
-                throw new TypeError(); // from Call
-            var iterator = method.call(obj);
-            if (!IsObject(iterator))
-                throw new TypeError();
-            return iterator;
-        }
-        // 7.4.4 IteratorValue(iterResult)
-        // https://tc39.github.io/ecma262/2016/#sec-iteratorvalue
-        function IteratorValue(iterResult) {
-            return iterResult.value;
-        }
-        // 7.4.5 IteratorStep(iterator)
-        // https://tc39.github.io/ecma262/#sec-iteratorstep
-        function IteratorStep(iterator) {
-            var result = iterator.next();
-            return result.done ? false : result;
-        }
-        // 7.4.6 IteratorClose(iterator, completion)
-        // https://tc39.github.io/ecma262/#sec-iteratorclose
-        function IteratorClose(iterator) {
-            var f = iterator["return"];
-            if (f)
-                f.call(iterator);
-        }
-        // 9.1 Ordinary Object Internal Methods and Internal Slots
-        // https://tc39.github.io/ecma262/#sec-ordinary-object-internal-methods-and-internal-slots
-        // 9.1.1.1 OrdinaryGetPrototypeOf(O)
-        // https://tc39.github.io/ecma262/#sec-ordinarygetprototypeof
-        function OrdinaryGetPrototypeOf(O) {
-            var proto = Object.getPrototypeOf(O);
-            if (typeof O !== "function" || O === functionPrototype)
-                return proto;
-            // TypeScript doesn't set __proto__ in ES5, as it's non-standard.
-            // Try to determine the superclass constructor. Compatible implementations
-            // must either set __proto__ on a subclass constructor to the superclass constructor,
-            // or ensure each class has a valid `constructor` property on its prototype that
-            // points back to the constructor.
-            // If this is not the same as Function.[[Prototype]], then this is definately inherited.
-            // This is the case when in ES6 or when using __proto__ in a compatible browser.
-            if (proto !== functionPrototype)
-                return proto;
-            // If the super prototype is Object.prototype, null, or undefined, then we cannot determine the heritage.
-            var prototype = O.prototype;
-            var prototypeProto = prototype && Object.getPrototypeOf(prototype);
-            if (prototypeProto == null || prototypeProto === Object.prototype)
-                return proto;
-            // If the constructor was not a function, then we cannot determine the heritage.
-            var constructor = prototypeProto.constructor;
-            if (typeof constructor !== "function")
-                return proto;
-            // If we have some kind of self-reference, then we cannot determine the heritage.
-            if (constructor === O)
-                return proto;
-            // we have a pretty good guess at the heritage.
-            return constructor;
-        }
-        // naive Map shim
-        function CreateMapPolyfill() {
-            var cacheSentinel = {};
-            var arraySentinel = [];
-            var MapIterator = (function () {
-                function MapIterator(keys, values, selector) {
-                    this._index = 0;
-                    this._keys = keys;
-                    this._values = values;
-                    this._selector = selector;
-                }
-                MapIterator.prototype["@@iterator"] = function () { return this; };
-                MapIterator.prototype[iteratorSymbol] = function () { return this; };
-                MapIterator.prototype.next = function () {
-                    var index = this._index;
-                    if (index >= 0 && index < this._keys.length) {
-                        var result = this._selector(this._keys[index], this._values[index]);
-                        if (index + 1 >= this._keys.length) {
-                            this._index = -1;
-                            this._keys = arraySentinel;
-                            this._values = arraySentinel;
-                        }
-                        else {
-                            this._index++;
-                        }
-                        return { value: result, done: false };
-                    }
-                    return { value: undefined, done: true };
-                };
-                MapIterator.prototype.throw = function (error) {
-                    if (this._index >= 0) {
-                        this._index = -1;
-                        this._keys = arraySentinel;
-                        this._values = arraySentinel;
-                    }
-                    throw error;
-                };
-                MapIterator.prototype.return = function (value) {
-                    if (this._index >= 0) {
-                        this._index = -1;
-                        this._keys = arraySentinel;
-                        this._values = arraySentinel;
-                    }
-                    return { value: value, done: true };
-                };
-                return MapIterator;
-            }());
-            return (function () {
-                function Map() {
-                    this._keys = [];
-                    this._values = [];
-                    this._cacheKey = cacheSentinel;
-                    this._cacheIndex = -2;
-                }
-                Object.defineProperty(Map.prototype, "size", {
-                    get: function () { return this._keys.length; },
-                    enumerable: true,
-                    configurable: true
-                });
-                Map.prototype.has = function (key) { return this._find(key, /*insert*/ false) >= 0; };
-                Map.prototype.get = function (key) {
-                    var index = this._find(key, /*insert*/ false);
-                    return index >= 0 ? this._values[index] : undefined;
-                };
-                Map.prototype.set = function (key, value) {
-                    var index = this._find(key, /*insert*/ true);
-                    this._values[index] = value;
-                    return this;
-                };
-                Map.prototype.delete = function (key) {
-                    var index = this._find(key, /*insert*/ false);
-                    if (index >= 0) {
-                        var size = this._keys.length;
-                        for (var i = index + 1; i < size; i++) {
-                            this._keys[i - 1] = this._keys[i];
-                            this._values[i - 1] = this._values[i];
-                        }
-                        this._keys.length--;
-                        this._values.length--;
-                        if (key === this._cacheKey) {
-                            this._cacheKey = cacheSentinel;
-                            this._cacheIndex = -2;
-                        }
-                        return true;
-                    }
-                    return false;
-                };
-                Map.prototype.clear = function () {
-                    this._keys.length = 0;
-                    this._values.length = 0;
-                    this._cacheKey = cacheSentinel;
-                    this._cacheIndex = -2;
-                };
-                Map.prototype.keys = function () { return new MapIterator(this._keys, this._values, getKey); };
-                Map.prototype.values = function () { return new MapIterator(this._keys, this._values, getValue); };
-                Map.prototype.entries = function () { return new MapIterator(this._keys, this._values, getEntry); };
-                Map.prototype["@@iterator"] = function () { return this.entries(); };
-                Map.prototype[iteratorSymbol] = function () { return this.entries(); };
-                Map.prototype._find = function (key, insert) {
-                    if (this._cacheKey !== key) {
-                        this._cacheIndex = this._keys.indexOf(this._cacheKey = key);
-                    }
-                    if (this._cacheIndex < 0 && insert) {
-                        this._cacheIndex = this._keys.length;
-                        this._keys.push(key);
-                        this._values.push(undefined);
-                    }
-                    return this._cacheIndex;
-                };
-                return Map;
-            }());
-            function getKey(key, _) {
-                return key;
-            }
-            function getValue(_, value) {
-                return value;
-            }
-            function getEntry(key, value) {
-                return [key, value];
-            }
-        }
-        // naive Set shim
-        function CreateSetPolyfill() {
-            return (function () {
-                function Set() {
-                    this._map = new _Map();
-                }
-                Object.defineProperty(Set.prototype, "size", {
-                    get: function () { return this._map.size; },
-                    enumerable: true,
-                    configurable: true
-                });
-                Set.prototype.has = function (value) { return this._map.has(value); };
-                Set.prototype.add = function (value) { return this._map.set(value, value), this; };
-                Set.prototype.delete = function (value) { return this._map.delete(value); };
-                Set.prototype.clear = function () { this._map.clear(); };
-                Set.prototype.keys = function () { return this._map.keys(); };
-                Set.prototype.values = function () { return this._map.values(); };
-                Set.prototype.entries = function () { return this._map.entries(); };
-                Set.prototype["@@iterator"] = function () { return this.keys(); };
-                Set.prototype[iteratorSymbol] = function () { return this.keys(); };
-                return Set;
-            }());
-        }
-        // naive WeakMap shim
-        function CreateWeakMapPolyfill() {
-            var UUID_SIZE = 16;
-            var keys = HashMap.create();
-            var rootKey = CreateUniqueKey();
-            return (function () {
-                function WeakMap() {
-                    this._key = CreateUniqueKey();
-                }
-                WeakMap.prototype.has = function (target) {
-                    var table = GetOrCreateWeakMapTable(target, /*create*/ false);
-                    return table !== undefined ? HashMap.has(table, this._key) : false;
-                };
-                WeakMap.prototype.get = function (target) {
-                    var table = GetOrCreateWeakMapTable(target, /*create*/ false);
-                    return table !== undefined ? HashMap.get(table, this._key) : undefined;
-                };
-                WeakMap.prototype.set = function (target, value) {
-                    var table = GetOrCreateWeakMapTable(target, /*create*/ true);
-                    table[this._key] = value;
-                    return this;
-                };
-                WeakMap.prototype.delete = function (target) {
-                    var table = GetOrCreateWeakMapTable(target, /*create*/ false);
-                    return table !== undefined ? delete table[this._key] : false;
-                };
-                WeakMap.prototype.clear = function () {
-                    // NOTE: not a real clear, just makes the previous data unreachable
-                    this._key = CreateUniqueKey();
-                };
-                return WeakMap;
-            }());
-            function CreateUniqueKey() {
-                var key;
-                do
-                    key = "@@WeakMap@@" + CreateUUID();
-                while (HashMap.has(keys, key));
-                keys[key] = true;
-                return key;
-            }
-            function GetOrCreateWeakMapTable(target, create) {
-                if (!hasOwn.call(target, rootKey)) {
-                    if (!create)
-                        return undefined;
-                    Object.defineProperty(target, rootKey, { value: HashMap.create() });
-                }
-                return target[rootKey];
-            }
-            function FillRandomBytes(buffer, size) {
-                for (var i = 0; i < size; ++i)
-                    buffer[i] = Math.random() * 0xff | 0;
-                return buffer;
-            }
-            function GenRandomBytes(size) {
-                if (typeof Uint8Array === "function") {
-                    if (typeof crypto !== "undefined")
-                        return crypto.getRandomValues(new Uint8Array(size));
-                    if (typeof msCrypto !== "undefined")
-                        return msCrypto.getRandomValues(new Uint8Array(size));
-                    return FillRandomBytes(new Uint8Array(size), size);
-                }
-                return FillRandomBytes(new Array(size), size);
-            }
-            function CreateUUID() {
-                var data = GenRandomBytes(UUID_SIZE);
-                // mark as random - RFC 4122 § 4.4
-                data[6] = data[6] & 0x4f | 0x40;
-                data[8] = data[8] & 0xbf | 0x80;
-                var result = "";
-                for (var offset = 0; offset < UUID_SIZE; ++offset) {
-                    var byte = data[offset];
-                    if (offset === 4 || offset === 6 || offset === 8)
-                        result += "-";
-                    if (byte < 16)
-                        result += "0";
-                    result += byte.toString(16).toLowerCase();
-                }
-                return result;
-            }
-        }
-        // uses a heuristic used by v8 and chakra to force an object into dictionary mode.
-        function MakeDictionary(obj) {
-            obj.__ = undefined;
-            delete obj.__;
-            return obj;
-        }
-    });
-})(Reflect || (Reflect = {}));
-//# sourceMappingURL=Reflect.js.map
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/node_modules/process/browser.js */ "./node_modules/node-libs-browser/node_modules/process/browser.js"), __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
-
-/***/ }),
-
 /***/ "./node_modules/setimmediate/setImmediate.js":
 /*!***************************************************!*\
   !*** ./node_modules/setimmediate/setImmediate.js ***!
@@ -1955,10 +679,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
-/***/ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/CompanionsComponent.vue":
-/*!********************************************************************************************************************************!*\
-  !*** ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/CompanionsComponent.vue ***!
-  \********************************************************************************************************************************/
+/***/ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/debug/AdminComponent.vue":
+/*!*********************************************************************************************************************************!*\
+  !*** ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/debug/AdminComponent.vue ***!
+  \*********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1983,644 +707,76 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var vue_1 = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 var vue_class_component_1 = __webpack_require__(/*! vue-class-component */ "./node_modules/vue-class-component/dist/vue-class-component.common.js");
-var PieAndDonutChartIconComponent_vue_1 = __webpack_require__(/*! ./icon/PieAndDonutChartIconComponent.vue */ "./www/vue/icon/PieAndDonutChartIconComponent.vue");
-var TimeUtil_1 = __webpack_require__(/*! ../ts/utils/TimeUtil */ "./www/ts/utils/TimeUtil.ts");
-var CompanionsComponent = (function (_super) {
-    __extends(CompanionsComponent, _super);
-    function CompanionsComponent() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(CompanionsComponent.prototype, "goalHours", {
-        get: function () {
-            return TimeUtil_1.default.minutesToHours(this.goalMinutes);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    CompanionsComponent = __decorate([
-        vue_class_component_1.default({
-            props: {
-                companionsOnlineCount: Number,
-                achievedGoal: Number,
-                goalMinutes: Number,
-                achievedInNumberOfMinutes: Number,
-                nrWithSameIntention: Number,
-                popularIntention: String,
-                onJoin: Function
-            },
-            components: {
-                PieChart: PieAndDonutChartIconComponent_vue_1.default
-            }
-        })
-    ], CompanionsComponent);
-    return CompanionsComponent;
-}(vue_1.default));
-exports.default = CompanionsComponent;
-
-
-/***/ }),
-
-/***/ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/ConfirmationComponent.vue":
-/*!**********************************************************************************************************************************!*\
-  !*** ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/ConfirmationComponent.vue ***!
-  \**********************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var vue_1 = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-var vue_class_component_1 = __webpack_require__(/*! vue-class-component */ "./node_modules/vue-class-component/dist/vue-class-component.common.js");
-var PieAndDonutChartIconComponent_vue_1 = __webpack_require__(/*! ./icon/PieAndDonutChartIconComponent.vue */ "./www/vue/icon/PieAndDonutChartIconComponent.vue");
-var TimeUtil_1 = __webpack_require__(/*! ../ts/utils/TimeUtil */ "./www/ts/utils/TimeUtil.ts");
-var ConfirmationComponent = (function (_super) {
-    __extends(ConfirmationComponent, _super);
-    function ConfirmationComponent() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(ConfirmationComponent.prototype, "numberOfIntentions", {
-        get: function () {
-            return Object.keys(this.sessionCompanionIntentions).length;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ConfirmationComponent.prototype, "transformedUserTotalContribution", {
-        get: function () {
-            return TimeUtil_1.default.minutesToHoursAndMinutes(this.userContributionMinutes);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ConfirmationComponent.prototype, "transformedSessionLasted", {
-        get: function () {
-            return TimeUtil_1.default.minutesToHoursAndMinutes(this.sessionLastedMinutes);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ConfirmationComponent.prototype, "transformedCollectiveContribution", {
-        get: function () {
-            return TimeUtil_1.default.minutesToHoursAndMinutes(this.collectiveContributionMinutes);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ConfirmationComponent = __decorate([
-        vue_class_component_1.default({
-            props: {
-                discipline: String,
-                intention: String,
-                sessionLastedMinutes: Number,
-                userContributionMinutes: Number,
-                sessionCompanionCount: Number,
-                collectiveContributionMinutes: Number,
-                sessionCompanionIntentions: Object,
-                isInvolved: Boolean,
-                onParticipate: Function,
-                onRestart: Function
-            },
-            components: {
-                PieChart: PieAndDonutChartIconComponent_vue_1.default
-            }
-        })
-    ], ConfirmationComponent);
-    return ConfirmationComponent;
-}(vue_1.default));
-exports.default = ConfirmationComponent;
-
-
-/***/ }),
-
-/***/ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/ContactComponent.vue":
-/*!*****************************************************************************************************************************!*\
-  !*** ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/ContactComponent.vue ***!
-  \*****************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var vue_1 = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-var vue_class_component_1 = __webpack_require__(/*! vue-class-component */ "./node_modules/vue-class-component/dist/vue-class-component.common.js");
-var ContactComponent = (function (_super) {
-    __extends(ContactComponent, _super);
-    function ContactComponent() {
+var Practitioner_1 = __webpack_require__(/*! ../../ts/objects/Practitioner */ "./www/ts/objects/Practitioner.ts");
+var Session_1 = __webpack_require__(/*! ../../ts/objects/Session */ "./www/ts/objects/Session.ts");
+var AdminComponent = (function (_super) {
+    __extends(AdminComponent, _super);
+    function AdminComponent() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.fullName = "";
-        _this.email = "";
-        _this.description = "";
+        _this.addPractitioners = 25;
+        _this.chosenDiscipline = "Random Discipline";
+        _this.chosenIntention = "Random Intention";
         return _this;
     }
-    ContactComponent.prototype.onSubmitContact = function (e) {
-        if (e === void 0) { e = new Event(""); }
-        e.preventDefault();
-        this.onSubmit(this.fullName, this.email, this.description);
-    };
-    ContactComponent.prototype.onClosePamphlet = function (e) {
-        if (e === void 0) { e = new Event(""); }
-        e.preventDefault();
-        this.onClose();
-    };
-    ContactComponent = __decorate([
-        vue_class_component_1.default({
-            props: {
-                isSubmitted: Boolean,
-                onSubmit: Function,
-                onClose: Function
-            },
-            components: {}
-        })
-    ], ContactComponent);
-    return ContactComponent;
-}(vue_1.default));
-exports.default = ContactComponent;
-
-
-/***/ }),
-
-/***/ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/ContributionComponent.vue":
-/*!**********************************************************************************************************************************!*\
-  !*** ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/ContributionComponent.vue ***!
-  \**********************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var vue_1 = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-var vue_class_component_1 = __webpack_require__(/*! vue-class-component */ "./node_modules/vue-class-component/dist/vue-class-component.common.js");
-var Settings_1 = __webpack_require__(/*! ../ts/objects/Settings */ "./www/ts/objects/Settings.ts");
-var ContributionComponent = (function (_super) {
-    __extends(ContributionComponent, _super);
-    function ContributionComponent() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.currentIndex = 0;
-        _this.newIntention = "";
-        _this.newDescription = "";
-        return _this;
-    }
-    ContributionComponent.prototype.mounted = function () {
-        jQuery("#contributionComponent").on("swipeleft", this.scrollLeft);
-        jQuery("#contributionComponent").on("swiperight", this.scrollRight);
-    };
-    ContributionComponent.prototype.getAdditionalClass = function (intentionIndex, pageIndex) {
-        if (intentionIndex < pageIndex) {
-            return "swipeBox--stageLeft";
-        }
-        if (intentionIndex > pageIndex) {
-            return "swipeBox--stageRight";
-        }
-        return "swipeBox--stageCenter";
-    };
-    ContributionComponent.prototype.scrollRight = function () {
-        console.log("WTF");
-        if (this.currentIndex === 0) {
-            return;
-        }
-        this.currentIndex--;
-    };
-    ContributionComponent.prototype.scrollLeft = function () {
-        if (this.currentIndex >= this.intentions.length) {
-            return;
-        }
-        this.currentIndex++;
-    };
-    ContributionComponent.prototype.onSelectIntention = function (intention) {
-        this.onSelect(intention);
-    };
-    ContributionComponent.prototype.onAddIntention = function () {
-        if (this.newIntention.trim().length > 0 && this.newDescription.trim().length > 0) {
-            this.onAdd(new Settings_1.Intention(this.newIntention.trim(), this.newDescription.trim()));
-        }
-    };
-    ContributionComponent.prototype.onSearchIntention = function () {
-        this.onSearch(this.newIntention);
-    };
-    ContributionComponent = __decorate([
-        vue_class_component_1.default({
-            props: {
-                intentions: Array,
-                onSelect: Function,
-                onAdd: Function,
-                onSearch: Function,
-                searchedIntentions: Array
-            },
-            components: {}
-        })
-    ], ContributionComponent);
-    return ContributionComponent;
-}(vue_1.default));
-exports.default = ContributionComponent;
-
-
-/***/ }),
-
-/***/ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/DisciplineComponent.vue":
-/*!********************************************************************************************************************************!*\
-  !*** ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/DisciplineComponent.vue ***!
-  \********************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var vue_1 = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-var vue_class_component_1 = __webpack_require__(/*! vue-class-component */ "./node_modules/vue-class-component/dist/vue-class-component.common.js");
-var DisciplineAndPracticeComponent = (function (_super) {
-    __extends(DisciplineAndPracticeComponent, _super);
-    function DisciplineAndPracticeComponent() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    DisciplineAndPracticeComponent = __decorate([
-        vue_class_component_1.default({
-            props: {
-                disciplines: Array,
-                onSelect: Function
-            },
-            components: {}
-        })
-    ], DisciplineAndPracticeComponent);
-    return DisciplineAndPracticeComponent;
-}(vue_1.default));
-exports.default = DisciplineAndPracticeComponent;
-
-
-/***/ }),
-
-/***/ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/OngoingSessionComponent.vue":
-/*!************************************************************************************************************************************!*\
-  !*** ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/OngoingSessionComponent.vue ***!
-  \************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var vue_1 = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-var vue_class_component_1 = __webpack_require__(/*! vue-class-component */ "./node_modules/vue-class-component/dist/vue-class-component.common.js");
-var SessionList_1 = __webpack_require__(/*! ../ts/objects/SessionList */ "./www/ts/objects/SessionList.ts");
-var OngoingSessionComponent = (function (_super) {
-    __extends(OngoingSessionComponent, _super);
-    function OngoingSessionComponent() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(OngoingSessionComponent.prototype, "sessions", {
+    Object.defineProperty(AdminComponent.prototype, "practitionerKeys", {
         get: function () {
-            return this.mapListWithSessions(this.connectedCompanionsSessions, this.selectedDiscipline, this.selectedIntention);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    OngoingSessionComponent.prototype.mapListWithSessions = function (sessionList, selectedDiscipline, selectedIntention) {
-        return new SessionList_1.SessionList(sessionList)
-            .match(selectedDiscipline, selectedIntention)
-            .sortByMatchPointDescending()
-            .get();
-    };
-    OngoingSessionComponent = __decorate([
-        vue_class_component_1.default({
-            props: {
-                selectedDiscipline: Object,
-                selectedIntention: Object,
-                userGeolocation: Object,
-                connectedCompanionsSessions: Array,
-                onButtonClick: Function
-            },
-            components: {}
-        })
-    ], OngoingSessionComponent);
-    return OngoingSessionComponent;
-}(vue_1.default));
-exports.default = OngoingSessionComponent;
-
-
-/***/ }),
-
-/***/ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/PrepareComponent.vue":
-/*!*****************************************************************************************************************************!*\
-  !*** ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/PrepareComponent.vue ***!
-  \*****************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var vue_1 = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-var vue_class_component_1 = __webpack_require__(/*! vue-class-component */ "./node_modules/vue-class-component/dist/vue-class-component.common.js");
-var vue_property_decorator_1 = __webpack_require__(/*! vue-property-decorator */ "./node_modules/vue-property-decorator/lib/vue-property-decorator.js");
-var PrepareComponent = (function (_super) {
-    __extends(PrepareComponent, _super);
-    function PrepareComponent() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.canSeeButton = false;
-        _this.checks = [false, false, false];
-        return _this;
-    }
-    PrepareComponent.prototype.onDisplayChange = function (value) {
-        var _this = this;
-        if (value) {
-            this.canSeeButton = false;
-            this.checks[0] = false;
-            this.checks[1] = false;
-            this.checks[2] = false;
-            var i_1 = 0;
-            var interval_1 = setInterval(function () {
-                _this.checks.splice(i_1, 1, true);
-                i_1++;
-                if (i_1 === _this.checks.length) {
-                    clearInterval(interval_1);
-                    _this.canSeeButton = true;
-                }
-            }, this.intervalMilliSeconds);
-        }
-    };
-    __decorate([
-        vue_property_decorator_1.Watch("isDisplayed")
-    ], PrepareComponent.prototype, "onDisplayChange", null);
-    PrepareComponent = __decorate([
-        vue_class_component_1.default({
-            props: {
-                onButtonClick: Function,
-                intervalMilliSeconds: Number,
-                userCount: Number,
-                isDisplayed: Boolean
-            },
-            components: {}
-        })
-    ], PrepareComponent);
-    return PrepareComponent;
-}(vue_1.default));
-exports.default = PrepareComponent;
-
-
-/***/ }),
-
-/***/ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue":
-/*!***********************************************************************************************************************************************!*\
-  !*** ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue ***!
-  \***********************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var vue_1 = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-var vue_class_component_1 = __webpack_require__(/*! vue-class-component */ "./node_modules/vue-class-component/dist/vue-class-component.common.js");
-var TimeUtil_1 = __webpack_require__(/*! ../../ts/utils/TimeUtil */ "./www/ts/utils/TimeUtil.ts");
-var PieAndDonutChartIconComponent = (function (_super) {
-    __extends(PieAndDonutChartIconComponent, _super);
-    function PieAndDonutChartIconComponent() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(PieAndDonutChartIconComponent.prototype, "slices", {
-        get: function () {
-            var _this = this;
-            var cumulativePercent = 0;
-            var percentages = this.getTheRightPercentage();
-            return percentages.map(function (value, index) {
-                var start = _this.getCoordinatesForPercent(cumulativePercent);
-                cumulativePercent += value;
-                var end = _this.getCoordinatesForPercent(cumulativePercent);
-                var largeArcFlag = value > .5 ? 1 : 0;
-                var pathData = "M " + start.x.toPrecision(10) + " " + start.y.toPrecision(10) + " A 1 1 0 " + largeArcFlag + " 1 " + end.x.toPrecision(10) + " " + end.y.toPrecision(10) + " L 0 0";
-                return {
-                    path: pathData,
-                    color: _this.decideColor(index + 1)
-                };
+            var practitioner = new Practitioner_1.Practitioner("", "", [], "", "", "");
+            return Object.keys(practitioner).filter(function (it) {
+                return (it !== "sessions");
             });
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(PieAndDonutChartIconComponent.prototype, "isDonutChart", {
+    Object.defineProperty(AdminComponent.prototype, "sessionKeys", {
         get: function () {
-            return this.achievedGoal !== null
-                && this.goal !== null
-                && this.achievedInNumberOfMinutes !== null;
+            var session = new Session_1.default({
+                geolocation: null,
+                discipline: "D",
+                intention: "I",
+                startTime: "",
+                endTime: ""
+            });
+            return Object.keys(session).filter(function (it) {
+                return (it !== "points");
+            });
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(PieAndDonutChartIconComponent.prototype, "reachedInHours", {
-        get: function () {
-            if (this.achievedInNumberOfMinutes) {
-                return TimeUtil_1.default.minutesToHours(this.achievedInNumberOfMinutes) + " hours";
-            }
-            return "";
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(PieAndDonutChartIconComponent.prototype, "achievedGoalInHours", {
-        get: function () {
-            if (this.achievedGoal) {
-                return TimeUtil_1.default.minutesToHours(this.achievedGoal) + " h";
-            }
-            return "";
-        },
-        enumerable: true,
-        configurable: true
-    });
-    PieAndDonutChartIconComponent.prototype.getTheRightPercentage = function () {
-        if (this.isDonutChart) {
-            return this.convertGoalToPercentageArray(this.goal, this.achievedGoal);
-        }
-        else {
-            return this.convertObjectToOrderedPercentageArray(this.intentions);
-        }
+    AdminComponent.prototype.isSessionNotDoneAndLastInLine = function (practitioner, session) {
+        var length = practitioner.sessions.length - 1;
+        var isLastSession = practitioner.sessions[length].startTime === session.startTime;
+        var isSessionNotDone = session.endTime === null;
+        return isSessionNotDone && isLastSession;
     };
-    PieAndDonutChartIconComponent.prototype.convertObjectToOrderedPercentageArray = function (object) {
-        var total = 0;
-        var objectKeys = Object.keys(object);
-        objectKeys.forEach(function (key) {
-            total += object[key];
-        });
-        return objectKeys.map(function (key) {
-            return object[key] / total;
-        }).sort(this.compare);
+    AdminComponent.prototype.isGeneratedPractitioner = function (practitioner) {
+        return practitioner.description === "Generated Practitioner";
     };
-    PieAndDonutChartIconComponent.prototype.convertGoalToPercentageArray = function (goal, achievedGoal) {
-        var percentageAchieved = achievedGoal / goal;
-        var percentageLeft = 1 - percentageAchieved;
-        return [percentageAchieved, percentageLeft];
+    AdminComponent.prototype.toReadable = function (geo) {
+        return geo.latitude + " / " + geo.longitude;
     };
-    PieAndDonutChartIconComponent.prototype.getCoordinatesForPercent = function (percent) {
-        var x = Math.cos(2 * Math.PI * percent);
-        var y = Math.sin(2 * Math.PI * percent);
-        return { x: x, y: y };
+    AdminComponent.prototype.addSessionToPractitioner = function (practitioner) {
+        this.addSession(practitioner, this.chosenDiscipline, this.chosenIntention);
     };
-    PieAndDonutChartIconComponent.prototype.compare = function (a, b) {
-        if (a > b) {
-            return -1;
-        }
-        if (a < b) {
-            return 1;
-        }
-        return 0;
+    AdminComponent.prototype.generate = function () {
+        this.generatePractitioners(this.addPractitioners);
     };
-    PieAndDonutChartIconComponent.prototype.decideColor = function (index) {
-        if (this.isDonutChart) {
-            if (index == 2) {
-                return 'roundChart--color-empty';
-            }
-            return 'roundChart--color' + index;
-        }
-        else {
-            return 'roundChart--color' + index;
-        }
-    };
-    PieAndDonutChartIconComponent = __decorate([
+    AdminComponent = __decorate([
         vue_class_component_1.default({
             props: {
-                intentions: {
-                    type: Object,
-                    required: false,
-                    default: function () {
-                        return {};
-                    }
-                },
-                achievedGoal: {
-                    type: Number || null,
-                    required: false,
-                    default: null
-                },
-                goal: {
-                    type: Number || null,
-                    required: false,
-                    default: null
-                },
-                achievedInNumberOfMinutes: {
-                    type: Number || null,
-                    required: false,
-                    default: null
-                }
-            },
-            components: {}
+                disciplines: Array,
+                intentions: Array,
+                practitioners: Array,
+                addSession: Function,
+                generatePractitioners: Function,
+                endSession: Function
+            }
         })
-    ], PieAndDonutChartIconComponent);
-    return PieAndDonutChartIconComponent;
+    ], AdminComponent);
+    return AdminComponent;
 }(vue_1.default));
-exports.default = PieAndDonutChartIconComponent;
+exports.default = AdminComponent;
 
 
 /***/ }),
@@ -2983,10 +1139,10 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-0e1797ce\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/ContributionComponent.vue":
-/*!***********************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-0e1797ce","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/ContributionComponent.vue ***!
-  \***********************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-9b4e4d8e\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/debug/AdminComponent.vue":
+/*!**********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-9b4e4d8e","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/debug/AdminComponent.vue ***!
+  \**********************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2998,1309 +1154,427 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "backgroundWhite height",
-      attrs: { id: "contributionComponent" }
-    },
-    [
-      _c(
-        "div",
-        { staticClass: "swipeBox" },
-        [
-          _vm._l(_vm.intentions, function(intention, index) {
-            return _c(
-              "div",
-              {
-                staticClass:
-                  "alignCenter swipeBox__item swipeBox__item--transition",
-                class: _vm.getAdditionalClass(index, _vm.currentIndex)
-              },
-              [
-                _c("div", {
-                  staticClass: "iconBackground circle iconMargin",
-                  class: ["iconBackground--" + intention.title]
-                }),
-                _vm._v(" "),
-                _c(
-                  "h2",
-                  {
-                    staticClass:
-                      "headline alignCenter bold black intentionTitle"
-                  },
-                  [_vm._v(_vm._s(intention.title))]
-                ),
-                _vm._v(" "),
-                _c(
-                  "p",
-                  {
-                    staticClass:
-                      "smallText alignJustify black intentionDescription"
-                  },
-                  [_vm._v(_vm._s(intention.description))]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "button violet borderViolet",
-                    on: {
-                      click: function($event) {
-                        _vm.onSelectIntention(intention)
-                      }
-                    }
-                  },
-                  [_vm._v("Select intention")]
-                )
-              ]
-            )
-          }),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "alignCenter swipeBox__item swipeBox__item--transition",
-              class: _vm.getAdditionalClass(
-                _vm.intentions.length,
-                _vm.currentIndex
-              )
-            },
-            [
-              _c("div", { staticClass: "backgroundViolet circle iconMargin" }),
-              _vm._v(" "),
-              _c("div", { staticClass: "searchBox" }, [
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "card border border-success" }, [
+        _c("div", { staticClass: "card-header" }, [
+          _vm._v("\n                Generate practitioners\n            ")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "container" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col" }, [
                 _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.newIntention,
-                      expression: "newIntention"
+                      value: _vm.addPractitioners,
+                      expression: "addPractitioners"
                     }
                   ],
-                  staticClass:
-                    "mediumText bold black alignCenter backgroundLightYellow searchBox__titleInput",
-                  attrs: { type: "text", placeholder: "Add intention" },
-                  domProps: { value: _vm.newIntention },
+                  staticClass: "slider",
+                  attrs: { type: "range", min: "1", max: "50", id: "myRange" },
+                  domProps: { value: _vm.addPractitioners },
                   on: {
-                    keyup: _vm.onSearchIntention,
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.newIntention = $event.target.value
+                    __r: function($event) {
+                      _vm.addPractitioners = $event.target.value
                     }
                   }
-                }),
-                _vm._v(" "),
-                _vm.searchedIntentions.length > 0
-                  ? _c(
-                      "div",
-                      { staticClass: "backgroundWhite searchBox__result" },
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col" }, [
+                _c(
+                  "p",
+                  { staticClass: "card-text text-center font-weight-bold" },
+                  [_vm._v(" " + _vm._s(_vm.addPractitioners) + " ")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-success",
+                    attrs: { type: "button" },
+                    on: { click: _vm.generate }
+                  },
+                  [_vm._v("Add")]
+                )
+              ])
+            ])
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "card border border-primary" }, [
+        _c("div", { staticClass: "card-header" }, [
+          _vm._v("\n                List of practitioners\n            ")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("table", { staticClass: "table table-responsive-md" }, [
+            _c("thead", { staticClass: "thead-dark" }, [
+              _c(
+                "tr",
+                _vm._l(_vm.practitionerKeys, function(key) {
+                  return _c("th", [_vm._v(_vm._s(key))])
+                })
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              [
+                _vm._l(_vm.practitioners, function(practitioner, index) {
+                  return [
+                    _c(
+                      "tr",
+                      {
+                        staticClass: "accordion-toggle",
+                        class: {
+                          "table-active": _vm.isGeneratedPractitioner(
+                            practitioner
+                          ),
+                          "table-primary": !_vm.isGeneratedPractitioner(
+                            practitioner
+                          )
+                        },
+                        attrs: {
+                          "data-toggle": "collapse",
+                          "data-target": "#demo" + index
+                        }
+                      },
+                      [
+                        _c("td", [_vm._v(_vm._s(practitioner._id))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(practitioner.created))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(practitioner.fullName))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(practitioner.email))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(practitioner.description))])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "tr",
+                      {
+                        class: {
+                          "table-active": _vm.isGeneratedPractitioner(
+                            practitioner
+                          )
+                        }
+                      },
                       [
                         _c(
-                          "div",
+                          "td",
                           {
-                            staticClass:
-                              "xSmallText bold alignLeft searchBox__resultTitle"
+                            staticClass: "hiddenRow",
+                            attrs: { colspan: "12" }
                           },
-                          [_vm._v("Did you mean...")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "ul",
-                          { staticClass: "searchBox__resultList" },
-                          _vm._l(_vm.searchedIntentions, function(intention) {
-                            return _c(
-                              "li",
+                          [
+                            _c(
+                              "div",
                               {
-                                staticClass:
-                                  "mediumText backgroundWhite searchBox__resultItem pointer",
-                                on: {
-                                  click: function($event) {
-                                    _vm.onSelectIntention(intention)
-                                  }
-                                }
+                                staticClass: "accordian-body collapse ",
+                                attrs: { id: "demo" + index }
                               },
                               [
-                                _vm._v(
-                                  _vm._s(intention.title) +
-                                    "\n                        "
+                                _c(
+                                  "table",
+                                  { staticClass: "table table-striped " },
+                                  [
+                                    _c("thead", [
+                                      _c(
+                                        "tr",
+                                        [
+                                          _vm._l(_vm.sessionKeys, function(
+                                            key
+                                          ) {
+                                            return _c("th", [
+                                              _vm._v(_vm._s(key))
+                                            ])
+                                          }),
+                                          _vm._v(" "),
+                                          _c("td", [_vm._v(" ")])
+                                        ],
+                                        2
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "tbody",
+                                      [
+                                        _vm._l(practitioner.sessions, function(
+                                          session
+                                        ) {
+                                          return _c("tr", [
+                                            _c("td", [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.toReadable(
+                                                    session.geolocation
+                                                  )
+                                                )
+                                              )
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(_vm._s(session.discipline))
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(_vm._s(session.intention))
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(_vm._s(session.startTime))
+                                            ]),
+                                            _vm._v(" "),
+                                            _vm.isSessionNotDoneAndLastInLine(
+                                              practitioner,
+                                              session
+                                            )
+                                              ? _c("td", [
+                                                  _c(
+                                                    "button",
+                                                    {
+                                                      staticClass:
+                                                        "btn btn-warning",
+                                                      attrs: { type: "button" },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          _vm.endSession(
+                                                            practitioner
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [_vm._v("End")]
+                                                  )
+                                                ])
+                                              : _c("td", [
+                                                  _vm._v(
+                                                    _vm._s(session.endTime)
+                                                  )
+                                                ]),
+                                            _vm._v(" "),
+                                            _c("td", [_vm._v(" ")])
+                                          ])
+                                        }),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", [_vm._v(" ")]),
+                                          _vm._v(" "),
+                                          _c("td", [_vm._v(" ")]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c(
+                                              "select",
+                                              {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.chosenDiscipline,
+                                                    expression:
+                                                      "chosenDiscipline"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "custom-select custom-select-s",
+                                                on: {
+                                                  change: function($event) {
+                                                    var $$selectedVal = Array.prototype.filter
+                                                      .call(
+                                                        $event.target.options,
+                                                        function(o) {
+                                                          return o.selected
+                                                        }
+                                                      )
+                                                      .map(function(o) {
+                                                        var val =
+                                                          "_value" in o
+                                                            ? o._value
+                                                            : o.value
+                                                        return val
+                                                      })
+                                                    _vm.chosenDiscipline = $event
+                                                      .target.multiple
+                                                      ? $$selectedVal
+                                                      : $$selectedVal[0]
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c(
+                                                  "option",
+                                                  { attrs: { selected: "" } },
+                                                  [_vm._v("Random Discipline")]
+                                                ),
+                                                _vm._v(" "),
+                                                _vm._l(
+                                                  _vm.disciplines,
+                                                  function(discipline) {
+                                                    return _c("option", [
+                                                      _vm._v(
+                                                        _vm._s(discipline.title)
+                                                      )
+                                                    ])
+                                                  }
+                                                )
+                                              ],
+                                              2
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c(
+                                              "select",
+                                              {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.chosenIntention,
+                                                    expression:
+                                                      "chosenIntention"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "custom-select custom-select-s",
+                                                on: {
+                                                  change: function($event) {
+                                                    var $$selectedVal = Array.prototype.filter
+                                                      .call(
+                                                        $event.target.options,
+                                                        function(o) {
+                                                          return o.selected
+                                                        }
+                                                      )
+                                                      .map(function(o) {
+                                                        var val =
+                                                          "_value" in o
+                                                            ? o._value
+                                                            : o.value
+                                                        return val
+                                                      })
+                                                    _vm.chosenIntention = $event
+                                                      .target.multiple
+                                                      ? $$selectedVal
+                                                      : $$selectedVal[0]
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c(
+                                                  "option",
+                                                  { attrs: { selected: "" } },
+                                                  [_vm._v("Random Intention")]
+                                                ),
+                                                _vm._v(" "),
+                                                _vm._l(_vm.intentions, function(
+                                                  intention
+                                                ) {
+                                                  return _c("option", [
+                                                    _vm._v(
+                                                      _vm._s(intention.title)
+                                                    )
+                                                  ])
+                                                })
+                                              ],
+                                              2
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [_vm._v(" ")]),
+                                          _vm._v(" "),
+                                          _c("td", [_vm._v(" ")]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c(
+                                              "button",
+                                              {
+                                                staticClass: "btn btn-primary",
+                                                attrs: { type: "button" },
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.addSessionToPractitioner(
+                                                      practitioner
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [_vm._v("Add new")]
+                                            )
+                                          ])
+                                        ])
+                                      ],
+                                      2
+                                    )
+                                  ]
                                 )
                               ]
                             )
-                          })
+                          ]
                         )
                       ]
                     )
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.newDescription,
-                    expression: "newDescription"
-                  }
-                ],
-                staticClass:
-                  "mediumText backgroundLightYellow alignLeft black bold intentionDescriptionInput",
-                attrs: {
-                  type: "text",
-                  placeholder: "Describe your intention here"
-                },
-                domProps: { value: _vm.newDescription },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.newDescription = $event.target.value
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "button orange borderOrange",
-                  on: { click: _vm.onAddIntention }
-                },
-                [_vm._v("Add intention")]
-              )
-            ]
-          )
-        ],
-        2
-      )
-    ]
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-
-if (false) {}
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3312cc56\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue":
-/*!************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-3312cc56","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue ***!
-  \************************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "circle container" }, [
-    _c(
-      "svg",
-      { staticClass: "svg", attrs: { viewBox: "-1 -1 2 2" } },
-      _vm._l(_vm.slices, function(slice) {
-        return _c("path", { class: slice.color, attrs: { d: slice.path } })
-      })
-    ),
-    _vm._v(" "),
-    _vm.isDonutChart
-      ? _c("div", { staticClass: "centerSpace backgroundWhite" }, [
-          _c(
-            "div",
-            {
-              staticClass:
-                "circle__content circle__content--main roundChart__centerText roundChart__centerText--main"
-            },
-            [_vm._v(_vm._s(_vm.achievedGoalInHours))]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "circle__content circle__content--sub roundChart__centerText roundChart__centerText--sub"
-            },
-            [_vm._v("reached in " + _vm._s(_vm.reachedInHours))]
-          )
-        ])
-      : _vm._e()
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-
-if (false) {}
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-34330ed2\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/CompanionsComponent.vue":
-/*!*********************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-34330ed2","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/CompanionsComponent.vue ***!
-  \*********************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "wrapper" }, [
-      _c("div", { staticClass: "container maxWidth container--left" }, [
-        _c("div", { staticClass: "circle white backgroundBlue" }, [
-          _c("div", { staticClass: "circle__content circle__content--main" }, [
-            _vm._v(_vm._s(_vm.companionsOnlineCount))
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "circle__content circle__content--sub" }, [
-            _vm._v("companions online")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "smallText alignCenter marginTop" }, [
-          _vm._v("Current activity")
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "container maxWidth container--right" },
-        [
-          _c("pie-chart", {
-            attrs: {
-              "achieved-goal": _vm.achievedGoal,
-              goal: _vm.goalMinutes,
-              "achieved-in-number-of-minutes": _vm.achievedInNumberOfMinutes
-            }
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "smallText alignCenter marginTop" }, [
-            _vm._v("Goal: "),
-            _c("span", { staticClass: "bold" }, [
-              _vm._v(_vm._s(_vm.goalHours) + " h")
-            ])
-          ])
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "container maxWidth container--left" }, [
-        _c("div", { staticClass: "circle white backgroundRed" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "smallText alignCenter marginTop" }, [
-          _c("div", { staticClass: "bold" }, [_vm._v("Trend")]),
-          _vm._v(" "),
-          _c("div", [
-            _c("span", { staticClass: "bold" }, [
-              _vm._v(_vm._s(_vm.nrWithSameIntention))
-            ]),
-            _vm._v(
-              " people have practiced with the shared\n                    intention of\n                    "
-            ),
-            _c("span", { staticClass: "bold" }, [
-              _vm._v(_vm._s(_vm.popularIntention))
-            ])
+                  ]
+                })
+              ],
+              2
+            )
           ])
         ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "container container--center" }, [
-        _c(
-          "button",
-          {
-            staticClass: "button borderBlack black",
-            on: { click: _vm.onJoin }
-          },
-          [_vm._v("Join companions")]
-        )
       ])
     ])
   ])
 }
-var staticRenderFns = []
-render._withStripped = true
-
-if (false) {}
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3df8586e\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/ConfirmationComponent.vue":
-/*!***********************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-3df8586e","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/ConfirmationComponent.vue ***!
-  \***********************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "wrapper" }, [
-      _c("h2", { staticClass: "headline alignCenter" }, [
-        _vm._v("Your contribution")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "container maxWidth" }, [
-        _c("div", { staticClass: "circle white backgroundRed" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "smallText alignCenter marginTop" }, [
-          _c("span", { staticClass: "bold" }, [_vm._v(_vm._s(_vm.discipline))]),
-          _vm._v(" with the intention of\n                "),
-          _c("span", { staticClass: "bold" }, [_vm._v(_vm._s(_vm.intention))])
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "container container--row container--alignBottom" },
-        [
-          _c(
-            "div",
-            {
-              staticClass:
-                "container__column container__column--first smallText alignCenter marginTop"
-            },
-            [
-              _c("div", [_vm._v("Session lasted")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "textLarger bold" }, [
-                _vm._v(_vm._s(_vm.transformedSessionLasted))
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "container__column container__column--second smallText alignCenter marginTop"
-            },
-            [
-              _c("div", [_vm._v("Total contribution")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "textLarger bold" }, [
-                _vm._v(_vm._s(_vm.transformedUserTotalContribution))
-              ])
-            ]
-          )
-        ]
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "wrapper" }, [
-      _c("h2", { staticClass: "headline alignCenter" }, [
-        _vm._v("Your session")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "container container--row" }, [
-        _c("div", { staticClass: "container__column" }, [
-          _c("div", { staticClass: "circle white backgroundGreen" }, [
-            _c(
-              "div",
-              { staticClass: "circle__content circle__content--main" },
-              [_vm._v(_vm._s(_vm.sessionCompanionCount))]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "circle__content circle__content--sub" }, [
-              _vm._v("companions online")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "smallText alignCenter marginTop" }, [
-            _vm._v("During your session")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "container__column" }, [
-          _c("div", { staticClass: "smallText alignCenter marginTop" }, [
-            _c("div", [_vm._v("Collective contribution")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "textLarger bold" }, [
-              _vm._v(_vm._s(_vm.transformedCollectiveContribution))
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.numberOfIntentions > 0,
-              expression: "numberOfIntentions > 0"
-            }
-          ],
-          staticClass: "container container--row"
-        },
-        [
-          _c(
-            "div",
-            { staticClass: "container__column container__column--second" },
-            [
-              _c("pie-chart", {
-                attrs: { intentions: _vm.sessionCompanionIntentions }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "container__column container__column--first maxWidth smallText alignCenter marginTop"
-            },
-            [
-              _c("span", { staticClass: "bold alignRight" }, [
-                _vm._v(_vm._s(_vm.numberOfIntentions))
-              ]),
-              _vm._v("\n                intentions"),
-              _c("br"),
-              _vm._v("\n                in your session\n            ")
-            ]
-          )
-        ]
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "wrapper" }, [
-      !_vm.isInvolved
-        ? _c(
-            "button",
-            {
-              staticClass: "button borderRed red",
-              on: { click: _vm.onParticipate }
-            },
-            [_vm._v("\n            Participate in Agartha\n        ")]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "button borderBlack black",
-          on: { click: _vm.onRestart }
-        },
-        [_vm._v("\n            Restart\n        ")]
-      )
-    ])
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-
-if (false) {}
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-4aa65ce3\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/OngoingSessionComponent.vue":
-/*!*************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-4aa65ce3","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/OngoingSessionComponent.vue ***!
-  \*************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "black" }, [
-    _c("div", {
-      staticClass: "visualization",
-      attrs: { id: "visualizationContainer" }
-    }),
-    _vm._v(" "),
-    _c("div", { staticClass: "headline bold borderBlue alignCenter border" }, [
-      _vm._v("\n        " + _vm._s(_vm.sessions.length) + "\n    ")
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "smallText alignCenter" }, [
-      _vm._v("\n        Companions connected in your session\n    ")
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "alignCenter" }, [
-      _c(
-        "button",
-        {
-          staticClass: "button borderBlack black",
-          on: { click: _vm.onButtonClick }
-        },
-        [_vm._v("End Practice")]
-      )
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "companionSession" },
-      _vm._l(_vm.sessions, function(session) {
-        return _c("ul", { staticClass: "list" }, [
-          _c("li", { staticClass: "smallText" }, [
-            _c("span", { staticClass: "bold" }, [_vm._v("Discipline:")]),
-            _vm._v(" " + _vm._s(session.discipline))
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "smallText" }, [
-            _c("span", { staticClass: "bold" }, [_vm._v("Intention:")]),
-            _vm._v(" " + _vm._s(session.intention))
-          ]),
-          _vm._v(" "),
-          session.points
-            ? _c("li", { staticClass: "smallText" }, [
-                _c("span", { staticClass: "bold" }, [_vm._v("MatchPoints:")]),
-                _vm._v(" " + _vm._s(session.points))
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.userGeolocation && session.geolocation
-            ? _c("li", { staticClass: "smallText" }, [
-                _c("span", { staticClass: "bold" }, [_vm._v("Distance km:")]),
-                _vm._v(
-                  " " + _vm._s(session.distanceAsString(_vm.userGeolocation))
-                )
-              ])
-            : _vm._e()
-        ])
-      })
-    )
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-
-if (false) {}
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-53887aa4\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/DisciplineComponent.vue":
-/*!*********************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-53887aa4","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/DisciplineComponent.vue ***!
-  \*********************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "backgroundWhite" }, [
-    _c(
-      "ul",
-      { staticClass: "blankList" },
-      _vm._l(_vm.disciplines, function(discipline, index) {
-        return _c(
-          "li",
-          {
-            key: index,
-            staticClass:
-              "mediumText backgroundWhite blankList__item practiceOption pointer",
-            attrs: { index: index },
-            on: {
-              click: function($event) {
-                _vm.onSelect(discipline)
-              }
-            }
-          },
-          [_vm._v("\n            " + _vm._s(discipline.title) + "\n        ")]
-        )
-      })
-    )
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-
-if (false) {}
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-b8f38e76\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/PrepareComponent.vue":
-/*!******************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-b8f38e76","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/PrepareComponent.vue ***!
-  \******************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { attrs: { id: "prepareComponent" } }, [
-    _c("div", { staticClass: "container" }, [
-      _c("dl", { staticClass: "preparationList maxWidth" }, [
-        _c(
-          "dt",
-          { staticClass: "headline bold black preparationList__title" },
-          [
-            _c(
-              "svg",
-              {
-                staticClass: "fillGreen check dim--animate",
-                class: { "dim--hide": !_vm.checks[0] },
-                attrs: {
-                  xmlns: "http://www.w3.org/2000/svg",
-                  width: "24",
-                  height: "24",
-                  fill: "none",
-                  viewBox: "0 0 24 24"
-                }
-              },
-              [
-                _c("path", {
-                  attrs: {
-                    d:
-                      "M10 23L0 11l10 4.3c2.1-4 7.9-12 13.8-13.3C20.6 3 13.3 16.3 10 23z"
-                  }
-                })
-              ]
-            ),
-            _vm._v("\n                Connecting\n            ")
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "dd",
-          {
-            staticClass:
-              "smallText black preparationList__description dim--animate",
-            class: { "dim--hide": !_vm.checks[0] }
-          },
-          [
-            _vm._v(
-              "\n                Found " +
-                _vm._s(_vm.userCount) +
-                " simultaneous sessions\n            "
-            )
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "dt",
-          {
-            staticClass:
-              "headline bold black preparationList__title dim--animate",
-            class: { dim: !_vm.checks[0] }
-          },
-          [
-            _c(
-              "svg",
-              {
-                staticClass: "fillGreen check dim--animate",
-                class: { "dim--hide": !_vm.checks[1] },
-                attrs: {
-                  xmlns: "http://www.w3.org/2000/svg",
-                  width: "24",
-                  height: "24",
-                  fill: "none",
-                  viewBox: "0 0 24 24"
-                }
-              },
-              [
-                _c("path", {
-                  attrs: {
-                    d:
-                      "M10 23L0 11l10 4.3c2.1-4 7.9-12 13.8-13.3C20.6 3 13.3 16.3 10 23z"
-                  }
-                })
-              ]
-            ),
-            _vm._v("\n                Visualizing\n            ")
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "dd",
-          {
-            staticClass:
-              "smallText black preparationList__description dim--animate",
-            class: { "dim--hide": !_vm.checks[1] }
-          },
-          [
-            _vm._v(
-              "\n                Adding your contribution to visualization\n            "
-            )
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "dt",
-          {
-            staticClass:
-              "headline bold black preparationList__title dim--animate",
-            class: { dim: !_vm.checks[1] }
-          },
-          [
-            _c(
-              "svg",
-              {
-                staticClass: "fillGreen check dim--animate",
-                class: { "dim--hide": !_vm.checks[2] },
-                attrs: {
-                  xmlns: "http://www.w3.org/2000/svg",
-                  width: "24",
-                  height: "24",
-                  fill: "none",
-                  viewBox: "0 0 24 24"
-                }
-              },
-              [
-                _c("path", {
-                  attrs: {
-                    d:
-                      "M10 23L0 11l10 4.3c2.1-4 7.9-12 13.8-13.3C20.6 3 13.3 16.3 10 23z"
-                  }
-                })
-              ]
-            ),
-            _vm._v("\n                Synchronizing\n            ")
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "dd",
-          {
-            staticClass:
-              "smallText black preparationList__description dim--animate",
-            class: { "dim--hide": !_vm.checks[2] }
-          },
-          [_vm._v("\n                Finding your companions\n            ")]
-        )
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("h5", { staticClass: "card-title" }, [
+        _vm._v("Slide to choose how many practitioner that should be generated")
       ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "container" }, [
-      _c(
-        "button",
-        {
-          staticClass: "button borderBlack black dim--animate",
-          class: { dim: !_vm.canSeeButton, pointer: _vm.canSeeButton },
-          attrs: { disabled: !_vm.canSeeButton },
-          on: { click: _vm.onButtonClick }
-        },
-        [_vm._v("Start Practice\n        ")]
-      )
     ])
-  ])
-}
-var staticRenderFns = []
+  }
+]
 render._withStripped = true
 
 if (false) {}
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-c9899b68\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/ContactComponent.vue":
-/*!******************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-c9899b68","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/ContactComponent.vue ***!
-  \******************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "backgroundWhite" }, [
-    !_vm.isSubmitted
-      ? _c("div", [
-          _c("form", [
-            _c("div", { staticClass: "row" }, [
-              _c(
-                "label",
-                {
-                  staticClass: "smallText italic",
-                  attrs: { for: "firstname" }
-                },
-                [_vm._v("Full name:")]
-              ),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.fullName,
-                    expression: "fullName"
-                  }
-                ],
-                staticClass: "textInput mediumText",
-                attrs: { type: "text", id: "firstname" },
-                domProps: { value: _vm.fullName },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.fullName = $event.target.value
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c(
-                "label",
-                { staticClass: "smallText italic", attrs: { for: "email" } },
-                [_vm._v("Email:")]
-              ),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.email,
-                    expression: "email"
-                  }
-                ],
-                staticClass: "textInput mediumText",
-                attrs: { type: "text", id: "email" },
-                domProps: { value: _vm.email },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.email = $event.target.value
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c(
-                "label",
-                {
-                  staticClass: "smallText italic",
-                  attrs: { for: "description" }
-                },
-                [_vm._v("Short description of you:")]
-              ),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.description,
-                    expression: "description"
-                  }
-                ],
-                staticClass: "textInput mediumText",
-                attrs: { type: "text", id: "description" },
-                domProps: { value: _vm.description },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.description = $event.target.value
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "alignCenter" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "button borderGreen green",
-                  on: { click: _vm.onSubmitContact }
-                },
-                [_vm._v("Submit")]
-              )
-            ])
-          ])
-        ])
-      : _c("div", [
-          _c("div", { staticClass: "feedback" }, [
-            _c("div", { staticClass: "circle gradientGreen" }, [
-              _c(
-                "svg",
-                {
-                  staticClass: "check fillWhite",
-                  attrs: {
-                    xmlns: "http://www.w3.org/2000/svg",
-                    width: "24",
-                    height: "24",
-                    fill: "none",
-                    viewBox: "0 0 24 24"
-                  }
-                },
-                [
-                  _c("path", {
-                    attrs: {
-                      d:
-                        "M10 23L0 11l10 4.3c2.1-4 7.9-12 13.8-13.3C20.6 3 13.3 16.3 10 23z"
-                    }
-                  })
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "mediumText alignCenter marginTop" }, [
-              _vm._v("Thank you!")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "alignCenter" }, [
-            _c(
-              "button",
-              {
-                staticClass: "button borderRed red",
-                on: { click: _vm.onClosePamphlet }
-              },
-              [_vm._v("Close")]
-            )
-          ])
-        ])
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-
-if (false) {}
-
-/***/ }),
-
-/***/ "./node_modules/vue-property-decorator/lib/vue-property-decorator.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/vue-property-decorator/lib/vue-property-decorator.js ***!
-  \***************************************************************************/
-/*! exports provided: Component, Vue, Inject, Provide, Model, Prop, Watch, Emit */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Inject", function() { return Inject; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Provide", function() { return Provide; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Model", function() { return Model; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Prop", function() { return Prop; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Watch", function() { return Watch; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Emit", function() { return Emit; });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Vue", function() { return vue__WEBPACK_IMPORTED_MODULE_0__["default"]; });
-
-/* harmony import */ var vue_class_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-class-component */ "./node_modules/vue-class-component/dist/vue-class-component.common.js");
-/* harmony import */ var vue_class_component__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_class_component__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony reexport (default from non-harmony) */ __webpack_require__.d(__webpack_exports__, "Component", function() { return vue_class_component__WEBPACK_IMPORTED_MODULE_1___default.a; });
-/* harmony import */ var reflect_metadata__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! reflect-metadata */ "./node_modules/reflect-metadata/Reflect.js");
-/* harmony import */ var reflect_metadata__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(reflect_metadata__WEBPACK_IMPORTED_MODULE_2__);
-/** vue-property-decorator verson 6.1.0 MIT LICENSE copyright 2018 kaorun343 */
-
-
-
-
-
-/**
- * decorator of an inject
- * @param from key
- * @return PropertyDecorator
- */
-function Inject(options) {
-    return Object(vue_class_component__WEBPACK_IMPORTED_MODULE_1__["createDecorator"])(function (componentOptions, key) {
-        if (typeof componentOptions.inject === 'undefined') {
-            componentOptions.inject = {};
-        }
-        if (!Array.isArray(componentOptions.inject)) {
-            componentOptions.inject[key] = options || key;
-        }
-    });
-}
-/**
- * decorator of a provide
- * @param key key
- * @return PropertyDecorator | void
- */
-function Provide(key) {
-    return Object(vue_class_component__WEBPACK_IMPORTED_MODULE_1__["createDecorator"])(function (componentOptions, k) {
-        var provide = componentOptions.provide;
-        if (typeof provide !== 'function' || !provide.managed) {
-            var original_1 = componentOptions.provide;
-            provide = componentOptions.provide = function () {
-                var rv = Object.create((typeof original_1 === 'function' ? original_1.call(this) : original_1) || null);
-                for (var i in provide.managed)
-                    rv[provide.managed[i]] = this[i];
-                return rv;
-            };
-            provide.managed = {};
-        }
-        provide.managed[k] = key || k;
-    });
-}
-/**
- * decorator of model
- * @param  event event name
- * @return PropertyDecorator
- */
-function Model(event, options) {
-    if (options === void 0) { options = {}; }
-    return function (target, key) {
-        if (!Array.isArray(options) && typeof options.type === 'undefined') {
-            options.type = Reflect.getMetadata('design:type', target, key);
-        }
-        Object(vue_class_component__WEBPACK_IMPORTED_MODULE_1__["createDecorator"])(function (componentOptions, k) {
-            (componentOptions.props || (componentOptions.props = {}))[k] = options;
-            componentOptions.model = { prop: k, event: event || k };
-        })(target, key);
-    };
-}
-/**
- * decorator of a prop
- * @param  options the options for the prop
- * @return PropertyDecorator | void
- */
-function Prop(options) {
-    if (options === void 0) { options = {}; }
-    return function (target, key) {
-        if (!Array.isArray(options) && typeof options.type === 'undefined') {
-            options.type = Reflect.getMetadata('design:type', target, key);
-        }
-        Object(vue_class_component__WEBPACK_IMPORTED_MODULE_1__["createDecorator"])(function (componentOptions, k) {
-            (componentOptions.props || (componentOptions.props = {}))[k] = options;
-        })(target, key);
-    };
-}
-/**
- * decorator of a watch function
- * @param  path the path or the expression to observe
- * @param  WatchOption
- * @return MethodDecorator
- */
-function Watch(path, options) {
-    if (options === void 0) { options = {}; }
-    var _a = options.deep, deep = _a === void 0 ? false : _a, _b = options.immediate, immediate = _b === void 0 ? false : _b;
-    return Object(vue_class_component__WEBPACK_IMPORTED_MODULE_1__["createDecorator"])(function (componentOptions, handler) {
-        if (typeof componentOptions.watch !== 'object') {
-            componentOptions.watch = Object.create(null);
-        }
-        componentOptions.watch[path] = { handler: handler, deep: deep, immediate: immediate };
-    });
-}
-// Code copied from Vue/src/shared/util.js
-var hyphenateRE = /\B([A-Z])/g;
-var hyphenate = function (str) { return str.replace(hyphenateRE, '-$1').toLowerCase(); };
-/**
- * decorator of an event-emitter function
- * @param  event The name of the event
- * @return MethodDecorator
- */
-function Emit(event) {
-    return function (target, key, descriptor) {
-        key = hyphenate(key);
-        var original = descriptor.value;
-        descriptor.value = function emitter() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i] = arguments[_i];
-            }
-            if (original.apply(this, args) !== false)
-                this.$emit.apply(this, [event || key].concat(args));
-        };
-    };
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-0e1797ce\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ContributionComponent.vue":
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-style-loader!./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-0e1797ce","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ContributionComponent.vue ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-9b4e4d8e\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/debug/AdminComponent.vue":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-style-loader!./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-9b4e4d8e","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/debug/AdminComponent.vue ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(/*! !../../node_modules/css-loader?sourceMap!../../node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-0e1797ce","scoped":true,"sourceMap":true}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ContributionComponent.vue */ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-0e1797ce\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ContributionComponent.vue");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__(/*! ../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
-var update = add("5623bc46", content, false, {});
-// Hot Module Replacement
-if(false) {}
-
-/***/ }),
-
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-3312cc56\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue":
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-style-loader!./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-3312cc56","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(/*! !../../../node_modules/css-loader?sourceMap!../../../node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-3312cc56","scoped":true,"sourceMap":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./PieAndDonutChartIconComponent.vue */ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-3312cc56\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue");
+var content = __webpack_require__(/*! !../../../node_modules/css-loader?sourceMap!../../../node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-9b4e4d8e","scoped":true,"sourceMap":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AdminComponent.vue */ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-9b4e4d8e\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/debug/AdminComponent.vue");
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = __webpack_require__(/*! ../../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
-var update = add("7c57f844", content, false, {});
-// Hot Module Replacement
-if(false) {}
-
-/***/ }),
-
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-34330ed2\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/CompanionsComponent.vue":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-style-loader!./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-34330ed2","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/CompanionsComponent.vue ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(/*! !../../node_modules/css-loader?sourceMap!../../node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-34330ed2","scoped":true,"sourceMap":true}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CompanionsComponent.vue */ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-34330ed2\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/CompanionsComponent.vue");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__(/*! ../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
-var update = add("f70ce57e", content, false, {});
-// Hot Module Replacement
-if(false) {}
-
-/***/ }),
-
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-3df8586e\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ConfirmationComponent.vue":
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-style-loader!./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-3df8586e","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ConfirmationComponent.vue ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(/*! !../../node_modules/css-loader?sourceMap!../../node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-3df8586e","scoped":true,"sourceMap":true}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ConfirmationComponent.vue */ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-3df8586e\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ConfirmationComponent.vue");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__(/*! ../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
-var update = add("63a1b254", content, false, {});
-// Hot Module Replacement
-if(false) {}
-
-/***/ }),
-
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-4aa65ce3\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/OngoingSessionComponent.vue":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-style-loader!./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-4aa65ce3","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/OngoingSessionComponent.vue ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(/*! !../../node_modules/css-loader?sourceMap!../../node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-4aa65ce3","scoped":true,"sourceMap":true}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./OngoingSessionComponent.vue */ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-4aa65ce3\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/OngoingSessionComponent.vue");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__(/*! ../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
-var update = add("79a67733", content, false, {});
-// Hot Module Replacement
-if(false) {}
-
-/***/ }),
-
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-53887aa4\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/DisciplineComponent.vue":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-style-loader!./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-53887aa4","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/DisciplineComponent.vue ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(/*! !../../node_modules/css-loader?sourceMap!../../node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-53887aa4","scoped":true,"sourceMap":true}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./DisciplineComponent.vue */ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-53887aa4\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/DisciplineComponent.vue");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__(/*! ../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
-var update = add("298618f4", content, false, {});
-// Hot Module Replacement
-if(false) {}
-
-/***/ }),
-
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-b8f38e76\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/PrepareComponent.vue":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-style-loader!./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-b8f38e76","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/PrepareComponent.vue ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(/*! !../../node_modules/css-loader?sourceMap!../../node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-b8f38e76","scoped":true,"sourceMap":true}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./PrepareComponent.vue */ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-b8f38e76\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/PrepareComponent.vue");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__(/*! ../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
-var update = add("5e9f6214", content, false, {});
-// Hot Module Replacement
-if(false) {}
-
-/***/ }),
-
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-c9899b68\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ContactComponent.vue":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-style-loader!./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-c9899b68","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ContactComponent.vue ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(/*! !../../node_modules/css-loader?sourceMap!../../node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-c9899b68","scoped":true,"sourceMap":true}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ContactComponent.vue */ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-c9899b68\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ContactComponent.vue");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__(/*! ../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
-var update = add("1118f32e", content, false, {});
+var update = add("f49f7c9a", content, false, {});
 // Hot Module Replacement
 if(false) {}
 
@@ -15574,10 +12848,10 @@ module.exports = g;
 
 /***/ }),
 
-/***/ "./www/ts/IndexLoader.ts":
-/*!*******************************!*\
-  !*** ./www/ts/IndexLoader.ts ***!
-  \*******************************/
+/***/ "./www/ts/debug/AdminLoader.ts":
+/*!*************************************!*\
+  !*** ./www/ts/debug/AdminLoader.ts ***!
+  \*************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -15585,285 +12859,92 @@ module.exports = g;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var vue_1 = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-var CompanionsComponent_vue_1 = __webpack_require__(/*! ../vue/CompanionsComponent.vue */ "./www/vue/CompanionsComponent.vue");
-var DisciplineComponent_vue_1 = __webpack_require__(/*! ../vue/DisciplineComponent.vue */ "./www/vue/DisciplineComponent.vue");
-var ContributionComponent_vue_1 = __webpack_require__(/*! ../vue/ContributionComponent.vue */ "./www/vue/ContributionComponent.vue");
-var PrepareComponent_vue_1 = __webpack_require__(/*! ../vue/PrepareComponent.vue */ "./www/vue/PrepareComponent.vue");
-var OngoingSessionComponent_vue_1 = __webpack_require__(/*! ../vue/OngoingSessionComponent.vue */ "./www/vue/OngoingSessionComponent.vue");
-var ConfirmationComponent_vue_1 = __webpack_require__(/*! ../vue/ConfirmationComponent.vue */ "./www/vue/ConfirmationComponent.vue");
-var ContactComponent_vue_1 = __webpack_require__(/*! ../vue/ContactComponent.vue */ "./www/vue/ContactComponent.vue");
-var StorageUtil_1 = __webpack_require__(/*! ./utils/StorageUtil */ "./www/ts/utils/StorageUtil.ts");
-var Request_1 = __webpack_require__(/*! ./utils/RequestUtils/Request */ "./www/ts/utils/RequestUtils/Request.ts");
-var RequestInformation_1 = __webpack_require__(/*! ./utils/RequestUtils/RequestInformation */ "./www/ts/utils/RequestUtils/RequestInformation.ts");
-var ServerCaller_1 = __webpack_require__(/*! ./utils/ServerCaller */ "./www/ts/utils/ServerCaller.ts");
-var VariousUtil_1 = __webpack_require__(/*! ./utils/VariousUtil */ "./www/ts/utils/VariousUtil.ts");
-var WebSocketCaller_1 = __webpack_require__(/*! ./utils/WebSocketCaller */ "./www/ts/utils/WebSocketCaller.ts");
-var WebSocketEvents_1 = __webpack_require__(/*! ./objects/webSocket/WebSocketEvents */ "./www/ts/objects/webSocket/WebSocketEvents.ts");
-var GeolocationInfo_1 = __webpack_require__(/*! ./objects/GeolocationInfo */ "./www/ts/objects/GeolocationInfo.ts");
+var AdminComponent_vue_1 = __webpack_require__(/*! ../../vue/debug/AdminComponent.vue */ "./www/vue/debug/AdminComponent.vue");
+var RequestInformation_1 = __webpack_require__(/*! ../utils/RequestUtils/RequestInformation */ "./www/ts/utils/RequestUtils/RequestInformation.ts");
+var Request_1 = __webpack_require__(/*! ../utils/RequestUtils/Request */ "./www/ts/utils/RequestUtils/Request.ts");
+var ServerCaller_1 = __webpack_require__(/*! ../utils/ServerCaller */ "./www/ts/utils/ServerCaller.ts");
 new vue_1.default({
-    el: "#main",
-    template: "\n        <div id=\"main\" class=\"view\">\n            <!-- Main Title -->\n            <div class=\"topBar smallText uppercase bold white gradientIndigo alignCenter padding--100\">{{ titles[currentStep] }}</div>\n            \n            <!-- First step -->\n            <div class=\"toggleContainer\" v-bind:class=\"getContainerClass(0)\">\n                <companions \n                    :companions-online-count=\"companionsOnlineCount\" \n                    :achieved-goal=\"sessionSumMinutes\"\n                    :goal-minutes=\"practiceGoalMinutes\"\n                    :achieved-in-number-of-minutes=\"practiceMinutes\"\n                    :popular-intention=\"popularIntention\"\n                    :nr-with-same-intention=\"nrWithSameIntention\" \n                    :on-join=\"nextStep\"></companions>\n            </div>\n            \n            <!-- Step where user selects Discipline -->\n            <div class=\"toggleContainer\" v-bind:class=\"getContainerClass(1)\">\n                <discipline-and-practice \n                    :disciplines=\"disciplines\" \n                    :on-select=\"onSelectDiscipline\"></discipline-and-practice>\n            </div>\n            \n            <!-- Step where user selects Intention -->\n            <div class=\"toggleContainer\" v-bind:class=\"getContainerClass(2)\">\n                <contribute \n                    :intentions=\"intentions\"\n                    :on-select=\"onSelectIntention\"\n                    :on-add=\"onAddNewIntention\" \n                    :on-search=\"onSearchIntention\" \n                    :searched-intentions=\"searchedIntentions\"></contribute>\n            </div>\n\n            <!-- Step preparing for and to Start Session -->\n            <div class=\"toggleContainer\" v-bind:class=\"getContainerClass(3)\">\n                <prepare \n                    :on-button-click=\"onStartSession\" \n                    :interval-milli-seconds=\"1000\" \n                    :user-count=\"companionsOnlineCount\"\n                    :is-displayed=\"currentStep == availableSteps.PREPARE\"></prepare>\n            </div>\n\n            <!-- Step for ongoing session and to Stop Session -->\n            <div class=\"toggleContainer\" v-bind:class=\"getContainerClass(4)\">\n                <ongoing-session \n                    :selected-discipline=\"selectedDiscipline\"\n                    :selected-intention=\"selectedIntention\"\n                    :user-geolocation=\"userGeolocation\"\n                    :connected-companions-sessions=\"connectedSessions\"\n                    :on-button-click=\"onEndSession\"></ongoing-session>\n            </div>\n\n            <!-- Sixth step -->\n            <div class=\"toggleContainer\" v-bind:class=\"getContainerClass(5)\">\n                <confirmation \n                      :discipline=\"selectedDiscipline ? selectedDiscipline.title : ''\"\n                      :intention=\"selectedIntention ? selectedIntention.title : ''\"\n                      :session-lasted-minutes=\"sessionLastedMinutes\"\n                      :user-contribution-minutes=\"userContributionMinutes\" \n                      :session-companion-count=\"sessionCompanionCount\" \n                      :collective-contribution-minutes=\"collectiveContributionMinutes\"\n                      :session-companion-intentions=\"sessionCompanionIntentions\"\n                      :is-involved=\"userIsInvolved\"\n                      :on-participate=\"nextStep\"\n                      :on-restart=\"restart\"></confirmation>\n            </div>\n            \n            \n            <!-- Seventh step -->\n            <div class=\"toggleContainer\" v-bind:class=\"getContainerClass(6)\">\n                <contact \n                    :is-submitted=\"isSubmitted\" \n                    :on-submit=\"onSubmit\" \n                    :on-close=\"onClose\"></contact>\n            </div>\n                \n        </div>",
+    el: "#adminMain",
+    template: "\n    <div id=\"main\">\n        <h1>Admin</h1>\n        <admin :disciplines=\"disciplines\" \n               :intentions=\"intentions\" \n               :practitioners=\"practitioners\" \n               :add-session=\"addSession\" \n               :generate-practitioners=\"generatePractitioners\" \n               :end-session=\"endSession\"></admin>\n    </div>",
     components: {
-        Companions: CompanionsComponent_vue_1.default,
-        DisciplineAndPractice: DisciplineComponent_vue_1.default,
-        Contribute: ContributionComponent_vue_1.default,
-        Prepare: PrepareComponent_vue_1.default,
-        OngoingSession: OngoingSessionComponent_vue_1.default,
-        Confirmation: ConfirmationComponent_vue_1.default,
-        Contact: ContactComponent_vue_1.default
+        Admin: AdminComponent_vue_1.default
     },
     data: function () {
         return {
-            availableSteps: {
-                START_STATISTICS: 0,
-                SELECT_DISCIPLINE: 1,
-                SELECT_INTENTION: 2,
-                PREPARE: 3,
-                PRACTICING: 4,
-                PRACTICE_REPORT: 5,
-                CONTACT: 6
-            },
-            currentStep: 0,
-            user: StorageUtil_1.StorageUtil.mPractitionerService.get(),
-            titles: [
-                "Collective activity",
-                "Choose a practice",
-                "Practice with an intention",
-                "Prepare",
-                "Participate in Agartha",
-                "Your activity",
-                "Get involved",
-                " "
-            ],
-            userAgent: navigator.userAgent,
-            companionsOnlineCount: 0,
-            sessionSumMinutes: 0,
-            practiceGoalMinutes: (function (settings) {
-                return (settings != null) ? settings.companionGoalMinutes : 0;
-            })(StorageUtil_1.StorageUtil.mSettingsService.get()),
-            practiceMinutes: (function (settings) {
-                return (settings != null) ? settings.companionMinutes : 0;
-            })(StorageUtil_1.StorageUtil.mSettingsService.get()),
-            nrWithSameIntention: 0,
-            popularIntention: "",
-            disciplines: StorageUtil_1.StorageUtil.mSettingsService.getDisciplines(),
-            selectedDiscipline: null,
-            intentions: StorageUtil_1.StorageUtil.mSettingsService.getIntentions(),
-            selectedIntention: null,
-            searchedIntentions: [],
-            webSocket: new WebSocketCaller_1.default(),
-            connectedSessions: Array(),
-            userGeolocation: StorageUtil_1.StorageUtil.mGeolocationService.get(),
-            sessionLastedMinutes: 0,
-            userContributionMinutes: 0,
-            sessionCompanionCount: 0,
-            collectiveContributionMinutes: 0,
-            sessionCompanionIntentions: {},
-            userIsInvolved: false,
-            isSubmitted: false
+            disciplines: Array(),
+            intentions: Array(),
+            practitioners: Array()
         };
     },
-    created: function () {
+    beforeMount: function () {
         var _this = this;
-        this.getGeolocation();
         var settingsRequest = new Request_1.default(RequestInformation_1.REQUEST_SETTINGS, [], function (settings) {
-            StorageUtil_1.StorageUtil.mSettingsService.set(settings);
-            _this.practiceGoalMinutes = settings.companionGoalMinutes;
-            _this.intentions = settings.intentions;
             _this.disciplines = settings.disciplines;
+            _this.intentions = settings.intentions;
         });
-        var practitionerRequest = new Request_1.default(RequestInformation_1.REQUEST_PRACTITIONER, this.getUserAsParams(), function (response) {
-            _this.user = response;
-            StorageUtil_1.StorageUtil.mPractitionerService.set(response);
+        var practitionersRequest = new Request_1.default(RequestInformation_1.REQUEST_ADMIN_PRACTITIONERS, [], function (practitioners) {
+            _this.practitioners = practitioners;
         });
-        var companionReport = new Request_1.default(RequestInformation_1.REQUEST_COMPANION, [], function (companionObject) {
-            _this.companionsOnlineCount = companionObject.companionCount;
-            _this.sessionSumMinutes = companionObject.sessionSumMinutes;
-            var list = VariousUtil_1.VariousUtil
-                .MapToArrayAndSort(companionObject.intentions)
-                .reverse();
-            _this.popularIntention = list[0]['key'];
-            _this.nrWithSameIntention = list[0]['value'];
-        });
-        new ServerCaller_1.default([settingsRequest, practitionerRequest, companionReport]).callServer();
+        new ServerCaller_1.default([settingsRequest, practitionersRequest]).callServer();
     },
-    computed: {},
     methods: {
-        getGeolocation: function () {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    StorageUtil_1.StorageUtil.mGeolocationService.set(new GeolocationInfo_1.default(position.coords.latitude, position.coords.longitude));
-                }, function () {
-                    if (true) {
-                        StorageUtil_1.StorageUtil.mGeolocationService.set(new GeolocationInfo_1.default(55.6044973, 13.005021));
+        addSession: function (practitioner, discipline, intention) {
+            var _this = this;
+            var addSessionRequest = new Request_1.default(RequestInformation_1.REQUEST_ADMIN_ADD_SESSION, [practitioner._id, discipline, intention], function (session) {
+                practitioner.sessions.push(session);
+                _this.practitioners.map(function (prac) {
+                    if (prac._id === practitioner._id)
+                        return practitioner;
+                });
+            });
+            new ServerCaller_1.default([addSessionRequest]).callServer();
+        },
+        generatePractitioners: function (count) {
+            var _this = this;
+            var addSessionRequest = new Request_1.default(RequestInformation_1.REQUEST_ADMIN_GENERATE, [count], function (practitioners) {
+                _this.practitioners = _this.practitioners.concat(practitioners);
+            });
+            new ServerCaller_1.default([addSessionRequest]).callServer();
+        },
+        endSession: function (practitioner) {
+            var _this = this;
+            var addSessionRequest = new Request_1.default(RequestInformation_1.REQUEST_SESSION_END, [practitioner._id], function (updatedPrac) {
+                _this.practitioners.map(function (prac) {
+                    if (prac._id === updatedPrac._id) {
+                        prac.sessions = updatedPrac.sessions;
                     }
                 });
-            }
-            this.userGeolocation = StorageUtil_1.StorageUtil.mGeolocationService.get();
-        },
-        getUserAsParams: function () {
-            return this.user ? [this.user.practitionerId] : [];
-        },
-        restart: function () {
-            this.currentStep = 0;
-        },
-        getContainerClass: function (index) {
-            if (index > this.currentStep) {
-                return "toggleContainer--hideToRight";
-            }
-            if (index < this.currentStep) {
-                return "toggleContainer--hideToLeft";
-            }
-            return "toggleContainer--active";
-        },
-        nextStep: function () {
-            this.currentStep++;
-        },
-        prevStep: function () {
-            this.currentStep--;
-        },
-        onSelectDiscipline: function (discipline) {
-            this.selectedDiscipline = discipline;
-            this.nextStep();
-        },
-        onSelectIntention: function (intention) {
-            this.selectedIntention = intention;
-            this.nextStep();
-        },
-        onAddNewIntention: function (newIntention) {
-            var _this = this;
-            var requests = [
-                new Request_1.default(RequestInformation_1.REQUEST_ADD_INTENTION, [], function (settings) {
-                    StorageUtil_1.StorageUtil.mSettingsService.addIntention(newIntention);
-                    _this.intentions = settings.intentions;
-                    _this.onSelectIntention(newIntention);
-                }, JSON.stringify(newIntention))
-            ];
-            new ServerCaller_1.default(requests).callServer();
-        },
-        onSearchIntention: function (text) {
-            if (text.trim().length > 0) {
-                this.searchedIntentions = this.intentions.filter(function (it) {
-                    var intention = it.title.toLowerCase();
-                    return intention.startsWith(text.toLowerCase());
-                });
-            }
-            else {
-                this.searchedIntentions = [];
-            }
-        },
-        onStartSession: function () {
-            var _this = this;
-            var discipline = this.selectedDiscipline ? this.selectedDiscipline.title : "";
-            var intention = this.selectedIntention ? this.selectedIntention.title : "";
-            var data = {
-                geolocation: StorageUtil_1.StorageUtil.mGeolocationService.get(),
-                discipline: discipline,
-                intention: intention
-            };
-            var requests = [
-                new Request_1.default(RequestInformation_1.REQUEST_SESSION_START, this.getUserAsParams(), function (session) {
-                    StorageUtil_1.StorageUtil.mSessionService.set(session);
-                    _this.nextStep();
-                    _this.webSocket.openSession(_this.receiveWebSocketMessage);
-                }, JSON.stringify(data))
-            ];
-            new ServerCaller_1.default(requests).callServer();
-        },
-        receiveWebSocketMessage: function (message) {
-            if (message.event === WebSocketEvents_1.WebSocketEvents.COMPANIONS_SESSIONS) {
-                var sessions = JSON.parse(message.data);
-                this.connectedSessions = sessions;
-            }
-            else if (message.event === WebSocketEvents_1.WebSocketEvents.NEW_COMPANION) {
-                var sessions = JSON.parse(message.data);
-                this.connectedSessions = sessions;
-            }
-            else if (message.event === WebSocketEvents_1.WebSocketEvents.COMPANION_LEFT) {
-                var sessions = JSON.parse(message.data);
-                this.connectedSessions = sessions;
-            }
-        },
-        onEndSession: function () {
-            var _this = this;
-            this.webSocket.endSession();
-            var requests = [
-                new Request_1.default(RequestInformation_1.REQUEST_SESSION_END, this.getUserAsParams(), function () {
-                    _this.loadConfirmation();
-                    _this.nextStep();
-                })
-            ];
-            new ServerCaller_1.default(requests).callServer();
-        },
-        loadConfirmation: function () {
-            var _this = this;
-            var practitionerRequest = new Request_1.default(RequestInformation_1.REQUEST_PRACTITIONER, this.getUserAsParams(), function (response) {
-                _this.sessionLastedMinutes = response.lastSessionMinutes;
-                _this.userContributionMinutes = response.totalSessionMinutes;
-                _this.userIsInvolved = response.involved;
             });
-            var companionRequest = new Request_1.default(RequestInformation_1.REQUEST_COMPANION, this.getUserAsParams(), function (response) {
-                _this.sessionCompanionCount = response.companionCount;
-                _this.collectiveContributionMinutes = response.sessionSumMinutes;
-                _this.sessionCompanionIntentions = response.intentions;
-            });
-            new ServerCaller_1.default([practitionerRequest, companionRequest]).callServer();
+            new ServerCaller_1.default([addSessionRequest]).callServer();
         },
-        onSubmit: function (fullName, email, description) {
-            var _this = this;
-            if (this.hasAnyWrongInputs(fullName, email, description)) {
-                this.wrongInputs();
-            }
-            else {
-                this.isSubmitted = true;
-                var requests = [
-                    new Request_1.default(RequestInformation_1.REQUEST_UPDATE_PRACTITIONER, this.getUserAsParams(), function () {
-                        _this.userIsInvolved = true;
-                    }, JSON.stringify({ fullName: fullName, email: email, description: description }))
-                ];
-                new ServerCaller_1.default(requests).callServer();
-            }
-        },
-        onClose: function () {
-            this.isSubmitted = false;
-            this.prevStep();
-        },
-        hasAnyWrongInputs: function (fullName, email, description) {
-            var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            if (fullName.trim() === "" || fullName.length < 2) {
-                return true;
-            }
-            else if (email.trim() === "" || !regex.test(String(email).toLowerCase())) {
-                return true;
-            }
-            return description.trim() === "";
-        },
-        wrongInputs: function () {
-        }
     }
 });
 
 
 /***/ }),
 
-/***/ "./www/ts/objects/GeolocationInfo.ts":
-/*!*******************************************!*\
-  !*** ./www/ts/objects/GeolocationInfo.ts ***!
-  \*******************************************/
+/***/ "./www/ts/objects/Practitioner.ts":
+/*!****************************************!*\
+  !*** ./www/ts/objects/Practitioner.ts ***!
+  \****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var GeolocationInfo = (function () {
-    function GeolocationInfo(latitude, longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+var Practitioner = (function () {
+    function Practitioner(_id, created, sessions, fullName, email, description) {
+        this._id = _id;
+        this.created = created;
+        this.sessions = sessions;
+        this.fullName = fullName;
+        this.email = email;
+        this.description = description;
     }
-    return GeolocationInfo;
+    return Practitioner;
 }());
-exports.default = GeolocationInfo;
+exports.Practitioner = Practitioner;
 
 
 /***/ }),
@@ -15910,142 +12991,6 @@ var Session = (function () {
     return Session;
 }());
 exports.default = Session;
-
-
-/***/ }),
-
-/***/ "./www/ts/objects/SessionList.ts":
-/*!***************************************!*\
-  !*** ./www/ts/objects/SessionList.ts ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var Session_1 = __webpack_require__(/*! ./Session */ "./www/ts/objects/Session.ts");
-var SessionList = (function () {
-    function SessionList(sessionList) {
-        this.shortestDistance = 10;
-        this.longestDistance = 100;
-        this.sessions = sessionList.map(function (session) {
-            return new Session_1.default(session);
-        });
-    }
-    SessionList.prototype.match = function (selectedDiscipline, selectedIntention) {
-        this.sessions.forEach(function (session) {
-            session.match(selectedDiscipline, selectedIntention);
-        });
-        return this;
-    };
-    SessionList.prototype.distance = function (geolocation) {
-        var distances = this.sessions
-            .map(function (session) { return session.distance(geolocation); })
-            .filter(function (value) { return value > 0; });
-        if (distances.length > 1) {
-            this.shortestDistance = Math.min.apply(Math, distances);
-            this.longestDistance = Math.max.apply(Math, distances);
-        }
-        return this;
-    };
-    SessionList.prototype.sortByMatchPointDescending = function () {
-        this.sessions.sort(function (session1, session2) {
-            return session2.points - session1.points;
-        });
-        return this;
-    };
-    SessionList.prototype.get = function () {
-        return this.sessions;
-    };
-    return SessionList;
-}());
-exports.SessionList = SessionList;
-
-
-/***/ }),
-
-/***/ "./www/ts/objects/Settings.ts":
-/*!************************************!*\
-  !*** ./www/ts/objects/Settings.ts ***!
-  \************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var Intention = (function () {
-    function Intention(title, description) {
-        this.title = title;
-        this.description = description;
-    }
-    return Intention;
-}());
-exports.Intention = Intention;
-var Discipline = (function () {
-    function Discipline(title) {
-        this.title = title;
-    }
-    return Discipline;
-}());
-exports.Discipline = Discipline;
-var Settings = (function () {
-    function Settings(id, intentions, disciplines, companionMinutes, companionGoalMinutes) {
-        this.id = id;
-        this.intentions = intentions;
-        this.disciplines = disciplines;
-        this.companionMinutes = companionMinutes;
-        this.companionGoalMinutes = companionGoalMinutes;
-    }
-    return Settings;
-}());
-exports.default = Settings;
-
-
-/***/ }),
-
-/***/ "./www/ts/objects/webSocket/WebSocketEvents.ts":
-/*!*****************************************************!*\
-  !*** ./www/ts/objects/webSocket/WebSocketEvents.ts ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var WebSocketEvents;
-(function (WebSocketEvents) {
-    WebSocketEvents["START_SESSION"] = "start_session";
-    WebSocketEvents["RECONNECT_SESSION"] = "reconnect_session";
-    WebSocketEvents["NEW_COMPANION"] = "new_companion";
-    WebSocketEvents["COMPANIONS_SESSIONS"] = "companions_sessions";
-    WebSocketEvents["COMPANION_LEFT"] = "companion_left";
-    WebSocketEvents["TEST"] = "test";
-})(WebSocketEvents = exports.WebSocketEvents || (exports.WebSocketEvents = {}));
-
-
-/***/ }),
-
-/***/ "./www/ts/objects/webSocket/WebSocketMessage.ts":
-/*!******************************************************!*\
-  !*** ./www/ts/objects/webSocket/WebSocketMessage.ts ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var WebSocketMessage = (function () {
-    function WebSocketMessage(event, data) {
-        this.event = event;
-        this.data = data;
-    }
-    return WebSocketMessage;
-}());
-exports.default = WebSocketMessage;
 
 
 /***/ }),
@@ -16397,173 +13342,6 @@ exports.default = ServerCaller;
 
 /***/ }),
 
-/***/ "./www/ts/utils/StorageUtil.ts":
-/*!*************************************!*\
-  !*** ./www/ts/utils/StorageUtil.ts ***!
-  \*************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var StorageUtil;
-(function (StorageUtil) {
-    var BaseStorage = (function () {
-        function BaseStorage(key) {
-            this.mKey = "agartha_" + key;
-        }
-        BaseStorage.prototype.getStorage = function () {
-            var value = localStorage.getItem(this.mKey);
-            if (value) {
-                return JSON.parse(value);
-            }
-            return null;
-        };
-        BaseStorage.prototype.getStorageList = function () {
-            var value = localStorage.getItem(this.mKey);
-            if (value) {
-                return JSON.parse(value);
-            }
-            return [];
-        };
-        BaseStorage.prototype.setStorage = function (data) {
-            localStorage.setItem(this.mKey, data);
-        };
-        return BaseStorage;
-    }());
-    var AbstractStorage = (function (_super) {
-        __extends(AbstractStorage, _super);
-        function AbstractStorage() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        AbstractStorage.prototype.get = function () {
-            return this.getStorage();
-        };
-        AbstractStorage.prototype.set = function (item) {
-            this.setStorage(JSON.stringify(item));
-        };
-        return AbstractStorage;
-    }(BaseStorage));
-    var PractitionerStorageImpl = (function (_super) {
-        __extends(PractitionerStorageImpl, _super);
-        function PractitionerStorageImpl() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        return PractitionerStorageImpl;
-    }(AbstractStorage));
-    var CompanionReportStorageImpl = (function (_super) {
-        __extends(CompanionReportStorageImpl, _super);
-        function CompanionReportStorageImpl() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        return CompanionReportStorageImpl;
-    }(AbstractStorage));
-    var SelectedIntentionStorageImpl = (function (_super) {
-        __extends(SelectedIntentionStorageImpl, _super);
-        function SelectedIntentionStorageImpl() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        return SelectedIntentionStorageImpl;
-    }(AbstractStorage));
-    var SelectedDisciplineStorageImpl = (function (_super) {
-        __extends(SelectedDisciplineStorageImpl, _super);
-        function SelectedDisciplineStorageImpl() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        return SelectedDisciplineStorageImpl;
-    }(AbstractStorage));
-    var GeolocationStorageImpl = (function (_super) {
-        __extends(GeolocationStorageImpl, _super);
-        function GeolocationStorageImpl() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        return GeolocationStorageImpl;
-    }(AbstractStorage));
-    var SessionStorageImpl = (function (_super) {
-        __extends(SessionStorageImpl, _super);
-        function SessionStorageImpl() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        return SessionStorageImpl;
-    }(AbstractStorage));
-    var SettingsStorageImpl = (function (_super) {
-        __extends(SettingsStorageImpl, _super);
-        function SettingsStorageImpl() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        SettingsStorageImpl.prototype.getIntentions = function () {
-            var settings = this.get();
-            if (settings) {
-                return settings.intentions;
-            }
-            return [];
-        };
-        SettingsStorageImpl.prototype.addIntention = function (intention) {
-            var settings = this.get();
-            if (settings) {
-                settings.intentions.push(intention);
-                this.set(settings);
-            }
-        };
-        SettingsStorageImpl.prototype.getDisciplines = function () {
-            var settings = this.get();
-            if (settings) {
-                return settings.disciplines;
-            }
-            return [];
-        };
-        return SettingsStorageImpl;
-    }(AbstractStorage));
-    StorageUtil.mPractitionerService = new PractitionerStorageImpl("user");
-    StorageUtil.mCompanionService = new CompanionReportStorageImpl("companion");
-    StorageUtil.mGeolocationService = new GeolocationStorageImpl("geolocation");
-    StorageUtil.mSessionService = new SessionStorageImpl("currentSession");
-    StorageUtil.mSettingsService = new SettingsStorageImpl("settings");
-    StorageUtil.mSelectedIntentionService = new SelectedIntentionStorageImpl("selectedIntention");
-    StorageUtil.mSelectedDisciplineService = new SelectedDisciplineStorageImpl("selectedDiscipline");
-})(StorageUtil = exports.StorageUtil || (exports.StorageUtil = {}));
-
-
-/***/ }),
-
-/***/ "./www/ts/utils/TimeUtil.ts":
-/*!**********************************!*\
-  !*** ./www/ts/utils/TimeUtil.ts ***!
-  \**********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = {
-    minutesToHours: function (minutes) {
-        return Math.round(minutes / 60);
-    },
-    minutesToDays: function (minutes) {
-        return Math.round(minutes / 60 / 24);
-    },
-    minutesToHoursAndMinutes: function (minutes) {
-        var hours = Math.floor(minutes / 60);
-        minutes = (minutes - (hours * 60));
-        return hours + ":" + ("00" + minutes.toString()).slice(-2);
-    }
-};
-
-
-/***/ }),
-
 /***/ "./www/ts/utils/VariousUtil.ts":
 /*!*************************************!*\
   !*** ./www/ts/utils/VariousUtil.ts ***!
@@ -16623,465 +13401,24 @@ exports.VariousUtil = VariousUtil;
 
 /***/ }),
 
-/***/ "./www/ts/utils/WebSocketCaller.ts":
-/*!*****************************************!*\
-  !*** ./www/ts/utils/WebSocketCaller.ts ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var StorageUtil_1 = __webpack_require__(/*! ./StorageUtil */ "./www/ts/utils/StorageUtil.ts");
-var WebSocketMessage_1 = __webpack_require__(/*! ../objects/webSocket/WebSocketMessage */ "./www/ts/objects/webSocket/WebSocketMessage.ts");
-var WebSocketEvents_1 = __webpack_require__(/*! ../objects/webSocket/WebSocketEvents */ "./www/ts/objects/webSocket/WebSocketEvents.ts");
-var ConsoleLogger_1 = __webpack_require__(/*! ./ConsoleLogger */ "./www/ts/utils/ConsoleLogger.ts");
-var WebSocketCaller = (function () {
-    function WebSocketCaller() {
-        var _this = this;
-        this.url = 'ws://192.168.1.160:5555/websocket';
-        this.reconnectTry = 0;
-        this.endSession = function () {
-            _this.webSocket.close();
-        };
-        this.startSession = function () {
-            var practitioner = StorageUtil_1.StorageUtil.mPractitionerService.get();
-            if (practitioner) {
-                _this.webSocket.send(JSON.stringify(new WebSocketMessage_1.default(WebSocketEvents_1.WebSocketEvents.START_SESSION, practitioner.practitionerId)));
-            }
-        };
-        this.message = function (msg) {
-            var message = JSON.parse(msg.data);
-            ConsoleLogger_1.ConsoleLogger.logPurple("Received a webSocket event: " + message.event);
-            _this.onMessageFunction(message);
-        };
-        this.closeSession = function (err) {
-            if (err.code && err.code == 1006 && _this.reconnectTry < 5) {
-                _this.reconnectTry++;
-                var practitioner_1 = StorageUtil_1.StorageUtil.mPractitionerService.get();
-                if (practitioner_1) {
-                    _this.wait(function () {
-                        _this.openSession(_this.onMessageFunction);
-                        _this.wait(function () {
-                            _this.webSocket.send(JSON.stringify(new WebSocketMessage_1.default(WebSocketEvents_1.WebSocketEvents.RECONNECT_SESSION, practitioner_1.practitionerId)));
-                        });
-                    });
-                }
-            }
-        };
-        this.wait = function (f) {
-            setTimeout(f(), 300);
-        };
-        this.test = function () {
-            return new Promise(function (resolve) {
-                _this.webSocket = new WebSocket(_this.url);
-                _this.webSocket.onopen = function () {
-                    _this.webSocket.send(JSON.stringify(new WebSocketMessage_1.default(WebSocketEvents_1.WebSocketEvents.TEST, "This is a test!")));
-                };
-                _this.webSocket.onclose = _this.closeSession;
-                _this.webSocket.onmessage = function (msg) {
-                    resolve(msg.data);
-                };
-            });
-        };
-    }
-    WebSocketCaller.prototype.openSession = function (onMessage) {
-        this.onMessageFunction = onMessage;
-        this.webSocket = new WebSocket(this.url);
-        this.webSocket.onopen = this.startSession;
-        this.webSocket.onclose = this.closeSession;
-        this.webSocket.onmessage = this.message;
-    };
-    return WebSocketCaller;
-}());
-exports.default = WebSocketCaller;
-
-
-/***/ }),
-
-/***/ "./www/vue/CompanionsComponent.vue":
-/*!*****************************************!*\
-  !*** ./www/vue/CompanionsComponent.vue ***!
-  \*****************************************/
+/***/ "./www/vue/debug/AdminComponent.vue":
+/*!******************************************!*\
+  !*** ./www/vue/debug/AdminComponent.vue ***!
+  \******************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_CompanionsComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !ts-loader!../../node_modules/vue-loader/lib/selector?type=script&index=0!./CompanionsComponent.vue */ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/CompanionsComponent.vue");
-/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_CompanionsComponent_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_CompanionsComponent_vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_CompanionsComponent_vue__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_CompanionsComponent_vue__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_template_compiler_index_id_data_v_34330ed2_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_CompanionsComponent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../node_modules/vue-loader/lib/template-compiler/index?{"id":"data-v-34330ed2","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!../../node_modules/vue-loader/lib/selector?type=template&index=0!./CompanionsComponent.vue */ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-34330ed2\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/CompanionsComponent.vue");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../node_modules/vue-loader/lib/runtime/component-normalizer */ "./node_modules/vue-loader/lib/runtime/component-normalizer.js");
-var disposed = false
-function injectStyle (context) {
-  if (disposed) return
-  __webpack_require__(/*! !vue-style-loader!css-loader?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index?{"optionsId":"0","vue":true,"id":"data-v-34330ed2","scoped":true,"sourceMap":true}!../../node_modules/vue-loader/lib/selector?type=styles&index=0!./CompanionsComponent.vue */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-34330ed2\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/CompanionsComponent.vue")
-}
-/* script */
-
-
-/* template */
-
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-34330ed2"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-
-var Component = Object(_node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_CompanionsComponent_vue__WEBPACK_IMPORTED_MODULE_0___default.a,
-  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_34330ed2_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_CompanionsComponent_vue__WEBPACK_IMPORTED_MODULE_1__["render"],
-  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_34330ed2_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_CompanionsComponent_vue__WEBPACK_IMPORTED_MODULE_1__["staticRenderFns"],
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "www/vue/CompanionsComponent.vue"
-
-/* hot reload */
-if (false) {}
-
-/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
-
-
-/***/ }),
-
-/***/ "./www/vue/ConfirmationComponent.vue":
-/*!*******************************************!*\
-  !*** ./www/vue/ConfirmationComponent.vue ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ConfirmationComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !ts-loader!../../node_modules/vue-loader/lib/selector?type=script&index=0!./ConfirmationComponent.vue */ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/ConfirmationComponent.vue");
-/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ConfirmationComponent_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ConfirmationComponent_vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ConfirmationComponent_vue__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ConfirmationComponent_vue__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_template_compiler_index_id_data_v_3df8586e_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_ConfirmationComponent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../node_modules/vue-loader/lib/template-compiler/index?{"id":"data-v-3df8586e","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!../../node_modules/vue-loader/lib/selector?type=template&index=0!./ConfirmationComponent.vue */ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3df8586e\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/ConfirmationComponent.vue");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../node_modules/vue-loader/lib/runtime/component-normalizer */ "./node_modules/vue-loader/lib/runtime/component-normalizer.js");
-var disposed = false
-function injectStyle (context) {
-  if (disposed) return
-  __webpack_require__(/*! !vue-style-loader!css-loader?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index?{"optionsId":"0","vue":true,"id":"data-v-3df8586e","scoped":true,"sourceMap":true}!../../node_modules/vue-loader/lib/selector?type=styles&index=0!./ConfirmationComponent.vue */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-3df8586e\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ConfirmationComponent.vue")
-}
-/* script */
-
-
-/* template */
-
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-3df8586e"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-
-var Component = Object(_node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ConfirmationComponent_vue__WEBPACK_IMPORTED_MODULE_0___default.a,
-  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_3df8586e_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_ConfirmationComponent_vue__WEBPACK_IMPORTED_MODULE_1__["render"],
-  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_3df8586e_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_ConfirmationComponent_vue__WEBPACK_IMPORTED_MODULE_1__["staticRenderFns"],
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "www/vue/ConfirmationComponent.vue"
-
-/* hot reload */
-if (false) {}
-
-/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
-
-
-/***/ }),
-
-/***/ "./www/vue/ContactComponent.vue":
-/*!**************************************!*\
-  !*** ./www/vue/ContactComponent.vue ***!
-  \**************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ContactComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !ts-loader!../../node_modules/vue-loader/lib/selector?type=script&index=0!./ContactComponent.vue */ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/ContactComponent.vue");
-/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ContactComponent_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ContactComponent_vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ContactComponent_vue__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ContactComponent_vue__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_template_compiler_index_id_data_v_c9899b68_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_ContactComponent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../node_modules/vue-loader/lib/template-compiler/index?{"id":"data-v-c9899b68","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!../../node_modules/vue-loader/lib/selector?type=template&index=0!./ContactComponent.vue */ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-c9899b68\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/ContactComponent.vue");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../node_modules/vue-loader/lib/runtime/component-normalizer */ "./node_modules/vue-loader/lib/runtime/component-normalizer.js");
-var disposed = false
-function injectStyle (context) {
-  if (disposed) return
-  __webpack_require__(/*! !vue-style-loader!css-loader?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index?{"optionsId":"0","vue":true,"id":"data-v-c9899b68","scoped":true,"sourceMap":true}!../../node_modules/vue-loader/lib/selector?type=styles&index=0!./ContactComponent.vue */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-c9899b68\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ContactComponent.vue")
-}
-/* script */
-
-
-/* template */
-
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-c9899b68"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-
-var Component = Object(_node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ContactComponent_vue__WEBPACK_IMPORTED_MODULE_0___default.a,
-  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_c9899b68_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_ContactComponent_vue__WEBPACK_IMPORTED_MODULE_1__["render"],
-  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_c9899b68_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_ContactComponent_vue__WEBPACK_IMPORTED_MODULE_1__["staticRenderFns"],
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "www/vue/ContactComponent.vue"
-
-/* hot reload */
-if (false) {}
-
-/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
-
-
-/***/ }),
-
-/***/ "./www/vue/ContributionComponent.vue":
-/*!*******************************************!*\
-  !*** ./www/vue/ContributionComponent.vue ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ContributionComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !ts-loader!../../node_modules/vue-loader/lib/selector?type=script&index=0!./ContributionComponent.vue */ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/ContributionComponent.vue");
-/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ContributionComponent_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ContributionComponent_vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ContributionComponent_vue__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ContributionComponent_vue__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_template_compiler_index_id_data_v_0e1797ce_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_ContributionComponent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../node_modules/vue-loader/lib/template-compiler/index?{"id":"data-v-0e1797ce","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!../../node_modules/vue-loader/lib/selector?type=template&index=0!./ContributionComponent.vue */ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-0e1797ce\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/ContributionComponent.vue");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../node_modules/vue-loader/lib/runtime/component-normalizer */ "./node_modules/vue-loader/lib/runtime/component-normalizer.js");
-var disposed = false
-function injectStyle (context) {
-  if (disposed) return
-  __webpack_require__(/*! !vue-style-loader!css-loader?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index?{"optionsId":"0","vue":true,"id":"data-v-0e1797ce","scoped":true,"sourceMap":true}!../../node_modules/vue-loader/lib/selector?type=styles&index=0!./ContributionComponent.vue */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-0e1797ce\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ContributionComponent.vue")
-}
-/* script */
-
-
-/* template */
-
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-0e1797ce"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-
-var Component = Object(_node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ContributionComponent_vue__WEBPACK_IMPORTED_MODULE_0___default.a,
-  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_0e1797ce_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_ContributionComponent_vue__WEBPACK_IMPORTED_MODULE_1__["render"],
-  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_0e1797ce_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_ContributionComponent_vue__WEBPACK_IMPORTED_MODULE_1__["staticRenderFns"],
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "www/vue/ContributionComponent.vue"
-
-/* hot reload */
-if (false) {}
-
-/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
-
-
-/***/ }),
-
-/***/ "./www/vue/DisciplineComponent.vue":
-/*!*****************************************!*\
-  !*** ./www/vue/DisciplineComponent.vue ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_DisciplineComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !ts-loader!../../node_modules/vue-loader/lib/selector?type=script&index=0!./DisciplineComponent.vue */ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/DisciplineComponent.vue");
-/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_DisciplineComponent_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_DisciplineComponent_vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_DisciplineComponent_vue__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_DisciplineComponent_vue__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_template_compiler_index_id_data_v_53887aa4_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_DisciplineComponent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../node_modules/vue-loader/lib/template-compiler/index?{"id":"data-v-53887aa4","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!../../node_modules/vue-loader/lib/selector?type=template&index=0!./DisciplineComponent.vue */ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-53887aa4\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/DisciplineComponent.vue");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../node_modules/vue-loader/lib/runtime/component-normalizer */ "./node_modules/vue-loader/lib/runtime/component-normalizer.js");
-var disposed = false
-function injectStyle (context) {
-  if (disposed) return
-  __webpack_require__(/*! !vue-style-loader!css-loader?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index?{"optionsId":"0","vue":true,"id":"data-v-53887aa4","scoped":true,"sourceMap":true}!../../node_modules/vue-loader/lib/selector?type=styles&index=0!./DisciplineComponent.vue */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-53887aa4\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/DisciplineComponent.vue")
-}
-/* script */
-
-
-/* template */
-
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-53887aa4"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-
-var Component = Object(_node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_DisciplineComponent_vue__WEBPACK_IMPORTED_MODULE_0___default.a,
-  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_53887aa4_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_DisciplineComponent_vue__WEBPACK_IMPORTED_MODULE_1__["render"],
-  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_53887aa4_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_DisciplineComponent_vue__WEBPACK_IMPORTED_MODULE_1__["staticRenderFns"],
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "www/vue/DisciplineComponent.vue"
-
-/* hot reload */
-if (false) {}
-
-/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
-
-
-/***/ }),
-
-/***/ "./www/vue/OngoingSessionComponent.vue":
-/*!*********************************************!*\
-  !*** ./www/vue/OngoingSessionComponent.vue ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_OngoingSessionComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !ts-loader!../../node_modules/vue-loader/lib/selector?type=script&index=0!./OngoingSessionComponent.vue */ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/OngoingSessionComponent.vue");
-/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_OngoingSessionComponent_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_OngoingSessionComponent_vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_OngoingSessionComponent_vue__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_OngoingSessionComponent_vue__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_template_compiler_index_id_data_v_4aa65ce3_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_OngoingSessionComponent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../node_modules/vue-loader/lib/template-compiler/index?{"id":"data-v-4aa65ce3","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!../../node_modules/vue-loader/lib/selector?type=template&index=0!./OngoingSessionComponent.vue */ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-4aa65ce3\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/OngoingSessionComponent.vue");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../node_modules/vue-loader/lib/runtime/component-normalizer */ "./node_modules/vue-loader/lib/runtime/component-normalizer.js");
-var disposed = false
-function injectStyle (context) {
-  if (disposed) return
-  __webpack_require__(/*! !vue-style-loader!css-loader?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index?{"optionsId":"0","vue":true,"id":"data-v-4aa65ce3","scoped":true,"sourceMap":true}!../../node_modules/vue-loader/lib/selector?type=styles&index=0!./OngoingSessionComponent.vue */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-4aa65ce3\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/OngoingSessionComponent.vue")
-}
-/* script */
-
-
-/* template */
-
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-4aa65ce3"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-
-var Component = Object(_node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_OngoingSessionComponent_vue__WEBPACK_IMPORTED_MODULE_0___default.a,
-  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_4aa65ce3_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_OngoingSessionComponent_vue__WEBPACK_IMPORTED_MODULE_1__["render"],
-  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_4aa65ce3_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_OngoingSessionComponent_vue__WEBPACK_IMPORTED_MODULE_1__["staticRenderFns"],
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "www/vue/OngoingSessionComponent.vue"
-
-/* hot reload */
-if (false) {}
-
-/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
-
-
-/***/ }),
-
-/***/ "./www/vue/PrepareComponent.vue":
-/*!**************************************!*\
-  !*** ./www/vue/PrepareComponent.vue ***!
-  \**************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PrepareComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !ts-loader!../../node_modules/vue-loader/lib/selector?type=script&index=0!./PrepareComponent.vue */ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/PrepareComponent.vue");
-/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PrepareComponent_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PrepareComponent_vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PrepareComponent_vue__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PrepareComponent_vue__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_template_compiler_index_id_data_v_b8f38e76_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_PrepareComponent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../node_modules/vue-loader/lib/template-compiler/index?{"id":"data-v-b8f38e76","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!../../node_modules/vue-loader/lib/selector?type=template&index=0!./PrepareComponent.vue */ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-b8f38e76\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/PrepareComponent.vue");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../node_modules/vue-loader/lib/runtime/component-normalizer */ "./node_modules/vue-loader/lib/runtime/component-normalizer.js");
-var disposed = false
-function injectStyle (context) {
-  if (disposed) return
-  __webpack_require__(/*! !vue-style-loader!css-loader?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index?{"optionsId":"0","vue":true,"id":"data-v-b8f38e76","scoped":true,"sourceMap":true}!../../node_modules/vue-loader/lib/selector?type=styles&index=0!./PrepareComponent.vue */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-b8f38e76\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/PrepareComponent.vue")
-}
-/* script */
-
-
-/* template */
-
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-b8f38e76"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-
-var Component = Object(_node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PrepareComponent_vue__WEBPACK_IMPORTED_MODULE_0___default.a,
-  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_b8f38e76_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_PrepareComponent_vue__WEBPACK_IMPORTED_MODULE_1__["render"],
-  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_b8f38e76_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_PrepareComponent_vue__WEBPACK_IMPORTED_MODULE_1__["staticRenderFns"],
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "www/vue/PrepareComponent.vue"
-
-/* hot reload */
-if (false) {}
-
-/* harmony default export */ __webpack_exports__["default"] = (Component.exports);
-
-
-/***/ }),
-
-/***/ "./www/vue/icon/PieAndDonutChartIconComponent.vue":
-/*!********************************************************!*\
-  !*** ./www/vue/icon/PieAndDonutChartIconComponent.vue ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PieAndDonutChartIconComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !ts-loader!../../../node_modules/vue-loader/lib/selector?type=script&index=0!./PieAndDonutChartIconComponent.vue */ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue");
-/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PieAndDonutChartIconComponent_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PieAndDonutChartIconComponent_vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PieAndDonutChartIconComponent_vue__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PieAndDonutChartIconComponent_vue__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_template_compiler_index_id_data_v_3312cc56_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_PieAndDonutChartIconComponent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/template-compiler/index?{"id":"data-v-3312cc56","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!../../../node_modules/vue-loader/lib/selector?type=template&index=0!./PieAndDonutChartIconComponent.vue */ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3312cc56\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue");
+/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AdminComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !ts-loader!../../../node_modules/vue-loader/lib/selector?type=script&index=0!./AdminComponent.vue */ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/debug/AdminComponent.vue");
+/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AdminComponent_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AdminComponent_vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AdminComponent_vue__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AdminComponent_vue__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_template_compiler_index_id_data_v_9b4e4d8e_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_AdminComponent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/template-compiler/index?{"id":"data-v-9b4e4d8e","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!../../../node_modules/vue-loader/lib/selector?type=template&index=0!./AdminComponent.vue */ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-9b4e4d8e\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/debug/AdminComponent.vue");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/component-normalizer */ "./node_modules/vue-loader/lib/runtime/component-normalizer.js");
 var disposed = false
 function injectStyle (context) {
   if (disposed) return
-  __webpack_require__(/*! !vue-style-loader!css-loader?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index?{"optionsId":"0","vue":true,"id":"data-v-3312cc56","scoped":true,"sourceMap":true}!../../../node_modules/vue-loader/lib/selector?type=styles&index=0!./PieAndDonutChartIconComponent.vue */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-3312cc56\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue")
+  __webpack_require__(/*! !vue-style-loader!css-loader?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index?{"optionsId":"0","vue":true,"id":"data-v-9b4e4d8e","scoped":true,"sourceMap":true}!../../../node_modules/vue-loader/lib/selector?type=styles&index=0!./AdminComponent.vue */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-9b4e4d8e\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/debug/AdminComponent.vue")
 }
 /* script */
 
@@ -17093,20 +13430,20 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-3312cc56"
+var __vue_scopeId__ = "data-v-9b4e4d8e"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 
 var Component = Object(_node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PieAndDonutChartIconComponent_vue__WEBPACK_IMPORTED_MODULE_0___default.a,
-  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_3312cc56_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_PieAndDonutChartIconComponent_vue__WEBPACK_IMPORTED_MODULE_1__["render"],
-  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_3312cc56_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_PieAndDonutChartIconComponent_vue__WEBPACK_IMPORTED_MODULE_1__["staticRenderFns"],
+  _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AdminComponent_vue__WEBPACK_IMPORTED_MODULE_0___default.a,
+  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_9b4e4d8e_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_AdminComponent_vue__WEBPACK_IMPORTED_MODULE_1__["render"],
+  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_9b4e4d8e_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_AdminComponent_vue__WEBPACK_IMPORTED_MODULE_1__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "www/vue/icon/PieAndDonutChartIconComponent.vue"
+Component.options.__file = "www/vue/debug/AdminComponent.vue"
 
 /* hot reload */
 if (false) {}
@@ -17117,4 +13454,4 @@ if (false) {}
 /***/ })
 
 /******/ });
-//# sourceMappingURL=IndexBundle.js.map
+//# sourceMappingURL=AdminBundle.js.map
