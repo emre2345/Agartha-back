@@ -67,14 +67,20 @@ class MockedPractitionerService : IPractitionerService {
         return session
     }
 
-    override fun endSession(practitionerId: String): Boolean {
-        val last = practitionerList
+    override fun endSession(practitionerId: String): PractitionerDBO? {
+        val practitioner = practitionerList
                 .filter {
                     it._id.equals(practitionerId)
                 }
                 .lastOrNull()
-        // Return if we have a last item
-        return last != null
+        // Set endTime on last session
+        val lastSession = practitioner!!.sessions.last()
+        val session = SessionDBO(lastSession.index, lastSession.geolocation, lastSession.discipline, lastSession.intention, lastSession.startTime, LocalDateTime.now())
+        val sessions = practitioner.sessions.toMutableList()
+        sessions.removeAt(0)
+        sessions.add(session)
+        // Return the new practitioner with updated sessions
+        return PractitionerDBO(practitioner._id, practitioner.created, sessions)
     }
 
     override fun getAll(): List<PractitionerDBO> {
