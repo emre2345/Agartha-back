@@ -34,6 +34,10 @@ class AdminController(private val mService: IPractitionerService, private val se
             Spark.post("/generate/:count", ::generatePractitioners)
             // Add Session to existing practitioner
             Spark.post("/session/add/:id/:discipline/:intention", ::addSession)
+            // Remove all practitioners
+            Spark.post("/remove/all", ::removeAll)
+            // Remove all generated practitioners
+            Spark.post("/remove/generated", ::removeGenerated)
         }
     }
 
@@ -93,6 +97,20 @@ class AdminController(private val mService: IPractitionerService, private val se
 
         response.status(400)
         return "Practitioner id $userId does not exist in database"
+    }
+
+    /**
+     * Remove all practitioners
+     */
+    private fun removeAll(request: Request, response: Response): String {
+        return ""
+    }
+
+    /**
+     * Remove all generated practitioners
+     */
+    private fun removeGenerated(request: Request, response: Response): String {
+        return ""
     }
 
 
