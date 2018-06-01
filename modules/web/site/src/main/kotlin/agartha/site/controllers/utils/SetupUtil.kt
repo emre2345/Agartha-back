@@ -11,6 +11,10 @@ import agartha.data.objects.IntentionDBO
 class SetupUtil {
 
     companion object {
+        /**
+         * These are the default intentions, will be added to Database via SettingsController when database Settings conllection is empty
+         * Also used by Admin controller where user does not need to be "logged on"
+         */
         fun getDefaultIntentions(): List<IntentionDBO> {
             return listOf(
                     IntentionDBO("Wellbeing", "This is the wish for Restoration of the optimal state of the receiver, at any level the sender wishes- physical, emotional, mental, energetic, or spiritual. Covers anything from a simple physical injury to soul wounds."),
@@ -26,7 +30,10 @@ class SetupUtil {
             )
         }
 
-
+        /**
+         * These are the default disciplines, will be added to Database via SettingsController when database Settings collection is empty
+         * Also used by Admin controller where user does not need to be "logged on"
+         */
         fun getDefaultDisciplines(): List<DisciplineDBO> {
             return listOf(
                     DisciplineDBO("Readings", "Astrology, tarot, psychic, iridology"),
