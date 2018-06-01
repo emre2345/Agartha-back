@@ -15,7 +15,6 @@ import java.time.LocalDateTime
  */
 class PractitionerService : IPractitionerService {
 
-
     // Get MongoDatabase
     private val database = MongoConnection.getDatabase()
     // MongoCollection
@@ -98,6 +97,16 @@ class PractitionerService : IPractitionerService {
         }
         return user
     }
+
+    override fun removeAll(): Boolean {
+        return try {
+            collection.drop()
+            true
+        }catch(e: Exception) {
+            false
+        }
+    }
+
 
     private fun pushSession(practitionerId: String, session: SessionDBO) {
         // Update first document found by Id, push the new document

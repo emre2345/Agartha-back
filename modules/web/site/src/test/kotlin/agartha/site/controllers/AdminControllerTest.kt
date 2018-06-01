@@ -60,6 +60,10 @@ class AdminControllerTest {
         assertThat(dataList.size).isEqualTo(3)
     }
 
+
+    /**
+     * Add
+     */
     @Test
     fun addSessionExistingUser_responseStatus_200() {
         prepopulate()
@@ -120,6 +124,9 @@ class AdminControllerTest {
         assertThat(body).isEqualTo("Practitioner id sss does not exist in database")
     }
 
+    /**
+     * Generate
+     */
     @Test
     fun generatePractitionersGenerate10_responseStatus_200() {
         val request = testController.testServer.post(
@@ -144,5 +151,34 @@ class AdminControllerTest {
                 "/admin/generate/10", "", false)
         testController.testServer.execute(request)
         assertThat(mockedService.getAll().size).isEqualTo(10)
+    }
+
+    /**
+     * Remove all
+     */
+    @Test
+    fun removeAllPractitioners_responseStatus_200() {
+        val request = testController.testServer.get(
+                "/admin/remove/all", false)
+        val httpResponse = testController.testServer.execute(request)
+        assertThat(httpResponse.code()).isEqualTo(200)
+    }
+
+    @Test
+    fun removeAllPractitioners_responseBody_true() {
+        val request = testController.testServer.get(
+                "/admin/remove/all", false)
+        val httpResponse = testController.testServer.execute(request)
+        val body = String(httpResponse.body())
+        assertThat(body).isEqualTo("true")
+    }
+
+    @Test
+    fun removeAllPractitioners_storedCount_0() {
+        prepopulate()
+        val request = testController.testServer.get(
+                "/admin/remove/all", false)
+        testController.testServer.execute(request)
+        assertThat(mockedService.getAll().size).isEqualTo(0)
     }
 }

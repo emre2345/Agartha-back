@@ -238,4 +238,16 @@ class PractitionerServiceTest : DatabaseHandler() {
         val item = PractitionerService().getById(practitioner._id!!)
         assertThat(item!!.sessions.last().endTime).isNotNull()
     }
+
+    /**
+     *
+     */
+    @Test
+    fun removeAll_dataCount_0() {
+        // Insert a new practising user
+        PractitionerService().insert(PractitionerDBO())
+        // Remove all users
+        PractitionerService().removeAll()
+        assertThat(PractitionerService().getAll().size).isEqualTo(0)
+    }
 }

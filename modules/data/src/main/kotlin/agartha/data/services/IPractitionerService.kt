@@ -41,4 +41,9 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      */
     fun endSession(
             practitionerId: String): PractitionerDBO?
+
+    /**
+     * Remove all practitioners
+     */
+    fun removeAll(): Boolean
 }

@@ -82,6 +82,11 @@ class MockedPractitionerService : IPractitionerService {
         return PractitionerDBO(practitioner._id, practitioner.created, sessions)
     }
 
+    override fun removeAll(): Boolean {
+        practitionerList.clear()
+        return true
+    }
+
     override fun getAll(): List<PractitionerDBO> {
         return practitionerList
     }

@@ -35,9 +35,9 @@ class AdminController(private val mService: IPractitionerService, private val se
             // Add Session to existing practitioner
             Spark.post("/session/add/:id/:discipline/:intention", ::addSession)
             // Remove all practitioners
-            Spark.post("/remove/all", ::removeAll)
+            Spark.get("/remove/all", ::removeAll)
             // Remove all generated practitioners
-            Spark.post("/remove/generated", ::removeGenerated)
+            Spark.get("/remove/generated", ::removeGenerated)
         }
     }
 
@@ -103,13 +103,15 @@ class AdminController(private val mService: IPractitionerService, private val se
      * Remove all practitioners
      */
     private fun removeAll(request: Request, response: Response): String {
-        return ""
+        val hej = mService.removeAll()
+        return "${hej}"
     }
 
     /**
      * Remove all generated practitioners
      */
     private fun removeGenerated(request: Request, response: Response): String {
+        println("remove generated")
         return ""
     }
 
