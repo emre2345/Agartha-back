@@ -113,6 +113,15 @@ class PractitionerService : IPractitionerService {
         return collection.find().toList()
     }
 
+    override fun removeById(practitionerId: String): Boolean {
+        return try {
+            collection.deleteOneById(practitionerId)
+            true
+        }catch(e: Exception) {
+            false
+        }
+    }
+
 
     private fun pushSession(practitionerId: String, session: SessionDBO) {
         // Update first document found by Id, push the new document

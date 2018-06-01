@@ -2,6 +2,7 @@ package agartha.site.controllers
 
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
+import agartha.data.services.PractitionerService
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.objects.request.PractitionerInvolvedInformation
@@ -224,7 +225,7 @@ class PractitionerControllerTest {
      *
      */
     @Test
-    fun endSession_response_true() {
+    fun endSession_response_pracSessionsEndTimeIsNotNull() {
         // Setup
         mockedService.insert(
                 PractitionerDBO("abc", LocalDateTime.now(), mutableListOf(
@@ -235,5 +236,21 @@ class PractitionerControllerTest {
         val responseBody = String(httpResponse.body())
         val prac = ControllerUtil.stringToObject(responseBody, PractitionerDBO::class.java)
         assertThat(prac.sessions.last().endTime).isNotNull()
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun removeById_response_true() {
+        // Setup
+        mockedService.insert(
+                PractitionerDBO("abc", LocalDateTime.now(), mutableListOf(
+                        SessionDBO(null, "D", "I", LocalDateTime.now()))))
+
+        val postRequest = testController.testServer.delete("/practitioner/abc", false)
+        val httpResponse = testController.testServer.execute(postRequest)
+        val responseBody = String(httpResponse.body())
+        assertThat(responseBody).isEqualTo("true")
     }
 }

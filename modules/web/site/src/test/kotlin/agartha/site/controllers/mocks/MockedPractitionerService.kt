@@ -20,6 +20,10 @@ class MockedPractitionerService : IPractitionerService {
         val item = this.find { it.description == "Generated Practitioner" }
         return this.remove(item)
     }
+    fun MutableList<PractitionerDBO>.removeById(id: String): Boolean {
+        val item = this.find { it._id == id }
+        return this.remove(item)
+    }
 
     private val practitionerList: MutableList<PractitionerDBO> = mutableListOf()
 
@@ -98,6 +102,11 @@ class MockedPractitionerService : IPractitionerService {
     override fun removeGenerated(): List<PractitionerDBO> {
         practitionerList.removeGenerated()
         return practitionerList
+    }
+
+    override fun removeById(practitionerId: String): Boolean {
+        practitionerList.removeById(practitionerId)
+        return true
     }
 
     override fun getAll(): List<PractitionerDBO> {
