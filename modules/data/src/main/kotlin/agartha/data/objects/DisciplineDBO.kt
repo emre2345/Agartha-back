@@ -7,4 +7,6 @@ package agartha.data.objects
  */
 data class DisciplineDBO(
         // Title of Discipline
-        val title: String)
+        val title: String,
+        // Description of Discipline
+        val description: String)

@@ -4,6 +4,7 @@ import agartha.data.objects.*
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.controllers.utils.DevGeolocationSelect
+import agartha.site.controllers.utils.SetupUtil
 import spark.Request
 import spark.Response
 import spark.Spark
@@ -22,30 +23,8 @@ class AdminController(private val mService: IPractitionerService, private val se
     private val geolocations = DevGeolocationSelect.values().map { it.geolocationDBO }
     // Get or generate a settings object to random disciplines and intentions from
     private val safeSettings = settings ?: SettingsDBO(
-            intentions = listOf(
-                    IntentionDBO("Wellbeing", "This is the wish for Restoration of the optimal state of the receiver, at any level the sender wishes- physical, emotional, mental, energetic, or spiritual. Covers anything from a simple physical injury to soul wounds."),
-                    IntentionDBO("Harmony", "Harmony contains the aspiration towards peace, but activates and uplifts it. This is understood to contain all possibilities for peace and both Inner and Outer, from personal to interpersonal to international."),
-                    IntentionDBO("Freedom", "This is the ideal human condition unrestricted, and includes both “freedom TO” and “freedom FROM”. Freedom to think, express, move, act. Freedom from suffering, censorship,oppression, imprisonment, addiction."),
-                    IntentionDBO("Empowerment", "People want to feel capable, confident, and free to do as they truly desire, and not to do as they don’t. This includes simple profound power of yes and of no."),
-                    IntentionDBO("Resolution", "Similar to peace, but with a felt sense of positive completion. Resolution of challenging situations, conflicts, disagreements, misunderstanding, and internal personal issues and experiences."),
-                    IntentionDBO("Empathy", "We are inherently and fundamentally connected to one another. Joys are grown, and burdens lightened, through sharing."),
-                    IntentionDBO("Abundance", "Abundance can be understood as an internal experience of deep sufficiency, or in a more mundane outward sense as what we call “wealth”. Many people with great material worth live an experience of internal poverty and hunger for more. Others have very little outwardly and experience themselves as having plenty. Enough to take great care of oneself and those one loves?"),
-                    IntentionDBO("Love", "Whether romantic, familial, or unconditional, this embodies one of the greatest sources of basic human joy as well as one of our highest possible aspirations. We do our best to maximize heartfelt appreciation and to minimize judgement."),
-                    IntentionDBO("Celebration", "Everyone wants these things and feels great when extending them to or sharing them with others. Can be for achievements and milestones of any size. Births, birthday, graduation, promotion, wedding, anniversary, completion."),
-                    IntentionDBO("Transformation", "The only constant in life is change. How we handle change is one of the most powerful factors in our experience of life. Let’s help one another do our best.")
-            ),
-            disciplines = listOf(
-                    // These are real, from Kim
-                    DisciplineDBO("Meditation"),
-                    DisciplineDBO("Yoga"),
-                    // These are made up by DP
-                    DisciplineDBO("Physical wellness"),
-                    DisciplineDBO("Divination"),
-                    DisciplineDBO("Martial and internal arts"),
-                    DisciplineDBO("Self-expression"),
-                    DisciplineDBO("Transformative technology"),
-                    DisciplineDBO("Psychic realm"))
-    )
+            intentions = SetupUtil.getDefaultIntentions(),
+            disciplines = SetupUtil.getDefaultDisciplines())
 
     init {
         Spark.path("/admin") {

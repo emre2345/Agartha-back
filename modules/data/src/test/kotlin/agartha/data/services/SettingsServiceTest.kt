@@ -15,16 +15,16 @@ import org.junit.Test
 class SettingsServiceTest : DatabaseHandler() {
     private val settingsOne = SettingsDBO(
             intentions = mutableListOf(IntentionDBO("The Title", "The Description")),
-            disciplines = listOf(DisciplineDBO("The title"))
+            disciplines = listOf(DisciplineDBO("The title", "The Description"))
     )
     private val settingsTwo = SettingsDBO(
             intentions = mutableListOf(
-                    IntentionDBO("Intention title 1", "The Description"),
-                    IntentionDBO("Intention title 2", "The Description")
+                    IntentionDBO("Intention title 1", "The Description 1"),
+                    IntentionDBO("Intention title 2", "The Description 2")
             ),
             disciplines = listOf(
-                    DisciplineDBO("Discipline title 1"),
-                    DisciplineDBO("Discipline title 1"))
+                    DisciplineDBO("Discipline title 1", "The Description 1"),
+                    DisciplineDBO("Discipline title 2", "The Description 2"))
     )
 
 
@@ -84,9 +84,15 @@ class SettingsServiceTest : DatabaseHandler() {
      *
      */
     @Test
-    fun settingService_practicesTitle_match() {
+    fun settingService_dicsiplineTitle_match() {
         val settings = SettingsService().insert(settingsTwo)
         assertThat(settings.disciplines.first().title).isEqualTo("Discipline title 1")
+    }
+
+    @Test
+    fun settingService_dicsiplineDescription_match() {
+        val settings = SettingsService().insert(settingsTwo)
+        assertThat(settings.disciplines.first().description).isEqualTo("The Description 1")
     }
 
     /**
