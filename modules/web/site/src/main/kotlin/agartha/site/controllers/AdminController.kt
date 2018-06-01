@@ -103,16 +103,15 @@ class AdminController(private val mService: IPractitionerService, private val se
      * Remove all practitioners
      */
     private fun removeAll(request: Request, response: Response): String {
-        val hej = mService.removeAll()
-        return "${hej}"
+        return "${mService.removeAll()}"
     }
 
     /**
      * Remove all generated practitioners
      */
     private fun removeGenerated(request: Request, response: Response): String {
-        println("remove generated")
-        return ""
+        val hej = mService.removeGenerated()
+        return ControllerUtil.objectListToString(hej)
     }
 
 

@@ -107,6 +107,12 @@ class PractitionerService : IPractitionerService {
         }
     }
 
+    override fun removeGenerated(): List<PractitionerDBO> {
+        // Delete all that has this specific description
+        collection.deleteMany("{ 'description' : 'Generated Practitioner' }")
+        return collection.find().toList()
+    }
+
 
     private fun pushSession(practitionerId: String, session: SessionDBO) {
         // Update first document found by Id, push the new document

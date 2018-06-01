@@ -40,6 +40,7 @@ class AdminControllerTest {
         mockedService.insert(PractitionerDBO(_id = "aaa"))
         mockedService.insert(PractitionerDBO(_id = "bbb"))
         mockedService.insert(PractitionerDBO(_id = "ccc"))
+        mockedService.insert(PractitionerDBO(_id = "ccc", description = "Generated Practitioner"))
     }
 
     @Test
@@ -51,13 +52,13 @@ class AdminControllerTest {
     }
 
     @Test
-    fun getPractitioners_responseBody_size3() {
+    fun getPractitioners_responseBody_size4() {
         prepopulate()
         val request = testController.testServer.get("/admin/practitioners", false)
         val httpResponse = testController.testServer.execute(request)
         val body = String(httpResponse.body())
         val dataList = ControllerUtil.stringToObjectList(body, PractitionerDBO::class.java)
-        assertThat(dataList.size).isEqualTo(3)
+        assertThat(dataList.size).isEqualTo(4)
     }
 
 
@@ -166,6 +167,7 @@ class AdminControllerTest {
 
     @Test
     fun removeAllPractitioners_responseBody_true() {
+        prepopulate()
         val request = testController.testServer.get(
                 "/admin/remove/all", false)
         val httpResponse = testController.testServer.execute(request)
@@ -180,5 +182,36 @@ class AdminControllerTest {
                 "/admin/remove/all", false)
         testController.testServer.execute(request)
         assertThat(mockedService.getAll().size).isEqualTo(0)
+    }
+
+    /**
+     * Remove generated
+     */
+    @Test
+    fun removeGeneratedPractitioners_responseStatus_200() {
+        val request = testController.testServer.get(
+                "/admin/remove/generated", false)
+        val httpResponse = testController.testServer.execute(request)
+        assertThat(httpResponse.code()).isEqualTo(200)
+    }
+
+    @Test
+    fun removeGeneratedPractitioners_responseBody_listWithSize3() {
+        prepopulate()
+        val request = testController.testServer.get(
+                "/admin/remove/generated", false)
+        val httpResponse = testController.testServer.execute(request)
+        val body = String(httpResponse.body())
+        val list = ControllerUtil.stringToObjectList(body, PractitionerDBO::class.java)
+        assertThat(list.size).isEqualTo(3)
+    }
+
+    @Test
+    fun removeGeneratedPractitioners_storedCount_3() {
+        prepopulate()
+        val request = testController.testServer.get(
+                "/admin/remove/generated", false)
+        testController.testServer.execute(request)
+        assertThat(mockedService.getAll().size).isEqualTo(3)
     }
 }

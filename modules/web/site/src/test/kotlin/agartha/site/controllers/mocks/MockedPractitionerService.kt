@@ -6,12 +6,20 @@ import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
 import java.time.LocalDateTime
 
+
 /**
  * Purpose of this file is Mocked service for testing Controller
  *
  * Created by Jorgen Andersson on 2018-04-09.
  */
 class MockedPractitionerService : IPractitionerService {
+    /**
+     * Overloading a new function to the list
+     */
+    fun MutableList<PractitionerDBO>.removeGenerated(): Boolean {
+        val item = this.find { it.description == "Generated Practitioner" }
+        return this.remove(item)
+    }
 
     private val practitionerList: MutableList<PractitionerDBO> = mutableListOf()
 
@@ -42,7 +50,7 @@ class MockedPractitionerService : IPractitionerService {
                 }
                 .first()
 
-        val session = SessionDBO( geolocation, disciplineName, intentionName)
+        val session = SessionDBO(geolocation, disciplineName, intentionName)
         // Due to sessions is unmutable list in practitionerDBO
         // we must first extract sessions and add the new to new list
         // drop practitioner from list
@@ -85,6 +93,11 @@ class MockedPractitionerService : IPractitionerService {
     override fun removeAll(): Boolean {
         practitionerList.clear()
         return true
+    }
+
+    override fun removeGenerated(): List<PractitionerDBO> {
+        practitionerList.removeGenerated()
+        return practitionerList
     }
 
     override fun getAll(): List<PractitionerDBO> {
