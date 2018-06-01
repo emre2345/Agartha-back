@@ -11,7 +11,7 @@ class SettingsDBOTest {
             intentions = mutableListOf(
                     IntentionDBO("LOVE", "description of love"),
                     IntentionDBO("HORSES", "description of horses")),
-            disciplines = listOf(DisciplineDBO("Yoga")),
+            disciplines = listOf(DisciplineDBO("Yoga", "description of Yoga")),
             companionMinutes = 1,
             companionGoalMinutes = 2
     )
@@ -55,6 +55,14 @@ class SettingsDBOTest {
     @Test
     fun settings_firstDisciplineTitle_yoga() {
         Assertions.assertThat(settings.disciplines[0].title).isEqualTo("Yoga")
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun settings_firstDisciplineDescription_yoga() {
+        Assertions.assertThat(settings.disciplines[0].description).isEqualTo("description of Yoga")
     }
 
     /***************************
