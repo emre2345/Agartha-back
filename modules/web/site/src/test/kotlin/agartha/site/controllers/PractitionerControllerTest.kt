@@ -248,7 +248,7 @@ class PractitionerControllerTest {
                 PractitionerDBO("abc", LocalDateTime.now(), mutableListOf(
                         SessionDBO(null, "D", "I", LocalDateTime.now()))))
 
-        val postRequest = testController.testServer.delete("/practitioner/abc", false)
+        val postRequest = testController.testServer.get("/practitioner/remove/abc", false)
         val httpResponse = testController.testServer.execute(postRequest)
         val responseBody = String(httpResponse.body())
         assertThat(responseBody).isEqualTo("true")
