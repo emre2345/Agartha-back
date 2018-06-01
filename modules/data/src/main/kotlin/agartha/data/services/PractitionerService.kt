@@ -15,7 +15,6 @@ import java.time.LocalDateTime
  */
 class PractitionerService : IPractitionerService {
 
-
     // Get MongoDatabase
     private val database = MongoConnection.getDatabase()
     // MongoCollection
@@ -98,6 +97,40 @@ class PractitionerService : IPractitionerService {
         }
         return user
     }
+
+    /**
+     * Remove all the practitioners in the db
+     */
+    override fun removeAll(): Boolean {
+        return try {
+            collection.drop()
+            true
+        }catch(e: Exception) {
+            false
+        }
+    }
+
+    /**
+     * Remove all practitioners that is generated
+     */
+    override fun removeGenerated(): List<PractitionerDBO> {
+        // Delete all that has this specific description
+        collection.deleteMany("{ 'description' : 'Generated Practitioner' }")
+        return collection.find().toList()
+    }
+
+    /**
+     * Removes one item from the collection
+     */
+    override fun removeById(practitionerId: String): Boolean {
+        return try {
+            collection.deleteOneById(practitionerId)
+            true
+        }catch(e: Exception) {
+            false
+        }
+    }
+
 
     private fun pushSession(practitionerId: String, session: SessionDBO) {
         // Update first document found by Id, push the new document

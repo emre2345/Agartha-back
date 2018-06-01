@@ -39,6 +39,8 @@ class PractitionerController(private val mService: IPractitionerService) {
             Spark.post("/session/start/:userid", ::startSession)
             // End a Session
             Spark.post("/session/end/:userid", ::endSession)
+            // Remove a practitioner
+            Spark.get("/remove/:userid", ::removePractitioner)
         }
     }
 
@@ -126,7 +128,7 @@ class PractitionerController(private val mService: IPractitionerService) {
 
     /**
      * End an ongoing session
-     * @return true if userId exists and have an ongoing session, otherwise false
+     * @return practitioner with the updated session
      */
     @Suppress("UNUSED_PARAMETER")
     private fun endSession(request: Request, response: Response): String {
@@ -136,6 +138,18 @@ class PractitionerController(private val mService: IPractitionerService) {
         val practitioner = mService.endSession(userId)
         // Return the updated practitioner
         return ControllerUtil.objectToString(practitioner)
+    }
+
+    /**
+     * Remove a practitioner
+     * @return true if everything went fine
+     */
+    @Suppress("UNUSED_PARAMETER")
+    private fun removePractitioner(request: Request, response: Response): String {
+        // Get current userid
+        val userId: String = request.params(":userid")
+        // Remove by id
+        return ControllerUtil.objectToString(mService.removeById(userId))
     }
 
 }
