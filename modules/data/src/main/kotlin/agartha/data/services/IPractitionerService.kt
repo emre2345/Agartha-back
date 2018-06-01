@@ -44,16 +44,19 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
 
     /**
      * Remove all practitioners
+     * @return boolean - true oif all went fine
      */
     fun removeAll(): Boolean
 
     /**
      * Remove all generated
+     * @return a list with the practitioner that has not been removed
      */
     fun removeGenerated(): List<PractitionerDBO>
 
     /**
      * Remove one practitioner
+     * @return boolean - true if all went fine
      */
     fun removeById(
             practitionerId: String): Boolean

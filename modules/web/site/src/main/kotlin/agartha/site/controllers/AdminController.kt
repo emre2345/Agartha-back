@@ -110,8 +110,7 @@ class AdminController(private val mService: IPractitionerService, private val se
      * Remove all generated practitioners
      */
     private fun removeGenerated(request: Request, response: Response): String {
-        val hej = mService.removeGenerated()
-        return ControllerUtil.objectListToString(hej)
+        return ControllerUtil.objectListToString(mService.removeGenerated())
     }
 
 

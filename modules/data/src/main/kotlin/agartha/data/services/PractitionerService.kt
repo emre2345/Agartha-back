@@ -98,6 +98,9 @@ class PractitionerService : IPractitionerService {
         return user
     }
 
+    /**
+     * Remove all the practitioners in the db
+     */
     override fun removeAll(): Boolean {
         return try {
             collection.drop()
@@ -107,12 +110,18 @@ class PractitionerService : IPractitionerService {
         }
     }
 
+    /**
+     * Remove all practitioners that is generated
+     */
     override fun removeGenerated(): List<PractitionerDBO> {
         // Delete all that has this specific description
         collection.deleteMany("{ 'description' : 'Generated Practitioner' }")
         return collection.find().toList()
     }
 
+    /**
+     * Removes one item from the collection
+     */
     override fun removeById(practitionerId: String): Boolean {
         return try {
             collection.deleteOneById(practitionerId)
