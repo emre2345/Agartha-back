@@ -48,8 +48,7 @@ class CompanionController(private val mService: IPractitionerService) {
         // End date from when we should look for sessions (now)
         val endDateTime: LocalDateTime = LocalDateTime.now()
         //
-        // Get list of practitioners with at least one session ongoing in this
-        // time span
+        // Get list of practitioners with at least one session ongoing in this time span
         val practitioners = mService.getAll().filter {
             it.hasSessionBetween(startDateTime, endDateTime)
         }
@@ -66,6 +65,7 @@ class CompanionController(private val mService: IPractitionerService) {
 
     /**
      * Get report with all sessions active during current user's latest session
+     * Should include current user
      */
     @Suppress("UNUSED_PARAMETER")
     private fun companionSessionReport(request: Request, response: Response): String {
