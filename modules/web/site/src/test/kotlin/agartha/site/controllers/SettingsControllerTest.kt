@@ -66,42 +66,69 @@ class SettingsControllerTest {
         val getRequest = testController.testServer.get("/settings", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
-
-        assertThat(body).contains("Wellbeing")
-        assertThat(body).contains("Harmony")
-        assertThat(body).contains("Freedom")
-        assertThat(body).contains("Empowerment")
-        assertThat(body).contains("Resolution")
-        assertThat(body).contains("Empathy")
-        assertThat(body).contains("Abundance")
-        assertThat(body).contains("Love")
-        assertThat(body).contains("Celebration")
-        assertThat(body).contains("Transformation")
+        val settings = jacksonObjectMapper().readValue(body, SettingsDBO::class.java)
+        //
+        val keys = settings
+                .intentions
+                .map {
+                    it.title to it.description
+                }
+                .toMap()
+                .keys
+        //
+        assertThat(keys).contains("Wellbeing")
+        assertThat(keys).contains("Harmony")
+        assertThat(keys).contains("Freedom")
+        assertThat(keys).contains("Empowerment")
+        assertThat(keys).contains("Resolution")
+        assertThat(keys).contains("Empathy")
+        assertThat(keys).contains("Abundance")
+        assertThat(keys).contains("Love")
+        assertThat(keys).contains("Celebration")
+        assertThat(keys).contains("Transformation")
     }
 
     /**
      *
      */
     @Test
-    fun settingController_settings_defaultPracticesCount() {
+    fun settingController_settings_defaultDisciplinesCount() {
         val getRequest = testController.testServer.get("/settings", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
 
         val item = jacksonObjectMapper().readValue(body, SettingsDBO::class.java)
-        assertThat(item.disciplines.size).isEqualTo(8)
+        assertThat(item.disciplines.size).isEqualTo(10)
     }
 
     /**
      *
      */
     @Test
-    fun settingController_settings_defaultPractices() {
+    fun settingController_settings_defaultDisciplines() {
         val getRequest = testController.testServer.get("/settings", false)
         val httpResponse = testController.testServer.execute(getRequest)
         val body = String(httpResponse.body())
+        val settings = jacksonObjectMapper().readValue(body, SettingsDBO::class.java)
+        //
+        val keys = settings
+                .disciplines
+                .map {
+                    it.title to it.description
+                }
+                .toMap()
+                .keys
+
         // Validate first level practices
-        assertThat(body).contains("Meditation")
-        assertThat(body).contains("Yoga")
+        assertThat(keys).contains("Readings")
+        assertThat(keys).contains("Meditation")
+        assertThat(keys).contains("Wellness")
+        assertThat(keys).contains("Movement")
+        assertThat(keys).contains("Martial arts")
+        assertThat(keys).contains("Physical exercise")
+        assertThat(keys).contains("Creative expression")
+        assertThat(keys).contains("Outdoor activity")
+        assertThat(keys).contains("Personal growth")
+        assertThat(keys).contains("Meals")
     }
 }

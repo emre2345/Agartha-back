@@ -64,27 +64,27 @@ class AdminControllerTest {
     fun addSessionExistingUser_responseStatus_200() {
         prepopulate()
         val request = testController.testServer.post(
-                "/admin/session/add/bbb/Yoga/Love", "", false)
+                "/admin/session/add/bbb/Meditation/Love", "", false)
         val httpResponse = testController.testServer.execute(request)
         assertThat(httpResponse.code()).isEqualTo(200)
     }
 
     @Test
-    fun addSessionExistingUser_responseBodyDiscipline_Yoga() {
+    fun addSessionExistingUser_responseBodyDiscipline_Meditation() {
         prepopulate()
         val request = testController.testServer.post(
-                "/admin/session/add/bbb/Yoga/Love", "", false)
+                "/admin/session/add/bbb/Meditation/Love", "", false)
         val httpResponse = testController.testServer.execute(request)
         val body = String(httpResponse.body())
         val data = ControllerUtil.stringToObject(body, SessionDBO::class.java)
-        assertThat(data.discipline).isEqualTo("Yoga")
+        assertThat(data.discipline).isEqualTo("Meditation")
     }
 
     @Test
     fun addSessionExistingUser_responseBodyIntention_Love() {
         prepopulate()
         val request = testController.testServer.post(
-                "/admin/session/add/bbb/Yoga/Love", "", false)
+                "/admin/session/add/bbb/Meditation/Love", "", false)
         val httpResponse = testController.testServer.execute(request)
         val body = String(httpResponse.body())
         val data = ControllerUtil.stringToObject(body, SessionDBO::class.java)
@@ -95,7 +95,7 @@ class AdminControllerTest {
     fun addSessionExistingUser_storedSessionCount_1() {
         prepopulate()
         val request = testController.testServer.post(
-                "/admin/session/add/bbb/Yoga/Love", "", false)
+                "/admin/session/add/bbb/Meditation/Love", "", false)
          testController.testServer.execute(request)
         val p = mockedService.getById("bbb")
         assertThat(mockedService.getById("bbb")!!.sessions.size).isEqualTo(1)
@@ -105,7 +105,7 @@ class AdminControllerTest {
     fun addSessionNonExistingUser_responseStatus_400() {
         prepopulate()
         val request = testController.testServer.post(
-                "/admin/session/add/sss/Yoga/Love", "", false)
+                "/admin/session/add/sss/Meditation/Love", "", false)
         val httpResponse = testController.testServer.execute(request)
         assertThat(httpResponse.code()).isEqualTo(400)
     }
@@ -114,7 +114,7 @@ class AdminControllerTest {
     fun addSessionNonExistingUser_body_missing() {
         prepopulate()
         val request = testController.testServer.post(
-                "/admin/session/add/sss/Yoga/Love", "", false)
+                "/admin/session/add/sss/Meditation/Love", "", false)
         val httpResponse = testController.testServer.execute(request)
         val body = String(httpResponse.body())
         assertThat(body).isEqualTo("Practitioner id sss does not exist in database")
