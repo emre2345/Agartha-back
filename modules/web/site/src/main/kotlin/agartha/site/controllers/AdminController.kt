@@ -28,7 +28,7 @@ class AdminController(private val mService: IPractitionerService, private val se
 
     init {
         Spark.path("/admin") {
-            //
+            // Validate that a pass phrase exists in body
             Spark.before("/*", {request: Request, _ ->
                 val body = request.body() ?: ""
 
@@ -36,16 +36,24 @@ class AdminController(private val mService: IPractitionerService, private val se
                     Spark.halt(401, "Unauthorized")
                 }
             })
+
+            // All API must have type POST to be able to have a body
+            // Validate pass Phrase
+            Spark.post("/auth", { _, _ ->
+                "{\"value\":\"OK\"}"
+            })
             // Get all practitioners from data source
-            Spark.get("/practitioners", ::getPractitioners)
+            Spark.post("/practitioners", ::getPractitioners)
             // Generate [COUNT] number of new practitioners
             Spark.post("/generate/:count", ::generatePractitioners)
             // Add Session to existing practitioner
             Spark.post("/session/add/:id/:discipline/:intention", ::addSession)
             // Remove all practitioners
-            Spark.get("/remove/all", ::removeAll)
+            Spark.post("/remove/all", ::removeAll)
             // Remove all generated practitioners
-            Spark.get("/remove/generated", ::removeGenerated)
+            Spark.post("/remove/generated", ::removeGenerated)
+            // Remove a practitioner
+            Spark.post("/remove/practitioner/:userid", ::removePractitioner)
         }
     }
 
@@ -119,6 +127,19 @@ class AdminController(private val mService: IPractitionerService, private val se
      */
     private fun removeGenerated(request: Request, response: Response): String {
         return ControllerUtil.objectListToString(mService.removeGenerated())
+    }
+
+
+    /**
+     * Remove a practitioner
+     * @return true if everything went fine
+     */
+    @Suppress("UNUSED_PARAMETER")
+    private fun removePractitioner(request: Request, response: Response): String {
+        // Get current userid
+        val userId: String = request.params(":userid")
+        // Remove by id
+        return ControllerUtil.objectToString(mService.removeById(userId))
     }
 
 

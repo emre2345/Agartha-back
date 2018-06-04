@@ -238,19 +238,4 @@ class PractitionerControllerTest {
         assertThat(prac.sessions.last().endTime).isNotNull()
     }
 
-    /**
-     *
-     */
-    @Test
-    fun removeById_response_true() {
-        // Setup
-        mockedService.insert(
-                PractitionerDBO("abc", LocalDateTime.now(), mutableListOf(
-                        SessionDBO(null, "D", "I", LocalDateTime.now()))))
-
-        val postRequest = testController.testServer.get("/practitioner/remove/abc", false)
-        val httpResponse = testController.testServer.execute(postRequest)
-        val responseBody = String(httpResponse.body())
-        assertThat(responseBody).isEqualTo("true")
-    }
 }

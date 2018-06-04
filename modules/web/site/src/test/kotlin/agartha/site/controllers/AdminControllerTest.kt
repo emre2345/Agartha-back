@@ -8,6 +8,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.BeforeClass
 import org.junit.Test
+import java.time.LocalDateTime
 
 /**
  * Purpose of this file is to test AdminController
@@ -15,6 +16,8 @@ import org.junit.Test
  * Created by Jorgen Andersson on 2018-05-30.
  */
 class AdminControllerTest {
+
+    private val passPhrase = "tomten är snygg"
 
     companion object {
         val mockedService = MockedPractitionerService()
@@ -46,7 +49,7 @@ class AdminControllerTest {
     @Test
     fun getPractitioners_responseStatus_200() {
         prepopulate()
-        val request = testController.testServer.get("/admin/practitioners", false)
+        val request = testController.testServer.post("/admin/practitioners", passPhrase, false)
         val httpResponse = testController.testServer.execute(request)
         assertThat(httpResponse.code()).isEqualTo(200)
     }
@@ -54,13 +57,28 @@ class AdminControllerTest {
     @Test
     fun getPractitioners_responseBody_size4() {
         prepopulate()
-        val request = testController.testServer.get("/admin/practitioners", false)
+        val request = testController.testServer.post("/admin/practitioners", passPhrase,false)
         val httpResponse = testController.testServer.execute(request)
         val body = String(httpResponse.body())
         val dataList = ControllerUtil.stringToObjectList(body, PractitionerDBO::class.java)
         assertThat(dataList.size).isEqualTo(4)
     }
 
+    @Test
+    fun authenticateValidPassPhrase_responseCode_200() {
+        val request = testController.testServer.post(
+                "/admin/auth", passPhrase, false)
+        val httpResponse = testController.testServer.execute(request)
+        assertThat(httpResponse.code()).isEqualTo(200)
+    }
+
+    @Test
+    fun authenticateInvalidPassPhrase_responseCode_401() {
+        val request = testController.testServer.post(
+                "/admin/auth", "INVALID PASS PHRASE", false)
+        val httpResponse = testController.testServer.execute(request)
+        assertThat(httpResponse.code()).isEqualTo(401)
+    }
 
     /**
      * Add
@@ -69,7 +87,7 @@ class AdminControllerTest {
     fun addSessionExistingUser_responseStatus_200() {
         prepopulate()
         val request = testController.testServer.post(
-                "/admin/session/add/bbb/Meditation/Love", "", false)
+                "/admin/session/add/bbb/Meditation/Love", passPhrase, false)
         val httpResponse = testController.testServer.execute(request)
         assertThat(httpResponse.code()).isEqualTo(200)
     }
@@ -78,7 +96,7 @@ class AdminControllerTest {
     fun addSessionExistingUser_responseBodyDiscipline_Meditation() {
         prepopulate()
         val request = testController.testServer.post(
-                "/admin/session/add/bbb/Meditation/Love", "", false)
+                "/admin/session/add/bbb/Meditation/Love", passPhrase, false)
         val httpResponse = testController.testServer.execute(request)
         val body = String(httpResponse.body())
         val data = ControllerUtil.stringToObject(body, SessionDBO::class.java)
@@ -89,7 +107,7 @@ class AdminControllerTest {
     fun addSessionExistingUser_responseBodyIntention_Love() {
         prepopulate()
         val request = testController.testServer.post(
-                "/admin/session/add/bbb/Meditation/Love", "", false)
+                "/admin/session/add/bbb/Meditation/Love", passPhrase, false)
         val httpResponse = testController.testServer.execute(request)
         val body = String(httpResponse.body())
         val data = ControllerUtil.stringToObject(body, SessionDBO::class.java)
@@ -100,7 +118,7 @@ class AdminControllerTest {
     fun addSessionExistingUser_storedSessionCount_1() {
         prepopulate()
         val request = testController.testServer.post(
-                "/admin/session/add/bbb/Meditation/Love", "", false)
+                "/admin/session/add/bbb/Meditation/Love", passPhrase, false)
          testController.testServer.execute(request)
         val p = mockedService.getById("bbb")
         assertThat(mockedService.getById("bbb")!!.sessions.size).isEqualTo(1)
@@ -110,7 +128,7 @@ class AdminControllerTest {
     fun addSessionNonExistingUser_responseStatus_400() {
         prepopulate()
         val request = testController.testServer.post(
-                "/admin/session/add/sss/Meditation/Love", "", false)
+                "/admin/session/add/sss/Meditation/Love", passPhrase, false)
         val httpResponse = testController.testServer.execute(request)
         assertThat(httpResponse.code()).isEqualTo(400)
     }
@@ -119,7 +137,7 @@ class AdminControllerTest {
     fun addSessionNonExistingUser_body_missing() {
         prepopulate()
         val request = testController.testServer.post(
-                "/admin/session/add/sss/Meditation/Love", "", false)
+                "/admin/session/add/sss/Meditation/Love", passPhrase, false)
         val httpResponse = testController.testServer.execute(request)
         val body = String(httpResponse.body())
         assertThat(body).isEqualTo("Practitioner id sss does not exist in database")
@@ -131,7 +149,7 @@ class AdminControllerTest {
     @Test
     fun generatePractitionersGenerate10_responseStatus_200() {
         val request = testController.testServer.post(
-                "/admin/generate/10", "", false)
+                "/admin/generate/10", passPhrase, false)
         val httpResponse = testController.testServer.execute(request)
         assertThat(httpResponse.code()).isEqualTo(200)
     }
@@ -139,7 +157,7 @@ class AdminControllerTest {
     @Test
     fun generatePractitionersGenerate10_responseBody_size10() {
         val request = testController.testServer.post(
-                "/admin/generate/10", "", false)
+                "/admin/generate/10", passPhrase, false)
         val httpResponse = testController.testServer.execute(request)
         val body = String(httpResponse.body())
         val dataList = ControllerUtil.stringToObjectList(body, PractitionerDBO::class.java)
@@ -149,7 +167,7 @@ class AdminControllerTest {
     @Test
     fun generatePractitionersGenerate10_storedCount_10() {
         val request = testController.testServer.post(
-                "/admin/generate/10", "", false)
+                "/admin/generate/10", passPhrase,false)
         testController.testServer.execute(request)
         assertThat(mockedService.getAll().size).isEqualTo(10)
     }
@@ -159,8 +177,8 @@ class AdminControllerTest {
      */
     @Test
     fun removeAllPractitioners_responseStatus_200() {
-        val request = testController.testServer.get(
-                "/admin/remove/all", false)
+        val request = testController.testServer.post(
+                "/admin/remove/all", passPhrase,false)
         val httpResponse = testController.testServer.execute(request)
         assertThat(httpResponse.code()).isEqualTo(200)
     }
@@ -168,8 +186,8 @@ class AdminControllerTest {
     @Test
     fun removeAllPractitioners_responseBody_true() {
         prepopulate()
-        val request = testController.testServer.get(
-                "/admin/remove/all", false)
+        val request = testController.testServer.post(
+                "/admin/remove/all", passPhrase,false)
         val httpResponse = testController.testServer.execute(request)
         val body = String(httpResponse.body())
         assertThat(body).isEqualTo("true")
@@ -178,8 +196,8 @@ class AdminControllerTest {
     @Test
     fun removeAllPractitioners_storedCount_0() {
         prepopulate()
-        val request = testController.testServer.get(
-                "/admin/remove/all", false)
+        val request = testController.testServer.post(
+                "/admin/remove/all", passPhrase,false)
         testController.testServer.execute(request)
         assertThat(mockedService.getAll().size).isEqualTo(0)
     }
@@ -189,8 +207,8 @@ class AdminControllerTest {
      */
     @Test
     fun removeGeneratedPractitioners_responseStatus_200() {
-        val request = testController.testServer.get(
-                "/admin/remove/generated", false)
+        val request = testController.testServer.post(
+                "/admin/remove/generated", passPhrase,false)
         val httpResponse = testController.testServer.execute(request)
         assertThat(httpResponse.code()).isEqualTo(200)
     }
@@ -198,8 +216,8 @@ class AdminControllerTest {
     @Test
     fun removeGeneratedPractitioners_responseBody_listWithSize3() {
         prepopulate()
-        val request = testController.testServer.get(
-                "/admin/remove/generated", false)
+        val request = testController.testServer.post(
+                "/admin/remove/generated", passPhrase,false)
         val httpResponse = testController.testServer.execute(request)
         val body = String(httpResponse.body())
         val list = ControllerUtil.stringToObjectList(body, PractitionerDBO::class.java)
@@ -209,9 +227,25 @@ class AdminControllerTest {
     @Test
     fun removeGeneratedPractitioners_storedCount_3() {
         prepopulate()
-        val request = testController.testServer.get(
-                "/admin/remove/generated", false)
+        val request = testController.testServer.post(
+                "/admin/remove/generated", passPhrase, false)
         testController.testServer.execute(request)
         assertThat(mockedService.getAll().size).isEqualTo(3)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun removeById_response_true() {
+        // Setup
+        mockedService.insert(
+                PractitionerDBO("abc", LocalDateTime.now(), mutableListOf(
+                        SessionDBO(null, "D", "I", LocalDateTime.now()))))
+
+        val postRequest = testController.testServer.post("/admin/remove/practitioner/abc", passPhrase,false)
+        val httpResponse = testController.testServer.execute(postRequest)
+        val responseBody = String(httpResponse.body())
+        assertThat(responseBody).isEqualTo("true")
     }
 }
