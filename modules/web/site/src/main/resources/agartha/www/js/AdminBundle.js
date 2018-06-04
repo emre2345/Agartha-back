@@ -36,32 +36,17 @@
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
 /******/ 		}
 /******/ 	};
 /******/
 /******/ 	// define __esModule on exports
 /******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
 /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -98,7 +83,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"AdminComponent.vue","sourceRoot":""}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"AdminComponent.vue","sourceRoot":""}]);
 
 // exports
 
@@ -211,10 +196,10 @@ exports.Response = window.Response;
 
 /***/ }),
 
-/***/ "./node_modules/node-libs-browser/node_modules/process/browser.js":
-/*!************************************************************************!*\
-  !*** ./node_modules/node-libs-browser/node_modules/process/browser.js ***!
-  \************************************************************************/
+/***/ "./node_modules/process/browser.js":
+/*!*****************************************!*\
+  !*** ./node_modules/process/browser.js ***!
+  \*****************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -600,7 +585,7 @@ process.umask = function() { return 0; };
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js"), __webpack_require__(/*! ./../node-libs-browser/node_modules/process/browser.js */ "./node_modules/node-libs-browser/node_modules/process/browser.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js"), __webpack_require__(/*! ./../process/browser.js */ "./node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -713,7 +698,7 @@ var AdminComponent = (function (_super) {
     __extends(AdminComponent, _super);
     function AdminComponent() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.addPractitioners = 25;
+        _this.addPractitioners = "";
         _this.chosenDiscipline = "Random Discipline";
         _this.chosenIntention = "Random Intention";
         return _this;
@@ -721,8 +706,8 @@ var AdminComponent = (function (_super) {
     Object.defineProperty(AdminComponent.prototype, "practitionerKeys", {
         get: function () {
             var practitioner = new Practitioner_1.Practitioner("", "", [], "", "", "");
-            return Object.keys(practitioner).filter(function (it) {
-                return (it !== "sessions");
+            return Object.keys(practitioner).filter(function (key) {
+                return key != "sessions" && key != "_id";
             });
         },
         enumerable: true,
@@ -762,6 +747,10 @@ var AdminComponent = (function (_super) {
     AdminComponent.prototype.generate = function () {
         this.generatePractitioners(this.addPractitioners);
     };
+    AdminComponent.prototype.collapseAndRemove = function (prac, id) {
+        $('#practitioner' + id).removeClass("show");
+        this.removePractitioner(prac);
+    };
     AdminComponent = __decorate([
         vue_class_component_1.default({
             props: {
@@ -770,7 +759,10 @@ var AdminComponent = (function (_super) {
                 practitioners: Array,
                 addSession: Function,
                 generatePractitioners: Function,
-                endSession: Function
+                endSession: Function,
+                removePractitioner: Function,
+                removeAll: Function,
+                removeGenerated: Function
             }
         })
     ], AdminComponent);
@@ -1154,391 +1146,544 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "card border border-success" }, [
-        _c("div", { staticClass: "card-header" }, [
-          _vm._v("\n                Generate practitioners\n            ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _c("div", { staticClass: "container" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col" }, [
-                _c("input", {
-                  directives: [
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "container", staticStyle: { "margin-bottom": "30px" } },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "row border-success",
+            staticStyle: { border: "1px solid" }
+          },
+          [
+            _c("div", { staticClass: "container" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.addPractitioners,
+                        expression: "addPractitioners"
+                      }
+                    ],
+                    staticClass: "slider",
+                    staticStyle: { width: "100%" },
+                    attrs: { type: "text", min: "1", max: "50", id: "myRange" },
+                    domProps: { value: _vm.addPractitioners },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.addPractitioners = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" }, [
+                  _c(
+                    "button",
                     {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.addPractitioners,
-                      expression: "addPractitioners"
-                    }
-                  ],
-                  staticClass: "slider",
-                  attrs: { type: "range", min: "1", max: "50", id: "myRange" },
-                  domProps: { value: _vm.addPractitioners },
-                  on: {
-                    __r: function($event) {
-                      _vm.addPractitioners = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col" }, [
-                _c(
-                  "p",
-                  { staticClass: "card-text text-center font-weight-bold" },
-                  [_vm._v(" " + _vm._s(_vm.addPractitioners) + " ")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-success",
-                    attrs: { type: "button" },
-                    on: { click: _vm.generate }
-                  },
-                  [_vm._v("Add")]
-                )
+                      staticClass: "btn btn-success",
+                      staticStyle: { width: "100%" },
+                      attrs: { type: "button" },
+                      on: { click: _vm.generate }
+                    },
+                    [_vm._v("Add\n                        ")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" })
               ])
             ])
-          ])
-        ])
-      ])
-    ]),
+          ]
+        )
+      ]
+    ),
     _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "card border border-primary" }, [
-        _c("div", { staticClass: "card-header" }, [
-          _vm._v("\n                List of practitioners\n            ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _c("table", { staticClass: "table table-responsive-md" }, [
-            _c("thead", { staticClass: "thead-dark" }, [
-              _c(
-                "tr",
-                _vm._l(_vm.practitionerKeys, function(key) {
-                  return _c("th", [_vm._v(_vm._s(key))])
-                })
-              )
-            ]),
+    _c(
+      "div",
+      { staticClass: "container", staticStyle: { "margin-bottom": "30px" } },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "row border-danger",
+            staticStyle: { border: "1px solid" }
+          },
+          [
+            _c("div", { staticClass: "container" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      staticStyle: { width: "100%" },
+                      attrs: { type: "button" },
+                      on: { click: _vm.removeAll }
+                    },
+                    [
+                      _vm._v(
+                        "\n                            Remove All\n                        "
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      staticStyle: { width: "100%" },
+                      attrs: { type: "button" },
+                      on: { click: _vm.removeGenerated }
+                    },
+                    [
+                      _vm._v(
+                        "\n                            Remove Generated\n                        "
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" })
+              ])
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "container" },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "row border-info",
+            staticStyle: { border: "1px solid" }
+          },
+          [
+            _vm._m(2),
             _vm._v(" "),
-            _c(
-              "tbody",
-              [
-                _vm._l(_vm.practitioners, function(practitioner, index) {
-                  return [
-                    _c(
-                      "tr",
-                      {
-                        staticClass: "accordion-toggle",
-                        class: {
-                          "table-active": _vm.isGeneratedPractitioner(
-                            practitioner
-                          ),
-                          "table-primary": !_vm.isGeneratedPractitioner(
-                            practitioner
-                          )
+            _c("div", { staticClass: "w-100" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "col bg-info border-info" }),
+            _vm._v(" "),
+            _vm._l(_vm.practitionerKeys, function(key) {
+              return _c("div", { staticClass: "col bg-info border-info" }, [
+                _vm._v("\n                " + _vm._s(key) + "\n            ")
+              ])
+            })
+          ],
+          2
+        ),
+        _vm._v(" "),
+        _vm._l(_vm.practitioners, function(practitioner, index) {
+          return _c(
+            "div",
+            {
+              staticClass: "row border-info",
+              staticStyle: { border: "1px solid" }
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass: "container accordion-toggle",
+                  class: {
+                    "text-info": !_vm.isGeneratedPractitioner(practitioner),
+                    "text-muted": _vm.isGeneratedPractitioner(practitioner)
+                  }
+                },
+                [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          staticStyle: { width: "65%" },
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              _vm.collapseAndRemove(practitioner, index)
+                            }
+                          }
                         },
+                        [
+                          _vm._v(
+                            "\n                            Remove\n                        "
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "col accordion-toggle",
+                        staticStyle: { "word-break": "break-all" },
                         attrs: {
                           "data-toggle": "collapse",
-                          "data-target": "#demo" + index
+                          "data-target": "#practitioner" + index
                         }
                       },
                       [
-                        _c("td", [_vm._v(_vm._s(practitioner._id))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(practitioner.created))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(practitioner.fullName))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(practitioner.email))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(practitioner.description))])
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(practitioner.created) +
+                            "\n                    "
+                        )
                       ]
                     ),
                     _vm._v(" "),
                     _c(
-                      "tr",
+                      "div",
                       {
-                        class: {
-                          "table-active": _vm.isGeneratedPractitioner(
-                            practitioner
-                          )
+                        staticClass: "col accordion-toggle",
+                        attrs: {
+                          "data-toggle": "collapse",
+                          "data-target": "#practitioner" + index
                         }
                       },
                       [
-                        _c(
-                          "td",
-                          {
-                            staticClass: "hiddenRow",
-                            attrs: { colspan: "12" }
-                          },
-                          [
-                            _c(
-                              "div",
-                              {
-                                staticClass: "accordian-body collapse ",
-                                attrs: { id: "demo" + index }
-                              },
-                              [
-                                _c(
-                                  "table",
-                                  { staticClass: "table table-striped " },
-                                  [
-                                    _c("thead", [
-                                      _c(
-                                        "tr",
-                                        [
-                                          _vm._l(_vm.sessionKeys, function(
-                                            key
-                                          ) {
-                                            return _c("th", [
-                                              _vm._v(_vm._s(key))
-                                            ])
-                                          }),
-                                          _vm._v(" "),
-                                          _c("td", [_vm._v(" ")])
-                                        ],
-                                        2
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c(
-                                      "tbody",
-                                      [
-                                        _vm._l(practitioner.sessions, function(
-                                          session
-                                        ) {
-                                          return _c("tr", [
-                                            _c("td", [
-                                              _vm._v(
-                                                _vm._s(
-                                                  _vm.toReadable(
-                                                    session.geolocation
-                                                  )
-                                                )
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c("td", [
-                                              _vm._v(_vm._s(session.discipline))
-                                            ]),
-                                            _vm._v(" "),
-                                            _c("td", [
-                                              _vm._v(_vm._s(session.intention))
-                                            ]),
-                                            _vm._v(" "),
-                                            _c("td", [
-                                              _vm._v(_vm._s(session.startTime))
-                                            ]),
-                                            _vm._v(" "),
-                                            _vm.isSessionNotDoneAndLastInLine(
-                                              practitioner,
-                                              session
-                                            )
-                                              ? _c("td", [
-                                                  _c(
-                                                    "button",
-                                                    {
-                                                      staticClass:
-                                                        "btn btn-warning",
-                                                      attrs: { type: "button" },
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          _vm.endSession(
-                                                            practitioner
-                                                          )
-                                                        }
-                                                      }
-                                                    },
-                                                    [_vm._v("End")]
-                                                  )
-                                                ])
-                                              : _c("td", [
-                                                  _vm._v(
-                                                    _vm._s(session.endTime)
-                                                  )
-                                                ]),
-                                            _vm._v(" "),
-                                            _c("td", [_vm._v(" ")])
-                                          ])
-                                        }),
-                                        _vm._v(" "),
-                                        _c("tr", [
-                                          _c("td", [_vm._v(" ")]),
-                                          _vm._v(" "),
-                                          _c("td", [_vm._v(" ")]),
-                                          _vm._v(" "),
-                                          _c("td", [
-                                            _c(
-                                              "select",
-                                              {
-                                                directives: [
-                                                  {
-                                                    name: "model",
-                                                    rawName: "v-model",
-                                                    value: _vm.chosenDiscipline,
-                                                    expression:
-                                                      "chosenDiscipline"
-                                                  }
-                                                ],
-                                                staticClass:
-                                                  "custom-select custom-select-s",
-                                                on: {
-                                                  change: function($event) {
-                                                    var $$selectedVal = Array.prototype.filter
-                                                      .call(
-                                                        $event.target.options,
-                                                        function(o) {
-                                                          return o.selected
-                                                        }
-                                                      )
-                                                      .map(function(o) {
-                                                        var val =
-                                                          "_value" in o
-                                                            ? o._value
-                                                            : o.value
-                                                        return val
-                                                      })
-                                                    _vm.chosenDiscipline = $event
-                                                      .target.multiple
-                                                      ? $$selectedVal
-                                                      : $$selectedVal[0]
-                                                  }
-                                                }
-                                              },
-                                              [
-                                                _c(
-                                                  "option",
-                                                  { attrs: { selected: "" } },
-                                                  [_vm._v("Random Discipline")]
-                                                ),
-                                                _vm._v(" "),
-                                                _vm._l(
-                                                  _vm.disciplines,
-                                                  function(discipline) {
-                                                    return _c("option", [
-                                                      _vm._v(
-                                                        _vm._s(discipline.title)
-                                                      )
-                                                    ])
-                                                  }
-                                                )
-                                              ],
-                                              2
-                                            )
-                                          ]),
-                                          _vm._v(" "),
-                                          _c("td", [
-                                            _c(
-                                              "select",
-                                              {
-                                                directives: [
-                                                  {
-                                                    name: "model",
-                                                    rawName: "v-model",
-                                                    value: _vm.chosenIntention,
-                                                    expression:
-                                                      "chosenIntention"
-                                                  }
-                                                ],
-                                                staticClass:
-                                                  "custom-select custom-select-s",
-                                                on: {
-                                                  change: function($event) {
-                                                    var $$selectedVal = Array.prototype.filter
-                                                      .call(
-                                                        $event.target.options,
-                                                        function(o) {
-                                                          return o.selected
-                                                        }
-                                                      )
-                                                      .map(function(o) {
-                                                        var val =
-                                                          "_value" in o
-                                                            ? o._value
-                                                            : o.value
-                                                        return val
-                                                      })
-                                                    _vm.chosenIntention = $event
-                                                      .target.multiple
-                                                      ? $$selectedVal
-                                                      : $$selectedVal[0]
-                                                  }
-                                                }
-                                              },
-                                              [
-                                                _c(
-                                                  "option",
-                                                  { attrs: { selected: "" } },
-                                                  [_vm._v("Random Intention")]
-                                                ),
-                                                _vm._v(" "),
-                                                _vm._l(_vm.intentions, function(
-                                                  intention
-                                                ) {
-                                                  return _c("option", [
-                                                    _vm._v(
-                                                      _vm._s(intention.title)
-                                                    )
-                                                  ])
-                                                })
-                                              ],
-                                              2
-                                            )
-                                          ]),
-                                          _vm._v(" "),
-                                          _c("td", [_vm._v(" ")]),
-                                          _vm._v(" "),
-                                          _c("td", [_vm._v(" ")]),
-                                          _vm._v(" "),
-                                          _c("td", [
-                                            _c(
-                                              "button",
-                                              {
-                                                staticClass: "btn btn-primary",
-                                                attrs: { type: "button" },
-                                                on: {
-                                                  click: function($event) {
-                                                    _vm.addSessionToPractitioner(
-                                                      practitioner
-                                                    )
-                                                  }
-                                                }
-                                              },
-                                              [_vm._v("Add new")]
-                                            )
-                                          ])
-                                        ])
-                                      ],
-                                      2
-                                    )
-                                  ]
-                                )
-                              ]
-                            )
-                          ]
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(practitioner.fullName) +
+                            "\n                    "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "col accordion-toggle",
+                        attrs: {
+                          "data-toggle": "collapse",
+                          "data-target": "#practitioner" + index
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(practitioner.email) +
+                            "\n                    "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "col accordion-toggle",
+                        attrs: {
+                          "data-toggle": "collapse",
+                          "data-target": "#practitioner" + index
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(practitioner.description) +
+                            "\n                    "
                         )
                       ]
                     )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "w-100" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "col hiddenRow" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "container accordian-body collapse",
+                    attrs: { id: "practitioner" + index }
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "row border-warning",
+                        staticStyle: { border: "1px solid" }
+                      },
+                      [
+                        _vm._l(_vm.sessionKeys, function(key) {
+                          return _c("div", { staticClass: "col bg-warning" }, [
+                            _vm._v(_vm._s(key))
+                          ])
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col bg-warning" }, [
+                          _vm._v(" ")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "container" },
+                          [
+                            _vm._l(practitioner.sessions, function(session) {
+                              return _c(
+                                "div",
+                                {
+                                  staticClass: "row border-warning",
+                                  staticStyle: { border: "1px solid" }
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass: "col",
+                                      staticStyle: { "word-break": "break-all" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm.toReadable(session.geolocation)
+                                        ) + "\n                                "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col" }, [
+                                    _vm._v(_vm._s(session.discipline))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col" }, [
+                                    _vm._v(_vm._s(session.intention))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col" }, [
+                                    _vm._v(_vm._s(session.startTime))
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm.isSessionNotDoneAndLastInLine(
+                                    practitioner,
+                                    session
+                                  )
+                                    ? _c("div", { staticClass: "col" }, [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass: "btn btn-warning",
+                                            attrs: { type: "button" },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.endSession(practitioner)
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                        End\n                                    "
+                                            )
+                                          ]
+                                        )
+                                      ])
+                                    : _c("div", { staticClass: "col" }, [
+                                        _vm._v(_vm._s(session.endTime))
+                                      ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col" }, [
+                                    _vm._v(" ")
+                                  ])
+                                ]
+                              )
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "row border-warning",
+                                staticStyle: { border: "1px solid" }
+                              },
+                              [
+                                _c("div", { staticClass: "col" }, [
+                                  _vm._v(" ")
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col" }, [
+                                  _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.chosenDiscipline,
+                                          expression: "chosenDiscipline"
+                                        }
+                                      ],
+                                      staticClass:
+                                        "custom-select custom-select-s",
+                                      on: {
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
+                                            )
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.chosenDiscipline = $event.target
+                                            .multiple
+                                            ? $$selectedVal
+                                            : $$selectedVal[0]
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "option",
+                                        { attrs: { selected: "" } },
+                                        [_vm._v("Random Discipline")]
+                                      ),
+                                      _vm._v(" "),
+                                      _vm._l(_vm.disciplines, function(
+                                        discipline
+                                      ) {
+                                        return _c("option", [
+                                          _vm._v(_vm._s(discipline.title))
+                                        ])
+                                      })
+                                    ],
+                                    2
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col" }, [
+                                  _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.chosenIntention,
+                                          expression: "chosenIntention"
+                                        }
+                                      ],
+                                      staticClass:
+                                        "custom-select custom-select-s",
+                                      on: {
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
+                                            )
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.chosenIntention = $event.target
+                                            .multiple
+                                            ? $$selectedVal
+                                            : $$selectedVal[0]
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "option",
+                                        { attrs: { selected: "" } },
+                                        [_vm._v("Random Intention")]
+                                      ),
+                                      _vm._v(" "),
+                                      _vm._l(_vm.intentions, function(
+                                        intention
+                                      ) {
+                                        return _c("option", [
+                                          _vm._v(_vm._s(intention.title))
+                                        ])
+                                      })
+                                    ],
+                                    2
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col" }, [
+                                  _vm._v(" ")
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col" }, [
+                                  _vm._v(" ")
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col" }, [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-info",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.addSessionToPractitioner(
+                                            practitioner
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "Add new\n                                    "
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ]
+                            )
+                          ],
+                          2
+                        )
+                      ],
+                      2
+                    )
                   ]
-                })
-              ],
-              2
-            )
-          ])
-        ])
-      ])
-    ])
+                )
+              ])
+            ]
+          )
+        })
+      ],
+      2
+    )
   ])
 }
 var staticRenderFns = [
@@ -1547,9 +1692,25 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
-      _c("h5", { staticClass: "card-title" }, [
+      _c("h5", [
         _vm._v("Slide to choose how many practitioner that should be generated")
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("h5", [_vm._v("Remove practitioners")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col" }, [
+      _c("h5", [_vm._v("Practitioners")])
     ])
   }
 ]
@@ -12865,7 +13026,7 @@ var Request_1 = __webpack_require__(/*! ../utils/RequestUtils/Request */ "./www/
 var ServerCaller_1 = __webpack_require__(/*! ../utils/ServerCaller */ "./www/ts/utils/ServerCaller.ts");
 new vue_1.default({
     el: "#adminMain",
-    template: "\n    <div id=\"main\">\n        <h1>Admin</h1>\n        <admin :disciplines=\"disciplines\" \n               :intentions=\"intentions\" \n               :practitioners=\"practitioners\" \n               :add-session=\"addSession\" \n               :generate-practitioners=\"generatePractitioners\" \n               :end-session=\"endSession\"></admin>\n    </div>",
+    template: "\n    <div id=\"main\">\n        <h1>Admin</h1>\n        <admin :disciplines=\"disciplines\" \n               :intentions=\"intentions\" \n               :practitioners=\"practitioners\" \n               :add-session=\"addSession\" \n               :generate-practitioners=\"generatePractitioners\" \n               :end-session=\"endSession\" \n               :remove-practitioner=\"removePractitioner\"  \n               :remove-all=\"removeAll\" \n               :remove-generated=\"removeGenerated\"></admin>\n    </div>",
     components: {
         Admin: AdminComponent_vue_1.default
     },
@@ -12901,22 +13062,47 @@ new vue_1.default({
         },
         generatePractitioners: function (count) {
             var _this = this;
-            var addSessionRequest = new Request_1.default(RequestInformation_1.REQUEST_ADMIN_GENERATE, [count], function (practitioners) {
+            var generateRequest = new Request_1.default(RequestInformation_1.REQUEST_ADMIN_GENERATE, [count], function (practitioners) {
                 _this.practitioners = _this.practitioners.concat(practitioners);
             });
-            new ServerCaller_1.default([addSessionRequest]).callServer();
+            new ServerCaller_1.default([generateRequest]).callServer();
         },
         endSession: function (practitioner) {
             var _this = this;
-            var addSessionRequest = new Request_1.default(RequestInformation_1.REQUEST_SESSION_END, [practitioner._id], function (updatedPrac) {
+            var endSessionRequest = new Request_1.default(RequestInformation_1.REQUEST_SESSION_END, [practitioner._id], function (updatedPrac) {
                 _this.practitioners.map(function (prac) {
                     if (prac._id === updatedPrac._id) {
                         prac.sessions = updatedPrac.sessions;
                     }
                 });
             });
-            new ServerCaller_1.default([addSessionRequest]).callServer();
+            new ServerCaller_1.default([endSessionRequest]).callServer();
         },
+        removePractitioner: function (practitioner) {
+            var _this = this;
+            var removeAllRequest = new Request_1.default(RequestInformation_1.REQUEST_REMOVE_PRACTITIONER, [practitioner._id], function (response) {
+                if (response)
+                    _this.practitioners = _this.practitioners.filter(function (it) {
+                        return (it._id !== practitioner._id);
+                    });
+            });
+            new ServerCaller_1.default([removeAllRequest]).callServer();
+        },
+        removeAll: function () {
+            var _this = this;
+            var removeAllRequest = new Request_1.default(RequestInformation_1.REQUEST_ADMIN_REMOVE_ALL, [], function (response) {
+                if (response)
+                    _this.practitioners = Array();
+            });
+            new ServerCaller_1.default([removeAllRequest]).callServer();
+        },
+        removeGenerated: function () {
+            var _this = this;
+            var removeAllRequest = new Request_1.default(RequestInformation_1.REQUEST_ADMIN_REMOVE_GENERATED, [], function (practitioners) {
+                _this.practitioners = practitioners;
+            });
+            new ServerCaller_1.default([removeAllRequest]).callServer();
+        }
     }
 });
 
@@ -13101,11 +13287,14 @@ var RequestPath;
     RequestPath["PRACTITIONER"] = "/v1/practitioner";
     RequestPath["PRACTITIONER_START_SESSION"] = "/v1/practitioner/session/start";
     RequestPath["PRACTITIONER_END_SESSION"] = "/v1/practitioner/session/end";
+    RequestPath["PRACTITIONER_REMOVE_PRACTITIONER"] = "/v1/practitioner/remove";
     RequestPath["COMPANION"] = "/v1/companion";
     RequestPath["COMPANION_ONGOING"] = "/v1/companion/ongoing";
     RequestPath["ADMIN_PRACTITIONERS"] = "/v1/admin/practitioners";
     RequestPath["ADMIN_ADD_SESSION"] = "/v1/admin/session/add";
     RequestPath["ADMIN_GENERATE"] = "/v1/admin/generate";
+    RequestPath["ADMIN_REMOVE_ALL"] = "/v1/admin/remove/all";
+    RequestPath["ADMIN_REMOVE_GENERATED"] = "/v1/admin/remove/generated";
     RequestPath["SETTINGS"] = "/v1/settings";
     RequestPath["SETTINGS_INTENTION"] = "/v1/settings/intention";
     RequestPath["MONITOR_STATUS"] = "/monitoring/status";
@@ -13183,6 +13372,22 @@ var RequestAdminGenerate = (function () {
     return RequestAdminGenerate;
 }());
 exports.REQUEST_ADMIN_GENERATE = new RequestAdminGenerate();
+var RequestAdminRemoveAll = (function () {
+    function RequestAdminRemoveAll() {
+        this.path = RequestEnums_1.RequestPath.ADMIN_REMOVE_ALL;
+        this.method = RequestEnums_1.RequestMethod.GET;
+    }
+    return RequestAdminRemoveAll;
+}());
+exports.REQUEST_ADMIN_REMOVE_ALL = new RequestAdminRemoveAll();
+var RequestAdminRemoveGenerated = (function () {
+    function RequestAdminRemoveGenerated() {
+        this.path = RequestEnums_1.RequestPath.ADMIN_REMOVE_GENERATED;
+        this.method = RequestEnums_1.RequestMethod.GET;
+    }
+    return RequestAdminRemoveGenerated;
+}());
+exports.REQUEST_ADMIN_REMOVE_GENERATED = new RequestAdminRemoveGenerated();
 var RequestPractitioner = (function () {
     function RequestPractitioner() {
         this.path = RequestEnums_1.RequestPath.PRACTITIONER;
@@ -13215,6 +13420,14 @@ var RequestEndSession = (function () {
     return RequestEndSession;
 }());
 exports.REQUEST_SESSION_END = new RequestEndSession();
+var RequestRemovePractitioner = (function () {
+    function RequestRemovePractitioner() {
+        this.path = RequestEnums_1.RequestPath.PRACTITIONER_REMOVE_PRACTITIONER;
+        this.method = RequestEnums_1.RequestMethod.GET;
+    }
+    return RequestRemovePractitioner;
+}());
+exports.REQUEST_REMOVE_PRACTITIONER = new RequestRemovePractitioner();
 var RequestCompanion = (function () {
     function RequestCompanion() {
         this.path = RequestEnums_1.RequestPath.COMPANION;
@@ -13292,7 +13505,7 @@ var ConsoleLogger_1 = __webpack_require__(/*! ./ConsoleLogger */ "./www/ts/utils
 var node_fetch_1 = __webpack_require__(/*! node-fetch */ "./node_modules/node-fetch/browser.js");
 var ServerCaller = (function () {
     function ServerCaller(requests) {
-        this.url = 'http://192.168.1.160:5555';
+        this.url = 'https://agartha-prod.herokuapp.com';
         this.requests = [];
         this.requests = requests;
     }

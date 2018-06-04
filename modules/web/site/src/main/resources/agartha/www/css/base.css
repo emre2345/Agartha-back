@@ -108,7 +108,23 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000; }
+  z-index: 1000;
+  display: flex;
+  padding: 1.1rem 1rem .9rem; }
+  .topBar__progress {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    right: 1rem;
+    border-radius: 50%;
+    width: 2em;
+    height: 2em;
+    padding: .35em .25em .15em;
+    box-sizing: border-box; }
 
 .view {
   position: relative;
@@ -241,6 +257,9 @@
 
 .margin--0 {
   margin: 0; }
+
+.margin--auto {
+  margin: auto; }
 
 .padding--0 {
   padding: 0; }
