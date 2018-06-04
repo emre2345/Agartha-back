@@ -17,5 +17,7 @@ class Settings {
         const val COMPANION_NUMBER_OF_MINUTES : Long = 24 * 60
         // What is the goal in minutes for companion page (10 000 hours * 60 minutes)
         const val COMPANION_GOAL_MINUTES : Long = 10000 * 60
+        // Admin PassPhrase, must be passed as body when trying to reach any of the admin paths
+        const val ADMIN_PASS_PHRASE = "Do you mind if I don't smoke"
     }
 }
