@@ -28,6 +28,14 @@ class AdminController(private val mService: IPractitionerService, private val se
 
     init {
         Spark.path("/admin") {
+            //
+            Spark.before("/*", {request: Request, _ ->
+                val body = request.body() ?: ""
+
+                if (body != "tomten är snygg") {
+                    Spark.halt(401, "Unauthorized")
+                }
+            })
             // Get all practitioners from data source
             Spark.get("/practitioners", ::getPractitioners)
             // Generate [COUNT] number of new practitioners
