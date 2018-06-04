@@ -8,6 +8,9 @@ import agartha.site.controllers.utils.SetupUtil
 import spark.Request
 import spark.Response
 import spark.Spark
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.*
 
 /**
  * Purpose of this file is handling administration page for when app is in dev/test
@@ -68,7 +71,8 @@ class AdminController(private val mService: IPractitionerService, private val se
                                             SessionDBO(
                                                     geolocation = getRandomGeolocation(),
                                                     discipline = getRandomDiscipline().title,
-                                                    intention = getRandomIntention().title)),
+                                                    intention = getRandomIntention().title,
+                                                    startTime = getShuffledStartTime())),
                                     description = "Generated Practitioner")))
         }
 
@@ -132,9 +136,18 @@ class AdminController(private val mService: IPractitionerService, private val se
 
     /**
      * Get a random Intention amongst the settings
-     * @return Settings
+     * @return IntentionDBO
      */
     private fun getRandomIntention(): IntentionDBO {
         return safeSettings.intentions.shuffled().take(1)[0]
+    }
+
+    /**
+     * Get a LocalDateTime that is between now and 60 minutes ago
+     * @return LocalDateTime
+     */
+    private fun getShuffledStartTime(): LocalDateTime {
+        val minutes: Long = (Random().nextInt(60)).toLong()
+        return LocalDateTime.now().minusMinutes(minutes)
     }
 }
