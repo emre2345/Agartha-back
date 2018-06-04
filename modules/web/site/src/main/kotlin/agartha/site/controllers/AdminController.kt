@@ -136,18 +136,18 @@ class AdminController(private val mService: IPractitionerService, private val se
 
     /**
      * Get a random Intention amongst the settings
-     * @return Settings
+     * @return IntentionDBO
      */
     private fun getRandomIntention(): IntentionDBO {
         return safeSettings.intentions.shuffled().take(1)[0]
     }
 
     /**
-     * Get a random Intention amongst the settings
-     * @return Settings
+     * Get a LocalDateTime that is between now and 60 minutes ago
+     * @return LocalDateTime
      */
     private fun getShuffledStartTime(): LocalDateTime {
-        val minutes: Long = (Random().nextInt(60 - 0) + 0).toLong()
+        val minutes: Long = (Random().nextInt(60)).toLong()
         return LocalDateTime.now().minusMinutes(minutes)
     }
 }
