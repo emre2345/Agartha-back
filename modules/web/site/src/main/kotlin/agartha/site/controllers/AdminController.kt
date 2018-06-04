@@ -1,5 +1,6 @@
 package agartha.site.controllers
 
+import agartha.common.config.Settings.Companion.ADMIN_PASS_PHRASE
 import agartha.data.objects.*
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
@@ -32,7 +33,7 @@ class AdminController(private val mService: IPractitionerService, private val se
             Spark.before("/*", {request: Request, _ ->
                 val body = request.body() ?: ""
 
-                if (body != "tomten är snygg") {
+                if (body != ADMIN_PASS_PHRASE) {
                     Spark.halt(401, "Unauthorized")
                 }
             })
@@ -40,7 +41,7 @@ class AdminController(private val mService: IPractitionerService, private val se
             // All API must have type POST to be able to have a body
             // Validate pass Phrase
             Spark.post("/auth", { _, _ ->
-                "{\"value\":\"OK\"}"
+                "true"
             })
             // Get all practitioners from data source
             Spark.post("/practitioners", ::getPractitioners)
