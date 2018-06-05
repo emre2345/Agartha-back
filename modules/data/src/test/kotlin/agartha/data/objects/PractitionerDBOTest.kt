@@ -52,6 +52,117 @@ class PractitionerDBOTest {
         Assertions.assertThat(practitioner.description).isEqualTo(expectedDescription)
     }
 
+
+    @Test
+    fun hasSessionBetween_before_false() {
+        val practitioner = PractitionerDBO(
+                _id = "abc",
+                created = LocalDateTime.now().minusMinutes(21),
+                sessions = listOf(
+                        SessionDBO(
+                                discipline = "d",
+                                intention = "i",
+                                startTime = LocalDateTime.now().minusMinutes(60),
+                                endTime = LocalDateTime.now().minusMinutes(50)),
+                        SessionDBO(
+                                discipline = "d",
+                                intention = "i",
+                                startTime = LocalDateTime.now().minusMinutes(40),
+                                endTime = LocalDateTime.now().minusMinutes(30))))
+        Assertions.assertThat(practitioner.hasSessionBetween(
+                LocalDateTime.now().minusMinutes(75),
+                LocalDateTime.now().minusMinutes(70))).isFalse()
+    }
+
+    @Test
+    fun hasSessionBetween_after_false() {
+        val practitioner = PractitionerDBO(
+                _id = "abc",
+                created = LocalDateTime.now().minusMinutes(21),
+                sessions = listOf(
+                        SessionDBO(
+                                discipline = "d",
+                                intention = "i",
+                                startTime = LocalDateTime.now().minusMinutes(60),
+                                endTime = LocalDateTime.now().minusMinutes(50)),
+                        SessionDBO(
+                                discipline = "d",
+                                intention = "i",
+                                startTime = LocalDateTime.now().minusMinutes(40),
+                                endTime = LocalDateTime.now().minusMinutes(30))))
+        Assertions.assertThat(practitioner.hasSessionBetween(
+                LocalDateTime.now().minusMinutes(25),
+                LocalDateTime.now().minusMinutes(20))).isFalse()
+    }
+
+    @Test
+    fun hasSessionBetween_around_true() {
+        val practitioner = PractitionerDBO(
+                _id = "abc",
+                created = LocalDateTime.now().minusMinutes(21),
+                sessions = listOf(
+                        SessionDBO(
+                                discipline = "d",
+                                intention = "i",
+                                startTime = LocalDateTime.now().minusMinutes(60),
+                                endTime = LocalDateTime.now().minusMinutes(50)),
+                        SessionDBO(
+                                discipline = "d",
+                                intention = "i",
+                                startTime = LocalDateTime.now().minusMinutes(40),
+                                endTime = LocalDateTime.now().minusMinutes(30))))
+        Assertions.assertThat(practitioner.hasSessionBetween(
+                LocalDateTime.now().minusMinutes(75),
+                LocalDateTime.now().minusMinutes(20))).isTrue()
+    }
+
+    @Test
+    fun hasSessionBetween_within_true() {
+        val practitioner = PractitionerDBO(
+                _id = "abc",
+                created = LocalDateTime.now().minusMinutes(21),
+                sessions = listOf(
+                        SessionDBO(
+                                discipline = "d",
+                                intention = "i",
+                                startTime = LocalDateTime.now().minusMinutes(60),
+                                endTime = LocalDateTime.now().minusMinutes(50)),
+                        SessionDBO(
+                                discipline = "d",
+                                intention = "i",
+                                startTime = LocalDateTime.now().minusMinutes(40),
+                                endTime = LocalDateTime.now().minusMinutes(30))))
+        Assertions.assertThat(practitioner.hasSessionBetween(
+                LocalDateTime.now().minusMinutes(55),
+                LocalDateTime.now().minusMinutes(35))).isTrue()
+    }
+
+    @Test
+    fun hasSessionBetween_ongoing_true() {
+        val practitioner = PractitionerDBO(
+                _id = "abc",
+                created = LocalDateTime.now().minusMinutes(21),
+                sessions = listOf(
+                        SessionDBO(
+                                discipline = "d",
+                                intention = "i",
+                                startTime = LocalDateTime.now().minusMinutes(60))))
+
+        Assertions.assertThat(practitioner.hasSessionBetween(
+                LocalDateTime.now().minusMinutes(55),
+                LocalDateTime.now().minusMinutes(35))).isTrue()
+    }
+
+
+    @Test
+    fun hasOngoingSession_empty_false() {
+        val practitioner = PractitionerDBO(
+                _id = "abc",
+                created = LocalDateTime.now().minusMinutes(21),
+                sessions = listOf())
+        Assertions.assertThat(practitioner.hasOngoingSession()).isFalse()
+    }
+
     @Test
     fun hasOngoingSession_singleSessionOngoing_true() {
         val practitioner = PractitionerDBO(
