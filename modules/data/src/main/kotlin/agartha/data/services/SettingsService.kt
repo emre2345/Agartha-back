@@ -62,5 +62,4 @@ class SettingsService : ISettingsService {
         return collection.find().toList()
     }
 
-
 }

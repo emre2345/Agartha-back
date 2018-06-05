@@ -31,4 +31,16 @@ class MonitorServiceTest : DatabaseHandler() {
         Assertions.assertThat(todoList.size).isEqualTo(2)
     }
 
+    @Test
+    fun settingService_getOneExisting_notNull() {
+        val item = MonitorService().insert(MonitorDBO("InsertedItem"))
+        val getObject = MonitorService().getById(item._id ?: "")
+        Assertions.assertThat(getObject).isNotNull()
+    }
+
+    @Test
+    fun settingService_getOneNonExisting_null() {
+        val getObject = MonitorService().getById("ThisIdDoesNotExistInDB")
+        Assertions.assertThat(getObject).isNull()
+    }
 }

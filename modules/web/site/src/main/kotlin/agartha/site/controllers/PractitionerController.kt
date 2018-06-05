@@ -3,7 +3,6 @@ package agartha.site.controllers
 import agartha.data.objects.PractitionerDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
-import agartha.site.controllers.utils.SessionUtil
 import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.objects.request.StartSessionInformation
 import agartha.site.objects.response.PractitionerReport

@@ -123,12 +123,8 @@ class PractitionerService : IPractitionerService {
      * Removes one item from the collection
      */
     override fun removeById(practitionerId: String): Boolean {
-        return try {
-            collection.deleteOneById(practitionerId)
-            true
-        }catch(e: Exception) {
-            false
-        }
+        val result = collection.deleteOneById(practitionerId)
+        return result.deletedCount == 1L
     }
 
 
