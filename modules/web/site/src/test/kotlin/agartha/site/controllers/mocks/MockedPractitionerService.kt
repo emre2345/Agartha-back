@@ -1,5 +1,6 @@
 package agartha.site.controllers.mocks
 
+import agartha.data.objects.CircleDBO
 import agartha.data.objects.GeolocationDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
@@ -20,6 +21,7 @@ class MockedPractitionerService : IPractitionerService {
         val item = this.find { it.description == "Generated Practitioner" }
         return this.remove(item)
     }
+
     fun MutableList<PractitionerDBO>.removeById(id: String): Boolean {
         val item = this.find { it._id == id }
         return this.remove(item)
@@ -48,34 +50,47 @@ class MockedPractitionerService : IPractitionerService {
             geolocation: GeolocationDBO?,
             disciplineName: String,
             intentionName: String): SessionDBO {
-        val first = practitionerList
-                .filter {
-                    it._id.equals(practitionerId)
-                }
-                .first()
 
+        val practitioner = getById(practitionerId)
         val session = SessionDBO(geolocation, disciplineName, intentionName)
         // Due to sessions is unmutable list in practitionerDBO
         // we must first extract sessions and add the new to new list
         // drop practitioner from list
         // add again
-        val sessions = first
+        val sessions = practitioner
                 .sessions
                 .toMutableList()
                 .plus(session)
         // remove from list
-        practitionerList.remove(first)
+        practitionerList.remove(practitioner)
         // re-add
         practitionerList.add(
                 PractitionerDBO(
-                        _id = first._id,
-                        created = first.created,
+                        _id = practitioner._id,
+                        created = practitioner.created,
                         sessions = sessions,
-                        fullName = first.fullName,
-                        email = first.email,
-                        description = first.description)
+                        circles = practitioner.circles,
+                        fullName = practitioner.fullName,
+                        email = practitioner.email,
+                        description = practitioner.description)
         )
         return session
+    }
+
+    override fun addCircle(practitionerId: String, circle: CircleDBO): PractitionerDBO? {
+        val practitioner = getById(practitionerId)
+        val circles = practitioner.circles.toMutableList().plus(circle)
+        practitionerList.remove(practitioner)
+        practitionerList.add(
+                PractitionerDBO(
+                        _id = practitioner._id,
+                        created = practitioner.created,
+                        sessions = practitioner.sessions,
+                        circles = circles,
+                        fullName = practitioner.fullName,
+                        email = practitioner.email,
+                        description = practitioner.description))
+        return getById(practitionerId)
     }
 
     override fun endSession(practitionerId: String): PractitionerDBO? {
@@ -113,10 +128,12 @@ class MockedPractitionerService : IPractitionerService {
         return practitionerList
     }
 
-    override fun getById(id: String): PractitionerDBO? {
-        return practitionerList.find {
-            it._id.equals(id)
-        }
+    override fun getById(id: String): PractitionerDBO {
+        return practitionerList
+                .filter {
+                    it._id.equals(id)
+                }
+                .first()
     }
 
     /**
@@ -125,6 +142,4 @@ class MockedPractitionerService : IPractitionerService {
     fun clear() {
         practitionerList.clear()
     }
-
-
 }

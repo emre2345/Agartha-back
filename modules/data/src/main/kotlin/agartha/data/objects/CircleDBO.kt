@@ -19,4 +19,13 @@ data class CircleDBO(
         val endTime: LocalDateTime,
         val intentions: List<IntentionDBO>,
         val disciplines: List<DisciplineDBO>,
-        val minimumSpiritContribution: Long)
+        val minimumSpiritContribution: Long) {
+
+    /**
+     * Function to see if circle is active at this moment
+     * @return true if circle is active now
+     */
+    fun isActive(): Boolean {
+        return this.startTime.isBefore(LocalDateTime.now()) and this.endTime.isAfter(LocalDateTime.now())
+    }
+}

@@ -19,7 +19,7 @@ import java.time.LocalDateTime
  *
  * @param mService object for reading data from data source
  */
-class PractitionerController(private val mService: IPractitionerService) {
+class PractitionerController(private val mService: IPractitionerService) : AbstractController() {
 
     init {
         // API path for session
@@ -36,6 +36,7 @@ class PractitionerController(private val mService: IPractitionerService) {
             //
             // Start a Session
             Spark.post("/session/start/:userid", ::startSession)
+            //
             // End a Session
             Spark.post("/session/end/:userid", ::endSession)
 
@@ -49,7 +50,7 @@ class PractitionerController(private val mService: IPractitionerService) {
     @Suppress("UNUSED_PARAMETER")
     private fun getInformation(request: Request, response: Response): String {
         // Get current userid or generate new
-        val userId = getUserIdFromRequest(request)
+        val userId = getUserIdFromRequest(request, true)
         // Get user from data source
         val user: PractitionerDBO = getPractitionerFromDataSource(userId)
         // Create Report for current user
@@ -94,23 +95,13 @@ class PractitionerController(private val mService: IPractitionerService) {
     }
 
     /**
-     * Get or create User Id
-     *
-     * @param request API request object
-     * @return user id from request or generated if missing
-     */
-    private fun getUserIdFromRequest(request: Request): String {
-        return request.params(":userid") ?: ObjectId().toHexString()
-    }
-
-    /**
      * Start a new user session
      * @return id/index for started session
      */
     @Suppress("UNUSED_PARAMETER")
     private fun startSession(request: Request, response: Response): String {
         // Get current userid
-        val userId: String = request.params(":userid")
+        val userId: String = getUserIdFromRequest(request)
         // Get selected geolocation, discipline and intention
         val startSessionInformation: StartSessionInformation =
                 ControllerUtil.stringToObject(request.body(), StartSessionInformation::class.java)

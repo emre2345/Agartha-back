@@ -19,7 +19,7 @@ import java.time.LocalDateTime
  *
  * @param mService object for reading data from data source
  */
-class CompanionController(private val mService: IPractitionerService) {
+class CompanionController(private val mService: IPractitionerService) : AbstractController() {
 
     /**
      * Class init
@@ -70,7 +70,7 @@ class CompanionController(private val mService: IPractitionerService) {
     @Suppress("UNUSED_PARAMETER")
     private fun companionSessionReport(request: Request, response: Response): String {
         // Get current userid
-        val userId: String = request.params(":userid")
+        val userId: String = getUserIdFromRequest(request)
         // Get user from data source
         val user: PractitionerDBO? = mService.getById(userId)
         //
@@ -100,8 +100,10 @@ class CompanionController(private val mService: IPractitionerService) {
     @Suppress("UNUSED_PARAMETER")
     private fun companionOngoing(request: Request, response: Response): String {
         // Get current userid
-        val userId: String = request.params(":userid") ?: ""
+        val userId: String = getUserIdFromRequest(request)
+        // Get all companions with ongoing session
         val practitioners = getOngoingCompanions()
+        // Extract sessions from these companions
         val sessions = getOngoingCompanionsSessions(userId, practitioners)
         // Generate report
         val companionReport = CompanionReport(practitioners.count(), sessions)
