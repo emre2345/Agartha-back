@@ -1,9 +1,8 @@
 package agartha.data.services
 
-import agartha.common.utils.DateTimeFormat
+import agartha.data.objects.CircleDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -23,16 +22,6 @@ class PractitionerServiceTest : DatabaseHandler() {
     @Before
     fun setupBeforeFunctions() {
         dropCollection(CollectionNames.PRACTITIONER_SERVICE)
-    }
-
-    /**
-     * Insert a user with single session in database
-     */
-    private fun putUserInDatabase(sessionStart: String, sessionEnd: String) {
-        PractitionerService().insert(
-                PractitionerDBO(sessions = listOf(
-                        SessionDBO(null,"Yoga", "Love",
-                                DateTimeFormat.stringToLocalDateTime(sessionStart), DateTimeFormat.stringToLocalDateTime(sessionEnd)))))
     }
 
     /**
@@ -62,7 +51,7 @@ class PractitionerServiceTest : DatabaseHandler() {
     fun insertUser_dateSavedCorrect_18() {
         val date = LocalDateTime.parse("2018-04-18 12:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
         PractitionerService().insert(PractitionerDBO(created = date, sessions = listOf()))
-        val firstUser : PractitionerDBO? = PractitionerService().getAll().firstOrNull()
+        val firstUser: PractitionerDBO? = PractitionerService().getAll().firstOrNull()
         // Throw exception if firstUser is null
         assertThat(firstUser!!.created.dayOfMonth).isEqualTo(18)
     }
@@ -73,8 +62,8 @@ class PractitionerServiceTest : DatabaseHandler() {
     @Test
     fun insertUserWithSessions_collectionSize_1() {
         PractitionerService().insert(PractitionerDBO(sessions = listOf(
-                SessionDBO(null,"Yoga", "Love"),
-                SessionDBO(null,"Meditation", "Love"))))
+                SessionDBO(null, "Yoga", "Love"),
+                SessionDBO(null, "Meditation", "Love"))))
         val allUsers = PractitionerService().getAll()
         assertThat(allUsers.size).isEqualTo(1)
     }
@@ -104,7 +93,7 @@ class PractitionerServiceTest : DatabaseHandler() {
      */
     @Test
     fun startSession_disciplineName_Test2() {
-        val user = PractitionerDBO(sessions = listOf(SessionDBO(null,"Test 1", "TestIntention 1")))
+        val user = PractitionerDBO(sessions = listOf(SessionDBO(null, "Test 1", "TestIntention 1")))
         // Insert a new practitioning user
         val item = PractitionerService().insert(user)
         // Start session
@@ -122,11 +111,34 @@ class PractitionerServiceTest : DatabaseHandler() {
         val item = PractitionerService().insert(user)
         // Insert sessions
         PractitionerService().startSession(item._id!!, null, "Test 1", "Testing 1")
-        PractitionerService().startSession(item._id!!, null, "Test 2","Testing 2")
-        PractitionerService().startSession(item._id!!, null, "Test 3","Testing 3")
+        PractitionerService().startSession(item._id!!, null, "Test 2", "Testing 2")
+        PractitionerService().startSession(item._id!!, null, "Test 3", "Testing 3")
         // Get user and Count sessions
         val practitioner = PractitionerService().getById(item._id!!)
-        Assertions.assertThat(practitioner?.sessions?.size).isEqualTo(3)
+        assertThat(practitioner?.sessions?.size).isEqualTo(3)
+    }
+
+    @Test
+    fun circle_size_2() {
+        val user = PractitionerService().insert(
+                PractitionerDBO(
+                        sessions = listOf(
+                                SessionDBO(
+                                        discipline = "Yoga",
+                                        intention = "Love",
+                                        startTime = LocalDateTime.now().minusHours(2),
+                                        endTime = LocalDateTime.now().minusHours(1))),
+                        circles = listOf(
+                                CircleDBO(
+                                        name = "",
+                                        description = "",
+                                        startTime = LocalDateTime.now().plusMinutes(15),
+                                        endTime = LocalDateTime.now().plusMinutes(45),
+                                        intentions = listOf(),
+                                        disciplines = listOf(),
+                                        minimumSpiritContribution = 12))))
+        val practitioner = PractitionerService().getById(user._id!!)
+        assertThat(practitioner?.circles?.size).isEqualTo(1)
     }
 
     /**
