@@ -2,11 +2,9 @@ package agartha.site.controllers
 
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
-import agartha.data.services.PractitionerService
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.objects.request.PractitionerInvolvedInformation
-import agartha.site.objects.request.StartSessionInformation
 import agartha.site.objects.response.PractitionerReport
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
@@ -238,19 +236,4 @@ class PractitionerControllerTest {
         assertThat(prac.sessions.last().endTime).isNotNull()
     }
 
-    /**
-     *
-     */
-    @Test
-    fun removeById_response_true() {
-        // Setup
-        mockedService.insert(
-                PractitionerDBO("abc", LocalDateTime.now(), mutableListOf(
-                        SessionDBO(null, "D", "I", LocalDateTime.now()))))
-
-        val postRequest = testController.testServer.get("/practitioner/remove/abc", false)
-        val httpResponse = testController.testServer.execute(postRequest)
-        val responseBody = String(httpResponse.body())
-        assertThat(responseBody).isEqualTo("true")
-    }
 }

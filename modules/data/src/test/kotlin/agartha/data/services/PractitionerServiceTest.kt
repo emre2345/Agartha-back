@@ -263,4 +263,17 @@ class PractitionerServiceTest : DatabaseHandler() {
         PractitionerService().removeGenerated()
         assertThat(PractitionerService().getAll().size).isEqualTo(1)
     }
+
+    @Test
+    fun removeById_itemExists_true() {
+        val practitioner = PractitionerService().insert(PractitionerDBO())
+        val response = PractitionerService().removeById(practitioner._id ?: "")
+        assertThat(response).isTrue()
+    }
+
+    @Test
+    fun removeById_itemNotExists_false() {
+        val response = PractitionerService().removeById("ThisIdDoesNotExistInDB")
+        assertThat(response).isFalse()
+    }
 }

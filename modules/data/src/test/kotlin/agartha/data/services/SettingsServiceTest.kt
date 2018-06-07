@@ -71,6 +71,19 @@ class SettingsServiceTest : DatabaseHandler() {
         assertThat(allSettings.size).isEqualTo(1)
     }
 
+    @Test
+    fun settingService_getOneExisting_notNull() {
+        val settings = SettingsService().insert(settingsOne)
+        val getObject = SettingsService().getById(settings._id ?: "")
+        assertThat(getObject).isNotNull()
+    }
+
+    @Test
+    fun settingService_getOneNonExisting_null() {
+        val getObject = SettingsService().getById("ThisIdDoesNotExistInDB")
+        assertThat(getObject).isNull()
+    }
+
     /**
      * intentions
      */
