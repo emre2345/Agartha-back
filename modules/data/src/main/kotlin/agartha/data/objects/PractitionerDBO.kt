@@ -13,7 +13,8 @@ data class PractitionerDBO(
         val sessions: List<SessionDBO> = listOf(),
         var fullName: String? = null,
         var email: String? = null,
-        var description: String? = null
+        var description: String? = null,
+        val spiritBankLog: List<SpiritBankLogItemDBO> = listOf( SpiritBankLogItemDBO(type = SpiritBankLogItemType.STARTED, points = 50))
 ) {
     /**
      * Adds the 'get involved'-information to the practitioner
