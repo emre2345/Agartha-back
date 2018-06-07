@@ -19,7 +19,7 @@ import java.time.LocalDateTime
  *
  * @param mService object for reading data from data source
  */
-class PractitionerController(private val mService: IPractitionerService) : AbstractController() {
+class PractitionerController(private val mService: IPractitionerService) {
 
     init {
         // API path for session
@@ -50,7 +50,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
     @Suppress("UNUSED_PARAMETER")
     private fun getInformation(request: Request, response: Response): String {
         // Get current userid or generate new
-        val userId = getUserIdFromRequest(request, true)
+        val userId = getUserIdFromRequest(request)
         // Get user from data source
         val user: PractitionerDBO = getPractitionerFromDataSource(userId)
         // Create Report for current user
@@ -69,9 +69,13 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         val involvedInformation: PractitionerInvolvedInformation =
                 ControllerUtil.stringToObject(request.body(), PractitionerInvolvedInformation::class.java)
         // Get params
-        val userId: String = getUserIdFromRequest(request)
+        val userId: String = request.params(":userid")
         // Get user
-        val user: PractitionerDBO = getPractitionerFromDataSource(userId)
+        val user: PractitionerDBO? = mService.getById(userId)
+        if (user == null) {
+            Spark.halt(400, "Practitioner ID missing or incorrect")
+            return ""
+        }
         // Update user
         val updatedUser: PractitionerDBO = mService.updatePractitionerWithInvolvedInformation(
                 user,
@@ -124,8 +128,13 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         // Get current userid
         val userId: String = request.params(":userid")
         // Stop the last session for user
-        val practitioner = mService.endSession(userId)
+        val practitioner : PractitionerDBO? = mService.endSession(userId)
         // Return the updated practitioner
         return ControllerUtil.objectToString(practitioner)
     }
+
+    private fun getUserIdFromRequest(request: Request): String {
+        return request.params(":userid") ?: ObjectId().toHexString()
+    }
+
 }

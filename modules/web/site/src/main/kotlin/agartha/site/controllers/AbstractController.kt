@@ -5,7 +5,7 @@ import spark.Request
 import spark.Spark.halt
 
 /**
- * Purpose of this file is ...
+ * Purpose of this file is handle mapping requests that can go wrong
  *
  * Created by Jorgen Andersson on 2018-06-07.
  */

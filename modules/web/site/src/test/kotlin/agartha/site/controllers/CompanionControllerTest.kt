@@ -119,6 +119,25 @@ class CompanionControllerTest {
         assertThat(httpResponse.code()).isEqualTo(200)
     }
 
+    /**
+     *
+     */
+    @Test
+    fun companionSessionReport_status_404() {
+        val getRequest = testController.testServer.get("/companion/", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        assertThat(httpResponse.code()).isEqualTo(404)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun companionOngoingReport_status_404() {
+        val getRequest = testController.testServer.get("/companion/ongoing/", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        assertThat(httpResponse.code()).isEqualTo(404)
+    }
 
     /**
      *
@@ -273,4 +292,5 @@ class CompanionControllerTest {
         val data: CompanionReport = ControllerUtil.stringToObject(body, CompanionReport::class.java)
         assertThat(data.intentions.containsKey("Empowerment")).isFalse()
     }
+
 }
