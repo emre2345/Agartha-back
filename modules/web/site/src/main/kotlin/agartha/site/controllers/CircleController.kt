@@ -3,7 +3,6 @@ package agartha.site.controllers
 import agartha.data.objects.CircleDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
-import org.bson.types.ObjectId
 import spark.Request
 import spark.Response
 import spark.Spark
@@ -50,7 +49,7 @@ class CircleController(private val mService: IPractitionerService) : AbstractCon
     /**
      * Get all circles from practitioners
      */
-    private fun getAllCircles() : List<CircleDBO> {
+    private fun getAllCircles(): List<CircleDBO> {
         return mService.getAll().flatMap {
             it.circles
         }
