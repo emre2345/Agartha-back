@@ -1,8 +1,6 @@
 package agartha.site.controllers.mocks
 
-import agartha.data.objects.GeolocationDBO
-import agartha.data.objects.PractitionerDBO
-import agartha.data.objects.SessionDBO
+import agartha.data.objects.*
 import agartha.data.services.IPractitionerService
 import java.time.LocalDateTime
 
@@ -90,8 +88,11 @@ class MockedPractitionerService : IPractitionerService {
         val sessions = practitioner.sessions.toMutableList()
         sessions.removeAt(0)
         sessions.add(session)
+        // Add a log to the SpiritBankLog for this practitioner
+        val logs = practitioner.spiritBankLog.toMutableList()
+        logs.add(SpiritBankLogItemDBO(type = SpiritBankLogItemType.SESSION, points = contributionPoints))
         // Return the new practitioner with updated sessions
-        return PractitionerDBO(practitioner._id, practitioner.created, sessions)
+        return PractitionerDBO(practitioner._id, practitioner.created, sessions, spiritBankLog = logs)
     }
 
     override fun removeAll(): Boolean {
