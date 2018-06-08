@@ -271,4 +271,21 @@ class PractitionerControllerTest {
         assertThat(prac.spiritBankLog.last().type).isEqualTo(SpiritBankLogItemType.SESSION)
     }
 
+    /**
+     *
+     */
+    @Test
+    fun endSession_response_pracSpiritBankLogStoredOneNewLog() {
+        // Setup
+        mockedService.insert(
+                PractitionerDBO("abc", LocalDateTime.now(), mutableListOf(
+                        SessionDBO(null, "D", "I", LocalDateTime.now()))))
+
+        val postRequest = testController.testServer.post("/practitioner/session/end/abc/8", "", false)
+        val httpResponse = testController.testServer.execute(postRequest)
+        val responseBody = String(httpResponse.body())
+        val prac = ControllerUtil.stringToObject(responseBody, PractitionerDBO::class.java)
+        assertThat(prac.spiritBankLog.size).isEqualTo(2)
+    }
+
 }

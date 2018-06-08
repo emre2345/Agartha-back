@@ -273,6 +273,22 @@ class PractitionerServiceTest : DatabaseHandler() {
         assertThat(item!!.spiritBankLog.last().type).isEqualTo(SpiritBankLogItemType.SESSION)
     }
 
+    /**
+     *
+     */
+    @Test
+    fun endSession_contributionPointsStored_storedOneNewLog() {
+        val user = PractitionerDBO()
+        // Insert a new practising user
+        val practitioner = PractitionerService().insert(user)
+        // Insert sessions
+        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        PractitionerService().endSession(practitioner._id!!, 7)
+        // Get from database
+        val item = PractitionerService().getById(practitioner._id!!)
+        assertThat(item!!.spiritBankLog.size).isEqualTo(2)
+    }
+
     /**************
      * remove all *
      **************/
