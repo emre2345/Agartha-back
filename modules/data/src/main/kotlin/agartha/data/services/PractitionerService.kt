@@ -1,10 +1,7 @@
 package agartha.data.services
 
 import agartha.data.db.conn.MongoConnection
-import agartha.data.objects.CircleDBO
-import agartha.data.objects.GeolocationDBO
-import agartha.data.objects.PractitionerDBO
-import agartha.data.objects.SessionDBO
+import agartha.data.objects.*
 import org.bson.Document
 import org.litote.kmongo.*
 import java.time.LocalDateTime
@@ -68,7 +65,7 @@ class PractitionerService : IPractitionerService {
         return session
     }
 
-    override fun endSession(practitionerId: String): PractitionerDBO? {
+    override fun endSession(practitionerId: String, contributionPoints: Long): PractitionerDBO? {
         // Get current user
         val user: PractitionerDBO? = getById(practitionerId)
         if (user != null && user.sessions.isNotEmpty()) {
@@ -92,6 +89,8 @@ class PractitionerService : IPractitionerService {
                         endTime = LocalDateTime.now())
                 // Add it to sessions array
                 pushSession(practitionerId, session)
+                // Add the new logItem about the ended session to the spiritBankLog for the practitioner
+                pushContributionPoints(practitionerId, contributionPoints)
                 // Return the new updated practitioner
                 return getById(practitionerId)
             }
@@ -111,7 +110,7 @@ class PractitionerService : IPractitionerService {
         return try {
             collection.drop()
             true
-        }catch(e: Exception) {
+        } catch (e: Exception) {
             false
         }
     }
@@ -134,6 +133,11 @@ class PractitionerService : IPractitionerService {
     }
 
 
+    /**
+     * Push a new sessionDBO to the practitioners sessions
+     * @param practitionerId - string - the practitioner to be updated
+     * @param session - sessionDBO - that should be pushed to the practitioners session list
+     */
     private fun pushSession(practitionerId: String, session: SessionDBO) {
         // Update first document found by Id, push the new document
         collection.updateOneById(
@@ -143,6 +147,20 @@ class PractitionerService : IPractitionerService {
                         Document("sessions", session)))
     }
 
+
+    /**
+     * Push a new spiritBankLogItem to the spiritBankLog in the practitionerDBO
+     * @param practitionerId - string - the practitioner to be updated
+     * @param contributionPoints - Long - the points that was contributed
+     */
+    private fun pushContributionPoints(practitionerId: String, contributionPoints: Long) {
+        // Update first document found by Id, push the new document
+        collection.updateOneById(
+                practitionerId,
+                Document("${MongoOperator.push}",
+                        // Create Mongo Document to be added to spiritBankLog list
+                        Document("spiritBankLog", SpiritBankLogItemDBO(type = SpiritBankLogItemType.SESSION, points = contributionPoints))))
+    }
     /**
      * Add a circle to a practitioner
      * @param practitionerId id for practitioner to add circle
@@ -155,6 +173,7 @@ class PractitionerService : IPractitionerService {
                 Document("${MongoOperator.push}",
                         // Create Mongo Document to be added to sessions list
                         Document("circles", circle)))
+
     }
 
 }
