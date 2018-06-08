@@ -19,7 +19,7 @@ import java.time.LocalDateTime
  *
  * @param mService object for reading data from data source
  */
-class PractitionerController(private val mService: IPractitionerService) {
+class PractitionerController(private val mService: IPractitionerService) : AbstractController() {
 
     init {
         // API path for session
@@ -71,11 +71,7 @@ class PractitionerController(private val mService: IPractitionerService) {
         // Get params
         val userId: String = request.params(":userid")
         // Get user
-        val user: PractitionerDBO? = mService.getById(userId)
-        if (user == null) {
-            Spark.halt(400, "Practitioner ID missing or incorrect")
-            return ""
-        }
+        val user: PractitionerDBO = getPractitionerFromDatabase(userId, mService)
         // Update user
         val updatedUser: PractitionerDBO = mService.updatePractitionerWithInvolvedInformation(
                 user,
@@ -105,7 +101,9 @@ class PractitionerController(private val mService: IPractitionerService) {
     @Suppress("UNUSED_PARAMETER")
     private fun startSession(request: Request, response: Response): String {
         // Get current userid
-        val userId: String = getUserIdFromRequest(request)
+        val userId: String = request.params(":userid")
+        // Make sure practitionerId exists in database
+        getPractitionerFromDatabase(userId, mService)
         // Get selected geolocation, discipline and intention
         val startSessionInformation: StartSessionInformation =
                 ControllerUtil.stringToObject(request.body(), StartSessionInformation::class.java)
@@ -127,6 +125,8 @@ class PractitionerController(private val mService: IPractitionerService) {
     private fun endSession(request: Request, response: Response): String {
         // Get current userid
         val userId: String = request.params(":userid")
+        // Make sure practitionerId exists in database
+        getPractitionerFromDatabase(userId, mService)
         // Stop the last session for user
         val practitioner : PractitionerDBO? = mService.endSession(userId)
         // Return the updated practitioner

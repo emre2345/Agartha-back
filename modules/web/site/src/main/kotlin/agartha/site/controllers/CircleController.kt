@@ -61,7 +61,9 @@ class CircleController(private val mService: IPractitionerService) : AbstractCon
      */
     private fun addCircle(request: Request, response: Response): String {
         // Get practitioner ID from API path
-        val userId: String = getUserIdFromRequest(request)
+        val userId: String = request.params(":userid")
+        // Make sure practitionerId exists in database
+        getPractitionerFromDatabase(userId, mService)
         // Get circle data from body
         val circle: CircleDBO = ControllerUtil.stringToObject(request.body(), CircleDBO::class.java)
         // Store it and return the complete practitioner object

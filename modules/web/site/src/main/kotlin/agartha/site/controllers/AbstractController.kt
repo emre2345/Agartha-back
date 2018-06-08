@@ -1,5 +1,7 @@
 package agartha.site.controllers
 
+import agartha.data.objects.PractitionerDBO
+import agartha.data.services.IPractitionerService
 import org.bson.types.ObjectId
 import spark.Request
 import spark.Spark.halt
@@ -12,21 +14,15 @@ import spark.Spark.halt
 abstract class AbstractController {
 
     /**
-     * Read API request parameter userId and if missing, return http status 400
+     * Get practitioner from database or response with 400
      */
-    fun getUserIdFromRequest(request: Request, generateIfMissing: Boolean = false): String {
-        // Get practitionerId from request param
-        val userId =  request.params(":userid")
-        // If param is empty
-        if (userId.isNullOrEmpty()) {
-            // Should we generate new if missing
-            if (generateIfMissing) {
-                return ObjectId().toHexString()
-            }
-            // Should not generate but still missing, send status 400
+    fun getPractitionerFromDatabase(practitionerId: String, service: IPractitionerService): PractitionerDBO {
+        val practitioner = service.getById(practitionerId)
+        // Halt the request and send 400
+        if (practitioner == null) {
             halt(400, "Practitioner Id missing or incorrect")
         }
-        // practitionerId is attached and should be returned
-        return userId
+        // The if practitioner is null will not be excuted since we already sent a 400 response
+        return practitioner ?: PractitionerDBO()
     }
 }

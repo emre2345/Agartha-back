@@ -93,7 +93,8 @@ class CompanionControllerTest {
      *
      */
     @Test
-    fun companionReport_status_200() {
+    fun companionReport_statusForNoUserId_200() {
+        setupReport()
         val getRequest = testController.testServer.get("/companion", false)
         val httpResponse = testController.testServer.execute(getRequest)
         assertThat(httpResponse.code()).isEqualTo(200)
@@ -103,8 +104,9 @@ class CompanionControllerTest {
      *
      */
     @Test
-    fun companionSessionReport_status_200() {
-        val getRequest = testController.testServer.get("/companion/abc", false)
+    fun companionSessionReport_statusForExistingUser_200() {
+        setupReport()
+        val getRequest = testController.testServer.get("/companion/a", false)
         val httpResponse = testController.testServer.execute(getRequest)
         assertThat(httpResponse.code()).isEqualTo(200)
     }
@@ -113,17 +115,8 @@ class CompanionControllerTest {
      *
      */
     @Test
-    fun companionOngoingReport_status_200() {
-        val getRequest = testController.testServer.get("/companion/ongoing/abc", false)
-        val httpResponse = testController.testServer.execute(getRequest)
-        assertThat(httpResponse.code()).isEqualTo(200)
-    }
-
-    /**
-     *
-     */
-    @Test
-    fun companionSessionReport_status_404() {
+    fun companionSessionReport_statusForEmptyUserId_404() {
+        setupReport()
         val getRequest = testController.testServer.get("/companion/", false)
         val httpResponse = testController.testServer.execute(getRequest)
         assertThat(httpResponse.code()).isEqualTo(404)
@@ -133,10 +126,44 @@ class CompanionControllerTest {
      *
      */
     @Test
-    fun companionOngoingReport_status_404() {
+    fun companionSessionReport_statusForNonExistingUser_400() {
+        setupReport()
+        val getRequest = testController.testServer.get("/companion/s", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        assertThat(httpResponse.code()).isEqualTo(400)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun companionOngoingReport_statusForExistingUserId_200() {
+        setupReport()
+        val getRequest = testController.testServer.get("/companion/ongoing/c", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        assertThat(httpResponse.code()).isEqualTo(200)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun companionOngoingReport_statusForEmptyUserId_404() {
+        setupReport()
         val getRequest = testController.testServer.get("/companion/ongoing/", false)
         val httpResponse = testController.testServer.execute(getRequest)
         assertThat(httpResponse.code()).isEqualTo(404)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun companionOngoingReport_statusForNonExistingUserId_400() {
+        setupReport()
+        val getRequest = testController.testServer.get("/companion/ongoing/s", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        assertThat(httpResponse.code()).isEqualTo(400)
     }
 
     /**
