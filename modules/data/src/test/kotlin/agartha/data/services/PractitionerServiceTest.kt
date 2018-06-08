@@ -3,6 +3,8 @@ package agartha.data.services
 import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
+import agartha.data.objects.SpiritBankLogItemDBO
+import agartha.data.objects.SpiritBankLogItemType
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
@@ -105,7 +107,7 @@ class PractitionerServiceTest : DatabaseHandler() {
     @Test
     fun startSession_disciplineName_Test2() {
         val user = PractitionerDBO(sessions = listOf(SessionDBO(null,"Test 1", "TestIntention 1")))
-        // Insert a new practitioning user
+        // Insert a new practitioner
         val item = PractitionerService().insert(user)
         // Start session
         val session = PractitionerService().startSession(item._id!!, null, "Test 2", "TestIntention 2")
@@ -129,9 +131,9 @@ class PractitionerServiceTest : DatabaseHandler() {
         Assertions.assertThat(practitioner?.sessions?.size).isEqualTo(3)
     }
 
-    /**
-     *
-     */
+    /***************
+     * end session *
+     ***************/
     @Test
     fun endSession_userIdMissing_false() {
         val response = PractitionerService().endSession("AnIdNotExisting", 0)
@@ -242,6 +244,38 @@ class PractitionerServiceTest : DatabaseHandler() {
     /**
      *
      */
+    @Test
+    fun endSession_contributionPointsStored_pointsIs7() {
+        val user = PractitionerDBO()
+        // Insert a new practising user
+        val practitioner = PractitionerService().insert(user)
+        // Insert sessions
+        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        PractitionerService().endSession(practitioner._id!!, 7)
+        // Get from database
+        val item = PractitionerService().getById(practitioner._id!!)
+        assertThat(item!!.spiritBankLog.last().points).isEqualTo(7)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun endSession_contributionPointsStored_typeIsSession() {
+        val user = PractitionerDBO()
+        // Insert a new practising user
+        val practitioner = PractitionerService().insert(user)
+        // Insert sessions
+        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        PractitionerService().endSession(practitioner._id!!, 7)
+        // Get from database
+        val item = PractitionerService().getById(practitioner._id!!)
+        assertThat(item!!.spiritBankLog.last().type).isEqualTo(SpiritBankLogItemType.SESSION)
+    }
+
+    /**************
+     * remove all *
+     **************/
     @Test
     fun removeAll_dataCount_0() {
         // Insert a new practising user
