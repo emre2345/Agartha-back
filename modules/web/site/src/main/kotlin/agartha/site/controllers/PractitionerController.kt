@@ -1,6 +1,7 @@
 package agartha.site.controllers
 
 import agartha.data.objects.PractitionerDBO
+import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.objects.request.PractitionerInvolvedInformation
@@ -110,9 +111,10 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         // Start a session
         val session = mService.startSession(
                 userId,
-                startSessionInformation.geolocation,
-                startSessionInformation.discipline,
-                startSessionInformation.intention)
+                SessionDBO(
+                        geolocation = startSessionInformation.geolocation,
+                        discipline = startSessionInformation.discipline,
+                        intention = startSessionInformation.intention))
         // Return the started session
         return ControllerUtil.objectToString(session)
     }

@@ -48,17 +48,12 @@ class PractitionerService : IPractitionerService {
     /**
      * Start a new user session
      * @param practitionerId identity for practitioner
-     * @param disciplineName name of discipline
-     * @param intentionName name of intention
-     * @return index for created practice
+     * @param session session to Add to practitioner
+     * @return
      */
     override fun startSession(
             practitionerId: String,
-            geolocation: GeolocationDBO?,
-            disciplineName: String,
-            intentionName: String): SessionDBO {
-        // Create a new Session
-        val session = SessionDBO(geolocation, disciplineName, intentionName)
+            session: SessionDBO): SessionDBO {
         // Push session to practitioner
         pushSession(practitionerId, session)
         // return next index
@@ -98,6 +93,9 @@ class PractitionerService : IPractitionerService {
         return user
     }
 
+    /**
+     * Add a circle to a practitioner
+     */
     override fun addCircle(practitionerId: String, circle: CircleDBO): PractitionerDBO? {
         pushCircle(practitionerId, circle)
         return getById(practitionerId)

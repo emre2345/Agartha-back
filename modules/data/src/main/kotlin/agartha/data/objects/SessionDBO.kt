@@ -20,7 +20,9 @@ data class SessionDBO(
         // Time when started
         val startTime: LocalDateTime = LocalDateTime.now(),
         // Time when ended
-        val endTime: LocalDateTime? = null) {
+        val endTime: LocalDateTime? = null,
+        // Has a user practiced in a circle or not
+        val circle: CircleDBO? = null) {
 
 
     /**

@@ -10,13 +10,13 @@ import java.time.LocalDateTime
  */
 class SessionDBOTest {
 
-    val sessionWithoutTime = SessionDBO( null, "Yoga", "Love")
 
     /*************************************************
      * Variables - discipline + practice + intention *
      *************************************************/
     @Test
     fun discipline_disciplineName_yoga() {
+        val sessionWithoutTime = SessionDBO( null, "Yoga", "Love")
         assertThat(sessionWithoutTime.discipline).isEqualTo("Yoga")
     }
 
@@ -26,6 +26,7 @@ class SessionDBOTest {
      */
     @Test
     fun discipline_intentionName_love() {
+        val sessionWithoutTime = SessionDBO( null, "Yoga", "Love")
         assertThat(sessionWithoutTime.intention).isEqualTo("Love")
     }
 
