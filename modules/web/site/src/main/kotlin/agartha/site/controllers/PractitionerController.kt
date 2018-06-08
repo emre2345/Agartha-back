@@ -133,6 +133,11 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         return ControllerUtil.objectToString(practitioner)
     }
 
+    /**
+     * Get user id, and if missing create a new
+     * @param reqeust object
+     * @return UserId as string (GUID/UUID)
+     */
     private fun getUserIdFromRequest(request: Request): String {
         return request.params(":userid") ?: ObjectId().toHexString()
     }

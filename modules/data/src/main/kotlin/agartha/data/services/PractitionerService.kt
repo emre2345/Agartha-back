@@ -143,6 +143,12 @@ class PractitionerService : IPractitionerService {
                         Document("sessions", session)))
     }
 
+    /**
+     * Add a circle to a practitioner
+     * @param practitionerId id for practitioner to add circle
+     * @param circle circle to add
+     * @return practitioner with newly added circle
+     */
     private fun pushCircle(practitionerId: String, circle: CircleDBO) {
         collection.updateOneById(
                 practitionerId,
