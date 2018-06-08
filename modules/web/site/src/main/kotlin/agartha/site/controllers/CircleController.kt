@@ -43,16 +43,18 @@ class CircleController(private val mService: IPractitionerService) : AbstractCon
      */
     @Suppress("UNUSED_PARAMETER")
     private fun getAllActive(request: Request, response: Response): String {
-        return ControllerUtil.objectListToString(getAllCircles().filter { it.isActive() })
+        return ControllerUtil.objectListToString(getAllCircles().filter { it.active() })
     }
 
     /**
      * Get all circles from practitioners
      */
     private fun getAllCircles(): List<CircleDBO> {
-        return mService.getAll().flatMap {
-            it.circles
-        }
+        return mService
+                .getAll()
+                .flatMap {
+                    it.circles
+                }
     }
 
     /**

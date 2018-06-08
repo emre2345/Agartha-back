@@ -25,7 +25,7 @@ data class CircleDBO(
      * Function to see if circle is active at this moment
      * @return true if circle is active now
      */
-    fun isActive(): Boolean {
+    fun active(): Boolean {
         return this.startTime.isBefore(LocalDateTime.now()) and this.endTime.isAfter(LocalDateTime.now())
     }
 }
