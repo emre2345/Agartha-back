@@ -1,5 +1,6 @@
 package agartha.site.controllers
 
+import agartha.data.objects.CircleDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
@@ -40,7 +41,9 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
             //
             // End a Session
             Spark.post("/session/end/:userid/:contributionpoints", ::endSession)
-
+            //
+            // Start practicing by Joining a Circle
+            Spark.post("/circle/join/:userid/:circleid", ::joinCircle)
         }
     }
 
@@ -134,6 +137,28 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         val practitioner = mService.endSession(userId, contributionPoints)
         // Return the updated practitioner
         return ControllerUtil.objectToString(practitioner)
+    }
+
+    /**
+     * Start a session by joining a circle
+     */
+    @Suppress("UNUSED_PARAMETER")
+    private fun joinCircle(request: Request, response: Response): String {
+        // Get params
+        val practitionerId: String = request.params(":userid")
+        val circleId: String = request.params(":circleid")
+        // Get objects and validate they exist
+        getPractitionerFromDatabase(practitionerId, mService)
+        val circle: CircleDBO = getActiveCircleFromDatabase(circleId, mService)
+        // Create a session
+        val session = SessionDBO(
+                geolocation = circle.geolocation,
+                discipline = "",
+                intention = "",
+                startTime = LocalDateTime.now(),
+                circle = circle)
+        // Add session to user
+        return ControllerUtil.objectToString(mService.startSession(practitionerId, session))
     }
 
     /**

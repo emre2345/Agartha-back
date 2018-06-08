@@ -1,8 +1,6 @@
 package agartha.site.controllers
 
-import agartha.data.objects.PractitionerDBO
-import agartha.data.objects.SessionDBO
-import agartha.data.objects.SpiritBankLogItemType
+import agartha.data.objects.*
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.objects.request.PractitionerInvolvedInformation
@@ -289,4 +287,129 @@ class PractitionerControllerTest {
         assertThat(prac.spiritBankLog.size).isEqualTo(2)
     }
 
+    @Test
+    fun joinCircle_missingParams_404() {
+        val request = testController.testServer.post("/cicle/join/a/", "", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(404)
+    }
+
+    @Test
+    fun joinCircle_userIdMissing_400() {
+        // Insert the creator of circle
+        mockedService.insert(PractitionerDBO(
+                _id = "b",
+                circles = listOf(CircleDBO(
+                        _id = "1",
+                        name = "MyCircle",
+                        description = "MyDescription",
+                        disciplines = listOf(DisciplineDBO("I", "I")),
+                        intentions = listOf(IntentionDBO("D", "D")),
+                        startTime = LocalDateTime.now().minusMinutes(10),
+                        endTime = LocalDateTime.now().plusMinutes(10),
+                        minimumSpiritContribution = 2))))
+        val request = testController.testServer.post("/practitioner/circle/join/a/1", "", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
+    }
+
+    @Test
+    fun joinCircle_circleIdMissing_400() {
+        // Insert the current user
+        mockedService.insert(PractitionerDBO(_id = "a"))
+        val request = testController.testServer.post("/practitioner/circle/join/a/1", "", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
+    }
+
+    @Test
+    fun joinCircle_status_200() {
+        // Insert the current user
+        mockedService.insert(PractitionerDBO(_id = "a"))
+        // Insert the creator of circle
+        mockedService.insert(PractitionerDBO(
+                _id = "b",
+                circles = listOf(CircleDBO(
+                        _id = "1",
+                        name = "MyCircle",
+                        description = "MyDescription",
+                        disciplines = listOf(DisciplineDBO("I", "I")),
+                        intentions = listOf(IntentionDBO("D", "D")),
+                        startTime = LocalDateTime.now().minusMinutes(10),
+                        endTime = LocalDateTime.now().plusMinutes(10),
+                        minimumSpiritContribution = 2))))
+        // let user id a join session 1 from user b
+        val request = testController.testServer.post("/practitioner/circle/join/a/1", "", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(200)
+    }
+
+    @Test
+    fun joinCircle_notStarted_status400() {
+        // Insert the current user
+        mockedService.insert(PractitionerDBO(_id = "a"))
+        // Insert the creator of circle
+        mockedService.insert(PractitionerDBO(
+                _id = "b",
+                circles = listOf(CircleDBO(
+                        _id = "1",
+                        name = "MyCircle",
+                        description = "MyDescription",
+                        disciplines = listOf(DisciplineDBO("I", "I")),
+                        intentions = listOf(IntentionDBO("D", "D")),
+                        startTime = LocalDateTime.now().plusMinutes(5),
+                        endTime = LocalDateTime.now().plusMinutes(10),
+                        minimumSpiritContribution = 2))))
+        // let user id a join session 1 from user b
+        val request = testController.testServer.post("/practitioner/circle/join/a/1", "", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
+    }
+
+    @Test
+    fun joinCircle_sessionAdded_size1() {
+        // Insert the current user
+        mockedService.insert(PractitionerDBO(_id = "a"))
+        // Insert the creator of circle
+        mockedService.insert(PractitionerDBO(
+                _id = "b",
+                circles = listOf(CircleDBO(
+                        _id = "1",
+                        name = "MyCircle",
+                        description = "MyDescription",
+                        disciplines = listOf(DisciplineDBO("I", "I")),
+                        intentions = listOf(IntentionDBO("D", "D")),
+                        startTime = LocalDateTime.now().minusMinutes(10),
+                        endTime = LocalDateTime.now().plusMinutes(10),
+                        minimumSpiritContribution = 2))))
+        // let user id a join session 1 from user b
+        val request = testController.testServer.post("/practitioner/circle/join/a/1", "", false)
+        testController.testServer.execute(request)
+        // validate the data source
+        val practitioner = mockedService.getById("a")
+        assertThat(practitioner!!.sessions.size).isEqualTo(1)
+    }
+
+    @Test
+    fun joinCircle_addedSessionNotFinished_true() {
+        // Insert the current user
+        mockedService.insert(PractitionerDBO(_id = "a"))
+        // Insert the creator of circle
+        mockedService.insert(PractitionerDBO(
+                _id = "b",
+                circles = listOf(CircleDBO(
+                        _id = "1",
+                        name = "MyCircle",
+                        description = "MyDescription",
+                        disciplines = listOf(DisciplineDBO("I", "I")),
+                        intentions = listOf(IntentionDBO("D", "D")),
+                        startTime = LocalDateTime.now().minusMinutes(10),
+                        endTime = LocalDateTime.now().plusMinutes(10),
+                        minimumSpiritContribution = 2))))
+        // let user id a join session 1 from user b
+        val request = testController.testServer.post("/practitioner/circle/join/a/1", "", false)
+        val response = testController.testServer.execute(request)
+        val session = ControllerUtil.stringToObject(String(response.body()), SessionDBO::class.java)
+        assertThat(session.endTime).isNull()
+    }
 }

@@ -1,10 +1,12 @@
 package agartha.site.controllers
 
+import agartha.data.objects.CircleDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.services.IPractitionerService
 import org.bson.types.ObjectId
 import spark.Request
 import spark.Spark.halt
+import java.time.LocalDateTime
 
 /**
  * Purpose of this file is handle mapping requests that can go wrong
@@ -24,5 +26,36 @@ abstract class AbstractController {
         }
         // The if practitioner is null will not be excuted since we already sent a 400 response
         return practitioner ?: PractitionerDBO()
+    }
+
+    fun getActiveCircleFromDatabase(circleId: String, service: IPractitionerService): CircleDBO {
+        val circle = service
+                // Get all practitioner
+                .getAll()
+                // Get all circles from practitioner
+                .flatMap {
+                    it.circles
+                }
+                // Filter out active
+                .filter {
+                    it.active()
+                }
+                // Find the one with correct id
+                .find {
+                    it._id == circleId
+                }
+
+        if (circle == null) {
+            halt(400, "Circle not active")
+        }
+        // The if circle is null will not be excuted since we already sent a 400 response
+        return circle ?: CircleDBO(
+                name = "",
+                description = "",
+                startTime = LocalDateTime.now(),
+                endTime = LocalDateTime.now(),
+                disciplines = listOf(),
+                intentions = listOf(),
+                minimumSpiritContribution = 0)
     }
 }
