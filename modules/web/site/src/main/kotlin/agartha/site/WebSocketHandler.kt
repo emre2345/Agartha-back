@@ -19,10 +19,9 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket
  * Per default, a close connection is closed after 5 minutes per default
  * MaxIdleTime is in ms (3 hour * 60 minutes * 60 seconds * 1000 ms = 10 800 000)
  */
-@WebSocket(maxIdleTime=10800000)
+@WebSocket(maxIdleTime = 10800000)
 class WebSocketHandler {
-    private val practitionersSessions = HashMap<Session, SessionDBO>()
-    private val mService: IPractitionerService = PractitionerService();
+    private val service: WebSocketService = WebSocketService()
 
     /**
      * When a practitioner has connected to the WebSocket
@@ -57,46 +56,43 @@ class WebSocketHandler {
     }
 
     /**
-     * Connect a web-socket session
+     * Opening the webSocket results in:
+     * - connect WebSocketSession
+     * - Broadcast to everybody else that a new companion joined
+     * - emit to self all the sessions in the WebSocket
      */
-    private fun connect(webSocketSession: Session, webSocketMessage: WebSocketMessage) {
-        // Get the practitioner
-        val practitioner: PractitionerDBO = mService.getById(webSocketMessage.data)!!
-        // Get practitioners last session
-        val practitionersLatestSession: SessionDBO = practitioner.sessions.last()
-        // Put practitioners session and webSocket-session to a map
-        practitionersSessions.put(webSocketSession, practitionersLatestSession)
+    fun connect(webSocketSession: Session, webSocketMessage: WebSocketMessage) {
+        val practitionersLatestSession = service.connect(webSocketSession, webSocketMessage)
         debugPrintout(
                 "starting '${practitionersLatestSession.discipline}' for '${practitionersLatestSession.intention}'")
-        val returnSessions = ControllerUtil.objectListToString(practitionersSessions.values.toList())
+        // The sessions remaining in the socket
+        val returnSessions = ControllerUtil.objectToString(service.getPractitionersSessionMap().values.toList())
+        // The disconnected practitioners session
         val returnPractitionersSession = ControllerUtil.objectToString(practitionersLatestSession)
         // Broadcast to all users connected except this session
         broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.NEW_COMPANION.eventName, returnSessions, returnPractitionersSession))
         // Send to self
         emit(webSocketSession, WebSocketMessage(WebSocketEvents.COMPANIONS_SESSIONS.eventName, returnSessions))
-    }
 
+    }
 
     /**
      * Closing the webSocket results in:
-     * - removing practitioner from map
+     * - disconnect WebSocketSession
      * - Broadcast to everybody else that a companion left
      */
     @OnWebSocketClose
     fun disconnect(webSocketSession: Session, code: Int, reason: String?) {
-        // Remove the practitioners session from the list
-        val practitionersSession: SessionDBO? = practitionersSessions.remove(webSocketSession)
+        // Remove the practitioner from the hashmap
+        val practitionersSession = service.disconnect(webSocketSession)
         debugPrintout(
                 "closing '${practitionersSession?.discipline}' for '${practitionersSession?.intention}' lasted for '${practitionersSession?.sessionDurationMinutes()}' minutes")
-        val returnSessions = ControllerUtil.objectListToString(practitionersSessions.values.toList())
+        // The sessions remaining in the socket
+        val returnSessions = ControllerUtil.objectToString(service.getPractitionersSessionMap().values.toList())
+        // The disconnected practitioners session
         val returnPractitionersSession = ControllerUtil.objectToString(practitionersSession)
         // Notify all other practitionersSessions this practitioner has left the webSocketSession
         if (practitionersSession != null) broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.COMPANION_LEFT.eventName, returnSessions, returnPractitionersSession))
-    }
-
-    private fun debugPrintout(eventText: String) {
-        println(eventText)
-        println("Practitioners size: ${practitionersSessions.values.size}")
     }
 
 
@@ -112,5 +108,12 @@ class WebSocketHandler {
      * @param webSocketSession - the practitionersSessions webSocket-session
      * @param message - the message for the client
      */
-    private fun broadcastToOthers(webSocketSession: Session, message: WebSocketMessage) = practitionersSessions.filter { it.key != webSocketSession }.forEach { emit(it.key, message)}
+    private fun broadcastToOthers(webSocketSession: Session, message: WebSocketMessage) = service.getPractitionersSessionMap().filter { it.key != webSocketSession }.forEach { emit(it.key, message) }
+
+    private fun debugPrintout(eventText: String) {
+        println(eventText)
+        println("Practitioners size: ${service.getPractitionersSessionsSize()}")
+    }
+
+
 }
