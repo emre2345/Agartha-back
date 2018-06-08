@@ -1,6 +1,7 @@
 package agartha.data.services
 
 import agartha.data.db.conn.MongoConnection
+import agartha.data.objects.CircleDBO
 import agartha.data.objects.GeolocationDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
@@ -98,6 +99,11 @@ class PractitionerService : IPractitionerService {
         return user
     }
 
+    override fun addCircle(practitionerId: String, circle: CircleDBO): PractitionerDBO? {
+        pushCircle(practitionerId, circle)
+        return getById(practitionerId)
+    }
+
     /**
      * Remove all the practitioners in the db
      */
@@ -135,6 +141,20 @@ class PractitionerService : IPractitionerService {
                 Document("${MongoOperator.push}",
                         // Create Mongo Document to be added to sessions list
                         Document("sessions", session)))
+    }
+
+    /**
+     * Add a circle to a practitioner
+     * @param practitionerId id for practitioner to add circle
+     * @param circle circle to add
+     * @return practitioner with newly added circle
+     */
+    private fun pushCircle(practitionerId: String, circle: CircleDBO) {
+        collection.updateOneById(
+                practitionerId,
+                Document("${MongoOperator.push}",
+                        // Create Mongo Document to be added to sessions list
+                        Document("circles", circle)))
     }
 
 }

@@ -11,10 +11,11 @@ data class PractitionerDBO(
         val _id: String? = null,
         val created: LocalDateTime = LocalDateTime.now(),
         val sessions: List<SessionDBO> = listOf(),
+        val circles: List<CircleDBO> = listOf(),
         var fullName: String? = null,
         var email: String? = null,
-        var description: String? = null
-) {
+        var description: String? = null) {
+
     /**
      * Adds the 'get involved'-information to the practitioner
      *
