@@ -134,7 +134,7 @@ class PractitionerServiceTest : DatabaseHandler() {
      */
     @Test
     fun endSession_userIdMissing_false() {
-        val response = PractitionerService().endSession("AnIdNotExisting")
+        val response = PractitionerService().endSession("AnIdNotExisting", 0)
         assertThat(response).isNull()
     }
 
@@ -146,7 +146,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         val user = PractitionerDBO()
         // Insert a new practising user
         val practitioner = PractitionerService().insert(user)
-        val response = PractitionerService().endSession(practitioner._id!!)
+        val response = PractitionerService().endSession(practitioner._id!!, 0)
         assertThat(response).isEqualTo(practitioner)
     }
 
@@ -160,7 +160,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         val practitioner = PractitionerService().insert(user)
         // Insert sessions
         PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
-        val response = PractitionerService().endSession(practitioner._id!!)
+        val response = PractitionerService().endSession(practitioner._id!!, 0)
         assertThat(response!!.sessions.last().endTime).isNotNull()
     }
 
@@ -177,7 +177,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
         PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
         // End session (should end the last
-        PractitionerService().endSession(practitioner._id!!)
+        PractitionerService().endSession(practitioner._id!!, 0)
         // Session should be poped and pushed
         val item = PractitionerService().getById(practitioner._id!!)
         assertThat(item!!.sessions.size).isEqualTo(3)
@@ -196,7 +196,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
         PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
         // End session (should end the last
-        PractitionerService().endSession(practitioner._id!!)
+        PractitionerService().endSession(practitioner._id!!, 0)
         // Session should be poped and pushed
         val item = PractitionerService().getById(practitioner._id!!)
         // Only the last session should be ended
@@ -216,7 +216,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
         PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
         // End session (should end the last
-        PractitionerService().endSession(practitioner._id!!)
+        PractitionerService().endSession(practitioner._id!!, 0)
         // Session should be poped and pushed
         val item = PractitionerService().getById(practitioner._id!!)
         // Only the last session should be ended
@@ -233,7 +233,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         val practitioner = PractitionerService().insert(user)
         // Insert sessions
         PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
-        PractitionerService().endSession(practitioner._id!!)
+        PractitionerService().endSession(practitioner._id!!, 0)
         // Get from database
         val item = PractitionerService().getById(practitioner._id!!)
         assertThat(item!!.sessions.last().endTime).isNotNull()

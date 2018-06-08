@@ -235,4 +235,13 @@ class PractitionerDBOTest {
         Assertions.assertThat(practitioner.hasOngoingSession()).isFalse()
     }
 
+    /**
+     * Spirit bank log
+     */
+    @Test
+    fun spiritBankLog_startPoints_50() {
+        val practitioner = PractitionerDBO()
+        Assertions.assertThat(practitioner.spiritBankLog[0].points).isEqualTo(50)
+    }
+
 }

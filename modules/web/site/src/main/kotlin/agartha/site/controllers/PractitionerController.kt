@@ -37,7 +37,7 @@ class PractitionerController(private val mService: IPractitionerService) {
             // Start a Session
             Spark.post("/session/start/:userid", ::startSession)
             // End a Session
-            Spark.post("/session/end/:userid", ::endSession)
+            Spark.post("/session/end/:userid/:contributionpoints", ::endSession)
 
         }
     }
@@ -132,8 +132,9 @@ class PractitionerController(private val mService: IPractitionerService) {
     private fun endSession(request: Request, response: Response): String {
         // Get current userid
         val userId: String = request.params(":userid")
+        val contributionPoints: Long = request.params(":contributionpoints").toLong()
         // Stop the last session for user
-        val practitioner = mService.endSession(userId)
+        val practitioner = mService.endSession(userId, contributionPoints)
         // Return the updated practitioner
         return ControllerUtil.objectToString(practitioner)
     }

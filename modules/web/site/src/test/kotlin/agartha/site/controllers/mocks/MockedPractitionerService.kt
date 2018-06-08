@@ -78,7 +78,7 @@ class MockedPractitionerService : IPractitionerService {
         return session
     }
 
-    override fun endSession(practitionerId: String): PractitionerDBO? {
+    override fun endSession(practitionerId: String, contributionPoints: Long): PractitionerDBO? {
         val practitioner = practitionerList
                 .filter {
                     it._id.equals(practitionerId)
