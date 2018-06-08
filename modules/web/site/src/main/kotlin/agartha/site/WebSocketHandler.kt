@@ -21,7 +21,7 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket
  */
 @WebSocket(maxIdleTime = 10800000)
 class WebSocketHandler {
-    private val service: WebSocketService = WebSocketService()
+    private val service: WebSocketService = WebSocketService(PractitionerService())
 
     /**
      * When a practitioner has connected to the WebSocket

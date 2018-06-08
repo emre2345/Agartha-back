@@ -3,13 +3,11 @@ package agartha.site
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
-import agartha.data.services.PractitionerService
 import agartha.site.objects.webSocket.WebSocketMessage
 import org.eclipse.jetty.websocket.api.Session
 
-class WebSocketService {
+class WebSocketService(private val mService: IPractitionerService) {
     protected val practitionersSessions = HashMap<Session, SessionDBO>()
-    private val mService: IPractitionerService = PractitionerService()
 
     /**
      * Add The webSocketSession and users latest session to the Map
