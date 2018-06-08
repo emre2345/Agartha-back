@@ -255,6 +255,26 @@ class PractitionerServiceTest : DatabaseHandler() {
      *
      */
     @Test
+    fun addCircle_responsePractitionerCircles_1() {
+        // Insert a new practising user
+        val practitioner = PractitionerService().insert(PractitionerDBO())
+        // Add Circle
+        val circlePractitioner = PractitionerService().addCircle(practitioner._id!!, CircleDBO(
+                name = "",
+                description = "",
+                startTime = LocalDateTime.now(),
+                endTime = LocalDateTime.now().plusMinutes(15),
+                disciplines = listOf(),
+                intentions = listOf(),
+                minimumSpiritContribution = 4))
+
+        assertThat(circlePractitioner!!.circles.size).isEqualTo(1)
+    }
+
+    /**
+     *
+     */
+    @Test
     fun removeAll_dataCount_0() {
         // Insert a new practising user
         PractitionerService().insert(PractitionerDBO())

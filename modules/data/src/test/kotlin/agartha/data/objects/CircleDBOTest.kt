@@ -67,4 +67,30 @@ class CircleDBOTest {
     fun circle_minimumSpiritContribution_12() {
         assertThat(circle.minimumSpiritContribution).isEqualTo(12)
     }
+
+    @Test
+    fun circle_active_false() {
+        val c = CircleDBO(
+                name = "Circle name",
+                description = "Circle description",
+                startTime = LocalDateTime.now().plusHours(4),
+                endTime = LocalDateTime.now().plusHours(6),
+                intentions = listOf(),
+                disciplines = listOf(),
+                minimumSpiritContribution = 12L)
+        assertThat(c.active()).isFalse()
+    }
+
+    @Test
+    fun circle_active_true() {
+        val c = CircleDBO(
+                name = "Circle name",
+                description = "Circle description",
+                startTime = LocalDateTime.now().minusHours(1),
+                endTime = LocalDateTime.now().plusHours(1),
+                intentions = listOf(),
+                disciplines = listOf(),
+                minimumSpiritContribution = 12L)
+        assertThat(c.active()).isTrue()
+    }
 }

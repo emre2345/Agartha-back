@@ -131,4 +131,35 @@ class SettingsControllerTest {
         assertThat(keys).contains("Personal growth")
         assertThat(keys).contains("Meals")
     }
+
+    @Test
+    fun settingsController_readFromDataSourceStatus_200() {
+        // Add to storage
+        mockedService.insert(
+                SettingsDBO(
+                        _id = "",
+                        disciplines = listOf(),
+                        intentions = listOf()))
+        // Read a second time when stored to datasource
+        val request = testController.testServer.get("/settings", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(200)
+    }
+
+    @Test
+    fun settingsController_addIntention_tada() {
+        // Add to storage
+        mockedService.insert(
+                SettingsDBO(
+                        _id = "",
+                        disciplines = listOf(),
+                        intentions = listOf()))
+
+        val request = testController.testServer.post(
+                "/settings/intention",
+                "{\"title\":\"MyTitle\",\"description\":\"MyDesc\"}",
+                false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(200)
+    }
 }
