@@ -1,5 +1,6 @@
 package agartha.data.services
 
+import agartha.data.objects.CircleDBO
 import agartha.data.objects.GeolocationDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
@@ -42,6 +43,15 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      */
     fun endSession(
             practitionerId: String, contributionPoints: Long): PractitionerDBO?
+
+    /**
+     * Add a circle to a practitioner
+     * @param practitionerId practitioner id to add circle to
+     * @param circle circle to add to practitioner
+     * @return
+     */
+    fun addCircle(
+            practitionerId: String, circle: CircleDBO) : PractitionerDBO?
 
     /**
      * Remove all practitioners

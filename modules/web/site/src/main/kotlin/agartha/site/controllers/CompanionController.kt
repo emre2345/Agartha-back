@@ -19,7 +19,7 @@ import java.time.LocalDateTime
  *
  * @param mService object for reading data from data source
  */
-class CompanionController(private val mService: IPractitionerService) {
+class CompanionController(private val mService: IPractitionerService) : AbstractController() {
 
     /**
      * Class init
@@ -69,29 +69,24 @@ class CompanionController(private val mService: IPractitionerService) {
      */
     @Suppress("UNUSED_PARAMETER")
     private fun companionSessionReport(request: Request, response: Response): String {
-        // Get current userid
+        // Get practitioner ID from API path
         val userId: String = request.params(":userid")
-        // Get user from data source
-        val user: PractitionerDBO? = mService.getById(userId)
+        // Make sure practitionerId exists in database
+        val user: PractitionerDBO = getPractitionerFromDatabase(userId, mService)
         //
-        if (user != null) {
-            val startDateTime: LocalDateTime = user.sessions.last().startTime
-            val endDateTime: LocalDateTime = user.sessions.last().endTime ?: LocalDateTime.now()
-            // Get practitioners with sessions between
-            val practitioners = mService.getAll().filter {
-                it.hasSessionBetween(startDateTime, endDateTime)
-            }
-            // Filter out overlapping sessions
-            val sessions: List<SessionDBO> = SessionUtil.filterAllSessionsActiveBetween(
-                    practitioners, startDateTime, endDateTime)
-            // Generate report
-            val companionReport = CompanionReport(practitioners.count(), sessions)
-            // Return the report
-            return ControllerUtil.objectToString(companionReport)
+        val startDateTime: LocalDateTime = user.sessions.last().startTime
+        val endDateTime: LocalDateTime = user.sessions.last().endTime ?: LocalDateTime.now()
+        // Get practitioners with sessions between
+        val practitioners = mService.getAll().filter {
+            it.hasSessionBetween(startDateTime, endDateTime)
         }
-        // We should not end up here coz user should exist when this request is called
-        // If not we are in test/dev mode
-        return ""
+        // Filter out overlapping sessions
+        val sessions: List<SessionDBO> = SessionUtil.filterAllSessionsActiveBetween(
+                practitioners, startDateTime, endDateTime)
+        // Generate report
+        val companionReport = CompanionReport(practitioners.count(), sessions)
+        // Return the report
+        return ControllerUtil.objectToString(companionReport)
     }
 
     /**
@@ -100,8 +95,12 @@ class CompanionController(private val mService: IPractitionerService) {
     @Suppress("UNUSED_PARAMETER")
     private fun companionOngoing(request: Request, response: Response): String {
         // Get current userid
-        val userId: String = request.params(":userid") ?: ""
+        val userId: String = request.params(":userid")
+        // Make sure user id exists
+        getPractitionerFromDatabase(userId, mService)
+        // Get all companions with ongoing session
         val practitioners = getOngoingCompanions()
+        // Extract sessions from these companions
         val sessions = getOngoingCompanionsSessions(userId, practitioners)
         // Generate report
         val companionReport = CompanionReport(practitioners.count(), sessions)

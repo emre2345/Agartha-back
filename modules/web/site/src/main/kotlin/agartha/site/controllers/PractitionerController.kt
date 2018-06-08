@@ -19,7 +19,7 @@ import java.time.LocalDateTime
  *
  * @param mService object for reading data from data source
  */
-class PractitionerController(private val mService: IPractitionerService) {
+class PractitionerController(private val mService: IPractitionerService) : AbstractController() {
 
     init {
         // API path for session
@@ -36,6 +36,7 @@ class PractitionerController(private val mService: IPractitionerService) {
             //
             // Start a Session
             Spark.post("/session/start/:userid", ::startSession)
+            //
             // End a Session
             Spark.post("/session/end/:userid/:contributionpoints", ::endSession)
 
@@ -68,9 +69,9 @@ class PractitionerController(private val mService: IPractitionerService) {
         val involvedInformation: PractitionerInvolvedInformation =
                 ControllerUtil.stringToObject(request.body(), PractitionerInvolvedInformation::class.java)
         // Get params
-        val userId: String = getUserIdFromRequest(request)
+        val userId: String = request.params(":userid")
         // Get user
-        val user: PractitionerDBO = getPractitionerFromDataSource(userId)
+        val user: PractitionerDBO = getPractitionerFromDatabase(userId, mService)
         // Update user
         val updatedUser: PractitionerDBO = mService.updatePractitionerWithInvolvedInformation(
                 user,
@@ -94,16 +95,6 @@ class PractitionerController(private val mService: IPractitionerService) {
     }
 
     /**
-     * Get or create User Id
-     *
-     * @param request API request object
-     * @return user id from request or generated if missing
-     */
-    private fun getUserIdFromRequest(request: Request): String {
-        return request.params(":userid") ?: ObjectId().toHexString()
-    }
-
-    /**
      * Start a new user session
      * @return id/index for started session
      */
@@ -111,6 +102,8 @@ class PractitionerController(private val mService: IPractitionerService) {
     private fun startSession(request: Request, response: Response): String {
         // Get current userid
         val userId: String = request.params(":userid")
+        // Make sure practitionerId exists in database
+        getPractitionerFromDatabase(userId, mService)
         // Get selected geolocation, discipline and intention
         val startSessionInformation: StartSessionInformation =
                 ControllerUtil.stringToObject(request.body(), StartSessionInformation::class.java)
@@ -133,9 +126,21 @@ class PractitionerController(private val mService: IPractitionerService) {
         // Get current userid
         val userId: String = request.params(":userid")
         val contributionPoints: Long = request.params(":contributionpoints").toLong()
+        // Make sure practitionerId exists in database
+        getPractitionerFromDatabase(userId, mService)
         // Stop the last session for user
         val practitioner = mService.endSession(userId, contributionPoints)
         // Return the updated practitioner
         return ControllerUtil.objectToString(practitioner)
     }
+
+    /**
+     * Get user id, and if missing create a new
+     * @param reqeust object
+     * @return UserId as string (GUID/UUID)
+     */
+    private fun getUserIdFromRequest(request: Request): String {
+        return request.params(":userid") ?: ObjectId().toHexString()
+    }
+
 }

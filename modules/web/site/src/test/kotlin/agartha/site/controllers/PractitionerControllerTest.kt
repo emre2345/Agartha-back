@@ -207,15 +207,16 @@ class PractitionerControllerTest {
      */
     @Test
     fun startSession_discipline_Yoga() {
-        val body: String = "{\"discipline\": \"Yoga\",\n\"intention\": \"Salary raise\"\n}"
         // Setup
         mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
         //
-        val postRequest = testController.testServer.post("/practitioner/session/start/abc", body, false)
+        val postRequest = testController.testServer.post(
+                "/practitioner/session/start/abc",
+                "{\"discipline\":\"Yoga\",\"intention\":\"Salary raise\"}",
+                false)
         val httpResponse = testController.testServer.execute(postRequest)
         val responseBody = String(httpResponse.body())
-        val data: SessionDBO = ControllerUtil.stringToObject(body, SessionDBO::class.java)
-
+        val data: SessionDBO = ControllerUtil.stringToObject(responseBody, SessionDBO::class.java)
         //
         assertThat(data.discipline).isEqualTo("Yoga")
     }
