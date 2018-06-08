@@ -61,7 +61,7 @@ class WebSocketHandler {
      */
     private fun connect(webSocketSession: Session, webSocketMessage: WebSocketMessage) {
         // Get the practitioner
-        val practitioner: PractitionerDBO = mService.getById(webSocketMessage.data.toString())!!
+        val practitioner: PractitionerDBO = mService.getById(webSocketMessage.data)!!
         // Get practitioners last session
         val practitionersLatestSession: SessionDBO = practitioner.sessions.last()
         // Put practitioners session and webSocket-session to a map
@@ -69,8 +69,9 @@ class WebSocketHandler {
         debugPrintout(
                 "starting '${practitionersLatestSession.discipline}' for '${practitionersLatestSession.intention}'")
         val returnSessions = ControllerUtil.objectListToString(practitionersSessions.values.toList())
+        val returnPractitionersSession = ControllerUtil.objectToString(practitionersLatestSession)
         // Broadcast to all users connected except this session
-        broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.NEW_COMPANION.eventName, returnSessions))
+        broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.NEW_COMPANION.eventName, returnSessions, returnPractitionersSession))
         // Send to self
         emit(webSocketSession, WebSocketMessage(WebSocketEvents.COMPANIONS_SESSIONS.eventName, returnSessions))
     }
@@ -88,8 +89,9 @@ class WebSocketHandler {
         debugPrintout(
                 "closing '${practitionersSession?.discipline}' for '${practitionersSession?.intention}' lasted for '${practitionersSession?.sessionDurationMinutes()}' minutes")
         val returnSessions = ControllerUtil.objectListToString(practitionersSessions.values.toList())
+        val returnPractitionersSession = ControllerUtil.objectToString(practitionersSession)
         // Notify all other practitionersSessions this practitioner has left the webSocketSession
-        if (practitionersSession != null) broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.COMPANION_LEFT.eventName, returnSessions))
+        if (practitionersSession != null) broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.COMPANION_LEFT.eventName, returnSessions, returnPractitionersSession))
     }
 
     private fun debugPrintout(eventText: String) {
