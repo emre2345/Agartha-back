@@ -1,6 +1,6 @@
 package agartha.data.objects
 
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import java.time.LocalDateTime
 
@@ -19,7 +19,7 @@ class PractitionerDBOTest {
     fun practitionerInvolvedInformation_isInvolved_true() {
         val practitioner = PractitionerDBO()
         practitioner.addInvolvedInformation(expectedFullName, expectedEmail, expectedDescription)
-        Assertions.assertThat(practitioner.involved()).isTrue()
+        assertThat(practitioner.involved()).isTrue()
     }
 
     /**
@@ -29,7 +29,7 @@ class PractitionerDBOTest {
     fun practitionerInvolvedInformation_fullName_Stanta() {
         val practitioner = PractitionerDBO()
         practitioner.addInvolvedInformation(expectedFullName, "", "")
-        Assertions.assertThat(practitioner.fullName).isEqualTo(expectedFullName)
+        assertThat(practitioner.fullName).isEqualTo(expectedFullName)
     }
 
     /**
@@ -39,7 +39,7 @@ class PractitionerDBOTest {
     fun practitionerInvolvedInformation_email_SantaAtAgarthaCom() {
         val practitioner = PractitionerDBO()
         practitioner.addInvolvedInformation("", expectedEmail, "")
-        Assertions.assertThat(practitioner.email).isEqualTo(expectedEmail)
+        assertThat(practitioner.email).isEqualTo(expectedEmail)
     }
 
     /**
@@ -49,7 +49,7 @@ class PractitionerDBOTest {
     fun practitionerInvolvedInformation_description_JagGillarYoga() {
         val practitioner = PractitionerDBO()
         practitioner.addInvolvedInformation("", "", expectedDescription)
-        Assertions.assertThat(practitioner.description).isEqualTo(expectedDescription)
+        assertThat(practitioner.description).isEqualTo(expectedDescription)
     }
 
 
@@ -69,7 +69,7 @@ class PractitionerDBOTest {
                                 intention = "i",
                                 startTime = LocalDateTime.now().minusMinutes(40),
                                 endTime = LocalDateTime.now().minusMinutes(30))))
-        Assertions.assertThat(practitioner.hasSessionBetween(
+        assertThat(practitioner.hasSessionBetween(
                 LocalDateTime.now().minusMinutes(75),
                 LocalDateTime.now().minusMinutes(70))).isFalse()
     }
@@ -90,7 +90,7 @@ class PractitionerDBOTest {
                                 intention = "i",
                                 startTime = LocalDateTime.now().minusMinutes(40),
                                 endTime = LocalDateTime.now().minusMinutes(30))))
-        Assertions.assertThat(practitioner.hasSessionBetween(
+        assertThat(practitioner.hasSessionBetween(
                 LocalDateTime.now().minusMinutes(25),
                 LocalDateTime.now().minusMinutes(20))).isFalse()
     }
@@ -111,7 +111,7 @@ class PractitionerDBOTest {
                                 intention = "i",
                                 startTime = LocalDateTime.now().minusMinutes(40),
                                 endTime = LocalDateTime.now().minusMinutes(30))))
-        Assertions.assertThat(practitioner.hasSessionBetween(
+        assertThat(practitioner.hasSessionBetween(
                 LocalDateTime.now().minusMinutes(75),
                 LocalDateTime.now().minusMinutes(20))).isTrue()
     }
@@ -132,7 +132,7 @@ class PractitionerDBOTest {
                                 intention = "i",
                                 startTime = LocalDateTime.now().minusMinutes(40),
                                 endTime = LocalDateTime.now().minusMinutes(30))))
-        Assertions.assertThat(practitioner.hasSessionBetween(
+        assertThat(practitioner.hasSessionBetween(
                 LocalDateTime.now().minusMinutes(55),
                 LocalDateTime.now().minusMinutes(35))).isTrue()
     }
@@ -148,7 +148,7 @@ class PractitionerDBOTest {
                                 intention = "i",
                                 startTime = LocalDateTime.now().minusMinutes(60))))
 
-        Assertions.assertThat(practitioner.hasSessionBetween(
+        assertThat(practitioner.hasSessionBetween(
                 LocalDateTime.now().minusMinutes(55),
                 LocalDateTime.now().minusMinutes(35))).isTrue()
     }
@@ -160,7 +160,7 @@ class PractitionerDBOTest {
                 _id = "abc",
                 created = LocalDateTime.now().minusMinutes(21),
                 sessions = listOf())
-        Assertions.assertThat(practitioner.hasOngoingSession()).isFalse()
+        assertThat(practitioner.hasOngoingSession()).isFalse()
     }
 
     @Test
@@ -172,7 +172,7 @@ class PractitionerDBOTest {
                         discipline = "d",
                         intention = "i",
                         startTime = LocalDateTime.now().minusMinutes(20))))
-        Assertions.assertThat(practitioner.hasOngoingSession()).isTrue()
+       assertThat(practitioner.hasOngoingSession()).isTrue()
     }
 
     @Test
@@ -184,7 +184,7 @@ class PractitionerDBOTest {
                         discipline = "d",
                         intention = "i",
                         startTime = LocalDateTime.now().minusMinutes(181))))
-        Assertions.assertThat(practitioner.hasOngoingSession()).isFalse()
+        assertThat(practitioner.hasOngoingSession()).isFalse()
     }
 
     @Test
@@ -201,7 +201,7 @@ class PractitionerDBOTest {
                                 discipline = "d",
                                 intention = "i",
                                 startTime = LocalDateTime.now().minusMinutes(15))))
-        Assertions.assertThat(practitioner.hasOngoingSession()).isTrue()
+        assertThat(practitioner.hasOngoingSession()).isTrue()
     }
 
     @Test
@@ -214,7 +214,7 @@ class PractitionerDBOTest {
                         intention = "i",
                         startTime = LocalDateTime.now().minusMinutes(20),
                         endTime = LocalDateTime.now())))
-        Assertions.assertThat(practitioner.hasOngoingSession()).isFalse()
+        assertThat(practitioner.hasOngoingSession()).isFalse()
     }
 
     @Test
@@ -232,7 +232,7 @@ class PractitionerDBOTest {
                                 intention = "i",
                                 startTime = LocalDateTime.now().minusMinutes(15),
                                 endTime = LocalDateTime.now())))
-        Assertions.assertThat(practitioner.hasOngoingSession()).isFalse()
+        assertThat(practitioner.hasOngoingSession()).isFalse()
     }
 
     /**
@@ -241,7 +241,41 @@ class PractitionerDBOTest {
     @Test
     fun spiritBankLog_startPoints_50() {
         val practitioner = PractitionerDBO()
-        Assertions.assertThat(practitioner.spiritBankLog[0].points).isEqualTo(50)
+        assertThat(practitioner.spiritBankLog[0].points).isEqualTo(50)
+    }
+
+    /**
+     * Spirit bank points
+     */
+    @Test
+    fun spiritBankPoints_totalPointsNoTransactions_50() {
+        val practitioner = PractitionerDBO()
+        assertThat(practitioner.calculateSpiritBankPointsFromLog()).isEqualTo(50)
+    }
+    @Test
+    fun spiritBankPoints_totalPointsPlusTransaction_53() {
+        val practitioner = PractitionerDBO(
+                spiritBankLog = listOf(
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50),
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.SESSION, points = 3)))
+        assertThat(practitioner.calculateSpiritBankPointsFromLog()).isEqualTo(53)
+    }
+    @Test
+    fun spiritBankPoints_totalPointsSubtractTransaction_47() {
+        val practitioner = PractitionerDBO(
+                spiritBankLog = listOf(
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50),
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = -3)))
+        assertThat(practitioner.calculateSpiritBankPointsFromLog()).isEqualTo(47)
+    }
+    @Test
+    fun spiritBankPoints_totalPointsBothPlusAndSubtractTransactions_47() {
+        val practitioner = PractitionerDBO(
+                spiritBankLog = listOf(
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50),
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.CREATED_CIRCLE, points = 53),
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = -3)))
+        assertThat(practitioner.calculateSpiritBankPointsFromLog()).isEqualTo(100)
     }
 
 }
