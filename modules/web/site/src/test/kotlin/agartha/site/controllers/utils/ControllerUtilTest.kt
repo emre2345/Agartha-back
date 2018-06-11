@@ -32,13 +32,9 @@ class ControllerUtilTest {
                     LocalDateTime.parse("2018-05-09 14:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
     )
 
-    private val SINGLE_SESSION_STRING = "{\"geolocation\":null,\"discipline\":\"D\",\"intention\":\"I\",\"startTime\":\"2018-05-09T11:58:27.000Z\",\"endTime\":null}"
+    private val SINGLE_SESSION_STRING = """{"geolocation":null,"discipline":"D","intention":"I","startTime":"2018-05-09T11:58:27.000Z","endTime":null,"circle":null}"""
 
-    private val MULTIPLE_SESSIONS_STRING = "[" +
-            "{\"geolocation\":null,\"discipline\":\"D1\",\"intention\":\"I1\",\"startTime\":\"2018-05-09T10:00:00.000Z\",\"endTime\":\"2018-05-09T11:00:00.000Z\"}," +
-            "{\"geolocation\":null,\"discipline\":\"D\",\"intention\":\"I\",\"startTime\":\"2018-05-09T11:58:27.000Z\",\"endTime\":null}," +
-            "{\"geolocation\":null,\"discipline\":\"D2\",\"intention\":\"I2\",\"startTime\":\"2018-05-09T14:00:00.000Z\",\"endTime\":null}" +
-            "]"
+    private val MULTIPLE_SESSIONS_STRING = """[{"geolocation":null,"discipline":"D1","intention":"I1","startTime":"2018-05-09T10:00:00.000Z","endTime":"2018-05-09T11:00:00.000Z","circle":null},{"geolocation":null,"discipline":"D","intention":"I","startTime":"2018-05-09T11:58:27.000Z","endTime":null,"circle":null},{"geolocation":null,"discipline":"D2","intention":"I2","startTime":"2018-05-09T14:00:00.000Z","endTime":null,"circle":null}]"""
 
     @Test
     fun objectToString_searilize_singleString() {
