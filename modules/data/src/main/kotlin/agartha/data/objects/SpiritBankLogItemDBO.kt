@@ -20,5 +20,6 @@ data class SpiritBankLogItemDBO(
 enum class SpiritBankLogItemType {
     SESSION,
     CREATED_CIRCLE,
-    STARTED
+    START,
+    JOINED_CIRCLE
 }

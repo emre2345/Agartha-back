@@ -5,6 +5,7 @@ import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
+import agartha.site.objects.response.PractitionerReport
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.BeforeClass

@@ -3,6 +3,8 @@ package agartha.site.objects
 import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
+import agartha.data.objects.SpiritBankLogItemDBO
+import agartha.data.objects.SpiritBankLogItemType
 import agartha.site.objects.response.PractitionerReport
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
@@ -85,5 +87,37 @@ class PractitionerReportTest {
                 email = "santa@agartha.com",
                 description = "This is me"))
         assertThat(user.isInvolved).isTrue()
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun practitionerSpiritBankPoints_noTransactions_50() {
+        val user = PractitionerReport(PractitionerDBO(
+                "abc",
+                sessions = generateSessions(),
+                fullName = "Santa Clause",
+                email = "santa@agartha.com",
+                description = "This is me"))
+        assertThat(user.spiritBankPoints).isEqualTo(50)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun practitionerSpiritBankPoints_threeTransactions_50() {
+        val user = PractitionerReport(PractitionerDBO(
+                "abc",
+                sessions = generateSessions(),
+                fullName = "Santa Clause",
+                email = "santa@agartha.com",
+                description = "This is me",
+                spiritBankLog = listOf(
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50),
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.CREATED_CIRCLE, points = 53),
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = -3))))
+        assertThat(user.spiritBankPoints).isEqualTo(100)
     }
 }
