@@ -2,6 +2,7 @@ package agartha.site
 
 import agartha.data.db.conn.Database
 import agartha.data.db.conn.MongoConnection
+import agartha.data.services.ImageService
 import agartha.data.services.MonitorService
 import agartha.data.services.PractitionerService
 import agartha.data.services.SettingsService
@@ -26,7 +27,7 @@ fun startServer(args: Array<String>) {
     // Static files for demo and test purpose only
     // Copied from agartha-front project, platforms/browser/www folder on 2018-05-25
     // TODO: Remove this line and all files in resources before production
-    Spark.staticFiles.location("/agartha/www")
+    Spark.staticFiles.location("/agartha/demo")
 
     // Start WebSocket
     webSocket("/websocket", WebSocketHandler::class.java)
@@ -47,6 +48,7 @@ fun startServer(args: Array<String>) {
         // Controller/Service for Practitioners and Practitioners circles
         PractitionerController(PractitionerService())
         CircleController(PractitionerService())
+        ImageController(ImageService())
         // Controller/Service for Practitioner Companions
         CompanionController(PractitionerService())
         // TODO: Admin stuff, this will maniuplate database. Remove before sharp production mode
