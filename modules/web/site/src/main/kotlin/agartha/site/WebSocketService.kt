@@ -6,6 +6,12 @@ import agartha.data.services.IPractitionerService
 import agartha.site.objects.webSocket.WebSocketMessage
 import org.eclipse.jetty.websocket.api.Session
 
+/**
+ * Purpose of this class is to handle a hashMap that is used to
+ * keep track of which practitioners that is connected to the WebSocketServer
+ *
+ * Created by Rebecca Fransson on 2018-06-11
+ */
 class WebSocketService(private val mService: IPractitionerService) {
     private val practitionersSessions = HashMap<Session, SessionDBO>()
 

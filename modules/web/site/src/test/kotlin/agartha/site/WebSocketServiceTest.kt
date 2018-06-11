@@ -16,15 +16,22 @@ import org.junit.Test
  */
 class WebSocketServiceTest {
 
-    val practitionerService = MockedPractitionerService()
+    private val practitionerService = MockedPractitionerService()
     // create webSocketService with the mocked practitioner service
-    val webSocketService = WebSocketService(practitionerService)
+    private val webSocketService = WebSocketService(practitionerService)
     // Expected Session for user
-    val expectedSession = SessionDBO(null, "", "")
+    private val expectedSession = SessionDBO(null, "", "")
     // The mockedWebSocketSession only initilized once
-    val mockedWebSocketSession = MockedWebSocketSession()
+    private val mockedWebSocketSession = MockedWebSocketSession()
     // WebSocket connect message
-    val connectMessage = WebSocketMessage("", "abc")
+    private val connectMessage = WebSocketMessage("", "abc")
+
+    private fun connectAUser(): SessionDBO{
+        return webSocketService.connect(
+                mockedWebSocketSession,
+                connectMessage)
+    }
+
 
     @Before
     fun setupClass() {
@@ -37,9 +44,7 @@ class WebSocketServiceTest {
      ***********/
     @Test
     fun webSocketService_connect_newKeyAndValue() {
-        webSocketService.connect(
-                mockedWebSocketSession,
-                connectMessage)
+        connectAUser()
         assertThat(webSocketService.getPractitionersSessionsSize()).isEqualTo(1)
     }
 
@@ -48,9 +53,7 @@ class WebSocketServiceTest {
      */
     @Test
     fun webSocketService_connectSessionReturned_sessionThatUserHas() {
-        val session = webSocketService.connect(
-                mockedWebSocketSession,
-                connectMessage)
+        val session = connectAUser()
         assertThat(session).isEqualTo(expectedSession)
     }
 
@@ -60,9 +63,7 @@ class WebSocketServiceTest {
     @Test
     fun webSocketService_disconnect_nothingInMap() {
         // First connect user
-        webSocketService.connect(
-                mockedWebSocketSession,
-                connectMessage)
+        connectAUser()
         // Then test the disconnect
         webSocketService.disconnect(
                 mockedWebSocketSession)
@@ -75,9 +76,7 @@ class WebSocketServiceTest {
     @Test
     fun webSocketService_disconnectSessionReturned_sessionThatUserHas() {
         // First connect user
-        webSocketService.connect(
-                mockedWebSocketSession,
-                connectMessage)
+        connectAUser()
         // Then test the disconnect
         val session = webSocketService.disconnect(
                 mockedWebSocketSession)
@@ -100,9 +99,7 @@ class WebSocketServiceTest {
     @Test
     fun webSocketService_getPractitionersSessionMapOneUserConnected_size1() {
         // Connect user
-        webSocketService.connect(
-                mockedWebSocketSession,
-                connectMessage)
+        connectAUser()
         // Get the map
         val map = webSocketService.getPractitionersSessionMap()
         assertThat(map.size).isEqualTo(1)
@@ -124,9 +121,7 @@ class WebSocketServiceTest {
     @Test
     fun webSocketService_getPractitionersSessionsSizeOneUserConnected_size1() {
         // Connect user
-        webSocketService.connect(
-                mockedWebSocketSession,
-                connectMessage)
+        connectAUser()
         // Get the map
         val size = webSocketService.getPractitionersSessionsSize()
         assertThat(size).isEqualTo(1)

@@ -27,7 +27,7 @@ class WebSocketHandler {
      * When a practitioner has connected to the WebSocket
      */
     @OnWebSocketConnect
-    fun connected(session: Session) = println("session connected")
+    fun connected(webSocketSession: Session) = println("session connected")
 
     /**
      * When the webSocket receives a message this is where is it attended
