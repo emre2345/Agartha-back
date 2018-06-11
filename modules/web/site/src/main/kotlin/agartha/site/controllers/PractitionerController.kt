@@ -43,7 +43,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
             Spark.post("/session/end/:userid/:contributionpoints", ::endSession)
             //
             // Start practicing by Joining a Circle
-            Spark.post("/circle/join/:userid/:circleid", ::joinCircle)
+            Spark.post("/circle/join/:userid/:circleid/:discipline/:intention", ::joinCircle)
         }
     }
 
@@ -147,14 +147,22 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         // Get params
         val practitionerId: String = request.params(":userid")
         val circleId: String = request.params(":circleid")
+        val discipline: String = request.params(":discipline")
+        val intention: String = request.params(":intention")
+
         // Get objects and validate they exist
         getPractitionerFromDatabase(practitionerId, mService)
         val circle: CircleDBO = getActiveCircleFromDatabase(circleId, mService)
+
+        // Validate
+        validateDiscipline(circle, discipline)
+        validateIntention(circle, intention)
+
         // Create a session
         val session = SessionDBO(
                 geolocation = circle.geolocation,
-                discipline = "",
-                intention = "",
+                discipline = discipline,
+                intention = intention,
                 startTime = LocalDateTime.now(),
                 circle = circle)
         // Add session to user
@@ -170,4 +178,31 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         return request.params(":userid") ?: ObjectId().toHexString()
     }
 
+    private fun validateDiscipline(circle: CircleDBO, discipline: String) {
+        if (circle.disciplines.size == 0) {
+            return
+        }
+
+        circle.disciplines.forEach {
+            if (it.title == discipline) {
+                return
+            }
+        }
+
+        Spark.halt(400, "Selected discipline does not match any in Circle")
+    }
+
+    private fun validateIntention(circle: CircleDBO, intention: String) {
+        if (circle.intentions.size == 0) {
+            return
+        }
+
+        circle.intentions.forEach {
+            if (it.title == intention) {
+                return
+            }
+        }
+
+        Spark.halt(400, "Selected intention does not match any in Circle")
+    }
 }
