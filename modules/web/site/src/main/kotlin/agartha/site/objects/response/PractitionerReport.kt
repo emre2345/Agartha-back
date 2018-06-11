@@ -16,7 +16,7 @@ data class PractitionerReport(
         val lastSessionMinutes: Long = 0,
         val totalSessionMinutes: Long = 0,
         var isInvolved: Boolean = false,
-        val spiritBankPoints: Long) {
+        val spiritBankPoints: Long = 0) {
 
     /**
      * @param practitioner database users
@@ -34,6 +34,6 @@ data class PractitionerReport(
                     // Sum it
                     .sum(),
             user.involved(),
-            user.getSpiritBankLogPoints())
+            user.getSpiritBankPointsFromLog())
 
 }

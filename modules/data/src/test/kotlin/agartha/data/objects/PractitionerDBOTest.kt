@@ -250,23 +250,23 @@ class PractitionerDBOTest {
     @Test
     fun spiritBankPoints_totalPointsNoTransactions_50() {
         val practitioner = PractitionerDBO()
-        Assertions.assertThat(practitioner.getSpiritBankLogPoints()).isEqualTo(50)
+        Assertions.assertThat(practitioner.getSpiritBankPointsFromLog()).isEqualTo(50)
     }
     @Test
-    fun spiritBankPoints_totalPointsPlusTransactions_53() {
+    fun spiritBankPoints_totalPointsPlusTransaction_53() {
         val practitioner = PractitionerDBO(
                 spiritBankLog = listOf(
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50),
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.SESSION, points = 3)))
-        Assertions.assertThat(practitioner.getSpiritBankLogPoints()).isEqualTo(53)
+        Assertions.assertThat(practitioner.getSpiritBankPointsFromLog()).isEqualTo(53)
     }
     @Test
-    fun spiritBankPoints_totalPointsSubtractTransactions_47() {
+    fun spiritBankPoints_totalPointsSubtractTransaction_47() {
         val practitioner = PractitionerDBO(
                 spiritBankLog = listOf(
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50),
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = -3)))
-        Assertions.assertThat(practitioner.getSpiritBankLogPoints()).isEqualTo(47)
+        Assertions.assertThat(practitioner.getSpiritBankPointsFromLog()).isEqualTo(47)
     }
     @Test
     fun spiritBankPoints_totalPointsBothPlusAndSubtractTransactions_47() {
@@ -275,7 +275,7 @@ class PractitionerDBOTest {
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50),
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.CREATED_CIRCLE, points = 53),
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = -3)))
-        Assertions.assertThat(practitioner.getSpiritBankLogPoints()).isEqualTo(100)
+        Assertions.assertThat(practitioner.getSpiritBankPointsFromLog()).isEqualTo(100)
     }
 
 }
