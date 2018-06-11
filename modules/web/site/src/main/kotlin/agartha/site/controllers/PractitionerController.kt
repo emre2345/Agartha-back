@@ -46,7 +46,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
             Spark.post("/circle/join/:userid/:circleid/:discipline/:intention", ::joinCircle)
             //
             // Get practitioners spiritBankHistory
-            Spark.get("/spiritbankhistory/:userid", ::getBankHistory)
+            Spark.get("/spiritbankhistory/:userid", ::getSpiritBankHistory)
         }
     }
 
@@ -176,7 +176,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
      * Return practitioners spirit bank log history
      */
     @Suppress("UNUSED_PARAMETER")
-    private fun getBankHistory(request: Request, response: Response): String {
+    private fun getSpiritBankHistory(request: Request, response: Response): String {
         // Get params
         val practitionerId: String = getUserIdFromRequest(request)
         // Get practitioner
