@@ -546,4 +546,21 @@ class PractitionerControllerTest {
         val practitioner = mockedService.getById("a")
         assertThat(practitioner!!.sessions.get(0).intention).isEqualTo("I")
     }
+
+    @Test
+    fun spiritBankHistory_userHas3Logs_size3() {
+        // Insert the current user
+        mockedService.insert(PractitionerDBO(_id = "a",
+                spiritBankLog = listOf(
+                        SpiritBankLogItemDBO(type=SpiritBankLogItemType.START, points = 50),
+                        SpiritBankLogItemDBO(type=SpiritBankLogItemType.SESSION, points = 20),
+                        SpiritBankLogItemDBO(type=SpiritBankLogItemType.JOINED_CIRCLE, points = -10)
+                        )))
+
+        val request = testController.testServer.get("/practitioner/spiritbankhistory/a", false)
+        val response = testController.testServer.execute(request)
+        val responseBody = String(response.body())
+        val history = ControllerUtil.stringToObjectList(responseBody, SpiritBankLogItemDBO::class.java)
+        assertThat(history.size).isEqualTo(3)
+    }
 }
