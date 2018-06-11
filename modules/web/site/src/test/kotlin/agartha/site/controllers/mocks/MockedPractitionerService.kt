@@ -44,13 +44,9 @@ class MockedPractitionerService : IPractitionerService {
 
     override fun startSession(
             practitionerId: String,
-            geolocation: GeolocationDBO?,
-            disciplineName: String,
-            intentionName: String): SessionDBO {
+            session: SessionDBO): SessionDBO {
 
         val practitioner = getById(practitionerId)
-
-        val session = SessionDBO(geolocation, disciplineName, intentionName)
         if (practitioner != null) {
             // Due to sessions is unmutable list in practitionerDBO
             // we must first extract sessions and add the new to new list

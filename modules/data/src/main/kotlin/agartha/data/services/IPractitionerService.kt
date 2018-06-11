@@ -27,16 +27,12 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
     /**
      * Start a new session/practice
      * @param practitionerId id for user starting the session
-     * @param geolocation geolocation for session/practice
-     * @param disciplineName type of discipline
-     * @param intentionName type of intention
+     * @param session session to Add to user
      * @return the started session
      */
     fun startSession(
             practitionerId: String,
-            geolocation: GeolocationDBO?,
-            disciplineName: String,
-            intentionName: String): SessionDBO
+            session: SessionDBO): SessionDBO
 
     /**
      * @param practitionerId id for user ending a session

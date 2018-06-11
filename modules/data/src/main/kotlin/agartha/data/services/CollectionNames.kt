@@ -10,6 +10,8 @@ enum class CollectionNames(val collectionName : String) {
     MONITOR_SERVICE ("monitor"),
     // Collection name for practitioners
     PRACTITIONER_SERVICE("practitioner"),
+    // Collection name for images
+    IMAGE_SERVICE("images"),
     // Collection name for settings
     SETTINGS_SERVICE("settings")
 }

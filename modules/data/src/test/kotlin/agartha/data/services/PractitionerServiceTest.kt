@@ -98,7 +98,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert a new practitioner
         val item = PractitionerService().insert(user)
         // Start session
-        val session = PractitionerService().startSession(item._id!!, null, "Test 2", "TestIntention 2")
+        val session = PractitionerService().startSession(item._id!!, SessionDBO(null, "Test 2", "TestIntention 2"))
         assertThat(session.discipline).isEqualTo("Test 2")
     }
 
@@ -111,9 +111,9 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert a new practising user
         val item = PractitionerService().insert(user)
         // Insert sessions
-        PractitionerService().startSession(item._id!!, null, "Test 1", "Testing 1")
-        PractitionerService().startSession(item._id!!, null, "Test 2", "Testing 2")
-        PractitionerService().startSession(item._id!!, null, "Test 3", "Testing 3")
+        PractitionerService().startSession(item._id!!, SessionDBO(null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(item._id!!, SessionDBO(null, "Test 2", "Testing 2"))
+        PractitionerService().startSession(item._id!!, SessionDBO(null, "Test 3", "Testing 3"))
         // Get user and Count sessions
         val practitioner = PractitionerService().getById(item._id!!)
         assertThat(practitioner?.sessions?.size).isEqualTo(3)
@@ -172,7 +172,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert a new practising user
         val practitioner = PractitionerService().insert(user)
         // Insert sessions
-        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
         val response = PractitionerService().endSession(practitioner._id!!, 0)
         assertThat(response!!.sessions.last().endTime).isNotNull()
     }
@@ -186,9 +186,9 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert a new practising user
         val practitioner = PractitionerService().insert(user)
         // Start three session
-        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
-        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
-        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
         // End session (should end the last
         PractitionerService().endSession(practitioner._id!!, 0)
         // Session should be poped and pushed
@@ -205,9 +205,9 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert a new practising user
         val practitioner = PractitionerService().insert(user)
         // Start three session
-        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
-        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
-        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
         // End session (should end the last
         PractitionerService().endSession(practitioner._id!!, 0)
         // Session should be poped and pushed
@@ -225,9 +225,9 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert a new practising user
         val practitioner = PractitionerService().insert(user)
         // Start three session
-        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
-        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
-        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(practitioner._id!!,SessionDBO( null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
         // End session (should end the last
         PractitionerService().endSession(practitioner._id!!, 0)
         // Session should be poped and pushed
@@ -245,7 +245,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert a new practising user
         val practitioner = PractitionerService().insert(user)
         // Insert sessions
-        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
         PractitionerService().endSession(practitioner._id!!, 0)
         // Get from database
         val item = PractitionerService().getById(practitioner._id!!)
@@ -261,7 +261,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert a new practising user
         val practitioner = PractitionerService().insert(user)
         // Insert sessions
-        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
         PractitionerService().endSession(practitioner._id!!, 7)
         // Get from database
         val item = PractitionerService().getById(practitioner._id!!)
@@ -277,7 +277,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert a new practising user
         val practitioner = PractitionerService().insert(user)
         // Insert sessions
-        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
         PractitionerService().endSession(practitioner._id!!, 7)
         // Get from database
         val item = PractitionerService().getById(practitioner._id!!)
@@ -312,7 +312,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert a new practising user
         val practitioner = PractitionerService().insert(user)
         // Insert sessions
-        PractitionerService().startSession(practitioner._id!!, null, "Test 1", "Testing 1")
+        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
         PractitionerService().endSession(practitioner._id!!, 7)
         // Get from database
         val item = PractitionerService().getById(practitioner._id!!)

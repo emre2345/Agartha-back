@@ -108,9 +108,10 @@ class AdminController(private val mService: IPractitionerService, private val se
         if (practitioner != null) {
             val session = mService.startSession(
                     practitionerId = userId,
+                    session = SessionDBO(
                     geolocation = getRandomGeolocation(),
-                    disciplineName = if (discipline.startsWith("random", true)) getRandomDiscipline().title else discipline,
-                    intentionName = if (intention.startsWith("random", true)) getRandomIntention().title else intention)
+                    discipline = if (discipline.startsWith("random", true)) getRandomDiscipline().title else discipline,
+                    intention = if (intention.startsWith("random", true)) getRandomIntention().title else intention))
 
             return ControllerUtil.objectToString(session)
         }

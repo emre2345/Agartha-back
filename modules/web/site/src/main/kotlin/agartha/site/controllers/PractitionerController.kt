@@ -1,6 +1,8 @@
 package agartha.site.controllers
 
+import agartha.data.objects.CircleDBO
 import agartha.data.objects.PractitionerDBO
+import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.objects.request.PractitionerInvolvedInformation
@@ -39,7 +41,9 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
             //
             // End a Session
             Spark.post("/session/end/:userid/:contributionpoints", ::endSession)
-
+            //
+            // Start practicing by Joining a Circle
+            Spark.post("/circle/join/:userid/:circleid/:discipline/:intention", ::joinCircle)
         }
     }
 
@@ -110,9 +114,10 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         // Start a session
         val session = mService.startSession(
                 userId,
-                startSessionInformation.geolocation,
-                startSessionInformation.discipline,
-                startSessionInformation.intention)
+                SessionDBO(
+                        geolocation = startSessionInformation.geolocation,
+                        discipline = startSessionInformation.discipline,
+                        intention = startSessionInformation.intention))
         // Return the started session
         return ControllerUtil.objectToString(session)
     }
@@ -135,6 +140,36 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
     }
 
     /**
+     * Start a session by joining a circle
+     */
+    @Suppress("UNUSED_PARAMETER")
+    private fun joinCircle(request: Request, response: Response): String {
+        // Get params
+        val practitionerId: String = request.params(":userid")
+        val circleId: String = request.params(":circleid")
+        val discipline: String = request.params(":discipline")
+        val intention: String = request.params(":intention")
+
+        // Get objects and validate they exist
+        getPractitionerFromDatabase(practitionerId, mService)
+        val circle: CircleDBO = getActiveCircleFromDatabase(circleId, mService)
+
+        // Validate
+        validateDiscipline(circle, discipline)
+        validateIntention(circle, intention)
+
+        // Create a session
+        val session = SessionDBO(
+                geolocation = circle.geolocation,
+                discipline = discipline,
+                intention = intention,
+                startTime = LocalDateTime.now(),
+                circle = circle)
+        // Add session to user
+        return ControllerUtil.objectToString(mService.startSession(practitionerId, session))
+    }
+
+    /**
      * Get user id, and if missing create a new
      * @param reqeust object
      * @return UserId as string (GUID/UUID)
@@ -143,4 +178,31 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         return request.params(":userid") ?: ObjectId().toHexString()
     }
 
+    private fun validateDiscipline(circle: CircleDBO, discipline: String) {
+        if (circle.disciplines.size == 0) {
+            return
+        }
+
+        circle.disciplines.forEach {
+            if (it.title == discipline) {
+                return
+            }
+        }
+
+        Spark.halt(400, "Selected discipline does not match any in Circle")
+    }
+
+    private fun validateIntention(circle: CircleDBO, intention: String) {
+        if (circle.intentions.size == 0) {
+            return
+        }
+
+        circle.intentions.forEach {
+            if (it.title == intention) {
+                return
+            }
+        }
+
+        Spark.halt(400, "Selected intention does not match any in Circle")
+    }
 }
