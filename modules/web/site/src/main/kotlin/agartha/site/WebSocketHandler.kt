@@ -83,7 +83,7 @@ class WebSocketHandler {
      */
     @OnWebSocketClose
     fun disconnect(webSocketSession: Session, code: Int, reason: String?) {
-        // Remove the practitioner from the hashmap
+        // Remove the practitioner from the hashMap
         val practitionersSession = service.disconnect(webSocketSession)
         debugPrintout(
                 "closing '${practitionersSession?.discipline}' for '${practitionersSession?.intention}' lasted for '${practitionersSession?.sessionDurationMinutes()}' minutes")
@@ -92,7 +92,13 @@ class WebSocketHandler {
         // The disconnected practitioners session
         val returnPractitionersSession = ControllerUtil.objectToString(practitionersSession)
         // Notify all other practitionersSessions this practitioner has left the webSocketSession
-        if (practitionersSession != null) broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.COMPANION_LEFT.eventName, returnSessions, returnPractitionersSession))
+        if (practitionersSession != null) {
+            broadcastToOthers(webSocketSession,
+                    WebSocketMessage(
+                            WebSocketEvents.COMPANION_LEFT.eventName,
+                            returnSessions,
+                            returnPractitionersSession))
+        }
     }
 
 
@@ -101,14 +107,20 @@ class WebSocketHandler {
      * @param webSocketSession - the practitionersSessions webSocket-session
      * @param message - the message for the client
      */
-    private fun emit(webSocketSession: Session, message: WebSocketMessage) = webSocketSession.remote.sendString(jacksonObjectMapper().writeValueAsString(message))
+    private fun emit(webSocketSession: Session, message: WebSocketMessage){
+        webSocketSession.remote.sendString(jacksonObjectMapper().writeValueAsString(message))
+    }
 
     /**
      * Broadcast a message to everybody except a specific session
      * @param webSocketSession - the practitionersSessions webSocket-session
      * @param message - the message for the client
      */
-    private fun broadcastToOthers(webSocketSession: Session, message: WebSocketMessage) = service.getPractitionersSessionMap().filter { it.key != webSocketSession }.forEach { emit(it.key, message) }
+    private fun broadcastToOthers(webSocketSession: Session, message: WebSocketMessage){
+            service.getPractitionersSessionMap()
+                    .filter { it.key != webSocketSession }
+                    .forEach { emit(it.key, message) }
+    }
 
     private fun debugPrintout(eventText: String) {
         println(eventText)
