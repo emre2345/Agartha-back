@@ -66,9 +66,10 @@ data class PractitionerDBO(
         return this.fullName != null && this.email != null && this.description != null
     }
 
+    /**
+     * Calculates the sum of all the points in the practitioners spiritBankLog
+     */
     fun calculateSpiritBankPointsFromLog(): Long {
-        var points: Long = 0
-        this.spiritBankLog.forEach {points += it.points }
-        return points
+        return this.spiritBankLog.map { it.points }.sum()
     }
 }
