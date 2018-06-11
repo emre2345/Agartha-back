@@ -34,6 +34,6 @@ data class PractitionerReport(
                     // Sum it
                     .sum(),
             user.involved(),
-            user.getSpiritBankPointsFromLog())
+            user.calculateSpiritBankPointsFromLog())
 
 }

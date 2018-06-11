@@ -66,7 +66,7 @@ data class PractitionerDBO(
         return this.fullName != null && this.email != null && this.description != null
     }
 
-    fun getSpiritBankPointsFromLog(): Long {
+    fun calculateSpiritBankPointsFromLog(): Long {
         var points: Long = 0
         this.spiritBankLog.forEach {points += it.points }
         return points
