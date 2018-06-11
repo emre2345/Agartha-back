@@ -244,4 +244,38 @@ class PractitionerDBOTest {
         Assertions.assertThat(practitioner.spiritBankLog[0].points).isEqualTo(50)
     }
 
+    /**
+     * Spirit bank points
+     */
+    @Test
+    fun spiritBankPoints_totalPointsNoTransactions_50() {
+        val practitioner = PractitionerDBO()
+        Assertions.assertThat(practitioner.getSpiritBankLogPoints()).isEqualTo(50)
+    }
+    @Test
+    fun spiritBankPoints_totalPointsPlusTransactions_53() {
+        val practitioner = PractitionerDBO(
+                spiritBankLog = listOf(
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50),
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.SESSION, points = 3)))
+        Assertions.assertThat(practitioner.getSpiritBankLogPoints()).isEqualTo(53)
+    }
+    @Test
+    fun spiritBankPoints_totalPointsSubtractTransactions_47() {
+        val practitioner = PractitionerDBO(
+                spiritBankLog = listOf(
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50),
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = -3)))
+        Assertions.assertThat(practitioner.getSpiritBankLogPoints()).isEqualTo(47)
+    }
+    @Test
+    fun spiritBankPoints_totalPointsBothPlusAndSubtractTransactions_47() {
+        val practitioner = PractitionerDBO(
+                spiritBankLog = listOf(
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50),
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.CREATED_CIRCLE, points = 53),
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = -3)))
+        Assertions.assertThat(practitioner.getSpiritBankLogPoints()).isEqualTo(100)
+    }
+
 }

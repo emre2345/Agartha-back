@@ -15,7 +15,7 @@ data class PractitionerDBO(
         var fullName: String? = null,
         var email: String? = null,
         var description: String? = null,
-        val spiritBankLog: List<SpiritBankLogItemDBO> = listOf( SpiritBankLogItemDBO(type = SpiritBankLogItemType.STARTED, points = 50))
+        val spiritBankLog: List<SpiritBankLogItemDBO> = listOf( SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50))
 ) {
 
     /**
@@ -64,5 +64,13 @@ data class PractitionerDBO(
      */
     fun involved(): Boolean {
         return this.fullName != null && this.email != null && this.description != null
+    }
+
+    fun getSpiritBankLogPoints(): Long {
+        var points: Long = 0
+        this.spiritBankLog.forEach {
+            println(it)
+            points += it.points }
+        return points
     }
 }
