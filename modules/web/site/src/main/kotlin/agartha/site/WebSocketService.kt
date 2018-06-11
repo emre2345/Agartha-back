@@ -7,7 +7,7 @@ import agartha.site.objects.webSocket.WebSocketMessage
 import org.eclipse.jetty.websocket.api.Session
 
 class WebSocketService(private val mService: IPractitionerService) {
-    protected val practitionersSessions = HashMap<Session, SessionDBO>()
+    private val practitionersSessions = HashMap<Session, SessionDBO>()
 
     /**
      * Add The webSocketSession and users latest session to the Map
