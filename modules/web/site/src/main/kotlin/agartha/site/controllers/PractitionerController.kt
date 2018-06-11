@@ -44,6 +44,9 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
             //
             // Start practicing by Joining a Circle
             Spark.post("/circle/join/:userid/:circleid/:discipline/:intention", ::joinCircle)
+            //
+            // Get practitioners spiritBankHistory
+            Spark.get("/spiritbankhistory/:userid", ::getBankHistory)
         }
     }
 
@@ -167,6 +170,19 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
                 circle = circle)
         // Add session to user
         return ControllerUtil.objectToString(mService.startSession(practitionerId, session))
+    }
+
+    /**
+     * Return practitioners spirit bank log history
+     */
+    @Suppress("UNUSED_PARAMETER")
+    private fun getBankHistory(request: Request, response: Response): String {
+        // Get params
+        val practitionerId: String = getUserIdFromRequest(request)
+        // Get practitioner
+        val practitioner = getPractitionerFromDatabase(practitionerId, mService)
+        // Return the list
+        return ControllerUtil.objectListToString(practitioner.spiritBankLog)
     }
 
     /**
