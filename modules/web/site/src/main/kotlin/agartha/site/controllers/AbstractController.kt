@@ -37,9 +37,9 @@ abstract class AbstractController {
                     it.circles
                 }
                 // Filter out active
-                .filter {
-                    it.active()
-                }
+//                .filter {
+//                    it.active()
+//                }
                 // Find the one with correct id
                 .find {
                     it._id == circleId

@@ -148,18 +148,19 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
     @Suppress("UNUSED_PARAMETER")
     private fun joinCircle(request: Request, response: Response): String {
         // Get params
-        val practitionerId: String = request.params(":userid")
+        val practitionerId: String = getUserIdFromRequest(request)
         val circleId: String = request.params(":circleid")
         val discipline: String = request.params(":discipline")
         val intention: String = request.params(":intention")
 
         // Get objects and validate they exist
-        getPractitionerFromDatabase(practitionerId, mService)
+        val practitioner = getPractitionerFromDatabase(practitionerId, mService)
         val circle: CircleDBO = getActiveCircleFromDatabase(circleId, mService)
 
         // Validate
         validateDiscipline(circle, discipline)
         validateIntention(circle, intention)
+        validateUserCanAffordToJoin(practitioner, circle.minimumSpiritContribution)
 
         // Create a session
         val session = SessionDBO(
@@ -187,7 +188,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
 
     /**
      * Get user id, and if missing create a new
-     * @param reqeust object
+     * @param request object
      * @return UserId as string (GUID/UUID)
      */
     private fun getUserIdFromRequest(request: Request): String {
@@ -220,5 +221,14 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         }
 
         Spark.halt(400, "Selected intention does not match any in Circle")
+    }
+
+    /**
+     * If users spiritBankLog has less points than then spiritContributionCost then throe a 400
+     */
+    private fun validateUserCanAffordToJoin(practitioner: PractitionerDBO, spiritContributionCost: Long) {
+        if(practitioner.calculateSpiritBankPointsFromLog() < spiritContributionCost){
+            Spark.halt(400, "Practitioner cannot afford to join this circle")
+        }
     }
 }

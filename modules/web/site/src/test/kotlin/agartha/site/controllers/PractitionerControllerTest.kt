@@ -525,7 +525,7 @@ class PractitionerControllerTest {
     }
 
     @Test
-    fun joinCircle_circleHasNoDiciplinesNoIntention_intentionStored() {
+    fun joinCircle_circleHasNoDisciplinesNoIntention_intentionStored() {
         // Insert the current user
         mockedService.insert(PractitionerDBO(_id = "a"))
         // Insert the creator of circle
