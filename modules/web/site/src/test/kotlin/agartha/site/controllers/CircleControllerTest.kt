@@ -49,7 +49,7 @@ class CircleControllerTest {
                 created = LocalDateTime.now(),
                 sessions = listOf(),
                 spiritBankLog = listOf(
-                        SpiritBankLogItemDBO(type=SpiritBankLogItemType.START, points = 50)
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50)
                 )))
         // User with 3 circles
         mockedService.insert(PractitionerDBO(
@@ -82,7 +82,7 @@ class CircleControllerTest {
                                 disciplines = listOf(),
                                 minimumSpiritContribution = 5)),
                 spiritBankLog = listOf(
-                        SpiritBankLogItemDBO(type= SpiritBankLogItemType.START, points = 50)
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50)
                 )))
         // User with 1 circles
         mockedService.insert(PractitionerDBO(
@@ -99,7 +99,7 @@ class CircleControllerTest {
                                 disciplines = listOf(),
                                 minimumSpiritContribution = 5)),
                 spiritBankLog = listOf(
-                        SpiritBankLogItemDBO(type=SpiritBankLogItemType.START, points = 50)
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50)
                 )))
 
         // User without enough points in spiritBankLog
@@ -109,8 +109,8 @@ class CircleControllerTest {
                 sessions = listOf(),
                 circles = listOf(),
                 spiritBankLog = listOf(
-                        SpiritBankLogItemDBO(type= SpiritBankLogItemType.START, points = 50),
-                        SpiritBankLogItemDBO(type= SpiritBankLogItemType.START, points = 49)
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50),
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 49)
                 )))
 
     }
