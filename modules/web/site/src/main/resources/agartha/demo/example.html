@@ -21,32 +21,17 @@
     <script>
         Vue.component('std-component', {
             template: '<div class="row alert alert-primary">' +
-            '  <div class="col-2">' +
-            '    {{name}}<br/>' +
-            '    <button class="btn btn-dark" @click="clickEvent">DO</button>' +
-            '  </div>' +
-            '  <div class="col-10">' +
-            '    {{body}}<br/>' +
-            '    <textarea v-if="hasBody" class="form-control" v-model="bodyText" rows="2"></textarea><br/>' +
-            '    {{api}}' +
-            '  </div>' +
+            '  <div class="col-2">{{name}}<br/><button class="btn btn-dark" @click="clickEvent">DO</button></div>' +
+            '  <div class="col-10">{{body}}<br/><textarea v-if="hasBody" class="form-control" v-model="bodyText" rows="2"></textarea><br/>{{api}}</div>' +
             '</div>',
-            props: {
-                name: String,
-                api: String,
-                hasBody: Boolean,
-                body: String,
-                onClick: Function
-            },
+            props: { name: String, api: String, hasBody: Boolean, body: String, onClick: Function },
             data: function() {
                 return {
                     bodyText: ""
                 }
             },
             methods: {
-                clickEvent: function() {
-                    this.onClick(this.bodyText);
-                }
+                clickEvent: function() { this.onClick(this.bodyText); }
             }
         });
 
@@ -64,10 +49,10 @@
                             circle: "/circle"
                         },
                         // Default values for request bodies
-                        defaultAddIntention: "{\"title\":\"\",\"description\":\"\"}",
-                        defaultSetUser: "{\"fullName\":\"\",\"email\":\"\",\"description\":\"\"}",
+                        defaultAddIntention: "{\"title\":\"Intention Title\", \"description\":\"Intention Description\"}",
+                        defaultSetUser: "{\"fullName\":\"Practitioner Fullname\", \"email\":\"practitioner@agartha.se\", \"description\":\"About Me\"}",
                         defaultStartSession: "{\"geolocation\":{\"latitude\":55.6044973,\"longitude\":13.005021},\"discipline\":\"Meditation\",\"intention\":\"LOVE\"}",
-                        defaultCreateCircle: "{\"name\":\"\",\",description\":\"\",\"geolocation\":null,\"startTime\":\"\",\"endTime\":\"\",\"intentions\":[],\"disciplines\":[],\"minimumSpiritContribution\":4}",
+                        defaultCreateCircle: "{ \"name\":\"MyCircle Name\",\"description\":\"MyCircle Desc\", \"startTime\":\"2020-03-15T12:00:00.000Z\", \"endTime\":\"2020-03-15T14:00:00.000Z\", \"disciplines\":[], \"intentions\":[], \"minimumSpiritContribution\":14 }",
                         //
                         currentNav: "",
                         currentUserId: "",
@@ -276,9 +261,8 @@
         <div class="form-group">
             <label for="circles">Example select</label>
             <select class="form-control" id="circles" v-model="currentCircleId">
-                <option v-for="circle in allCircles" :value="circle._id">
-                    {{ circle._id }} {{circle.name}}
-                </option>
+                <option value="">None selected</option>
+                <option v-for="circle in allCircles" :value="circle._id">{{circle.name}} {{circle.startTime}} - {{circle.endTime}}</option>
             </select>
         </div>
     </form>
