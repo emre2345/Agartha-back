@@ -160,7 +160,7 @@
                             var data = that.logResponse(response);
                         });
                     },
-                    apiGetSpiritBank: function () {
+                    getSpiritBank: function () {
                         var that = this;
                         that.logRequest(that.apiGetSpiritBank);
                         that.askServer(that.apiGetSpiritBank, 'GET', body, function (response) {
@@ -231,7 +231,7 @@
 
                         // CONTINUE HERE https://www.javascripture.com/FormData
 
-                        that.askServer(that.apiImage, 'POST', new FormData($("#uploadForm")), function (response) {
+                        that.askServer(that.apiImage, 'POST', new FormData(document.getElementById("uploadForm")), function (response) {
                             var data = that.logResponse(response);
                         });
                     }
@@ -258,19 +258,19 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#" @click="currentNav='Settings'">Settings</a>
+                    <a class="nav-link" href="#" @click.prevent="currentNav='Settings'">Settings</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" @click="currentNav='Practitioner'">Practitioner</a>
+                    <a class="nav-link" href="#" @click.prevent="currentNav='Practitioner'">Practitioner</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" @click="currentNav='Companion'">Companion</a>
+                    <a class="nav-link" href="#" @click.prevent="currentNav='Companion'">Companion</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" @click="currentNav='Circle'">Circle</a>
+                    <a class="nav-link" href="#" @click.prevent="currentNav='Circle'">Circle</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" @click="currentNav='Image'">Image</a>
+                    <a class="nav-link" href="#" @click.prevent="currentNav='Image'">Image</a>
                 </li>
             </ul>
         </div>
