@@ -525,7 +525,7 @@ class PractitionerControllerTest {
     }
 
     @Test
-    fun joinCircle_circleHasNoDiciplinesNoIntention_intentionStored() {
+    fun joinCircle_circleHasNoDisciplinesNoIntention_intentionStored() {
         // Insert the current user
         mockedService.insert(PractitionerDBO(_id = "a"))
         // Insert the creator of circle
@@ -545,5 +545,69 @@ class PractitionerControllerTest {
         // validate the data source
         val practitioner = mockedService.getById("a")
         assertThat(practitioner!!.sessions.get(0).intention).isEqualTo("I")
+    }
+
+    @Test
+    fun joinCircle_circleCostContributionPointsFromSpiritBank_logItemStoredInSpiritBankLog() {
+        // Insert the current user
+        mockedService.insert(PractitionerDBO(_id = "a",
+                spiritBankLog = listOf(SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50))))
+        // Insert the creator of circle
+        mockedService.insert(PractitionerDBO(
+                _id = "b",
+                circles = listOf(CircleDBO(
+                        _id = "1",
+                        name = "MyCircle",
+                        description = "MyDescription",
+                        disciplines = listOf(),
+                        intentions = listOf(),
+                        startTime = LocalDateTime.now().minusMinutes(10),
+                        endTime = LocalDateTime.now().plusMinutes(10),
+                        minimumSpiritContribution = 2))))
+        val request = testController.testServer.post("/practitioner/circle/join/a/1/D/I", "", false)
+        val response = testController.testServer.execute(request)
+        // validate the data source
+        val practitioner = mockedService.getById("a")
+        assertThat(practitioner!!.spiritBankLog.last().type).isEqualTo(SpiritBankLogItemType.JOINED_CIRCLE)
+    }
+
+
+    @Test
+    fun joinCircle_circleCostUserCannotAffordToJoinCircleResponseStatus_400() {
+        // Insert the current user
+        mockedService.insert(PractitionerDBO(_id = "a",
+                spiritBankLog = listOf(SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50))))
+        // Insert the creator of circle
+        mockedService.insert(PractitionerDBO(
+                _id = "b",
+                circles = listOf(CircleDBO(
+                        _id = "1",
+                        name = "MyCircle",
+                        description = "MyDescription",
+                        disciplines = listOf(),
+                        intentions = listOf(),
+                        startTime = LocalDateTime.now().minusMinutes(10),
+                        endTime = LocalDateTime.now().plusMinutes(10),
+                        minimumSpiritContribution = 100))))
+        val request = testController.testServer.post("/practitioner/circle/join/a/1/D/I", "", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
+    }
+
+    @Test
+    fun spiritBankHistory_userHas3Logs_size3() {
+        // Insert the current user
+        mockedService.insert(PractitionerDBO(_id = "a",
+                spiritBankLog = listOf(
+                        SpiritBankLogItemDBO(type=SpiritBankLogItemType.START, points = 50),
+                        SpiritBankLogItemDBO(type=SpiritBankLogItemType.SESSION, points = 20),
+                        SpiritBankLogItemDBO(type=SpiritBankLogItemType.JOINED_CIRCLE, points = -10)
+                        )))
+
+        val request = testController.testServer.get("/practitioner/spiritbankhistory/a", false)
+        val response = testController.testServer.execute(request)
+        val responseBody = String(response.body())
+        val history = ControllerUtil.stringToObjectList(responseBody, SpiritBankLogItemDBO::class.java)
+        assertThat(history.size).isEqualTo(3)
     }
 }

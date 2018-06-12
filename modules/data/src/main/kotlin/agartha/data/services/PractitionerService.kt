@@ -56,6 +56,11 @@ class PractitionerService : IPractitionerService {
             session: SessionDBO): SessionDBO {
         // Push session to practitioner
         pushSession(practitionerId, session)
+        // If session has a circle then it should add a new item to the spiritBankLog
+        if(session.circle !== null){
+            val cost = session.circle.minimumSpiritContribution - (session.circle.minimumSpiritContribution)*2
+            pushContributionPoints(practitionerId, cost, SpiritBankLogItemType.JOINED_CIRCLE)
+        }
         // return next index
         return session
     }
@@ -85,7 +90,7 @@ class PractitionerService : IPractitionerService {
                 // Add it to sessions array
                 pushSession(practitionerId, session)
                 // Add the new logItem about the ended session to the spiritBankLog for the practitioner
-                pushContributionPoints(practitionerId, contributionPoints)
+                pushContributionPoints(practitionerId, contributionPoints, SpiritBankLogItemType.SESSION)
                 // Return the new updated practitioner
                 return getById(practitionerId)
             }
@@ -151,13 +156,13 @@ class PractitionerService : IPractitionerService {
      * @param practitionerId - string - the practitioner to be updated
      * @param contributionPoints - Long - the points that was contributed
      */
-    private fun pushContributionPoints(practitionerId: String, contributionPoints: Long) {
+    private fun pushContributionPoints(practitionerId: String, contributionPoints: Long, type: SpiritBankLogItemType) {
         // Update first document found by Id, push the new document
         collection.updateOneById(
                 practitionerId,
                 Document("${MongoOperator.push}",
                         // Create Mongo Document to be added to spiritBankLog list
-                        Document("spiritBankLog", SpiritBankLogItemDBO(type = SpiritBankLogItemType.SESSION, points = contributionPoints))))
+                        Document("spiritBankLog", SpiritBankLogItemDBO(type = type, points = contributionPoints))))
     }
     /**
      * Add a circle to a practitioner
