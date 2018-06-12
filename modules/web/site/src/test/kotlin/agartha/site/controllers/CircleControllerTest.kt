@@ -2,6 +2,8 @@ package agartha.site.controllers
 
 import agartha.data.objects.CircleDBO
 import agartha.data.objects.PractitionerDBO
+import agartha.data.objects.SpiritBankLogItemDBO
+import agartha.data.objects.SpiritBankLogItemType
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import org.assertj.core.api.Assertions.assertThat
@@ -45,7 +47,11 @@ class CircleControllerTest {
         mockedService.insert(PractitionerDBO(
                 _id = "a",
                 created = LocalDateTime.now(),
-                sessions = listOf()))
+                sessions = listOf(),
+                spiritBankLog = listOf(
+                        SpiritBankLogItemDBO(type= SpiritBankLogItemType.START, points = 50),
+                        SpiritBankLogItemDBO(type= SpiritBankLogItemType.JOINED_CIRCLE, points = -49)
+                )))
         // User with 3 circles
         mockedService.insert(PractitionerDBO(
                 _id = "b",
@@ -75,7 +81,10 @@ class CircleControllerTest {
                                 endTime = LocalDateTime.now().plusHours(15),
                                 intentions = listOf(),
                                 disciplines = listOf(),
-                                minimumSpiritContribution = 5))))
+                                minimumSpiritContribution = 5)),
+                spiritBankLog = listOf(
+                        SpiritBankLogItemDBO(type=SpiritBankLogItemType.START, points = 50)
+                )))
 
         // User with 1 circles
         mockedService.insert(PractitionerDBO(
@@ -90,7 +99,10 @@ class CircleControllerTest {
                                 endTime = LocalDateTime.now().plusMinutes(90),
                                 intentions = listOf(),
                                 disciplines = listOf(),
-                                minimumSpiritContribution = 5))))
+                                minimumSpiritContribution = 5)),
+                spiritBankLog = listOf(
+                        SpiritBankLogItemDBO(type=SpiritBankLogItemType.START, points = 50)
+                )))
     }
 
     @Test
@@ -129,7 +141,7 @@ class CircleControllerTest {
     fun addCircle_statusNoGeolocation_200() {
         setup()
         val request = testController.testServer.post(
-                "/circle/a",
+                "/circle/b",
                 """{
                         "name":"MyCircle Name",
                         "description":"MyCircle Desc",
@@ -148,7 +160,7 @@ class CircleControllerTest {
     fun addCircle_statusGeolocation_200() {
         setup()
         val request = testController.testServer.post(
-                "/circle/a",
+                "/circle/b",
                 """{
                         "name":"MyCircle Name",
                         "description":"MyCircle Desc",
@@ -168,7 +180,7 @@ class CircleControllerTest {
     fun addCircle_statusDisciplineAndIntention_200() {
         setup()
         val request = testController.testServer.post(
-                "/circle/a",
+                "/circle/b",
                 """{
                         "name":"MyCircle Name",
                         "description":"MyCircle Desc",
@@ -187,7 +199,7 @@ class CircleControllerTest {
     fun addCircle_responseObjectCircles_1() {
         setup()
         val request = testController.testServer.post(
-                "/circle/a",
+                "/circle/c",
                 """{
                         "name":"MyCircle Name",
                         "description":"MyCircle Desc",
@@ -200,6 +212,26 @@ class CircleControllerTest {
                 false)
         val response = testController.testServer.execute(request)
         val practitioner = ControllerUtil.stringToObject(String(response.body()), PractitionerDBO::class.java)
-        assertThat(practitioner.circles.size).isEqualTo(1)
+        assertThat(practitioner.circles.size).isEqualTo(2)
+    }
+
+    @Test
+    fun addCircle_withoutEnoughPointsResponseStatus_400() {
+        setup()
+        val request = testController.testServer.post(
+                "/circle/a",
+                """{
+                        "name":"MyCircle Name",
+                        "description":"MyCircle Desc",
+                        "startTime":"2020-03-15T12:00:00.000Z",
+                        "endTime":"2020-03-15T14:00:00.000Z",
+                        "disciplines":[],
+                        "intentions":[],
+                        "minimumSpiritContribution":14
+                        }""",
+                false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
+
     }
 }
