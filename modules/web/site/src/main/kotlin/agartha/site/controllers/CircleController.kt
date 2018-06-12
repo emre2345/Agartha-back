@@ -67,7 +67,6 @@ class CircleController(private val mService: IPractitionerService) : AbstractCon
         // Make sure practitionerId exists in database
         getPractitionerFromDatabase(userId, mService)
         // Get circle data from body
-        println(request.body())
         val circle: CircleDBO = ControllerUtil.stringToObject(request.body(), CircleDBO::class.java)
         // Store it and return the complete practitioner object
         return ControllerUtil.objectToString(mService.addCircle(userId, circle))

@@ -58,6 +58,13 @@ class MockedPractitionerService : IPractitionerService {
                     .plus(session)
             // remove from list
             practitionerList.remove(practitioner)
+            // If session has a circle then it should
+            // add a new item to the practitioners spiritBankLog
+            val newSpiritBankLog = practitioner.spiritBankLog.toMutableList()
+            if(session.circle !== null){
+                val cost = session.circle!!.minimumSpiritContribution - (session.circle!!.minimumSpiritContribution)*2
+                newSpiritBankLog.add(SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = cost))
+            }
             // re-add
             practitionerList.add(
                     PractitionerDBO(
@@ -67,7 +74,8 @@ class MockedPractitionerService : IPractitionerService {
                             circles = practitioner.circles,
                             fullName = practitioner.fullName,
                             email = practitioner.email,
-                            description = practitioner.description)
+                            description = practitioner.description,
+                            spiritBankLog = newSpiritBankLog)
             )
         }
         return session
