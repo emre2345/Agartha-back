@@ -6,7 +6,7 @@ import org.junit.Before
 import org.junit.Test
 
 /**
- * Purpose of this file is ...
+ * Purpose of this file is to test the ImageService
  *
  * Created by Jorgen Andersson on 2018-06-11.
  */
