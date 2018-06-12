@@ -49,8 +49,7 @@ class CircleControllerTest {
                 created = LocalDateTime.now(),
                 sessions = listOf(),
                 spiritBankLog = listOf(
-                        SpiritBankLogItemDBO(type= SpiritBankLogItemType.START, points = 50),
-                        SpiritBankLogItemDBO(type= SpiritBankLogItemType.JOINED_CIRCLE, points = -49)
+                        SpiritBankLogItemDBO(type=SpiritBankLogItemType.START, points = 50)
                 )))
         // User with 3 circles
         mockedService.insert(PractitionerDBO(
@@ -83,9 +82,8 @@ class CircleControllerTest {
                                 disciplines = listOf(),
                                 minimumSpiritContribution = 5)),
                 spiritBankLog = listOf(
-                        SpiritBankLogItemDBO(type=SpiritBankLogItemType.START, points = 50)
+                        SpiritBankLogItemDBO(type= SpiritBankLogItemType.START, points = 50)
                 )))
-
         // User with 1 circles
         mockedService.insert(PractitionerDBO(
                 _id = "c",
@@ -103,6 +101,18 @@ class CircleControllerTest {
                 spiritBankLog = listOf(
                         SpiritBankLogItemDBO(type=SpiritBankLogItemType.START, points = 50)
                 )))
+
+        // User without enough points in spiritBankLog
+        mockedService.insert(PractitionerDBO(
+                _id = "d",
+                created = LocalDateTime.now(),
+                sessions = listOf(),
+                circles = listOf(),
+                spiritBankLog = listOf(
+                        SpiritBankLogItemDBO(type= SpiritBankLogItemType.START, points = 50),
+                        SpiritBankLogItemDBO(type= SpiritBankLogItemType.START, points = 49)
+                )))
+
     }
 
     @Test
@@ -141,7 +151,7 @@ class CircleControllerTest {
     fun addCircle_statusNoGeolocation_200() {
         setup()
         val request = testController.testServer.post(
-                "/circle/b",
+                "/circle/a",
                 """{
                         "name":"MyCircle Name",
                         "description":"MyCircle Desc",
@@ -160,7 +170,7 @@ class CircleControllerTest {
     fun addCircle_statusGeolocation_200() {
         setup()
         val request = testController.testServer.post(
-                "/circle/b",
+                "/circle/a",
                 """{
                         "name":"MyCircle Name",
                         "description":"MyCircle Desc",
@@ -180,7 +190,7 @@ class CircleControllerTest {
     fun addCircle_statusDisciplineAndIntention_200() {
         setup()
         val request = testController.testServer.post(
-                "/circle/b",
+                "/circle/a",
                 """{
                         "name":"MyCircle Name",
                         "description":"MyCircle Desc",
@@ -199,26 +209,6 @@ class CircleControllerTest {
     fun addCircle_responseObjectCircles_1() {
         setup()
         val request = testController.testServer.post(
-                "/circle/c",
-                """{
-                        "name":"MyCircle Name",
-                        "description":"MyCircle Desc",
-                        "startTime":"2020-03-15T12:00:00.000Z",
-                        "endTime":"2020-03-15T14:00:00.000Z",
-                        "disciplines":[],
-                        "intentions":[],
-                        "minimumSpiritContribution":14
-                        }""",
-                false)
-        val response = testController.testServer.execute(request)
-        val practitioner = ControllerUtil.stringToObject(String(response.body()), PractitionerDBO::class.java)
-        assertThat(practitioner.circles.size).isEqualTo(2)
-    }
-
-    @Test
-    fun addCircle_withoutEnoughPointsResponseStatus_400() {
-        setup()
-        val request = testController.testServer.post(
                 "/circle/a",
                 """{
                         "name":"MyCircle Name",
@@ -231,7 +221,27 @@ class CircleControllerTest {
                         }""",
                 false)
         val response = testController.testServer.execute(request)
-        assertThat(response.code()).isEqualTo(400)
+        val practitioner = ControllerUtil.stringToObject(String(response.body()), PractitionerDBO::class.java)
+        assertThat(practitioner.circles.size).isEqualTo(1)
+    }
 
+    @Test
+    fun addCircle_withoutEnoughPointsResponseStatus_400() {
+        setup()
+        val request = testController.testServer.post(
+                "/circle/d",
+                """{
+                        "name":"MyCircle Name",
+                        "description":"MyCircle Desc",
+                        "startTime":"2020-03-15T12:00:00.000Z",
+                        "endTime":"2020-03-15T14:00:00.000Z",
+                        "disciplines":[],
+                        "intentions":[],
+                        "minimumSpiritContribution":14
+                        }""",
+                false)
+        val response = testController.testServer.execute(request)
+        val practitioner = ControllerUtil.stringToObject(String(response.body()), PractitionerDBO::class.java)
+        assertThat(practitioner.circles.size).isEqualTo(1)
     }
 }
