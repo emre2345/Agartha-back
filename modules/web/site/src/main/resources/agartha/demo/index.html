@@ -19,10 +19,11 @@
         $(document).ready(function (e) {
             $("#uploadForm").on('submit', function (e) {
                 $("#message").html("SHIT STARTED");
+                var id = $("#imageId").val();
                 e.preventDefault();
 
                 $.ajax({
-                    url: "http://localhost:5555/v1/image/123",
+                    url: "http://localhost:5555/v1/image/" + id,
                     type: "POST",
                     data: new FormData(this),
                     contentType: false,
@@ -44,10 +45,11 @@
 
     <form id="uploadForm" method="post" action="" enctype="multipart/form-data">
         <div>
+            <input id="imageId" type="text" value="123" />&nbsp;<br/>
             <img src="http://localhost:5555/v1/image/123"/>
         </div>
         <div>
-            <input type="file" name="file" />
+            <input id="file" type="file" name="file" />
             <input type="submit" class="button" value="Upload" />
         </div>
     </form>

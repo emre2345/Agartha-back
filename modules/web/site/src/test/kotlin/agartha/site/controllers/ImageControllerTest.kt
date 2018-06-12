@@ -59,9 +59,4 @@ class ImageControllerTest {
         Assertions.assertThat(response.code()).isEqualTo(404)
     }
 
-    @Test
-    fun insertImage_() {
-        val request = testController.testServer.post("/image/aaa", "",false)
-
-    }
 }

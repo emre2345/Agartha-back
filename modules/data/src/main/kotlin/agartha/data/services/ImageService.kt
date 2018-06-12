@@ -2,10 +2,7 @@ package agartha.data.services
 
 import agartha.data.db.conn.MongoConnection
 import agartha.data.objects.ImageDBO
-import org.litote.kmongo.findOneById
-import org.litote.kmongo.getCollection
-import org.litote.kmongo.toList
-import org.litote.kmongo.updateOne
+import org.litote.kmongo.*
 
 /**
  * Purpose of this Service is reading/writing Images to database
@@ -29,7 +26,7 @@ class ImageService  : IBaseService<ImageDBO> {
                 collection.insertOne(item)
             }
             else {
-                collection.updateOne(item)
+                collection.replaceOne(item)
             }
         }
     }
