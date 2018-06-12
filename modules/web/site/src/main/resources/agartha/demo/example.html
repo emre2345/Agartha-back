@@ -22,16 +22,18 @@
         Vue.component('std-component', {
             template: '<div class="row alert alert-primary">' +
             '  <div class="col-2">{{name}}<br/><button class="btn btn-dark" @click="clickEvent">DO</button></div>' +
-            '  <div class="col-10">{{body}}<br/><textarea v-if="hasBody" class="form-control" v-model="bodyText" rows="2"></textarea><br/>{{api}}</div>' +
+            '  <div class="col-10">Example: {{body}}<br/><textarea v-if="hasBody" class="form-control" v-model="bodyText" rows="2"></textarea><br/>{{api}}</div>' +
             '</div>',
-            props: { name: String, api: String, hasBody: Boolean, body: String, onClick: Function },
-            data: function() {
+            props: {name: String, api: String, hasBody: Boolean, body: String, onClick: Function},
+            data: function () {
                 return {
                     bodyText: ""
                 }
             },
             methods: {
-                clickEvent: function() { this.onClick(this.bodyText); }
+                clickEvent: function () {
+                    this.onClick(this.bodyText);
+                }
             }
         });
 
@@ -46,7 +48,8 @@
                             settings: "/settings",
                             practitioner: "/practitioner",
                             companion: "/companion",
-                            circle: "/circle"
+                            circle: "/circle",
+                            image: "/image"
                         },
                         // Default values for request bodies
                         defaultAddIntention: "{\"title\":\"Intention Title\", \"description\":\"Intention Description\"}",
@@ -63,10 +66,10 @@
                     }
                 },
                 computed: {
-                    apiGetSettings: function() {
+                    apiGetSettings: function () {
                         return this.serverAddress + this.controllers.settings;
                     },
-                    apiAddIntention: function() {
+                    apiAddIntention: function () {
                         return this.serverAddress + this.controllers.settings + "/intention";
                     },
                     apiCreateUser: function () {
@@ -75,29 +78,35 @@
                     apiGetUser: function () {
                         return this.serverAddress + this.controllers.practitioner + "/" + this.currentUserId
                     },
+                    apiGetSpiritBank: function () {
+                        return this.serverAddress + this.controllers.practitioner + "/spiritbankhistory/" + this.currentUserId
+                    },
                     apiSetUser: function () {
                         return this.serverAddress + this.controllers.practitioner + "/" + this.currentUserId
                     },
-                    apiStartSession: function() {
+                    apiStartSession: function () {
                         return this.serverAddress + this.controllers.practitioner + "/session/start/" + this.currentUserId
                     },
-                    apiCompanionReport: function() {
+                    apiCompanionReport: function () {
                         return this.serverAddress + this.controllers.companion;
                     },
-                    apiCompanionSessionReport: function() {
+                    apiCompanionSessionReport: function () {
                         return this.serverAddress + this.controllers.companion + "/" + this.currentUserId
                     },
-                    apiCompanionOngoingReport: function() {
+                    apiCompanionOngoingReport: function () {
                         return this.serverAddress + this.controllers.companion + "/ongoing/" + this.currentUserId
                     },
-                    apiGetAllCircles: function() {
+                    apiGetAllCircles: function () {
                         return this.serverAddress + this.controllers.circle;
                     },
-                    apiGetActiveCircles: function() {
+                    apiGetActiveCircles: function () {
                         return this.serverAddress + this.controllers.circle + "/active";
                     },
-                    apiCreateCircle: function() {
+                    apiCreateCircle: function () {
                         return this.serverAddress + this.controllers.circle + "/" + this.currentUserId
+                    },
+                    apiImage: function() {
+                        return this.serverAddress + this.controllers.image + "/" + this.currentCircleId
                     }
                 },
                 methods: {
@@ -122,14 +131,14 @@
                         console.warn("Response: " + JSON.stringify(response));
                         return data;
                     },
-                    getSettings: function() {
+                    getSettings: function () {
                         var that = this;
                         that.logRequest(that.apiGetSettings);
                         that.askServer(that.apiGetSettings, 'GET', '', function (response) {
                             var data = that.logResponse(response);
                         });
                     },
-                    addIntention: function(body) {
+                    addIntention: function (body) {
                         var that = this;
                         that.logRequest(that.apiAddIntention);
                         that.askServer(that.apiAddIntention, 'POST', body, function (response) {
@@ -151,6 +160,13 @@
                             var data = that.logResponse(response);
                         });
                     },
+                    apiGetSpiritBank: function () {
+                        var that = this;
+                        that.logRequest(that.apiGetSpiritBank);
+                        that.askServer(that.apiGetSpiritBank, 'GET', body, function (response) {
+                            var data = that.logResponse(response);
+                        });
+                    },
                     setUser: function (body) {
                         var that = this;
                         that.logRequest(that.apiSetUser);
@@ -158,35 +174,35 @@
                             var data = that.logResponse(response);
                         });
                     },
-                    startSession: function(body) {
+                    startSession: function (body) {
                         var that = this;
                         that.logRequest(that.apiStartSession);
                         that.askServer(that.apiStartSession, 'POST', body, function (response) {
                             var data = that.logResponse(response);
                         });
                     },
-                    getCompaionReport: function() {
+                    getCompaionReport: function () {
                         var that = this;
                         that.logRequest(that.apiCompanionReport);
                         that.askServer(that.apiCompanionReport, 'GET', '', function (response) {
                             var data = that.logResponse(response);
                         });
                     },
-                    getCompaionSessionReport: function() {
+                    getCompaionSessionReport: function () {
                         var that = this;
                         that.logRequest(that.apiCompanionSessionReport);
                         that.askServer(that.apiCompanionSessionReport, 'GET', '', function (response) {
                             var data = that.logResponse(response);
                         });
                     },
-                    getCompaionOngoingReport: function() {
+                    getCompaionOngoingReport: function () {
                         var that = this;
                         that.logRequest(that.apiCompanionOngoingReport);
                         that.askServer(that.apiCompanionOngoingReport, 'GET', '', function (response) {
                             var data = that.logResponse(response);
                         });
                     },
-                    getAllCircles: function() {
+                    getAllCircles: function () {
                         var that = this;
                         that.logRequest(that.apiGetAllCircles);
                         that.askServer(that.apiGetAllCircles, 'GET', '', function (response) {
@@ -194,17 +210,28 @@
                             that.allCircles = data;
                         });
                     },
-                    getActiveCircles: function() {
+                    getActiveCircles: function () {
                         var that = this;
                         that.logRequest(that.apiGetActiveCircles);
                         that.askServer(that.apiGetActiveCircles, 'GET', '', function (response) {
                             var data = that.logResponse(response);
                         });
                     },
-                    createCircle: function(body) {
+                    createCircle: function (body) {
                         var that = this;
                         that.logRequest(that.apiCreateCircle);
                         that.askServer(that.apiCreateCircle, 'POST', body, function (response) {
+                            var data = that.logResponse(response);
+                        });
+                    },
+                    uploadImage: function(e) {
+                        e.preventDefault();
+                        var that = this;
+                        that.logRequest(that.apiImage);
+
+                        // CONTINUE HERE https://www.javascripture.com/FormData
+
+                        that.askServer(that.apiImage, 'POST', new FormData($("#uploadForm")), function (response) {
                             var data = that.logResponse(response);
                         });
                     }
@@ -242,12 +269,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#" @click="currentNav='Circle'">Circle</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" @click="currentNav='Image'">Image</a>
+                </li>
             </ul>
         </div>
-
-        <form class="form-inline">
-            <input class="form-control mr-sm-3" type="search" placeholder="Search" aria-label="Practitioner Id" v-model="currentUserId"/>
-        </form>
     </nav>
 
     <br/>
@@ -255,14 +281,17 @@
     <form>
         <div class="form-group">
             <label for="userId">Practitioner Id</label>
-            <input type="text" class="form-control" id="userId" v-model="currentUserId" placeholder="practitioner Id for API requests">
+            <input type="text" class="form-control" id="userId" v-model="currentUserId"
+                   placeholder="practitioner Id for API requests">
         </div>
 
         <div class="form-group">
             <label for="circles">Example select</label>
             <select class="form-control" id="circles" v-model="currentCircleId">
                 <option value="">None selected</option>
-                <option v-for="circle in allCircles" :value="circle._id">{{circle.name}} {{circle.startTime}} - {{circle.endTime}}</option>
+                <option v-for="circle in allCircles" :value="circle._id">{{circle.name}} {{circle.startTime}} -
+                    {{circle.endTime}}
+                </option>
             </select>
         </div>
     </form>
@@ -270,27 +299,55 @@
     <br/>
 
     <div v-if="currentNav === 'Settings'">
-        <std-component name="Get Settings" :has-body="false" :api="apiGetSettings" :on-click="getSettings"></std-component>
-        <std-component name="Add Intention" :has-body="true" :api="apiAddIntention" :on-click="addIntention" :body="defaultAddIntention"></std-component>
+        <std-component name="Get Settings" :has-body="false" :api="apiGetSettings"
+                       :on-click="getSettings"></std-component>
+        <std-component name="Add Intention" :has-body="true" :api="apiAddIntention" :on-click="addIntention"
+                       :body="defaultAddIntention"></std-component>
     </div>
 
     <div v-if="currentNav === 'Practitioner'">
         <std-component name="Create User" :has-body="false" :api="apiCreateUser" :on-click="createUser"></std-component>
         <std-component name="Get User" :has-body="false" :api="apiGetUser" :on-click="getUser"></std-component>
-        <std-component name="Set User" :has-body="true" :api="apiSetUser" :on-click="setUser" :body="defaultSetUser"></std-component>
-        <std-component name="Start Session" :has-body="true" :api="apiStartSession" :on-click="startSession" :body="defaultStartSession"></std-component>
+        <std-component name="Get User Spirit Bank" :has-body="false" :api="apiGetSpiritBank"
+                       :on-click="getSpiritBank"></std-component>
+        <std-component name="Set User" :has-body="true" :api="apiSetUser" :on-click="setUser"
+                       :body="defaultSetUser"></std-component>
+        <std-component name="Start Session" :has-body="true" :api="apiStartSession" :on-click="startSession"
+                       :body="defaultStartSession"></std-component>
     </div>
 
     <div v-if="currentNav === 'Companion'">
-        <std-component name="Get Companion Report" :has-body="false" :api="apiCompanionReport" :on-click="getCompaionReport"></std-component>
-        <std-component name="Get Companion Session Report" :has-body="false" :api="apiCompanionSessionReport" :on-click="getCompaionSessionReport"></std-component>
-        <std-component name="Get Companion Ongoin Report" :has-body="false" :api="apiCompanionOngoingReport" :on-click="getCompaionOngoingReport"></std-component>
+        <std-component name="Get Companion Report" :has-body="false" :api="apiCompanionReport"
+                       :on-click="getCompaionReport"></std-component>
+        <std-component name="Get Companion Session Report" :has-body="false" :api="apiCompanionSessionReport"
+                       :on-click="getCompaionSessionReport"></std-component>
+        <std-component name="Get Companion Ongoin Report" :has-body="false" :api="apiCompanionOngoingReport"
+                       :on-click="getCompaionOngoingReport"></std-component>
     </div>
 
     <div v-if="currentNav === 'Circle'">
-        <std-component name="Get All Circles" :has-body="false" :api="apiGetAllCircles" :on-click="getAllCircles"></std-component>
-        <std-component name="Get Active Circles" :has-body="false" :api="apiGetActiveCircles" :on-click="getActiveCircles"></std-component>
-        <std-component name="Create Circle" :has-body="true" :api="apiCreateCircle" :on-click="createCircle" :body="defaultCreateCircle"></std-component>
+        <std-component name="Get All Circles" :has-body="false" :api="apiGetAllCircles"
+                       :on-click="getAllCircles"></std-component>
+        <std-component name="Get Active Circles" :has-body="false" :api="apiGetActiveCircles"
+                       :on-click="getActiveCircles"></std-component>
+        <std-component name="Create Circle" :has-body="true" :api="apiCreateCircle" :on-click="createCircle"
+                       :body="defaultCreateCircle"></std-component>
+    </div>
+
+    <div v-show="currentNav === 'Image'">
+        <div class="row alert alert-primary">
+            <div class="col-6">
+                <h4>Upload</h4><br/>
+                <form id="uploadForm" method="post" @submit.prevent="uploadImage" enctype="multipart/form-data">
+                    <input id="file" type="file" name="file" />
+                    <input type="submit" class="btn btn-dark" value="DO" />
+                </form>
+            </div>
+            <div class="col-6">
+                <h4>Download</h4>
+                <img :src="apiImage" alt="No Image found" />
+            </div>
+        </div>
     </div>
 
     <div class="row alert alert-dark">
