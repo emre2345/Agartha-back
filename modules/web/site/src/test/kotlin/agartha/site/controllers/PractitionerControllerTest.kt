@@ -1,5 +1,6 @@
 package agartha.site.controllers
 
+import agartha.common.config.Settings.Companion.SPIRIT_BANK_START_POINTS
 import agartha.data.objects.*
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
@@ -551,7 +552,7 @@ class PractitionerControllerTest {
     fun joinCircle_circleCostContributionPointsFromSpiritBank_logItemStoredInSpiritBankLog() {
         // Insert the current user
         mockedService.insert(PractitionerDBO(_id = "a",
-                spiritBankLog = listOf(SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50))))
+                spiritBankLog = listOf(SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = SPIRIT_BANK_START_POINTS))))
         // Insert the creator of circle
         mockedService.insert(PractitionerDBO(
                 _id = "b",
@@ -576,7 +577,7 @@ class PractitionerControllerTest {
     fun joinCircle_circleCostUserCannotAffordToJoinCircleResponseStatus_400() {
         // Insert the current user
         mockedService.insert(PractitionerDBO(_id = "a",
-                spiritBankLog = listOf(SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50))))
+                spiritBankLog = listOf(SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = SPIRIT_BANK_START_POINTS))))
         // Insert the creator of circle
         mockedService.insert(PractitionerDBO(
                 _id = "b",
@@ -599,7 +600,7 @@ class PractitionerControllerTest {
         // Insert the current user
         mockedService.insert(PractitionerDBO(_id = "a",
                 spiritBankLog = listOf(
-                        SpiritBankLogItemDBO(type=SpiritBankLogItemType.START, points = 50),
+                        SpiritBankLogItemDBO(type=SpiritBankLogItemType.START, points = SPIRIT_BANK_START_POINTS),
                         SpiritBankLogItemDBO(type=SpiritBankLogItemType.SESSION, points = 20),
                         SpiritBankLogItemDBO(type=SpiritBankLogItemType.JOINED_CIRCLE, points = -10)
                         )))
