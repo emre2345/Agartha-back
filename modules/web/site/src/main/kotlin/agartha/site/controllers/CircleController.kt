@@ -1,5 +1,6 @@
 package agartha.site.controllers
 
+import agartha.common.config.Settings.Companion.SPIRIT_BANK_START_POINTS
 import agartha.data.objects.CircleDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
@@ -67,7 +68,7 @@ class CircleController(private val mService: IPractitionerService) : AbstractCon
         // Make sure practitionerId exists in database
         val practitioner = getPractitionerFromDatabase(userId, mService)
         // Practitioner cannot create a circle if less then 50 points in spiritBank
-        if(practitioner.calculateSpiritBankPointsFromLog() < 50){
+        if(practitioner.calculateSpiritBankPointsFromLog() < SPIRIT_BANK_START_POINTS){
             Spark.halt(400, "Practitioner cannot create circle with less than 50 contribution points")
         }
         // Get circle data from body
