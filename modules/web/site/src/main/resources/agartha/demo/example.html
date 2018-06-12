@@ -111,6 +111,10 @@
                 },
                 methods: {
                     askServer: function (url, type, data, callback) {
+                        var that = this;
+                        that.lastRequest = url;
+                        console.log("Request: " + url);
+                        
                         $.ajax({
                             url: url,
                             type: type,
@@ -118,122 +122,73 @@
                             contentType: false,
                             cache: false,
                             processData: false,
-                            success: callback
+                            success: function(response) {
+                                that.lastResponse = response;
+                                console.warn("Response: " + response);
+                                callback(JSON.parse(response));
+                            }
                         });
-                    },
-                    logRequest: function (request) {
-                        this.lastRequest = request;
-                        console.log("Request: " + request);
-                    },
-                    logResponse: function (response) {
-                        var data = JSON.parse(response);
-                        this.lastResponse = JSON.stringify(response);
-                        console.warn("Response: " + JSON.stringify(response));
-                        return data;
                     },
                     getSettings: function () {
                         var that = this;
-                        that.logRequest(that.apiGetSettings);
-                        that.askServer(that.apiGetSettings, 'GET', '', function (response) {
-                            var data = that.logResponse(response);
-                        });
+                        that.askServer(that.apiGetSettings, 'GET', '', function (response) {});
                     },
                     addIntention: function (body) {
                         var that = this;
-                        that.logRequest(that.apiAddIntention);
-                        that.askServer(that.apiAddIntention, 'POST', body, function (response) {
-                            var data = that.logResponse(response);
-                        });
+                        that.askServer(that.apiAddIntention, 'POST', body, function (response) {});
                     },
                     createUser: function () {
                         var that = this;
-                        that.logRequest(that.apiCreateUser);
                         that.askServer(that.apiCreateUser, 'GET', '', function (response) {
-                            var data = that.logResponse(response);
-                            that.currentUserId = data.practitionerId;
+                            that.currentUserId = response.practitionerId;
                         });
                     },
                     getUser: function () {
                         var that = this;
-                        that.logRequest(that.apiGetUser);
-                        that.askServer(that.apiGetUser, 'GET', '', function (response) {
-                            var data = that.logResponse(response);
-                        });
+                        that.askServer(that.apiGetUser, 'GET', '', function (response) {});
                     },
                     getSpiritBank: function () {
                         var that = this;
-                        that.logRequest(that.apiGetSpiritBank);
-                        that.askServer(that.apiGetSpiritBank, 'GET', body, function (response) {
-                            var data = that.logResponse(response);
-                        });
+                        that.askServer(that.apiGetSpiritBank, 'GET', body, function (response) {});
                     },
                     setUser: function (body) {
                         var that = this;
-                        that.logRequest(that.apiSetUser);
-                        that.askServer(that.apiSetUser, 'POST', body, function (response) {
-                            var data = that.logResponse(response);
-                        });
+                        that.askServer(that.apiSetUser, 'POST', body, function (response) {});
                     },
                     startSession: function (body) {
                         var that = this;
-                        that.logRequest(that.apiStartSession);
-                        that.askServer(that.apiStartSession, 'POST', body, function (response) {
-                            var data = that.logResponse(response);
-                        });
+                        that.askServer(that.apiStartSession, 'POST', body, function (response) {});
                     },
                     getCompaionReport: function () {
                         var that = this;
-                        that.logRequest(that.apiCompanionReport);
-                        that.askServer(that.apiCompanionReport, 'GET', '', function (response) {
-                            var data = that.logResponse(response);
-                        });
+                        that.askServer(that.apiCompanionReport, 'GET', '', function (response) {});
                     },
                     getCompaionSessionReport: function () {
                         var that = this;
-                        that.logRequest(that.apiCompanionSessionReport);
-                        that.askServer(that.apiCompanionSessionReport, 'GET', '', function (response) {
-                            var data = that.logResponse(response);
-                        });
+                        that.askServer(that.apiCompanionSessionReport, 'GET', '', function (response) {});
                     },
                     getCompaionOngoingReport: function () {
                         var that = this;
-                        that.logRequest(that.apiCompanionOngoingReport);
-                        that.askServer(that.apiCompanionOngoingReport, 'GET', '', function (response) {
-                            var data = that.logResponse(response);
-                        });
+                        that.askServer(that.apiCompanionOngoingReport, 'GET', '', function (response) {});
                     },
                     getAllCircles: function () {
                         var that = this;
-                        that.logRequest(that.apiGetAllCircles);
                         that.askServer(that.apiGetAllCircles, 'GET', '', function (response) {
-                            var data = that.logResponse(response);
-                            that.allCircles = data;
+                            that.allCircles = response;
                         });
                     },
                     getActiveCircles: function () {
                         var that = this;
-                        that.logRequest(that.apiGetActiveCircles);
-                        that.askServer(that.apiGetActiveCircles, 'GET', '', function (response) {
-                            var data = that.logResponse(response);
-                        });
+                        that.askServer(that.apiGetActiveCircles, 'GET', '', function (response) {});
                     },
                     createCircle: function (body) {
                         var that = this;
-                        that.logRequest(that.apiCreateCircle);
-                        that.askServer(that.apiCreateCircle, 'POST', body, function (response) {
-                            var data = that.logResponse(response);
-                        });
+                        that.askServer(that.apiCreateCircle, 'POST', body, function (response) {});
                     },
                     uploadImage: function(e) {
                         e.preventDefault();
                         var that = this;
-                        that.logRequest(that.apiImage);
-
-                        // CONTINUE HERE https://www.javascripture.com/FormData
-
-                        that.askServer(that.apiImage, 'POST', new FormData(document.getElementById("uploadForm")), function (response) {
-                            var data = that.logResponse(response);
-                        });
+                        that.askServer(that.apiImage, 'POST', new FormData(document.getElementById("uploadForm")), function (response) {});
                     }
                 }
             });
