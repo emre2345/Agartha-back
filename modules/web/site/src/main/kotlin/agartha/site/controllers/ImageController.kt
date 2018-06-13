@@ -24,17 +24,22 @@ class ImageController(private val mService: IBaseService<ImageDBO>) {
 
     init {
         Spark.path("/image") {
+            // Read the image from database
             Spark.get("/:imageid", ::getImage)
+            // Write image to database
             Spark.post("/:imageid", "multipart/form-data", ::setImage)
         }
     }
 
+    /**
+     * Read an image from database
+     */
     private fun getImage(request: Request, response: Response): String {
         // Get image ID from API path
         val imageId: String = request.params(":imageid")
-        //
+        // Get image from database
         val image = mService.getById(imageId)
-
+        // If exists from database
         if (image != null) {
             val raw = response.raw()
             response.header("Content-Disposition", "attachment; filename=${image.fileName}");
@@ -42,7 +47,9 @@ class ImageController(private val mService: IBaseService<ImageDBO>) {
             raw.getOutputStream().write(image.image);
             raw.getOutputStream().flush();
             raw.getOutputStream().close();
-        } else {
+        }
+        // If it does not exist
+        else {
             halt(404)
         }
 
@@ -57,20 +64,19 @@ class ImageController(private val mService: IBaseService<ImageDBO>) {
     private fun setImage(request: Request, response: Response): String {
         // Get image ID from API path
         val imageId: String = request.params(":imageid")
-
+        //
         val location = "image"                  // the directory location where files will be stored
         val maxFileSize: Long = 1_000_000       // the maximum size allowed for uploaded files
         val maxRequestSize: Long = 1_000_000    // the maximum size allowed for multipart/form-data requests
         val fileSizeThreshold = 1024            // the size threshold after which files will be written to disk
-
-
+        //
         val multipartConfigElement = MultipartConfigElement(location, maxFileSize, maxRequestSize, fileSizeThreshold)
         request.raw().setAttribute("org.eclipse.jetty.multipartConfig", multipartConfigElement)
 
         // getPart("file") where file matches the name in HTML <input type="file" name="" />
         val uploadedFile = request.raw().getPart("file")
 
-
+        // Insert/Update database
         mService.insert(
                 ImageDBO(
                         _id = imageId,

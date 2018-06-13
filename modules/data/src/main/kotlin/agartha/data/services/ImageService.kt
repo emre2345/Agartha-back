@@ -19,12 +19,15 @@ class ImageService  : IBaseService<ImageDBO> {
      * Insert / Update image
      */
     override fun insert(item: ImageDBO): ImageDBO {
+        // Try to read the image from database
         val existing = getById(item._id)
 
         return item.apply {
+            // If it does not exists, insert
             if (existing == null) {
                 collection.insertOne(item)
             }
+            // Or if already exists, replace
             else {
                 collection.replaceOne(item)
             }
