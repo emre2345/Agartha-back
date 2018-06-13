@@ -109,7 +109,7 @@ class MockedPractitionerService : IPractitionerService {
                 .lastOrNull()
         // Set endTime on last session
         val lastSession = practitioner!!.sessions.last()
-        val session = SessionDBO(lastSession.geolocation, lastSession.discipline, lastSession.intention, lastSession.startTime, LocalDateTime.now())
+        val session = SessionDBO(lastSession.geolocation, lastSession.discipline, lastSession.intention, lastSession.startTime, LocalDateTime.now(), lastSession.circle)
         val sessions = practitioner.sessions.toMutableList()
         sessions.removeAt(0)
         sessions.add(session)
@@ -120,7 +120,7 @@ class MockedPractitionerService : IPractitionerService {
         val newSpiritBankLog = practitioner.spiritBankLog.toMutableList()
         var spiritBankLogItemType = SpiritBankLogItemType.SESSION
         var addedContributionPoints = contributionPoints
-        if (session.circle !== null && practitioner.circles.contains(lastSession.circle)) {
+        if (lastSession.circle !== null && practitioner.circles.contains(lastSession.circle!!)) {
             spiritBankLogItemType = SpiritBankLogItemType.ENDED_CREATED_CIRCLE
             val sessionsInCircle = getAll().filter { it.hasSessionInCircleAfterStartTime(lastSession.startTime, session.circle!!) }
             // Number of practitioner that started a session in "my" circle and payed the minimumSpiritContribution
