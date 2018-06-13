@@ -18,6 +18,10 @@ class Settings {
         const val ADMIN_PASS_PHRASE: String = "Do you mind if I don't smoke"
         // Start points in the first log in the SpiritBank
         const val SPIRIT_BANK_START_POINTS: Long = 50
+        // Returns a negative number, ex: 5 - (5)*2 = -5
+        fun createNegativeNumberFromPositive(number: Long): Long{
+            return number - (number) * 2
+        }
 
     }
 }
