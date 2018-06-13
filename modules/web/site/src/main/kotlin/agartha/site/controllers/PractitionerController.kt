@@ -138,9 +138,9 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         // Make sure practitionerId exists in database
         getPractitionerFromDatabase(userId, mService)
         // Stop the last session for user with the total gathered contributionPoints
-        val newPractitioner = mService.endSession(userId, contributionPoints)
+        val practitioner = mService.endSession(userId, contributionPoints)
         // Return the updated practitioner
-        return ControllerUtil.objectToString(newPractitioner)
+        return ControllerUtil.objectToString(practitioner)
     }
 
     /**

@@ -214,10 +214,10 @@ class PractitionerService : IPractitionerService {
     }
 
     /**
-     * If practitioner is a creator of circle that is in its last session
+     * Calculates the contribution points gathered from practitioners joining
+     * the circle that is in the ongoingSession for a practitioner
      *
-     * If it is a creator then calculate the points it should have from
-     * the practitioners that joined the practitioners circle while the practitioner was active in a session
+     * @return number of contribution points
      */
     private fun calculatePointsFromPractitionersJoiningCreatorsCircle(ongoingSession: SessionDBO): Long {
         // Find all sessions that has this circle and started after practitioners session started
