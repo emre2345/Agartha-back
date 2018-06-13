@@ -284,6 +284,85 @@ class PractitionerServiceTest : DatabaseHandler() {
         assertThat(item!!.spiritBankLog.last().type).isEqualTo(SpiritBankLogItemType.SESSION)
     }
 
+
+    /**
+     *
+     */
+    @Test
+    fun endSession_inCircleContributionPointsCalculated_11points() {
+        // Insert a new practising user
+        val practitioner = PractitionerService().insert(PractitionerDBO(_id = "a"))
+        val secondPractitioner = PractitionerService().insert(PractitionerDBO(_id = "b"))
+        val circle = CircleDBO(
+                name = "",
+                description = "",
+                startTime = LocalDateTime.now(),
+                endTime = LocalDateTime.now().plusMinutes(15),
+                disciplines = listOf(),
+                intentions = listOf(),
+                minimumSpiritContribution = 4)
+        // Insert circle to practitioner
+        PractitionerService().addCircle("a", circle)
+        // Start session with the created circle
+        PractitionerService().startSession("a", SessionDBO(
+                null,
+                "Test 1",
+                "Testing 1",
+                startTime = LocalDateTime.now(),
+                circle = circle))
+        // Start session for second practitioner with the created circle
+        PractitionerService().startSession("b", SessionDBO(
+                null,
+                "Test 2",
+                "Testing 2",
+                startTime = LocalDateTime.now(),
+                circle = circle))
+        // End session for circle creator
+        PractitionerService().endSession("a", 7)
+        // Get from database
+        val item = PractitionerService().getById("a")
+        assertThat(item!!.spiritBankLog.last().type).isEqualTo(SpiritBankLogItemType.ENDED_CREATED_CIRCLE)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun endSession_inCircleContributionPointsStored_typeIsEndedCreatedCircle() {
+        // Insert a new practising user
+        val practitioner = PractitionerService().insert(PractitionerDBO(_id = "a"))
+        val secondPractitioner = PractitionerService().insert(PractitionerDBO(_id = "b"))
+        val circle = CircleDBO(
+                name = "",
+                description = "",
+                startTime = LocalDateTime.now(),
+                endTime = LocalDateTime.now().plusMinutes(15),
+                disciplines = listOf(),
+                intentions = listOf(),
+                minimumSpiritContribution = 3)
+        // Insert circle to practitioner
+        PractitionerService().addCircle("a", circle)
+        // Start session with the created circle
+        PractitionerService().startSession("a", SessionDBO(
+                null,
+                "Test 1",
+                "Testing 1",
+                startTime = LocalDateTime.now(),
+                circle = circle))
+        // Start session for second practitioner with the created circle
+        PractitionerService().startSession("b", SessionDBO(
+                null,
+                "Test 2",
+                "Testing 2",
+                startTime = LocalDateTime.now(),
+                circle = circle))
+        // End session for circle creator
+        PractitionerService().endSession("a", 7)
+        // Get from database
+        val item = PractitionerService().getById("a")
+        assertThat(item!!.spiritBankLog.last().points).isEqualTo(10)
+    }
+
     /**
      *
      */
