@@ -65,7 +65,7 @@ class PractitionerService : IPractitionerService {
         return session
     }
 
-    override fun endSession(practitionerId: String, contributionPoints: Long): PractitionerDBO? {
+    override fun endSession(practitionerId: String, givenContributionPoints: Long): PractitionerDBO? {
         // Get current user
         val user: PractitionerDBO? = getById(practitionerId)
         if (user != null && user.sessions.isNotEmpty()) {
@@ -89,8 +89,21 @@ class PractitionerService : IPractitionerService {
                         endTime = LocalDateTime.now())
                 // Add it to sessions array
                 pushSession(practitionerId, session)
+                // Check if user is in a circle
+                var spiritBankLogType = SpiritBankLogItemType.SESSION
+                var contributionPoints = givenContributionPoints
+                if(ongoingSession.circle !== null){
+                    // Check if user is a creator of that circle
+                    if(user.circles.contains(ongoingSession.circle)){
+                        spiritBankLogType = SpiritBankLogItemType.ENDED_CREATED_CIRCLE
+                        // Calculate the points user should get from those that joined the circle
+                        contributionPoints += calculatePointsFromUsersJoiningCreatorsCircle(user, ongoingSession)
+                    }
+                }
+
                 // Add the new logItem about the ended session to the spiritBankLog for the practitioner
-                pushContributionPoints(practitionerId, contributionPoints, SpiritBankLogItemType.SESSION)
+                pushContributionPoints(practitionerId, contributionPoints, spiritBankLogType)
+
                 // Return the new updated practitioner
                 return getById(practitionerId)
             }
@@ -177,6 +190,21 @@ class PractitionerService : IPractitionerService {
                         // Create Mongo Document to be added to sessions list
                         Document("circles", circle)))
 
+    }
+
+    /**
+     * If practitioner is a creator of circle that is in its last session
+     *
+     * If it is a creator then calculate the points it should have from
+     * the users that joined the practitioners circle while the practitioner was active in a session
+     */
+    private fun calculatePointsFromUsersJoiningCreatorsCircle(practitioner: PractitionerDBO, ongoingSession: SessionDBO): Long {
+        // Find all sessions that has this circle and started after practitioners session started
+        val circle = ongoingSession.circle!!
+        val sessionsInCircle = getAll().filter { it.hasSessionInCircleAfterStartTime(ongoingSession.startTime, circle) }
+        // Number of practitioner that started a session in "my" circle and payed the minimumSpiritContribution
+        // should be multiplied by the minimumSpiritContribution
+        return sessionsInCircle.size * circle.minimumSpiritContribution
     }
 
 }

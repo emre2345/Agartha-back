@@ -47,11 +47,28 @@ data class PractitionerDBO(
     }
 
     /**
+     * Check if practitioner has at least one session started after the given startTime
+     *
+     * @param startDateTime
+     * @return true if user has at least one session after the given startTime
+     */
+    fun hasSessionInCircleAfterStartTime(startDateTime: LocalDateTime, circle: CircleDBO): Boolean {
+        return this.sessions
+                .filter {
+                    it.sessionAfter(startDateTime)
+                }
+                .filter {
+                    circle == it.circle
+                }
+                .isNotEmpty()
+    }
+
+    /**
      * Check if practitioner has an ongoing session
      */
     fun hasOngoingSession(): Boolean {
         if (sessions.isEmpty()) {
-            return false;
+            return false
         }
         return sessions.last().ongoing()
     }

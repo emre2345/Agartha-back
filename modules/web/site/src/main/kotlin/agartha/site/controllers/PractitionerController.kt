@@ -136,10 +136,10 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         val contributionPoints: Long = request.params(":contributionpoints").toLong()
         // Make sure practitionerId exists in database
         getPractitionerFromDatabase(userId, mService)
-        // Stop the last session for user
-        val practitioner = mService.endSession(userId, contributionPoints)
+        // Stop the last session for user with the total gathered contributionPoints
+        val newPractitioner = mService.endSession(userId, contributionPoints)
         // Return the updated practitioner
-        return ControllerUtil.objectToString(practitioner)
+        return ControllerUtil.objectToString(newPractitioner)
     }
 
     /**
@@ -231,4 +231,5 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
             Spark.halt(400, "Practitioner cannot afford to join this circle")
         }
     }
+
 }
