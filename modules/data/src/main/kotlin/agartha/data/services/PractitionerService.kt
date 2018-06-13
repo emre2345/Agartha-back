@@ -57,8 +57,8 @@ class PractitionerService : IPractitionerService {
         // Push session to practitioner
         pushSession(practitionerId, session)
         // If session has a circle then it should add a new item to the spiritBankLog
-        if(session.circle !== null){
-            val cost = session.circle.minimumSpiritContribution - (session.circle.minimumSpiritContribution)*2
+        if (session.circle !== null) {
+            val cost = session.circle.minimumSpiritContribution - (session.circle.minimumSpiritContribution) * 2
             pushContributionPoints(practitionerId, cost, SpiritBankLogItemType.JOINED_CIRCLE)
         }
         // return next index
@@ -89,16 +89,13 @@ class PractitionerService : IPractitionerService {
                         endTime = LocalDateTime.now())
                 // Add it to sessions array
                 pushSession(practitionerId, session)
-                // Check if user is in a circle
                 var spiritBankLogType = SpiritBankLogItemType.SESSION
                 var contributionPoints = givenContributionPoints
-                if(ongoingSession.circle !== null){
-                    // Check if user is a creator of that circle
-                    if(user.circles.contains(ongoingSession.circle)){
-                        spiritBankLogType = SpiritBankLogItemType.ENDED_CREATED_CIRCLE
-                        // Calculate the points user should get from those that joined the circle
-                        contributionPoints += calculatePointsFromUsersJoiningCreatorsCircle(user, ongoingSession)
-                    }
+                // Check if user is in a circle and if user is a creator of that circle
+                if (ongoingSession.circle !== null && user.circles.contains(ongoingSession.circle)) {
+                    spiritBankLogType = SpiritBankLogItemType.ENDED_CREATED_CIRCLE
+                    // Calculate the points user should get from those that joined the circle
+                    contributionPoints += calculatePointsFromUsersJoiningCreatorsCircle(user, ongoingSession)
                 }
 
                 // Add the new logItem about the ended session to the spiritBankLog for the practitioner
@@ -177,6 +174,7 @@ class PractitionerService : IPractitionerService {
                         // Create Mongo Document to be added to spiritBankLog list
                         Document("spiritBankLog", SpiritBankLogItemDBO(type = type, points = contributionPoints))))
     }
+
     /**
      * Add a circle to a practitioner
      * @param practitionerId id for practitioner to add circle
