@@ -37,17 +37,20 @@ class PractitionerService : IPractitionerService {
     /**
      * Update practitioner in database with 'Get involved'-information
      */
-    override fun updatePractitionerWithInvolvedInformation(user: PractitionerDBO, fullName: String, email: String, description: String): PractitionerDBO {
+    override fun updatePractitionerWithInvolvedInformation(practitioner: PractitionerDBO,
+                                                           fullName: String,
+                                                           email: String,
+                                                           description: String): PractitionerDBO {
         // Add the new 'Get involved'-information
-        user.addInvolvedInformation(fullName, email, description)
-        // Update the user
-        return user.apply {
-            collection.updateOne(user)
+        practitioner.addInvolvedInformation(fullName, email, description)
+        // Update the practitioner
+        return practitioner.apply {
+            collection.updateOne(practitioner)
         }
     }
 
     /**
-     * Start a new user session
+     * Start a new practitioners session
      * @param practitionerId identity for practitioner
      * @param practitioner the practitioner
      * @param session session to Add to practitioner
@@ -70,12 +73,12 @@ class PractitionerService : IPractitionerService {
     }
 
     override fun endSession(practitionerId: String, contributionPoints: Long): PractitionerDBO? {
-        // Get current user
-        val user: PractitionerDBO? = getById(practitionerId)
-        if (user != null && user.sessions.isNotEmpty()) {
+        // Get current practitioner
+        val practitioner: PractitionerDBO? = getById(practitionerId)
+        if (practitioner != null && practitioner.sessions.isNotEmpty()) {
             // get the current session
-            val ongoingSession = user.sessions.lastOrNull()
-            // If there is a matching user with sessions
+            val ongoingSession = practitioner.sessions.lastOrNull()
+            // If there is a matching practitioner with sessions
             if (ongoingSession != null) {
                 // Remove last item from sessions array
                 collection.updateOneById(
@@ -95,13 +98,13 @@ class PractitionerService : IPractitionerService {
                 pushSession(practitionerId, session)
 
                 // Add the new logItem about the ended session to the spiritBankLog for the practitioner
-                storeSpiritBankLogEndedSession(practitionerId, contributionPoints, ongoingSession, user)
+                storeSpiritBankLogEndedSession(practitionerId, practitioner, contributionPoints, ongoingSession)
 
                 // Return the new updated practitioner
                 return getById(practitionerId)
             }
         }
-        return user
+        return practitioner
     }
 
     /**
@@ -158,22 +161,24 @@ class PractitionerService : IPractitionerService {
 
 
     /**
-     * When ending a session the log into the spiritBank depend on if the user is a creator of the circle
-     * @param practitionerId - string - the practitioner to be updated
-     * @param contributionPoints - Long - the points that was contributed
+     * When ending a session the log into the spiritBank depend on if the practitioner is a creator of the circle
+     * @param practitionerId    - string - the practitioners id
+     * @param practitioner      - PractitionerDBO - the practitioner
+     * @param contributionPoints- Long - the points that was contributed
+     * @param ongoingSession    - Long - the ongoing session for the practitioner
      */
     private fun storeSpiritBankLogEndedSession(practitionerId: String,
-                                            contributionPoints: Long,
-                                            ongoingSession: SessionDBO,
-                                            user: PractitionerDBO) {
+                                               practitioner: PractitionerDBO,
+                                               contributionPoints: Long,
+                                               ongoingSession: SessionDBO) {
         // create variables
         var spiritBankLogType = SpiritBankLogItemType.SESSION
         var addedContributionPoints = contributionPoints
-        // Check if user is in a circle and if user is a creator of that circle
-        if (ongoingSession.circle !== null && user.circles.contains(ongoingSession.circle)) {
+        // Check if practitioner is in a circle and if practitioner is a creator of that circle
+        if (ongoingSession.circle !== null && practitioner.circles.contains(ongoingSession.circle)) {
             spiritBankLogType = SpiritBankLogItemType.ENDED_CREATED_CIRCLE
-            // Calculate the points user should get from those that joined the circle
-            addedContributionPoints += calculatePointsFromUsersJoiningCreatorsCircle(user, ongoingSession)
+            // Calculate the points practitioner should get from those that joined the circle
+            addedContributionPoints += calculatePointsFromPractitionersJoiningCreatorsCircle(ongoingSession)
         }
         // Push to the log
         pushContributionPoints(practitionerId, addedContributionPoints, spiritBankLogType)
@@ -212,9 +217,9 @@ class PractitionerService : IPractitionerService {
      * If practitioner is a creator of circle that is in its last session
      *
      * If it is a creator then calculate the points it should have from
-     * the users that joined the practitioners circle while the practitioner was active in a session
+     * the practitioners that joined the practitioners circle while the practitioner was active in a session
      */
-    private fun calculatePointsFromUsersJoiningCreatorsCircle(practitioner: PractitionerDBO, ongoingSession: SessionDBO): Long {
+    private fun calculatePointsFromPractitionersJoiningCreatorsCircle(ongoingSession: SessionDBO): Long {
         // Find all sessions that has this circle and started after practitioners session started
         val circle = ongoingSession.circle!!
         val sessionsInCircle = getAll().filter { it.hasSessionInCircleAfterStartTime(ongoingSession.startTime, circle) }
