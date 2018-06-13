@@ -76,7 +76,8 @@ class ImageController(private val mService: IBaseService<ImageDBO>) {
         // getPart("file") where file matches the name in HTML <input type="file" name="" />
         val uploadedFile = request.raw().getPart("file")
 
-        if (uploadedFile != null && (uploadedFile.submittedFileName.endsWith(".jpg") ||
+        if (uploadedFile != null &&
+                (uploadedFile.submittedFileName.endsWith(".jpg") ||
                 uploadedFile.submittedFileName.endsWith(".jpeg") ||
                 uploadedFile.submittedFileName.endsWith(".png"))) {
 
