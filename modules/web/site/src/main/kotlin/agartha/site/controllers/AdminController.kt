@@ -1,11 +1,12 @@
 package agartha.site.controllers
 
-import agartha.common.config.Settings.Companion.ADMIN_PASS_PHRASE
 import agartha.data.objects.*
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.controllers.utils.DevGeolocationSelect
+import agartha.site.controllers.utils.PassPhrase
 import agartha.site.controllers.utils.SetupUtil
+import io.schinzel.basicutils.configvar.ConfigVar
 import spark.Request
 import spark.Response
 import spark.Spark
@@ -20,7 +21,10 @@ import java.util.*
  *
  * Created by Jorgen Andersson on 2018-05-30.
  */
-class AdminController(private val mService: IPractitionerService, private val settings: SettingsDBO?) {
+class AdminController(
+        private val mService: IPractitionerService,
+        private val settings: SettingsDBO?,
+        private val phrase: PassPhrase = PassPhrase.RUNTIME) {
 
     // Generate a list of geolocation to random from
     private val geolocations = DevGeolocationSelect.values().map { it.geolocationDBO }
@@ -28,14 +32,16 @@ class AdminController(private val mService: IPractitionerService, private val se
     private val safeSettings = settings ?: SettingsDBO(
             intentions = SetupUtil.getDefaultIntentions(),
             disciplines = SetupUtil.getDefaultDisciplines())
+    // Authentication Pass Phrase, read from config variable (.env file locally or Heroku Settings), Default value for tests
+    private val passPhrase: String = phrase.passPhrase
 
     init {
         Spark.path("/admin") {
             // Validate that a pass phrase exists in body
-            Spark.before("/*", {request: Request, _ ->
+            Spark.before("/*", { request: Request, _ ->
                 val body = request.body() ?: ""
 
-                if (body != ADMIN_PASS_PHRASE) {
+                if (body != passPhrase) {
                     Spark.halt(401, "Unauthorized")
                 }
             })
@@ -109,9 +115,9 @@ class AdminController(private val mService: IPractitionerService, private val se
             val session = mService.startSession(
                     practitionerId = userId,
                     session = SessionDBO(
-                    geolocation = getRandomGeolocation(),
-                    discipline = if (discipline.startsWith("random", true)) getRandomDiscipline().title else discipline,
-                    intention = if (intention.startsWith("random", true)) getRandomIntention().title else intention))
+                            geolocation = getRandomGeolocation(),
+                            discipline = if (discipline.startsWith("random", true)) getRandomDiscipline().title else discipline,
+                            intention = if (intention.startsWith("random", true)) getRandomIntention().title else intention))
 
             return ControllerUtil.objectToString(session)
         }
