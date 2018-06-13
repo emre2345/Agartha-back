@@ -44,40 +44,38 @@ class MockedPractitionerService : IPractitionerService {
 
     override fun startSession(
             practitionerId: String,
+            practitioner: PractitionerDBO,
             session: SessionDBO): SessionDBO {
 
-        val practitioner = getById(practitionerId)
-        if (practitioner != null) {
-            // Due to sessions is unmutable list in practitionerDBO
-            // we must first extract sessions and add the new to new list
-            // drop practitioner from list
-            // add again
-            val sessions = practitioner
-                    .sessions
-                    .toMutableList()
-                    .plus(session)
-            // remove from list
-            practitionerList.remove(practitioner)
-            // If session has a circle then it should
-            // add a new item to the practitioners spiritBankLog
-            val newSpiritBankLog = practitioner.spiritBankLog.toMutableList()
-            if (session.circle !== null) {
-                val cost = session.circle!!.minimumSpiritContribution - (session.circle!!.minimumSpiritContribution) * 2
-                newSpiritBankLog.add(SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = cost))
-            }
-            // re-add
-            practitionerList.add(
-                    PractitionerDBO(
-                            _id = practitioner._id,
-                            created = practitioner.created,
-                            sessions = sessions,
-                            circles = practitioner.circles,
-                            fullName = practitioner.fullName,
-                            email = practitioner.email,
-                            description = practitioner.description,
-                            spiritBankLog = newSpiritBankLog)
-            )
+        // Due to sessions is unmutable list in practitionerDBO
+        // we must first extract sessions and add the new to new list
+        // drop practitioner from list
+        // add again
+        val sessions = practitioner
+                .sessions
+                .toMutableList()
+                .plus(session)
+        // remove from list
+        practitionerList.remove(practitioner)
+        // If session has a circle then it should
+        // add a new item to the practitioners spiritBankLog
+        val newSpiritBankLog = practitioner.spiritBankLog.toMutableList()
+        if (session.circle !== null) {
+            val cost = session.circle!!.minimumSpiritContribution - (session.circle!!.minimumSpiritContribution) * 2
+            newSpiritBankLog.add(SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = cost))
         }
+        // re-add
+        practitionerList.add(
+                PractitionerDBO(
+                        _id = practitioner._id,
+                        created = practitioner.created,
+                        sessions = sessions,
+                        circles = practitioner.circles,
+                        fullName = practitioner.fullName,
+                        email = practitioner.email,
+                        description = practitioner.description,
+                        spiritBankLog = newSpiritBankLog)
+        )
         return session
     }
 

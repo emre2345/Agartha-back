@@ -32,6 +32,7 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      */
     fun startSession(
             practitionerId: String,
+            practitioner: PractitionerDBO,
             session: SessionDBO): SessionDBO
 
     /**

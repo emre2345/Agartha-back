@@ -108,15 +108,16 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
     @Suppress("UNUSED_PARAMETER")
     private fun startSession(request: Request, response: Response): String {
         // Get current userid
-        val userId: String = request.params(":userid")
+        val practitionerId: String = request.params(":userid")
         // Make sure practitionerId exists in database
-        getPractitionerFromDatabase(userId, mService)
+        val practitioner = getPractitionerFromDatabase(practitionerId, mService)
         // Get selected geolocation, discipline and intention
         val startSessionInformation: StartSessionInformation =
                 ControllerUtil.stringToObject(request.body(), StartSessionInformation::class.java)
         // Start a session
         val session = mService.startSession(
-                userId,
+                practitionerId,
+                practitioner,
                 SessionDBO(
                         geolocation = startSessionInformation.geolocation,
                         discipline = startSessionInformation.discipline,
@@ -170,7 +171,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
                 startTime = LocalDateTime.now(),
                 circle = circle)
         // Add session to user
-        return ControllerUtil.objectToString(mService.startSession(practitionerId, session))
+        return ControllerUtil.objectToString(mService.startSession(practitionerId, practitioner, session))
     }
 
     /**
@@ -227,7 +228,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
      * If users spiritBankLog has less points than then spiritContributionCost then throe a 400
      */
     private fun validateUserCanAffordToJoin(practitioner: PractitionerDBO, spiritContributionCost: Long) {
-        if(practitioner.calculateSpiritBankPointsFromLog() < spiritContributionCost){
+        if (practitioner.calculateSpiritBankPointsFromLog() < spiritContributionCost) {
             Spark.halt(400, "Practitioner cannot afford to join this circle")
         }
     }

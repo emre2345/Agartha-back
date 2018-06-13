@@ -48,21 +48,22 @@ class PractitionerService : IPractitionerService {
     /**
      * Start a new user session
      * @param practitionerId identity for practitioner
+     * @param practitioner the practitioner
      * @param session session to Add to practitioner
      * @return
      */
     override fun startSession(
             practitionerId: String,
+            practitioner: PractitionerDBO,
             session: SessionDBO): SessionDBO {
         // Push session to practitioner
         pushSession(practitionerId, session)
         // If session has a circle then it should add a new item to the spiritBankLog
         // But not if the practitioner is a creator of the circle
-        if (session.circle !== null && !getById(practitionerId)!!.creatorOfCricle(session.circle)) {
+        if (session.circle !== null && !practitioner.creatorOfCircle(session.circle)) {
             val cost = session.circle.minimumSpiritContribution - (session.circle.minimumSpiritContribution) * 2
             pushContributionPoints(practitionerId, cost, SpiritBankLogItemType.JOINED_CIRCLE)
         }
-
         // return next index
         return session
     }
