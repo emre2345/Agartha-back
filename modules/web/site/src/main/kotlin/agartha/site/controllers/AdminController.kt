@@ -4,7 +4,6 @@ import agartha.data.objects.*
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.controllers.utils.DevGeolocationSelect
-import agartha.site.controllers.utils.PassPhrase
 import agartha.site.controllers.utils.SetupUtil
 import io.schinzel.basicutils.configvar.ConfigVar
 import spark.Request
@@ -23,8 +22,7 @@ import java.util.*
  */
 class AdminController(
         private val mService: IPractitionerService,
-        private val settings: SettingsDBO?,
-        private val phrase: PassPhrase = PassPhrase.RUNTIME) {
+        private val settings: SettingsDBO?) {
 
     // Generate a list of geolocation to random from
     private val geolocations = DevGeolocationSelect.values().map { it.geolocationDBO }
@@ -33,7 +31,7 @@ class AdminController(
             intentions = SetupUtil.getDefaultIntentions(),
             disciplines = SetupUtil.getDefaultDisciplines())
     // Authentication Pass Phrase, read from config variable (.env file locally or Heroku Settings), Default value for tests
-    private val passPhrase: String = phrase.passPhrase
+    private val passPhrase: String = getPassPhrase()
 
     init {
         Spark.path("/admin") {
@@ -63,6 +61,18 @@ class AdminController(
             Spark.post("/remove/generated", ::removeGenerated)
             // Remove a practitioner
             Spark.post("/remove/practitioner/:userid", ::removePractitioner)
+        }
+    }
+
+    /**
+     * Config var not accessible from Tests (unless we symlink root .env into site folder)
+     * For tests "Santa" is returned
+     */
+    private fun getPassPhrase() : String {
+        try {
+            return ConfigVar.create(".env").getValue("A_PASS_PHRASE")
+        } catch (exception : Exception) {
+            return "Santa"
         }
     }
 

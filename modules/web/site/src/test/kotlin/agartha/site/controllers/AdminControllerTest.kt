@@ -4,7 +4,6 @@ import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
-import agartha.site.controllers.utils.PassPhrase
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.BeforeClass
@@ -27,7 +26,7 @@ class AdminControllerTest {
         @BeforeClass
         @JvmStatic
         fun setupClass() {
-            AdminController(mockedService, null, PassPhrase.TEST)
+            AdminController(mockedService, null)
             spark.Spark.awaitInitialization()
         }
     }
