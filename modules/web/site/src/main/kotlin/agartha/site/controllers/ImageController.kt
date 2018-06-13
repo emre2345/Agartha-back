@@ -76,20 +76,20 @@ class ImageController(private val mService: IBaseService<ImageDBO>) {
         // getPart("file") where file matches the name in HTML <input type="file" name="" />
         val uploadedFile = request.raw().getPart("file")
 
-        if (uploadedFile != null &&
-                (uploadedFile.submittedFileName.endsWith(".jpg") ||
-                uploadedFile.submittedFileName.endsWith(".jpeg") ||
-                uploadedFile.submittedFileName.endsWith(".png"))) {
+        if (uploadedFile != null) {
+            if (uploadedFile.submittedFileName.endsWith(".jpg") ||
+                    uploadedFile.submittedFileName.endsWith(".jpeg") ||
+                    uploadedFile.submittedFileName.endsWith(".png")) {
+                // Insert/Update database
+                mService.insert(
+                        ImageDBO(
+                                _id = imageId,
+                                fileName = uploadedFile.submittedFileName,
+                                image = uploadedFile.inputStream.readBytes()))
 
-            // Insert/Update database
-            mService.insert(
-                    ImageDBO(
-                            _id = imageId,
-                            fileName =  uploadedFile.submittedFileName,
-                            image = uploadedFile.inputStream.readBytes()))
-
-            // Return path to image
-            return request.pathInfo()
+                // Return path to image
+                return request.pathInfo()
+            }
         }
 
         halt(400, "Image missing or not of type jpg, jpeg or png")
