@@ -74,6 +74,13 @@ data class PractitionerDBO(
     }
 
     /**
+     * Check if practitioner has an ongoing session
+     */
+    fun creatorOfCricle(circle: CircleDBO): Boolean {
+        return this.circles.contains(circle)
+    }
+
+    /**
      * Check if practitioner has left 'get involved'-information
      * Function cannot have name isInvolved (considered as property), hence rename
      *

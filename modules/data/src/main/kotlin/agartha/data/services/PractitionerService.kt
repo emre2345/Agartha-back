@@ -56,6 +56,12 @@ class PractitionerService : IPractitionerService {
             session: SessionDBO): SessionDBO {
         // Push session to practitioner
         pushSession(practitionerId, session)
+        // If session has a circle then it should add a new item to the spiritBankLog
+        // But not if the practitioner is a creator of the circle
+        if (session.circle !== null && !getById(practitionerId)!!.creatorOfCricle(session.circle)) {
+            val cost = session.circle.minimumSpiritContribution - (session.circle.minimumSpiritContribution) * 2
+            pushContributionPoints(practitionerId, cost, SpiritBankLogItemType.JOINED_CIRCLE)
+        }
 
         // return next index
         return session
@@ -209,8 +215,6 @@ class PractitionerService : IPractitionerService {
     private fun calculatePointsFromUsersJoiningCreatorsCircle(practitioner: PractitionerDBO, ongoingSession: SessionDBO): Long {
         // Find all sessions that has this circle and started after practitioners session started
         val circle = ongoingSession.circle!!
-        val all =  getAll()
-        println(all)
         val sessionsInCircle = getAll().filter { it.hasSessionInCircleAfterStartTime(ongoingSession.startTime, circle) }
         // Number of practitioner that started a session in "my" circle and payed the minimumSpiritContribution
         // should be multiplied by the minimumSpiritContribution
