@@ -1,7 +1,10 @@
 package agartha.site.controllers
 
+import agartha.common.config.Settings.Companion.SPIRIT_BANK_START_POINTS
 import agartha.data.objects.CircleDBO
 import agartha.data.objects.PractitionerDBO
+import agartha.data.objects.SpiritBankLogItemDBO
+import agartha.data.objects.SpiritBankLogItemType
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import org.assertj.core.api.Assertions.assertThat
@@ -45,7 +48,10 @@ class CircleControllerTest {
         mockedService.insert(PractitionerDBO(
                 _id = "a",
                 created = LocalDateTime.now(),
-                sessions = listOf()))
+                sessions = listOf(),
+                spiritBankLog = listOf(
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = SPIRIT_BANK_START_POINTS)
+                )))
         // User with 3 circles
         mockedService.insert(PractitionerDBO(
                 _id = "b",
@@ -75,8 +81,10 @@ class CircleControllerTest {
                                 endTime = LocalDateTime.now().plusHours(15),
                                 intentions = listOf(),
                                 disciplines = listOf(),
-                                minimumSpiritContribution = 5))))
-
+                                minimumSpiritContribution = 5)),
+                spiritBankLog = listOf(
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = SPIRIT_BANK_START_POINTS)
+                )))
         // User with 1 circles
         mockedService.insert(PractitionerDBO(
                 _id = "c",
@@ -90,7 +98,22 @@ class CircleControllerTest {
                                 endTime = LocalDateTime.now().plusMinutes(90),
                                 intentions = listOf(),
                                 disciplines = listOf(),
-                                minimumSpiritContribution = 5))))
+                                minimumSpiritContribution = 5)),
+                spiritBankLog = listOf(
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = SPIRIT_BANK_START_POINTS)
+                )))
+
+        // User without enough points in spiritBankLog
+        mockedService.insert(PractitionerDBO(
+                _id = "d",
+                created = LocalDateTime.now(),
+                sessions = listOf(),
+                circles = listOf(),
+                spiritBankLog = listOf(
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = SPIRIT_BANK_START_POINTS),
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 49)
+                )))
+
     }
 
     @Test
@@ -188,6 +211,26 @@ class CircleControllerTest {
         setup()
         val request = testController.testServer.post(
                 "/circle/a",
+                """{
+                        "name":"MyCircle Name",
+                        "description":"MyCircle Desc",
+                        "startTime":"2020-03-15T12:00:00.000Z",
+                        "endTime":"2020-03-15T14:00:00.000Z",
+                        "disciplines":[],
+                        "intentions":[],
+                        "minimumSpiritContribution":14
+                        }""",
+                false)
+        val response = testController.testServer.execute(request)
+        val practitioner = ControllerUtil.stringToObject(String(response.body()), PractitionerDBO::class.java)
+        assertThat(practitioner.circles.size).isEqualTo(1)
+    }
+
+    @Test
+    fun addCircle_withoutEnoughPointsResponseStatus_400() {
+        setup()
+        val request = testController.testServer.post(
+                "/circle/d",
                 """{
                         "name":"MyCircle Name",
                         "description":"MyCircle Desc",
