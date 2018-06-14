@@ -1,5 +1,6 @@
 package agartha.site.controllers
 
+import agartha.data.objects.CircleDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.site.controllers.mocks.MockedPractitionerService
@@ -247,5 +248,65 @@ class AdminControllerTest {
         val httpResponse = testController.testServer.execute(postRequest)
         val responseBody = String(httpResponse.body())
         assertThat(responseBody).isEqualTo("true")
+    }
+
+    @Test
+    fun removeCircle_responseStatus_200() {
+        mockedService.insert(
+                PractitionerDBO(
+                        _id = "p1",
+                        created = LocalDateTime.now(),
+                        circles = listOf(CircleDBO(_id="c1", name = "", description = "",
+                                        startTime = LocalDateTime.now(), endTime = LocalDateTime.now(),
+                                        intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 2))))
+
+        val request = testController.testServer.post("/admin/remove/circle/c1", passPhrase, false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(200)
+    }
+
+    @Test
+    fun removeCircle_responseStatusEmpty_404() {
+        mockedService.insert(
+                PractitionerDBO(
+                        _id = "p1",
+                        created = LocalDateTime.now(),
+                        circles = listOf(CircleDBO(_id="c1", name = "", description = "",
+                                startTime = LocalDateTime.now(), endTime = LocalDateTime.now(),
+                                intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 2))))
+
+        val request = testController.testServer.post("/admin/remove/circle/", passPhrase, false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(404)
+    }
+
+    @Test
+    fun removeCircle_removeExistingBody_true() {
+        mockedService.insert(
+                PractitionerDBO(
+                        _id = "p1",
+                        created = LocalDateTime.now(),
+                        circles = listOf(CircleDBO(_id="c1", name = "", description = "",
+                                startTime = LocalDateTime.now(), endTime = LocalDateTime.now(),
+                                intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 2))))
+
+        val request = testController.testServer.post("/admin/remove/circle/c1", passPhrase, false)
+        val response = testController.testServer.execute(request)
+        assertThat(String(response.body())).isEqualTo("true")
+    }
+
+    @Test
+    fun removeCircle_removeNonExistingBody_false() {
+        mockedService.insert(
+                PractitionerDBO(
+                        _id = "p1",
+                        created = LocalDateTime.now(),
+                        circles = listOf(CircleDBO(_id="c1", name = "", description = "",
+                                startTime = LocalDateTime.now(), endTime = LocalDateTime.now(),
+                                intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 2))))
+
+        val request = testController.testServer.post("/admin/remove/circle/c2", passPhrase, false)
+        val response = testController.testServer.execute(request)
+        assertThat(String(response.body())).isEqualTo("false")
     }
 }

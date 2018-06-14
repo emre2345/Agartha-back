@@ -64,17 +64,15 @@ class MockedPractitionerService : IPractitionerService {
             newSpiritBankLog.add(SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = cost))
         }
         // re-add
-        practitionerList.add(
-                PractitionerDBO(
-                        _id = practitioner._id,
-                        created = practitioner.created,
-                        sessions = sessions,
-                        circles = practitioner.circles,
-                        fullName = practitioner.fullName,
-                        email = practitioner.email,
-                        description = practitioner.description,
-                        spiritBankLog = newSpiritBankLog)
-        )
+        insert(PractitionerDBO(
+                _id = practitioner._id,
+                created = practitioner.created,
+                sessions = sessions,
+                circles = practitioner.circles,
+                fullName = practitioner.fullName,
+                email = practitioner.email,
+                description = practitioner.description,
+                spiritBankLog = newSpiritBankLog))
         return session
     }
 
@@ -83,16 +81,15 @@ class MockedPractitionerService : IPractitionerService {
         val practitioner = getById(practitionerId)
         if (practitioner != null) {
             val circles = practitioner.circles.toMutableList().plus(circle)
-            practitionerList.remove(practitioner)
-            practitionerList.add(
-                    PractitionerDBO(
-                            _id = practitioner._id,
-                            created = practitioner.created,
-                            sessions = practitioner.sessions,
-                            circles = circles,
-                            fullName = practitioner.fullName,
-                            email = practitioner.email,
-                            description = practitioner.description))
+            removeById(practitionerId)
+            insert(PractitionerDBO(
+                    _id = practitioner._id,
+                    created = practitioner.created,
+                    sessions = practitioner.sessions,
+                    circles = circles,
+                    fullName = practitioner.fullName,
+                    email = practitioner.email,
+                    description = practitioner.description))
         }
         return getById(practitionerId)
     }
@@ -153,6 +150,27 @@ class MockedPractitionerService : IPractitionerService {
                 .find {
                     it._id.equals(id)
                 }
+    }
+
+    override fun removeCircleById(practitionerId: String, circleId: String): Boolean {
+        val practitioner = getById(practitionerId)
+        if (practitioner != null) {
+            // Create new list of circles with all but the removed one, ie filter out the removed id
+            val circles = practitioner.circles.filter { it._id != circleId }
+            //
+            removeById(practitionerId)
+            insert(PractitionerDBO(
+                    _id = practitioner._id,
+                    created = practitioner.created,
+                    sessions = practitioner.sessions,
+                    circles = circles,
+                    fullName = practitioner.fullName,
+                    email = practitioner.email,
+                    description = practitioner.description,
+                    spiritBankLog = practitioner.spiritBankLog))
+            return true
+        }
+        return false
     }
 
     /**

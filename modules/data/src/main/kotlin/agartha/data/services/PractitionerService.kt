@@ -3,6 +3,7 @@ package agartha.data.services
 import agartha.common.config.Settings.Companion.returnNegativeNumber
 import agartha.data.db.conn.MongoConnection
 import agartha.data.objects.*
+import com.mongodb.client.result.UpdateResult
 import org.bson.Document
 import org.litote.kmongo.*
 import java.time.LocalDateTime
@@ -17,8 +18,7 @@ class PractitionerService : IPractitionerService {
     // Get MongoDatabase
     private val database = MongoConnection.getDatabase()
     // MongoCollection
-    protected val collection = database.getCollection<PractitionerDBO>(CollectionNames.PRACTITIONER_SERVICE.collectionName)
-
+    private val collection = database.getCollection<PractitionerDBO>(CollectionNames.PRACTITIONER_SERVICE.collectionName)
 
     override fun insert(item: PractitionerDBO): PractitionerDBO {
         return item.apply {
@@ -51,7 +51,6 @@ class PractitionerService : IPractitionerService {
 
     /**
      * Start a new practitioners session
-     * @param practitionerId identity for practitioner
      * @param practitioner the practitioner
      * @param session session to Add to practitioner
      * @return
@@ -212,6 +211,15 @@ class PractitionerService : IPractitionerService {
                         // Create Mongo Document to be added to sessions list
                         Document("circles", circle)))
 
+    }
+
+    override fun removeCircleById(practitionerId: String, circleId: String): Boolean {
+        val result: UpdateResult = collection.updateOneById(
+                practitionerId,
+                Document("${MongoOperator.pull}",
+                        Document("circles", Document("_id", circleId))))
+        //
+        return result.modifiedCount == 1L
     }
 
     /**

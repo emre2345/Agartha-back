@@ -1,7 +1,6 @@
 package agartha.data.services
 
 import agartha.data.objects.CircleDBO
-import agartha.data.objects.GeolocationDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 
@@ -15,18 +14,21 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
 
     /**
      * Function to update a document in database collection
-     * @param item to be inserted
+     * @param practitioner
+     * @param fullName
+     * @param email
+     * @param description
      * @return inserted document as object
      */
     fun updatePractitionerWithInvolvedInformation(
-            user: PractitionerDBO,
+            practitioner: PractitionerDBO,
             fullName: String,
             email: String,
             description: String): PractitionerDBO
 
     /**
      * Start a new session/practice
-     * @param practitionerId id for user starting the session
+     * @param practitioner user starting the session
      * @param session session to Add to user
      * @return the started session
      */
@@ -47,7 +49,7 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      * @return
      */
     fun addCircle(
-            practitionerId: String, circle: CircleDBO) : PractitionerDBO?
+            practitionerId: String, circle: CircleDBO): PractitionerDBO?
 
     /**
      * Remove all practitioners
@@ -67,4 +69,13 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      */
     fun removeById(
             practitionerId: String): Boolean
+
+    /**
+     * Remove a circle from practitioner
+     * @param practitionerId id for practitioner to remove from
+     * @param circleId id for circle to remove
+     * @return true if circle was removed
+     */
+    fun removeCircleById(
+            practitionerId: String, circleId: String): Boolean
 }
