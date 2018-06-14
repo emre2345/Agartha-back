@@ -153,10 +153,18 @@ class PractitionerService : IPractitionerService {
         }
         */
         ongoingSession.stopSession()
-        collection.updateOne(Document("${MongoOperator.push}",
-                // Create Mongo Document to be added to sessions list
-                Document("sessions", session))), ongoingSession)
-        //ongoingSession.apply { collection.updateOne(practitionerId) }
+
+        // Get index of latest session
+        val index = getById(practitionerId)?.sessions?.size ?: -1
+        // If we have a latest session
+        if (index > 0) {
+            // Update and set end time for this index with now
+            collection.updateOneById(
+                    practitionerId,
+                    Document("${MongoOperator.set}",
+                            Document("sessions.${index - 1}.endTime", LocalDateTime.now())))
+        }
+
     }
 
 
