@@ -196,7 +196,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
     }
 
     private fun validateDiscipline(circle: CircleDBO, discipline: String) {
-        if (circle.disciplines.size == 0) {
+        if (circle.disciplines.isEmpty()) {
             return
         }
 
@@ -210,7 +210,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
     }
 
     private fun validateIntention(circle: CircleDBO, intention: String) {
-        if (circle.intentions.size == 0) {
+        if (circle.intentions.isEmpty()) {
             return
         }
 
