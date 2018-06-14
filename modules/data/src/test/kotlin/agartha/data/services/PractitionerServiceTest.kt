@@ -435,4 +435,74 @@ class PractitionerServiceTest : DatabaseHandler() {
         val response = PractitionerService().removeById("ThisIdDoesNotExistInDB")
         assertThat(response).isFalse()
     }
+
+    @Test
+    fun removeCircle_practitionerMissing_false() {
+        PractitionerService().insert(PractitionerDBO(_id = "p1"))
+        val response = PractitionerService().removeCircleById("p2", "c1")
+        assertThat(response).isFalse()
+    }
+
+    @Test
+    fun removeCircle_circleMissing_false() {
+        PractitionerService().insert(PractitionerDBO(_id = "p1"))
+        val response = PractitionerService().removeCircleById("p1", "c1")
+        assertThat(response).isFalse()
+    }
+
+    private fun generateCirclePractitioner(): PractitionerDBO {
+        return PractitionerDBO(
+                _id = "p1",
+                circles = listOf(
+                        CircleDBO(
+                                _id = "c1", name = "", description = "",
+                                startTime = LocalDateTime.now(), endTime = LocalDateTime.now().plusHours(1),
+                                intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 3),
+                        CircleDBO(
+                                _id = "c2", name = "", description = "",
+                                startTime = LocalDateTime.now(), endTime = LocalDateTime.now().plusHours(1),
+                                intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 3),
+                        CircleDBO(
+                                _id = "c3", name = "", description = "",
+                                startTime = LocalDateTime.now(), endTime = LocalDateTime.now().plusHours(1),
+                                intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 3)))
+    }
+
+    @Test
+    fun removeCircle_firstOfMany_true() {
+        PractitionerService().insert(generateCirclePractitioner())
+        val response = PractitionerService().removeCircleById("p1", "c1")
+        assertThat(response).isTrue()
+    }
+
+    @Test
+    fun removeCircle_middleOfMany_true() {
+        PractitionerService().insert(generateCirclePractitioner())
+        val response = PractitionerService().removeCircleById("p1", "c2")
+        assertThat(response).isTrue()
+    }
+
+    @Test
+    fun removeCircle_lastOfMany_true() {
+        PractitionerService().insert(generateCirclePractitioner())
+        val response = PractitionerService().removeCircleById("p1", "c3")
+        assertThat(response).isTrue()
+    }
+
+    @Test
+    fun removeCircle_oneOfThree_twoLeft() {
+        PractitionerService().insert(generateCirclePractitioner())
+        PractitionerService().removeCircleById("p1", "c2")
+        val practitioner = PractitionerService().getById("p1")
+        assertThat(practitioner!!.circles.size).isEqualTo(2)
+    }
+
+    @Test
+    fun removeCircle_retrieveRemovedOne_null() {
+        PractitionerService().insert(generateCirclePractitioner())
+        PractitionerService().removeCircleById("p1", "c2")
+        val practitioner = PractitionerService().getById("p1")
+        val removedCircle = practitioner!!.circles.filter { it._id == "c2" }.firstOrNull()
+        assertThat(removedCircle).isNull()
+    }
 }

@@ -219,7 +219,7 @@ class PractitionerService : IPractitionerService {
                 Document("${MongoOperator.pull}",
                         Document("circles", Document("_id", circleId))))
         //
-        return result.wasAcknowledged()
+        return result.modifiedCount == 1L
     }
 
     /**
