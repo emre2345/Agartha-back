@@ -1,6 +1,6 @@
 package agartha.data.services
 
-import agartha.common.config.Settings.Companion.createNegativeNumberFromPositive
+import agartha.common.config.Settings.Companion.returnNegativeNumber
 import agartha.data.db.conn.MongoConnection
 import agartha.data.objects.*
 import org.bson.Document
@@ -65,7 +65,7 @@ class PractitionerService : IPractitionerService {
         // If session has a circle then it should add a new item to the spiritBankLog
         // But not if the practitioner is a creator of the circle
         if (session.circle !== null && !practitioner.creatorOfCircle(session.circle)) {
-            val cost = createNegativeNumberFromPositive(session.circle.minimumSpiritContribution)
+            val cost = returnNegativeNumber(session.circle.minimumSpiritContribution)
             pushContributionPoints(practitionerId, cost, SpiritBankLogItemType.JOINED_CIRCLE)
         }
         // return next index
