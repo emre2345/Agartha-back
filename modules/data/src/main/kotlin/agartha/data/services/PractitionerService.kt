@@ -178,7 +178,7 @@ class PractitionerService : IPractitionerService {
         if (ongoingSession.circle !== null && practitioner.circles.contains(ongoingSession.circle)) {
             spiritBankLogType = SpiritBankLogItemType.ENDED_CREATED_CIRCLE
             // Calculate the points practitioner should get from those that joined the circle
-            addedContributionPoints += calculatePointsFromPractitionersJoiningCreatorsCircle(ongoingSession)
+            addedContributionPoints += calculatePointsFromPractitionersJoiningCreatorsCircle(ongoingSession.circle, ongoingSession.startTime)
         }
         // Push to the log
         pushContributionPoints(practitionerId, addedContributionPoints, spiritBankLogType)
@@ -219,10 +219,9 @@ class PractitionerService : IPractitionerService {
      *
      * @return number of contribution points
      */
-    private fun calculatePointsFromPractitionersJoiningCreatorsCircle(ongoingSession: SessionDBO): Long {
-        // Find all sessions that has this circle and started after practitioners session started
-        val circle = ongoingSession.circle!!
-        val sessionsInCircle = getAll().filter { it.hasSessionInCircleAfterStartTime(ongoingSession.startTime, circle) }
+    private fun calculatePointsFromPractitionersJoiningCreatorsCircle(circle: CircleDBO, startTime: LocalDateTime): Long {
+        // Find all practitioners that has a session with this circle and is started after practitioners session started
+        val sessionsInCircle: List<PractitionerDBO> = getAll().filter { it.hasSessionInCircleAfterStartTime(startTime, circle) }
         // Number of practitioner that started a session in "my" circle and payed the minimumSpiritContribution
         // should be multiplied by the minimumSpiritContribution
         return sessionsInCircle.size * circle.minimumSpiritContribution
