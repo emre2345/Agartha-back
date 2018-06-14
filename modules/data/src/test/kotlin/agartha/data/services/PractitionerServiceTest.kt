@@ -96,9 +96,9 @@ class PractitionerServiceTest : DatabaseHandler() {
     fun startSession_disciplineName_Test2() {
         val user = PractitionerDBO(sessions = listOf(SessionDBO(null, "Test 1", "TestIntention 1")))
         // Insert a new practitioner
-        val item = PractitionerService().insert(user)
+        val practitioner = PractitionerService().insert(user)
         // Start session
-        val session = PractitionerService().startSession(item._id!!, SessionDBO(null, "Test 2", "TestIntention 2"))
+        val session = PractitionerService().startSession(practitioner, SessionDBO(null, "Test 2", "TestIntention 2"))
         assertThat(session.discipline).isEqualTo("Test 2")
     }
 
@@ -109,14 +109,14 @@ class PractitionerServiceTest : DatabaseHandler() {
     fun startSession_sessionsSize_3() {
         val user = PractitionerDBO()
         // Insert a new practising user
-        val item = PractitionerService().insert(user)
+        val practitioner = PractitionerService().insert(user)
         // Insert sessions
-        PractitionerService().startSession(item._id!!, SessionDBO(null, "Test 1", "Testing 1"))
-        PractitionerService().startSession(item._id!!, SessionDBO(null, "Test 2", "Testing 2"))
-        PractitionerService().startSession(item._id!!, SessionDBO(null, "Test 3", "Testing 3"))
+        PractitionerService().startSession(practitioner, SessionDBO(null, "Test 2", "Testing 2"))
+        PractitionerService().startSession(practitioner, SessionDBO(null, "Test 3", "Testing 3"))
+        PractitionerService().startSession(practitioner, SessionDBO(null, "Test 1", "Testing 1"))
         // Get user and Count sessions
-        val practitioner = PractitionerService().getById(item._id!!)
-        assertThat(practitioner?.sessions?.size).isEqualTo(3)
+        val newPractitioner = PractitionerService().getById(practitioner._id!!)
+        assertThat(newPractitioner?.sessions?.size).isEqualTo(3)
     }
 
     @Test
@@ -172,7 +172,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert a new practising user
         val practitioner = PractitionerService().insert(user)
         // Insert sessions
-        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(practitioner, SessionDBO(null, "Test 1", "Testing 1"))
         val response = PractitionerService().endSession(practitioner._id!!, 0)
         assertThat(response!!.sessions.last().endTime).isNotNull()
     }
@@ -186,9 +186,9 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert a new practising user
         val practitioner = PractitionerService().insert(user)
         // Start three session
-        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
-        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
-        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(practitioner, SessionDBO(null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(practitioner, SessionDBO(null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(practitioner, SessionDBO(null, "Test 1", "Testing 1"))
         // End session (should end the last
         PractitionerService().endSession(practitioner._id!!, 0)
         // Session should be poped and pushed
@@ -205,9 +205,9 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert a new practising user
         val practitioner = PractitionerService().insert(user)
         // Start three session
-        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
-        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
-        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(practitioner, SessionDBO(null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(practitioner, SessionDBO(null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(practitioner, SessionDBO(null, "Test 1", "Testing 1"))
         // End session (should end the last
         PractitionerService().endSession(practitioner._id!!, 0)
         // Session should be poped and pushed
@@ -225,9 +225,9 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert a new practising user
         val practitioner = PractitionerService().insert(user)
         // Start three session
-        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
-        PractitionerService().startSession(practitioner._id!!,SessionDBO( null, "Test 1", "Testing 1"))
-        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(practitioner, SessionDBO(null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(practitioner,SessionDBO( null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(practitioner, SessionDBO(null, "Test 1", "Testing 1"))
         // End session (should end the last
         PractitionerService().endSession(practitioner._id!!, 0)
         // Session should be poped and pushed
@@ -245,7 +245,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert a new practising user
         val practitioner = PractitionerService().insert(user)
         // Insert sessions
-        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(practitioner, SessionDBO(null, "Test 1", "Testing 1"))
         PractitionerService().endSession(practitioner._id!!, 0)
         // Get from database
         val item = PractitionerService().getById(practitioner._id!!)
@@ -261,7 +261,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert a new practising user
         val practitioner = PractitionerService().insert(user)
         // Insert sessions
-        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(practitioner, SessionDBO(null, "Test 1", "Testing 1"))
         PractitionerService().endSession(practitioner._id!!, 7)
         // Get from database
         val item = PractitionerService().getById(practitioner._id!!)
@@ -277,11 +277,90 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert a new practising user
         val practitioner = PractitionerService().insert(user)
         // Insert sessions
-        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(practitioner, SessionDBO(null, "Test 1", "Testing 1"))
         PractitionerService().endSession(practitioner._id!!, 7)
         // Get from database
         val item = PractitionerService().getById(practitioner._id!!)
         assertThat(item!!.spiritBankLog.last().type).isEqualTo(SpiritBankLogItemType.SESSION)
+    }
+
+
+    /**
+     *
+     */
+    @Test
+    fun endSession_inCircleContributionPointsCalculated_11points() {
+        // Insert a new practising user
+        val practitioner = PractitionerService().insert(PractitionerDBO(_id = "a"))
+        val secondPractitioner = PractitionerService().insert(PractitionerDBO(_id = "b"))
+        val circle = CircleDBO(
+                name = "",
+                description = "",
+                startTime = LocalDateTime.now(),
+                endTime = LocalDateTime.now().plusMinutes(15),
+                disciplines = listOf(),
+                intentions = listOf(),
+                minimumSpiritContribution = 4)
+        // Insert circle to practitioner
+        PractitionerService().addCircle("a", circle)
+        // Start session with the created circle
+        PractitionerService().startSession(practitioner, SessionDBO(
+                null,
+                "Test 1",
+                "Testing 1",
+                startTime = LocalDateTime.now(),
+                circle = circle))
+        // Start session for second practitioner with the created circle
+        PractitionerService().startSession(secondPractitioner, SessionDBO(
+                null,
+                "Test 2",
+                "Testing 2",
+                startTime = LocalDateTime.now(),
+                circle = circle))
+        // End session for circle creator
+        PractitionerService().endSession("a", 7)
+        // Get from database
+        val item = PractitionerService().getById("a")
+        assertThat(item!!.spiritBankLog.last().type).isEqualTo(SpiritBankLogItemType.ENDED_CREATED_CIRCLE)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun endSession_inCircleContributionPointsStored_typeIsEndedCreatedCircle() {
+        // Insert a new practising user
+        val practitioner = PractitionerService().insert(PractitionerDBO(_id = "a"))
+        val secondPractitioner = PractitionerService().insert(PractitionerDBO(_id = "b"))
+        val circle = CircleDBO(
+                name = "",
+                description = "",
+                startTime = LocalDateTime.now(),
+                endTime = LocalDateTime.now().plusMinutes(15),
+                disciplines = listOf(),
+                intentions = listOf(),
+                minimumSpiritContribution = 3)
+        // Insert circle to practitioner
+        PractitionerService().addCircle("a", circle)
+        // Start session with the created circle
+        PractitionerService().startSession(practitioner, SessionDBO(
+                null,
+                "Test 1",
+                "Testing 1",
+                startTime = LocalDateTime.now(),
+                circle = circle))
+        // Start session for second practitioner with the created circle
+        PractitionerService().startSession(secondPractitioner, SessionDBO(
+                null,
+                "Test 2",
+                "Testing 2",
+                startTime = LocalDateTime.now(),
+                circle = circle))
+        // End session for circle creator
+        PractitionerService().endSession("a", 7)
+        // Get from database
+        val item = PractitionerService().getById("a")
+        assertThat(item!!.spiritBankLog.last().points).isEqualTo(10)
     }
 
     /**
@@ -312,7 +391,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert a new practising user
         val practitioner = PractitionerService().insert(user)
         // Insert sessions
-        PractitionerService().startSession(practitioner._id!!, SessionDBO(null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(practitioner, SessionDBO(null, "Test 1", "Testing 1"))
         PractitionerService().endSession(practitioner._id!!, 7)
         // Get from database
         val item = PractitionerService().getById(practitioner._id!!)

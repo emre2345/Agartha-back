@@ -21,5 +21,6 @@ enum class SpiritBankLogItemType {
     SESSION,
     CREATED_CIRCLE,
     START,
-    JOINED_CIRCLE
+    JOINED_CIRCLE,
+    ENDED_CREATED_CIRCLE
 }

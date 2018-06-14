@@ -153,7 +153,87 @@ class PractitionerDBOTest {
                 LocalDateTime.now().minusMinutes(35))).isTrue()
     }
 
+    /**
+     * hasSessionInCircleAfterStartTime
+     */
+    val circle = CircleDBO(
+            name = "Circle name",
+            description = "Circle description",
+            startTime = LocalDateTime.now(),
+            endTime = LocalDateTime.now().plusHours(6),
+            intentions = listOf(),
+            disciplines = listOf(),
+            minimumSpiritContribution = 12L)
+    val circle2 = CircleDBO(
+            name = "Circle name2",
+            description = "Circle description2",
+            startTime = LocalDateTime.now(),
+            endTime = LocalDateTime.now().plusHours(5),
+            intentions = listOf(),
+            disciplines = listOf(),
+            minimumSpiritContribution = 1200L)
+    @Test
+    fun hasSessionInCircleAfterStartTime_startedAfterAndSameCircle_true() {
+        val practitioner = PractitionerDBO(
+                _id = "abc",
+                sessions = listOf(
+                        SessionDBO(
+                                discipline = "d",
+                                intention = "i",
+                                startTime = LocalDateTime.now().minusMinutes(10),
+                                circle = circle)))
 
+        assertThat(practitioner.hasSessionInCircleAfterStartTime(
+                LocalDateTime.now().minusMinutes(55), circle)).isTrue()
+    }
+    @Test
+    fun hasSessionInCircleAfterStartTime_startedAfterNoCircle_false() {
+        val practitioner = PractitionerDBO(
+                _id = "abc",
+                sessions = listOf(
+                        SessionDBO(
+                                discipline = "d",
+                                intention = "i",
+                                startTime = LocalDateTime.now().minusMinutes(10))))
+
+        assertThat(practitioner.hasSessionInCircleAfterStartTime(
+                LocalDateTime.now().minusMinutes(55), circle)).isFalse()
+    }
+
+    @Test
+    fun hasSessionInCircleAfterStartTime_startedAfterNotSameCircle_false() {
+        val practitioner = PractitionerDBO(
+                _id = "abc",
+                sessions = listOf(
+                        SessionDBO(
+                                discipline = "d",
+                                intention = "i",
+                                startTime = LocalDateTime.now().minusMinutes(10),
+                                circle= circle2)))
+
+        assertThat(practitioner.hasSessionInCircleAfterStartTime(
+                LocalDateTime.now().minusMinutes(55), circle)).isFalse()
+    }
+
+    @Test
+    fun hasSessionInCircleAfterStartTime_startedBeforeSameCircle_false() {
+        val practitioner = PractitionerDBO(
+                _id = "abc",
+                sessions = listOf(
+                        SessionDBO(
+                                discipline = "d",
+                                intention = "i",
+                                startTime = LocalDateTime.now().minusMinutes(50),
+                                circle= circle)))
+
+        assertThat(practitioner.hasSessionInCircleAfterStartTime(
+                LocalDateTime.now().minusMinutes(10), circle)).isFalse()
+    }
+
+
+    /**
+     * hasOngoingSession
+     */
     @Test
     fun hasOngoingSession_empty_false() {
         val practitioner = PractitionerDBO(
