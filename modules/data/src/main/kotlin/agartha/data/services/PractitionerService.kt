@@ -80,7 +80,8 @@ class PractitionerService : IPractitionerService {
             val ongoingSession = practitioner.sessions.lastOrNull()
             // If there is a matching practitioner with sessions
             if (ongoingSession != null) {
-                updateSessionWithEndTime(practitionerId, ongoingSession)
+                // Update the session with a endTime
+                updateSessionWithEndTime(practitionerId)
 
                 // Add the new logItem about the ended session to the spiritBankLog for the practitioner
                 storeSpiritBankLogEndedSession(practitioner, contributionPoints, ongoingSession)
@@ -135,36 +136,35 @@ class PractitionerService : IPractitionerService {
      * @param practitionerId - string - the practitioner to be updated
      * @param ongoingSession - sessionDBO - that should be pushed to the practitioners session list
      */
-    private fun updateSessionWithEndTime(practitionerId: String, ongoingSession: SessionDBO) {
-        // Remove last item from sessions array
-        /*collection.updateOneById(
-                practitionerId,
-                // Create Mongo Document to pop/remove item from array
-                Document("${MongoOperator.pop}",
-                        // Create Mongo Document to indicate last item in array
-                        Document("sessions", 1)))
-        // Create new Session with ongoing session as base
-        val session = ongoingSession.stopSession()
-        // Add it to sessions array
-        pushSession(practitionerId, session)
-
-        apply {
-            collection.updateOne(ongoingSession)
-        }
-        */
-        ongoingSession.stopSession()
-
+    private fun updateSessionWithEndTime(practitionerId: String) {
         // Get index of latest session
         val index = getById(practitionerId)?.sessions?.size ?: -1
         // If we have a latest session
         if (index > 0) {
-            // Update and set end time for this index with now
+            // Update and set end time for this index to now
             collection.updateOneById(
                     practitionerId,
                     Document("${MongoOperator.set}",
                             Document("sessions.${index - 1}.endTime", LocalDateTime.now())))
         }
+    }
 
+
+    /**
+     * Update a circleDBO to the practitioners session
+     * @param practitionerId - string - the practitioner to be updated
+     */
+    private fun updateCircleWithEndTime(practitionerId: String, circleToUpdate: CircleDBO) {
+        // Get index of the circle that we want to update
+        val index = getById(practitionerId)?.circles?.indexOf(circleToUpdate) ?: -1
+        // If we have a the circle we are looking for
+        if (index >= 0) {
+            // Update and set end time for this index to now
+            collection.updateOneById(
+                    practitionerId,
+                    Document("${MongoOperator.set}",
+                            Document("circles.$index.endTime", LocalDateTime.now())))
+        }
     }
 
 
@@ -204,11 +204,7 @@ class PractitionerService : IPractitionerService {
             // Calculate the points practitioner should get from those that joined the circle
             addedContributionPoints += calculatePointsFromPractitionersJoiningCreatorsCircle(ongoingSession.circle, ongoingSession.startTime)
             // Close the creators circle
-            val index = practitioner.circles.indexOf(ongoingSession.circle)
-            val circle = practitioner.circles[index]
-            println(circle)
-            circle.stopCircle()
-            println(circle)
+            updateCircleWithEndTime(practitionerId, ongoingSession.circle)
         }
         // Push to the log
         pushContributionPoints(practitionerId, addedContributionPoints, spiritBankLogType)
