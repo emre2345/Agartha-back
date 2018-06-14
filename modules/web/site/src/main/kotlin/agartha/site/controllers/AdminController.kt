@@ -1,11 +1,11 @@
 package agartha.site.controllers
 
-import agartha.common.config.Settings.Companion.ADMIN_PASS_PHRASE
 import agartha.data.objects.*
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.controllers.utils.DevGeolocationSelect
 import agartha.site.controllers.utils.SetupUtil
+import io.schinzel.basicutils.configvar.ConfigVar
 import spark.Request
 import spark.Response
 import spark.Spark
@@ -28,14 +28,16 @@ class AdminController(private val mService: IPractitionerService, settings: Sett
     private val safeSettings = settings ?: SettingsDBO(
             intentions = SetupUtil.getDefaultIntentions(),
             disciplines = SetupUtil.getDefaultDisciplines())
+    // Authentication Pass Phrase, read from config variable (.env file locally or Heroku Settings), Default value for tests
+    private val passPhrase: String = getPassPhrase()
 
     init {
         Spark.path("/admin") {
             // Validate that a pass phrase exists in body
-            Spark.before("/*", {request: Request, _ ->
+            Spark.before("/*", { request: Request, _ ->
                 val body = request.body() ?: ""
 
-                if (body != ADMIN_PASS_PHRASE) {
+                if (body != passPhrase) {
                     Spark.halt(401, "Unauthorized")
                 }
             })
@@ -57,6 +59,18 @@ class AdminController(private val mService: IPractitionerService, settings: Sett
             Spark.post("/remove/generated", ::removeGenerated)
             // Remove a practitioner
             Spark.post("/remove/practitioner/:userid", ::removePractitioner)
+        }
+    }
+
+    /**
+     * Config var not accessible from Tests (unless we symlink root .env into site folder)
+     * For tests "Santa" is returned
+     */
+    private fun getPassPhrase() : String {
+        try {
+            return ConfigVar.create(".env").getValue("A_PASS_PHRASE")
+        } catch (exception : Exception) {
+            return "Santa"
         }
     }
 

@@ -1,11 +1,9 @@
 package agartha.site.controllers
 
-import agartha.common.config.Settings.Companion.ADMIN_PASS_PHRASE
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
-import agartha.site.objects.response.PractitionerReport
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.BeforeClass
@@ -19,7 +17,7 @@ import java.time.LocalDateTime
  */
 class AdminControllerTest {
 
-    private val passPhrase = ADMIN_PASS_PHRASE
+    private val passPhrase = "Santa"
 
     companion object {
         val mockedService = MockedPractitionerService()
