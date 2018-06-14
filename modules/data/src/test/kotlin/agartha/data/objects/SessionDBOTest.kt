@@ -196,6 +196,32 @@ class SessionDBOTest {
      *
      */
     @Test
+    fun sessionAfter_startedBefore_false() {
+        val session = SessionDBO(null, "Yoga", "Love",
+                LocalDateTime.now().minusMinutes(150),
+                null)
+        assertThat(session.sessionAfter(
+                LocalDateTime.now().minusMinutes(60)
+        )).isFalse()
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun sessionAfter_startedAfter_true() {
+        val session = SessionDBO(null, "Yoga", "Love",
+                LocalDateTime.now().minusMinutes(50),
+                null)
+        assertThat(session.sessionAfter(
+                LocalDateTime.now().minusMinutes(60)
+        )).isTrue()
+    }
+
+    /**
+     *
+     */
+    @Test
     fun ongoing_abandon_false() {
         val session = SessionDBO (null, "Yoga", "Love",
                 LocalDateTime.now().minusMinutes(185),

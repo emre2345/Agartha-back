@@ -1,7 +1,6 @@
 package agartha.data.services
 
 import agartha.data.objects.CircleDBO
-import agartha.data.objects.GeolocationDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 
@@ -15,23 +14,26 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
 
     /**
      * Function to update a document in database collection
-     * @param item to be inserted
+     * @param practitioner
+     * @param fullName
+     * @param email
+     * @param description
      * @return inserted document as object
      */
     fun updatePractitionerWithInvolvedInformation(
-            user: PractitionerDBO,
+            practitioner: PractitionerDBO,
             fullName: String,
             email: String,
             description: String): PractitionerDBO
 
     /**
      * Start a new session/practice
-     * @param practitionerId id for user starting the session
+     * @param practitioner user starting the session
      * @param session session to Add to user
      * @return the started session
      */
     fun startSession(
-            practitionerId: String,
+            practitioner: PractitionerDBO,
             session: SessionDBO): SessionDBO
 
     /**

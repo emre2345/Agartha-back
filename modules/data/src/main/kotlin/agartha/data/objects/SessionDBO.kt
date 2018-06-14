@@ -54,7 +54,7 @@ data class SessionDBO(
         if (this.endTime != null && this.endTime.isAfter(startTime) && this.endTime.isBefore(endTime)) {
             return true
         }
-        // If session has a start time between these dates and is not condistered abandoned
+        // If session has a start time between these dates and is not considered abandoned
         if (this.startTime.isAfter(startTime) && this.startTime.isBefore(endTime) && !isAbandoned()) {
             return true
         }
@@ -63,6 +63,21 @@ data class SessionDBO(
             return true
         }
         // Session has an end time and not in between start and stop
+        return false
+    }
+
+    /**
+     * Function to see if this session is started after a given startTime
+     *
+     * @param startTime
+     * @return true if session was started after startTime
+     */
+    fun sessionAfter(startTime: LocalDateTime): Boolean {
+        // If session has a start time after the given starTime and is not considered abandoned
+        if (this.startTime.isAfter(startTime) && !isAbandoned()) {
+            return true
+        }
+        // Session has an startTime that is before the given startTime
         return false
     }
 
