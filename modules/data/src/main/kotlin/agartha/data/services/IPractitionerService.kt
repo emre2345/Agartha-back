@@ -31,7 +31,6 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      * @return the started session
      */
     fun startSession(
-            practitionerId: String,
             practitioner: PractitionerDBO,
             session: SessionDBO): SessionDBO
 

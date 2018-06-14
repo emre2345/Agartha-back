@@ -57,14 +57,15 @@ class PractitionerService : IPractitionerService {
      * @return
      */
     override fun startSession(
-            practitionerId: String,
             practitioner: PractitionerDBO,
             session: SessionDBO): SessionDBO {
+        // PractitionerId will never be an empty string, but kotlin wont allow us to access practitioner._id without it maybe being null
+        val practitionerId: String = practitioner._id ?: ""
         // Push session to practitioner
         pushSession(practitionerId, session)
         // If session has a circle then it should add a new item to the spiritBankLog
         // But not if the practitioner is a creator of the circle
-        if (session.circle !== null && !practitioner.creatorOfCircle(session.circle)) {
+        if (session.circle != null && !practitioner.creatorOfCircle(session.circle)) {
             val cost = returnNegativeNumber(session.circle.minimumSpiritContribution)
             pushContributionPoints(practitionerId, cost, SpiritBankLogItemType.JOINED_CIRCLE)
         }
@@ -98,7 +99,7 @@ class PractitionerService : IPractitionerService {
                 pushSession(practitionerId, session)
 
                 // Add the new logItem about the ended session to the spiritBankLog for the practitioner
-                storeSpiritBankLogEndedSession(practitionerId, practitioner, contributionPoints, ongoingSession)
+                storeSpiritBankLogEndedSession(practitioner, contributionPoints, ongoingSession)
 
                 // Return the new updated practitioner
                 return getById(practitionerId)
@@ -162,20 +163,20 @@ class PractitionerService : IPractitionerService {
 
     /**
      * When ending a session the log into the spiritBank depend on if the practitioner is a creator of the circle
-     * @param practitionerId    - string - the practitioners id
      * @param practitioner      - PractitionerDBO - the practitioner
      * @param contributionPoints- Long - the points that was contributed
      * @param ongoingSession    - Long - the ongoing session for the practitioner
      */
-    private fun storeSpiritBankLogEndedSession(practitionerId: String,
-                                               practitioner: PractitionerDBO,
+    private fun storeSpiritBankLogEndedSession(practitioner: PractitionerDBO,
                                                contributionPoints: Long,
                                                ongoingSession: SessionDBO) {
+        // PractitionerId will never be an empty string, but kotlin wont allow us to access practitioner._id without it maybe being null
+        val practitionerId: String = practitioner._id ?: ""
         // create variables
         var spiritBankLogType = SpiritBankLogItemType.SESSION
         var addedContributionPoints = contributionPoints
         // Check if practitioner is in a circle and if practitioner is a creator of that circle
-        if (ongoingSession.circle !== null && practitioner.circles.contains(ongoingSession.circle)) {
+        if (ongoingSession.circle != null && practitioner.circles.contains(ongoingSession.circle)) {
             spiritBankLogType = SpiritBankLogItemType.ENDED_CREATED_CIRCLE
             // Calculate the points practitioner should get from those that joined the circle
             addedContributionPoints += calculatePointsFromPractitionersJoiningCreatorsCircle(ongoingSession.circle, ongoingSession.startTime)

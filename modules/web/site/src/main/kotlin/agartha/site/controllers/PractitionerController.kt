@@ -116,7 +116,6 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
                 ControllerUtil.stringToObject(request.body(), StartSessionInformation::class.java)
         // Start a session
         val session = mService.startSession(
-                practitionerId,
                 practitioner,
                 SessionDBO(
                         geolocation = startSessionInformation.geolocation,
@@ -171,7 +170,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
                 startTime = LocalDateTime.now(),
                 circle = circle)
         // Add session to user
-        return ControllerUtil.objectToString(mService.startSession(practitionerId, practitioner, session))
+        return ControllerUtil.objectToString(mService.startSession(practitioner, session))
     }
 
     /**

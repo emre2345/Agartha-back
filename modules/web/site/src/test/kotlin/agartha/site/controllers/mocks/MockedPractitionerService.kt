@@ -43,7 +43,6 @@ class MockedPractitionerService : IPractitionerService {
     }
 
     override fun startSession(
-            practitionerId: String,
             practitioner: PractitionerDBO,
             session: SessionDBO): SessionDBO {
 
