@@ -1,5 +1,6 @@
 package agartha.data.services
 
+import agartha.common.config.Settings.Companion.returnNegativeNumber
 import agartha.data.db.conn.MongoConnection
 import agartha.data.objects.*
 import org.bson.Document
@@ -36,29 +37,36 @@ class PractitionerService : IPractitionerService {
     /**
      * Update practitioner in database with 'Get involved'-information
      */
-    override fun updatePractitionerWithInvolvedInformation(user: PractitionerDBO, fullName: String, email: String, description: String): PractitionerDBO {
+    override fun updatePractitionerWithInvolvedInformation(practitioner: PractitionerDBO,
+                                                           fullName: String,
+                                                           email: String,
+                                                           description: String): PractitionerDBO {
         // Add the new 'Get involved'-information
-        user.addInvolvedInformation(fullName, email, description)
-        // Update the user
-        return user.apply {
-            collection.updateOne(user)
+        practitioner.addInvolvedInformation(fullName, email, description)
+        // Update the practitioner
+        return practitioner.apply {
+            collection.updateOne(practitioner)
         }
     }
 
     /**
-     * Start a new user session
+     * Start a new practitioners session
      * @param practitionerId identity for practitioner
+     * @param practitioner the practitioner
      * @param session session to Add to practitioner
      * @return
      */
     override fun startSession(
-            practitionerId: String,
+            practitioner: PractitionerDBO,
             session: SessionDBO): SessionDBO {
+        // PractitionerId will never be an empty string, but kotlin wont allow us to access practitioner._id without it maybe being null
+        val practitionerId: String = practitioner._id ?: ""
         // Push session to practitioner
         pushSession(practitionerId, session)
         // If session has a circle then it should add a new item to the spiritBankLog
-        if(session.circle !== null){
-            val cost = session.circle.minimumSpiritContribution - (session.circle.minimumSpiritContribution)*2
+        // But not if the practitioner is a creator of the circle
+        if (session.circle != null && !practitioner.creatorOfCircle(session.circle)) {
+            val cost = returnNegativeNumber(session.circle.minimumSpiritContribution)
             pushContributionPoints(practitionerId, cost, SpiritBankLogItemType.JOINED_CIRCLE)
         }
         // return next index
@@ -66,12 +74,12 @@ class PractitionerService : IPractitionerService {
     }
 
     override fun endSession(practitionerId: String, contributionPoints: Long): PractitionerDBO? {
-        // Get current user
-        val user: PractitionerDBO? = getById(practitionerId)
-        if (user != null && user.sessions.isNotEmpty()) {
+        // Get current practitioner
+        val practitioner: PractitionerDBO? = getById(practitionerId)
+        if (practitioner != null && practitioner.sessions.isNotEmpty()) {
             // get the current session
-            val ongoingSession = user.sessions.lastOrNull()
-            // If there is a matching user with sessions
+            val ongoingSession = practitioner.sessions.lastOrNull()
+            // If there is a matching practitioner with sessions
             if (ongoingSession != null) {
                 // Remove last item from sessions array
                 collection.updateOneById(
@@ -89,13 +97,15 @@ class PractitionerService : IPractitionerService {
                         endTime = LocalDateTime.now())
                 // Add it to sessions array
                 pushSession(practitionerId, session)
+
                 // Add the new logItem about the ended session to the spiritBankLog for the practitioner
-                pushContributionPoints(practitionerId, contributionPoints, SpiritBankLogItemType.SESSION)
+                storeSpiritBankLogEndedSession(practitioner, contributionPoints, ongoingSession)
+
                 // Return the new updated practitioner
                 return getById(practitionerId)
             }
         }
-        return user
+        return practitioner
     }
 
     /**
@@ -152,6 +162,30 @@ class PractitionerService : IPractitionerService {
 
 
     /**
+     * When ending a session the log into the spiritBank depend on if the practitioner is a creator of the circle
+     * @param practitioner      - PractitionerDBO - the practitioner
+     * @param contributionPoints- Long - the points that was contributed
+     * @param ongoingSession    - Long - the ongoing session for the practitioner
+     */
+    private fun storeSpiritBankLogEndedSession(practitioner: PractitionerDBO,
+                                               contributionPoints: Long,
+                                               ongoingSession: SessionDBO) {
+        // PractitionerId will never be an empty string, but kotlin wont allow us to access practitioner._id without it maybe being null
+        val practitionerId: String = practitioner._id ?: ""
+        // create variables
+        var spiritBankLogType = SpiritBankLogItemType.SESSION
+        var addedContributionPoints = contributionPoints
+        // Check if practitioner is in a circle and if practitioner is a creator of that circle
+        if (ongoingSession.circle != null && practitioner.circles.contains(ongoingSession.circle)) {
+            spiritBankLogType = SpiritBankLogItemType.ENDED_CREATED_CIRCLE
+            // Calculate the points practitioner should get from those that joined the circle
+            addedContributionPoints += calculatePointsFromPractitionersJoiningCreatorsCircle(ongoingSession.circle, ongoingSession.startTime)
+        }
+        // Push to the log
+        pushContributionPoints(practitionerId, addedContributionPoints, spiritBankLogType)
+    }
+
+    /**
      * Push a new spiritBankLogItem to the spiritBankLog in the practitionerDBO
      * @param practitionerId - string - the practitioner to be updated
      * @param contributionPoints - Long - the points that was contributed
@@ -164,6 +198,7 @@ class PractitionerService : IPractitionerService {
                         // Create Mongo Document to be added to spiritBankLog list
                         Document("spiritBankLog", SpiritBankLogItemDBO(type = type, points = contributionPoints))))
     }
+
     /**
      * Add a circle to a practitioner
      * @param practitionerId id for practitioner to add circle
@@ -177,6 +212,20 @@ class PractitionerService : IPractitionerService {
                         // Create Mongo Document to be added to sessions list
                         Document("circles", circle)))
 
+    }
+
+    /**
+     * Calculates the contribution points gathered from practitioners joining
+     * the circle that is in the ongoingSession for a practitioner
+     *
+     * @return number of contribution points
+     */
+    private fun calculatePointsFromPractitionersJoiningCreatorsCircle(circle: CircleDBO, startTime: LocalDateTime): Long {
+        // Find all practitioners that has a session with this circle and is started after practitioners session started
+        val sessionsInCircle: List<PractitionerDBO> = getAll().filter { it.hasSessionInCircleAfterStartTime(startTime, circle) }
+        // Number of practitioner that started a session in "my" circle and payed the minimumSpiritContribution
+        // should be multiplied by the minimumSpiritContribution
+        return sessionsInCircle.size * circle.minimumSpiritContribution
     }
 
 }

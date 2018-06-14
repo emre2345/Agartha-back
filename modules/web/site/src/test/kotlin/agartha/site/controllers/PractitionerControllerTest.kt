@@ -288,6 +288,38 @@ class PractitionerControllerTest {
         assertThat(prac.spiritBankLog.size).isEqualTo(2)
     }
 
+    /**
+     *
+     */
+    @Test
+    fun endSession_endedSessionInOwnCircle_spiritBankLogStoredType() {
+        val circle = CircleDBO(
+                name = "",
+                description = "",
+                startTime = LocalDateTime.now(),
+                endTime = LocalDateTime.now().plusMinutes(15),
+                disciplines = listOf(),
+                intentions = listOf(),
+                minimumSpiritContribution = 4)
+        // Setup prac with started session in own circle
+        mockedService.insert(
+                PractitionerDBO("abc", LocalDateTime.now(), mutableListOf(
+                        SessionDBO(null, "D", "I", LocalDateTime.now(),
+                                circle = circle)),
+                        circles = listOf(circle)))
+        // Setup prac with started session in someone else circle
+        mockedService.insert(
+                PractitionerDBO("dfg", LocalDateTime.now(), mutableListOf(
+                        SessionDBO(null, "D", "I", LocalDateTime.now(),
+                                circle = circle))))
+
+        val postRequest = testController.testServer.post("/practitioner/session/end/abc/8", "", false)
+        val httpResponse = testController.testServer.execute(postRequest)
+        val responseBody = String(httpResponse.body())
+        val prac = ControllerUtil.stringToObject(responseBody, PractitionerDBO::class.java)
+        assertThat(prac.spiritBankLog.last().type).isEqualTo(SpiritBankLogItemType.ENDED_CREATED_CIRCLE)
+    }
+
     @Test
     fun joinCircle_missingParams_404() {
         val request = testController.testServer.post("/cicle/join/a/", "", false)
@@ -600,10 +632,10 @@ class PractitionerControllerTest {
         // Insert the current user
         mockedService.insert(PractitionerDBO(_id = "a",
                 spiritBankLog = listOf(
-                        SpiritBankLogItemDBO(type=SpiritBankLogItemType.START, points = SPIRIT_BANK_START_POINTS),
-                        SpiritBankLogItemDBO(type=SpiritBankLogItemType.SESSION, points = 20),
-                        SpiritBankLogItemDBO(type=SpiritBankLogItemType.JOINED_CIRCLE, points = -10)
-                        )))
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = SPIRIT_BANK_START_POINTS),
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.SESSION, points = 20),
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = -10)
+                )))
 
         val request = testController.testServer.get("/practitioner/spiritbankhistory/a", false)
         val response = testController.testServer.execute(request)

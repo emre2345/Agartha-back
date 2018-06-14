@@ -108,15 +108,15 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
     @Suppress("UNUSED_PARAMETER")
     private fun startSession(request: Request, response: Response): String {
         // Get current userid
-        val userId: String = request.params(":userid")
+        val practitionerId: String = request.params(":userid")
         // Make sure practitionerId exists in database
-        getPractitionerFromDatabase(userId, mService)
+        val practitioner = getPractitionerFromDatabase(practitionerId, mService)
         // Get selected geolocation, discipline and intention
         val startSessionInformation: StartSessionInformation =
                 ControllerUtil.stringToObject(request.body(), StartSessionInformation::class.java)
         // Start a session
         val session = mService.startSession(
-                userId,
+                practitioner,
                 SessionDBO(
                         geolocation = startSessionInformation.geolocation,
                         discipline = startSessionInformation.discipline,
@@ -136,7 +136,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         val contributionPoints: Long = request.params(":contributionpoints").toLong()
         // Make sure practitionerId exists in database
         getPractitionerFromDatabase(userId, mService)
-        // Stop the last session for user
+        // Stop the last session for user with the total gathered contributionPoints
         val practitioner = mService.endSession(userId, contributionPoints)
         // Return the updated practitioner
         return ControllerUtil.objectToString(practitioner)
@@ -170,7 +170,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
                 startTime = LocalDateTime.now(),
                 circle = circle)
         // Add session to user
-        return ControllerUtil.objectToString(mService.startSession(practitionerId, session))
+        return ControllerUtil.objectToString(mService.startSession(practitioner, session))
     }
 
     /**
@@ -196,7 +196,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
     }
 
     private fun validateDiscipline(circle: CircleDBO, discipline: String) {
-        if (circle.disciplines.size == 0) {
+        if (circle.disciplines.isEmpty()) {
             return
         }
 
@@ -210,7 +210,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
     }
 
     private fun validateIntention(circle: CircleDBO, intention: String) {
-        if (circle.intentions.size == 0) {
+        if (circle.intentions.isEmpty()) {
             return
         }
 
@@ -227,8 +227,9 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
      * If users spiritBankLog has less points than then spiritContributionCost then throe a 400
      */
     private fun validateUserCanAffordToJoin(practitioner: PractitionerDBO, spiritContributionCost: Long) {
-        if(practitioner.calculateSpiritBankPointsFromLog() < spiritContributionCost){
+        if (practitioner.calculateSpiritBankPointsFromLog() < spiritContributionCost) {
             Spark.halt(400, "Practitioner cannot afford to join this circle")
         }
     }
+
 }

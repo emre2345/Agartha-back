@@ -47,13 +47,39 @@ data class PractitionerDBO(
     }
 
     /**
+     * Check if practitioner has any sessions with a specific circle
+     * and if those sessions is started after the given startTime
+     *
+     * @param startDateTime - when session started
+     * @param circle        - a specific circle
+     * @return true if user has at least one session after the given startTime
+     */
+    fun hasSessionInCircleAfterStartTime(startDateTime: LocalDateTime, circle: CircleDBO): Boolean {
+        return this.sessions
+                .filter {
+                    circle == it.circle
+                }
+                .filter {
+                    it.sessionAfter(startDateTime)
+                }
+                .isNotEmpty()
+    }
+
+    /**
      * Check if practitioner has an ongoing session
      */
     fun hasOngoingSession(): Boolean {
         if (sessions.isEmpty()) {
-            return false;
+            return false
         }
         return sessions.last().ongoing()
+    }
+
+    /**
+     * Check if practitioner is a creator of a specific circle
+     */
+    fun creatorOfCircle(circle: CircleDBO): Boolean {
+        return this.circles.contains(circle)
     }
 
     /**

@@ -20,12 +20,10 @@ import java.util.*
  *
  * Created by Jorgen Andersson on 2018-05-30.
  */
-class AdminController(
-        private val mService: IPractitionerService,
-        private val settings: SettingsDBO?) {
+class AdminController(private val mService: IPractitionerService, settings: SettingsDBO?) {
 
     // Generate a list of geolocation to random from
-    private val geolocations = DevGeolocationSelect.values().map { it.geolocationDBO }
+    private val geoLocations = DevGeolocationSelect.values().map { it.geolocationDBO }
     // Get or generate a settings object to random disciplines and intentions from
     private val safeSettings = settings ?: SettingsDBO(
             intentions = SetupUtil.getDefaultIntentions(),
@@ -120,14 +118,14 @@ class AdminController(
         val discipline = request.params(":discipline")
         val intention = request.params(":intention")
 
-        var practitioner = mService.getById(userId)
+        val practitioner = mService.getById(userId)
         if (practitioner != null) {
             val session = mService.startSession(
-                    practitionerId = userId,
                     session = SessionDBO(
-                            geolocation = getRandomGeolocation(),
-                            discipline = if (discipline.startsWith("random", true)) getRandomDiscipline().title else discipline,
-                            intention = if (intention.startsWith("random", true)) getRandomIntention().title else intention))
+                    geolocation = getRandomGeolocation(),
+                    discipline = if (discipline.startsWith("random", true)) getRandomDiscipline().title else discipline,
+                    intention = if (intention.startsWith("random", true)) getRandomIntention().title else intention),
+                    practitioner = practitioner)
 
             return ControllerUtil.objectToString(session)
         }
@@ -139,6 +137,7 @@ class AdminController(
     /**
      * Remove all practitioners
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun removeAll(request: Request, response: Response): String {
         return "${mService.removeAll()}"
     }
@@ -146,6 +145,7 @@ class AdminController(
     /**
      * Remove all generated practitioners
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun removeGenerated(request: Request, response: Response): String {
         return ControllerUtil.objectListToString(mService.removeGenerated())
     }
@@ -169,7 +169,7 @@ class AdminController(
      * @return Geolocation
      */
     private fun getRandomGeolocation(): GeolocationDBO {
-        return geolocations.shuffled().take(1)[0]
+        return geoLocations.shuffled().take(1)[0]
     }
 
     /**
