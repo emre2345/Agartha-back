@@ -146,6 +146,10 @@ class MockedPractitionerService : IPractitionerService {
                 }
     }
 
+    override fun removeCircleById(practitionerId: String, circleId: String): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     /**
      * Clear database
      */

@@ -61,6 +61,8 @@ class AdminController(
             Spark.post("/remove/generated", ::removeGenerated)
             // Remove a practitioner
             Spark.post("/remove/practitioner/:userid", ::removePractitioner)
+            // Remove a circle
+            Spark.post("/remove/circle/:circleid", ::removeCircle)
         }
     }
 
@@ -68,10 +70,10 @@ class AdminController(
      * Config var not accessible from Tests (unless we symlink root .env into site folder)
      * For tests "Santa" is returned
      */
-    private fun getPassPhrase() : String {
+    private fun getPassPhrase(): String {
         try {
             return ConfigVar.create(".env").getValue("A_PASS_PHRASE")
-        } catch (exception : Exception) {
+        } catch (exception: Exception) {
             return "Santa"
         }
     }
@@ -163,6 +165,26 @@ class AdminController(
         return ControllerUtil.objectToString(mService.removeById(userId))
     }
 
+    /**
+     * Remove a circle
+     * @return true if everything went fine
+     */
+    @Suppress("UNUSED_PARAMETER")
+    private fun removeCircle(request: Request, response: Response): String {
+        // Get current userid
+        val circleId: String = request.params(":circleid")
+        // Find practitioner whom created this circle
+        val practitioner: PractitionerDBO? = mService
+                .getAll()
+                .filter {
+                    it.circles.filter { it._id == circleId }.isNotEmpty()
+                }
+                .firstOrNull()
+        // Remove the circle
+        return ControllerUtil.objectToString(
+                mService.removeCircleById(
+                        practitionerId = practitioner?._id ?: "", circleId = circleId))
+    }
 
     /**
      * Get a random Geolocation

@@ -47,7 +47,7 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      * @return
      */
     fun addCircle(
-            practitionerId: String, circle: CircleDBO) : PractitionerDBO?
+            practitionerId: String, circle: CircleDBO): PractitionerDBO?
 
     /**
      * Remove all practitioners
@@ -67,4 +67,13 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      */
     fun removeById(
             practitionerId: String): Boolean
+
+    /**
+     * Remove a circle from practitioner
+     * @param practitionerId id for practitioner to remove from
+     * @param circleId id for circle to remove
+     * @return true if circle was removed
+     */
+    fun removeCircleById(
+            practitionerId: String, circleId: String): Boolean
 }

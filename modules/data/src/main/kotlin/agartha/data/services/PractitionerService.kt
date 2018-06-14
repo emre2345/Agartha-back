@@ -2,6 +2,7 @@ package agartha.data.services
 
 import agartha.data.db.conn.MongoConnection
 import agartha.data.objects.*
+import com.mongodb.client.result.UpdateResult
 import org.bson.Document
 import org.litote.kmongo.*
 import java.time.LocalDateTime
@@ -57,8 +58,8 @@ class PractitionerService : IPractitionerService {
         // Push session to practitioner
         pushSession(practitionerId, session)
         // If session has a circle then it should add a new item to the spiritBankLog
-        if(session.circle !== null){
-            val cost = session.circle.minimumSpiritContribution - (session.circle.minimumSpiritContribution)*2
+        if (session.circle !== null) {
+            val cost = session.circle.minimumSpiritContribution - (session.circle.minimumSpiritContribution) * 2
             pushContributionPoints(practitionerId, cost, SpiritBankLogItemType.JOINED_CIRCLE)
         }
         // return next index
@@ -164,6 +165,7 @@ class PractitionerService : IPractitionerService {
                         // Create Mongo Document to be added to spiritBankLog list
                         Document("spiritBankLog", SpiritBankLogItemDBO(type = type, points = contributionPoints))))
     }
+
     /**
      * Add a circle to a practitioner
      * @param practitionerId id for practitioner to add circle
@@ -179,4 +181,12 @@ class PractitionerService : IPractitionerService {
 
     }
 
+    override fun removeCircleById(practitionerId: String, circleId: String): Boolean {
+        val result: UpdateResult = collection.updateOneById(
+                practitionerId,
+                Document("${MongoOperator.pull}",
+                        Document("circles", Document("_id", circleId))))
+        //
+        return result.wasAcknowledged()
+    }
 }
