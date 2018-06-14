@@ -25,6 +25,21 @@ data class SessionDBO(
         val circle: CircleDBO? = null) {
 
 
+
+    /**
+     * Function to stop a session from being active
+     *
+     * @return a SessionDBO with a endTime that is now
+     */
+    fun stopSession(): SessionDBO {
+        return SessionDBO(
+                geolocation = geolocation,
+                discipline = discipline,
+                intention = intention,
+                startTime = startTime,
+                endTime = LocalDateTime.now())
+    }
+
     /**
      * Function to calculate duration for a session
      * @return number of minutes for session

@@ -80,22 +80,7 @@ class PractitionerService : IPractitionerService {
             val ongoingSession = practitioner.sessions.lastOrNull()
             // If there is a matching practitioner with sessions
             if (ongoingSession != null) {
-                // Remove last item from sessions array
-                collection.updateOneById(
-                        practitionerId,
-                        // Create Mongo Document to pop/remove item from array
-                        Document("${MongoOperator.pop}",
-                                // Create Mongo Document to indicate last item in array
-                                Document("sessions", 1)))
-                // Create new Session with ongoing session as base
-                val session = SessionDBO(
-                        geolocation = ongoingSession.geolocation,
-                        discipline = ongoingSession.discipline,
-                        intention = ongoingSession.intention,
-                        startTime = ongoingSession.startTime,
-                        endTime = LocalDateTime.now())
-                // Add it to sessions array
-                pushSession(practitionerId, session)
+                updateSessionWithEndTime(practitionerId, ongoingSession)
 
                 // Add the new logItem about the ended session to the spiritBankLog for the practitioner
                 storeSpiritBankLogEndedSession(practitioner, contributionPoints, ongoingSession)
@@ -146,6 +131,36 @@ class PractitionerService : IPractitionerService {
 
 
     /**
+     * Update a sessionDBO to the practitioners sessions
+     * @param practitionerId - string - the practitioner to be updated
+     * @param ongoingSession - sessionDBO - that should be pushed to the practitioners session list
+     */
+    private fun updateSessionWithEndTime(practitionerId: String, ongoingSession: SessionDBO) {
+        // Remove last item from sessions array
+        /*collection.updateOneById(
+                practitionerId,
+                // Create Mongo Document to pop/remove item from array
+                Document("${MongoOperator.pop}",
+                        // Create Mongo Document to indicate last item in array
+                        Document("sessions", 1)))
+        // Create new Session with ongoing session as base
+        val session = ongoingSession.stopSession()
+        // Add it to sessions array
+        pushSession(practitionerId, session)
+
+        apply {
+            collection.updateOne(ongoingSession)
+        }
+        */
+        ongoingSession.stopSession()
+        collection.updateOne(Document("${MongoOperator.push}",
+                // Create Mongo Document to be added to sessions list
+                Document("sessions", session))), ongoingSession)
+        //ongoingSession.apply { collection.updateOne(practitionerId) }
+    }
+
+
+    /**
      * Push a new sessionDBO to the practitioners sessions
      * @param practitionerId - string - the practitioner to be updated
      * @param session - sessionDBO - that should be pushed to the practitioners session list
@@ -161,7 +176,8 @@ class PractitionerService : IPractitionerService {
 
 
     /**
-     * When ending a session the log into the spiritBank depend on if the practitioner is a creator of the circle
+     * When ending a session log into the spiritBank depending on if the practitioner is a creator of the circle
+     *
      * @param practitioner      - PractitionerDBO - the practitioner
      * @param contributionPoints- Long - the points that was contributed
      * @param ongoingSession    - Long - the ongoing session for the practitioner
@@ -175,10 +191,16 @@ class PractitionerService : IPractitionerService {
         var spiritBankLogType = SpiritBankLogItemType.SESSION
         var addedContributionPoints = contributionPoints
         // Check if practitioner is in a circle and if practitioner is a creator of that circle
-        if (ongoingSession.circle != null && practitioner.circles.contains(ongoingSession.circle)) {
+        if (ongoingSession.circle != null && practitioner.creatorOfCircle(ongoingSession.circle)) {
             spiritBankLogType = SpiritBankLogItemType.ENDED_CREATED_CIRCLE
             // Calculate the points practitioner should get from those that joined the circle
             addedContributionPoints += calculatePointsFromPractitionersJoiningCreatorsCircle(ongoingSession.circle, ongoingSession.startTime)
+            // Close the creators circle
+            val index = practitioner.circles.indexOf(ongoingSession.circle)
+            val circle = practitioner.circles[index]
+            println(circle)
+            circle.stopCircle()
+            println(circle)
         }
         // Push to the log
         pushContributionPoints(practitionerId, addedContributionPoints, spiritBankLogType)

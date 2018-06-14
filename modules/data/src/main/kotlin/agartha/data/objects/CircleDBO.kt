@@ -16,7 +16,7 @@ data class CircleDBO(
         // Time when started
         val startTime: LocalDateTime,
         // Time when ended
-        val endTime: LocalDateTime,
+        var endTime: LocalDateTime,
         val intentions: List<IntentionDBO>,
         val disciplines: List<DisciplineDBO>,
         val minimumSpiritContribution: Long) {
@@ -27,5 +27,12 @@ data class CircleDBO(
      */
     fun active(): Boolean {
         return this.startTime.isBefore(LocalDateTime.now()) and this.endTime.isAfter(LocalDateTime.now())
+    }
+
+    /**
+     * Function to stop a circle from being active
+     */
+    fun stopCircle() {
+        this.endTime = LocalDateTime.now()
     }
 }
