@@ -26,7 +26,7 @@ class Settings {
          */
         fun returnNegativeNumber(number: Long): Long {
             // Make sure number is positive
-            if (number > 0.0) {
+            if (number > 0L) {
                 return number * -1 // multiplied -1 makes the number negative
             }
             return number
