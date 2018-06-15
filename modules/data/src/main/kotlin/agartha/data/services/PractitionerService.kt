@@ -61,12 +61,12 @@ class PractitionerService : IPractitionerService {
         // PractitionerId will never be an empty string, but kotlin wont allow us to access practitioner._id without it maybe being null
         val practitionerId: String = practitioner._id ?: ""
         // Push session to practitioner
-        pushSession(practitionerId, session)
+        pushObject(practitionerId, "sessions", session)
         // If session has a circle then it should add a new item to the spiritBankLog
         // But not if the practitioner is a creator of the circle
         if (session.circle != null && !practitioner.creatorOfCircle(session.circle)) {
             val cost = returnNegativeNumber(session.circle.minimumSpiritContribution)
-            pushContributionPoints(practitionerId, cost, SpiritBankLogItemType.JOINED_CIRCLE)
+            pushObject(practitionerId, "spiritBankLog", SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = cost))
         }
         // return next index
         return session
@@ -97,7 +97,7 @@ class PractitionerService : IPractitionerService {
      * Add a circle to a practitioner
      */
     override fun addCircle(practitionerId: String, circle: CircleDBO): PractitionerDBO? {
-        pushCircle(practitionerId, circle)
+        pushObject(practitionerId, "circles", circle)
         return getById(practitionerId)
     }
 
@@ -134,7 +134,6 @@ class PractitionerService : IPractitionerService {
     /**
      * Update a sessionDBO to the practitioners sessions
      * @param practitionerId - string - the practitioner to be updated
-     * @param ongoingSession - sessionDBO - that should be pushed to the practitioners session list
      */
     private fun updateSessionWithEndTime(practitionerId: String) {
         // Get index of latest session
@@ -169,21 +168,6 @@ class PractitionerService : IPractitionerService {
 
 
     /**
-     * Push a new sessionDBO to the practitioners sessions
-     * @param practitionerId - string - the practitioner to be updated
-     * @param session - sessionDBO - that should be pushed to the practitioners session list
-     */
-    private fun pushSession(practitionerId: String, session: SessionDBO) {
-        // Update first document found by Id, push the new document
-        collection.updateOneById(
-                practitionerId,
-                Document("${MongoOperator.push}",
-                        // Create Mongo Document to be added to sessions list
-                        Document("sessions", session)))
-    }
-
-
-    /**
      * When ending a session log into the spiritBank depending on if the practitioner is a creator of the circle
      *
      * @param practitioner      - PractitionerDBO - the practitioner
@@ -207,36 +191,21 @@ class PractitionerService : IPractitionerService {
             updateCircleWithEndTime(practitionerId, ongoingSession.circle)
         }
         // Push to the log
-        pushContributionPoints(practitionerId, addedContributionPoints, spiritBankLogType)
+        pushObject(practitionerId, "spiritBankLog", SpiritBankLogItemDBO(type = spiritBankLogType, points = addedContributionPoints))
     }
 
     /**
-     * Push a new spiritBankLogItem to the spiritBankLog in the practitionerDBO
-     * @param practitionerId - string - the practitioner to be updated
-     * @param contributionPoints - Long - the points that was contributed
-     */
-    private fun pushContributionPoints(practitionerId: String, contributionPoints: Long, type: SpiritBankLogItemType) {
-        // Update first document found by Id, push the new document
-        collection.updateOneById(
-                practitionerId,
-                Document("${MongoOperator.push}",
-                        // Create Mongo Document to be added to spiritBankLog list
-                        Document("spiritBankLog", SpiritBankLogItemDBO(type = type, points = contributionPoints))))
-    }
-
-    /**
-     * Add a circle to a practitioner
+     * Add a object to a practitioner in  DB
      * @param practitionerId id for practitioner to add circle
-     * @param circle circle to add
-     * @return practitioner with newly added circle
+     * @param objectToPush circle to add
+     * @return practitioner with newly added object
      */
-    private fun pushCircle(practitionerId: String, circle: CircleDBO) {
+    private fun pushObject(practitionerId: String, objectName: String, objectToPush: Any) {
         collection.updateOneById(
                 practitionerId,
                 Document("${MongoOperator.push}",
                         // Create Mongo Document to be added to sessions list
-                        Document("circles", circle)))
-
+                        Document(objectName, objectToPush)))
     }
 
     override fun removeCircleById(practitionerId: String, circleId: String): Boolean {
