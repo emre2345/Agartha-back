@@ -124,6 +124,7 @@ class PractitionerService : IPractitionerService {
 
     /**
      * Removes one item from the collection
+     * @return True if the deletion went fine
      */
     override fun removeById(practitionerId: String): Boolean {
         val result = collection.deleteOneById(practitionerId)
@@ -132,7 +133,8 @@ class PractitionerService : IPractitionerService {
 
 
     /**
-     * Update a sessionDBO to the practitioners sessions
+     * Update the last session for a user by setting endTime to now
+     *
      * @param practitionerId - string - the practitioner to be updated
      */
     private fun updateSessionWithEndTime(practitionerId: String) {
@@ -150,8 +152,10 @@ class PractitionerService : IPractitionerService {
 
 
     /**
-     * Update a circleDBO to the practitioners session
+     * Updates practitioners created circle by setting endTime to now
+     *
      * @param practitionerId - string - the practitioner to be updated
+     * @param circleToUpdate - CircleDBO - the circle that should be updated
      */
     private fun updateCircleWithEndTime(practitionerId: String, circleToUpdate: CircleDBO) {
         // Get index of the circle that we want to update
