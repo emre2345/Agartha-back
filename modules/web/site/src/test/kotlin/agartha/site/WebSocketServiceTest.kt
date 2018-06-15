@@ -19,7 +19,7 @@ class WebSocketServiceTest {
     private val practitionerService = MockedPractitionerService()
     // create webSocketService with the mocked practitioner service
     private val webSocketService = WebSocketService(practitionerService)
-    // Expected Session for user
+    // Expected Session for practitioner
     private val expectedSession = SessionDBO(null, "", "")
     // The mockedWebSocketSession only initilized once
     private val mockedWebSocketSession = MockedWebSocketSession()
