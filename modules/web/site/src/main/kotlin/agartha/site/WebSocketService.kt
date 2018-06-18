@@ -62,7 +62,7 @@ class WebSocketService(private val mService: IPractitionerService) {
     }
 
     /**
-     * Return the Map
+     * Return the Maps keys (webSocketSession)
      */
     fun getPractitionersWebSocketSessions(): List<Session> {
         return practitionersSessions.keys.toList()
@@ -75,16 +75,14 @@ class WebSocketService(private val mService: IPractitionerService) {
         val sessions = mutableListOf<SessionDBO>()
         // Loop all the lists with sessions, add all the sessions in those lists into a mutableList
         practitionersSessions.values.forEach {
-            for (session in it) {
-                sessions.add(session)
-            }
+            sessions.addAll(it)
         }
         // Return all the lists
         return sessions
     }
 
     /**
-     * Return the Maps size
+     * Return the size of all the practitionersSessions in the Map
      */
     fun getPractitionersSessionsSize(): Number {
         return getAllPractitionersSessions().size
