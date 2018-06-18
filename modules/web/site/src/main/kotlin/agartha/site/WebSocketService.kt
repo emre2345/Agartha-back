@@ -18,20 +18,20 @@ class WebSocketService(private val mService: IPractitionerService) {
     /**
      * Add The webSocketSession and practitioners latest session to the Map
      */
-    fun connect(webSocketSession: Session, webSocketMessage: WebSocketMessage): SessionDBO {
+    fun connectOriginal(webSocketSession: Session, webSocketMessage: WebSocketMessage): SessionDBO {
         // Get the practitioner
         val practitioner: PractitionerDBO = mService.getById(webSocketMessage.data)!!
         // Get practitioners last session
         val practitionersLatestSession: SessionDBO = practitioner.sessions.last()
         // Put practitioners session and webSocket-session to a map
-        practitionersSessions.put(webSocketSession, listOf(practitionersLatestSession))
+        practitionersSessions.put(webSocketSession, mutableListOf(practitionersLatestSession))
         return practitionersLatestSession
     }
 
     /**
      * Add The webSocketSession and practitioners latest session to the Map
      */
-    fun connectAnother(webSocketSession: Session, webSocketMessage: WebSocketMessage): SessionDBO {
+    fun connectFake(webSocketSession: Session, webSocketMessage: WebSocketMessage): SessionDBO {
         // Get the practitioner
         val practitioner: PractitionerDBO = mService.getById(webSocketMessage.data)!!
         // Get practitioners last session
@@ -41,10 +41,9 @@ class WebSocketService(private val mService: IPractitionerService) {
         // If there is a session for this practitioners webSocket
         if (sessions != null) {
             // Then make a mutable sessionList and add the practitionersSession to the sessionList
-            val sessionList = mutableListOf<SessionDBO>()
-            sessionList.add(practitionersLatestSession)
+            sessions.add(practitionersLatestSession)
             // Update the hasMap with the webSocketSession and the new sessionList
-            practitionersSessions.put(webSocketSession, sessionList)
+            practitionersSessions.put(webSocketSession, sessions)
         }
         return practitionersLatestSession
     }
@@ -65,8 +64,8 @@ class WebSocketService(private val mService: IPractitionerService) {
     /**
      * Return the Map
      */
-    fun getPractitionersSessionMap(): HashMap<Session, List<SessionDBO>> {
-        return practitionersSessions
+    fun getPractitionersWebSocketSessions(): List<Session> {
+        return practitionersSessions.keys.toList()
     }
 
     /**
@@ -88,6 +87,6 @@ class WebSocketService(private val mService: IPractitionerService) {
      * Return the Maps size
      */
     fun getPractitionersSessionsSize(): Number {
-        return practitionersSessions.values.size
+        return getAllPractitionersSessions().size
     }
 }

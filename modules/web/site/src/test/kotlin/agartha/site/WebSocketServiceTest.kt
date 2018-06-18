@@ -21,13 +21,18 @@ class WebSocketServiceTest {
     private val webSocketService = WebSocketService(practitionerService)
     // Expected Session for practitioner
     private val expectedSession = SessionDBO(null, "", "")
-    // The mockedWebSocketSession only initilized once
+    // The mockedWebSocketSession only initialized once
     private val mockedWebSocketSession = MockedWebSocketSession()
     // WebSocket connect message
     private val connectMessage = WebSocketMessage("", "abc")
 
     private fun connectAUser(): SessionDBO{
-        return webSocketService.connect(
+        return webSocketService.connectOriginal(
+                mockedWebSocketSession,
+                connectMessage)
+    }
+    private fun connectAFakeUser(): SessionDBO{
+        return webSocketService.connectFake(
                 mockedWebSocketSession,
                 connectMessage)
     }
@@ -43,7 +48,7 @@ class WebSocketServiceTest {
      * Connect *
      ***********/
     @Test
-    fun webSocketService_connect_newKeyAndValue() {
+    fun webSocketService_connectOriginal_newKeyAndValue() {
         connectAUser()
         assertThat(webSocketService.getPractitionersSessionsSize()).isEqualTo(1)
     }
@@ -52,8 +57,28 @@ class WebSocketServiceTest {
      *
      */
     @Test
-    fun webSocketService_connectSessionReturned_sessionThatUserHas() {
+    fun webSocketService_connectOriginalSessionReturned_sessionThatUserHas() {
         val session = connectAUser()
+        assertThat(session).isEqualTo(expectedSession)
+    }
+
+    /****************
+     * Connect fake *
+     ****************/
+    @Test
+    fun webSocketService_connectFake_newValueArrayInKey() {
+        connectAUser()
+        connectAFakeUser()
+        assertThat(webSocketService.getPractitionersSessionsSize()).isEqualTo(2)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun webSocketService_connectFakeSessionReturned_sessionThatUserHas() {
+        connectAUser()
+        val session = connectAFakeUser()
         assertThat(session).isEqualTo(expectedSession)
     }
 
@@ -83,13 +108,41 @@ class WebSocketServiceTest {
         assertThat(session).isEqualTo(expectedSession)
     }
 
+    /**************************
+     * Disconnect with a fake *
+     **************************/
+    @Test
+    fun webSocketService_disconnectWithAFake_nothingInMap() {
+        // First connect user
+        connectAUser()
+        connectAFakeUser()
+        // Then test the disconnect
+        webSocketService.disconnect(
+                mockedWebSocketSession)
+        assertThat(webSocketService.getPractitionersSessionsSize()).isEqualTo(0)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun webSocketService_disconnectWithAFakeSessionReturned_sessionThatUserHas() {
+        // First connect user
+        connectAUser()
+        connectAFakeUser()
+        // Then test the disconnect
+        val session = webSocketService.disconnect(
+                mockedWebSocketSession)
+        assertThat(session).isEqualTo(expectedSession)
+    }
+
     /***************************
      * PractitionersSessionMap *
      ***************************/
     @Test
     fun webSocketService_getPractitionersSessionMapNoUserConnected_nothingInMap() {
         // Get the map
-        val map = webSocketService.getPractitionersSessionMap()
+        val map = webSocketService.getPractitionersWebSocketSessions()
         assertThat(map.size).isEqualTo(0)
     }
 
@@ -101,7 +154,7 @@ class WebSocketServiceTest {
         // Connect user
         connectAUser()
         // Get the map
-        val map = webSocketService.getPractitionersSessionMap()
+        val map = webSocketService.getPractitionersWebSocketSessions()
         assertThat(map.size).isEqualTo(1)
     }
 

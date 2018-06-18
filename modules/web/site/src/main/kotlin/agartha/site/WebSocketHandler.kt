@@ -63,7 +63,7 @@ class WebSocketHandler {
      * - Broadcast to everybody else that a new companion joined
      * - emit to self all the sessions in the WebSocket
      */
-    fun connect(webSocketSession: Session, webSocketMessage: WebSocketMessage, practitionersLatestSession: SessionDBO) {
+    private fun connect(webSocketSession: Session, webSocketMessage: WebSocketMessage, practitionersLatestSession: SessionDBO) {
         debugPrintout(
                 "starting '${practitionersLatestSession.discipline}' for '${practitionersLatestSession.intention}'")
         // The sessions remaining in the socket
@@ -74,14 +74,13 @@ class WebSocketHandler {
         broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.NEW_COMPANION.eventName, returnSessions, returnPractitionersSession))
         // Send to self
         emit(webSocketSession, WebSocketMessage(WebSocketEvents.COMPANIONS_SESSIONS.eventName, returnSessions))
-
     }
 
     /**
      * Connects a single practitioner to the webSocket
      */
     private fun connectOriginal(webSocketSession: Session, webSocketMessage: WebSocketMessage) {
-        val practitionersLatestSession = service.connect(webSocketSession, webSocketMessage)
+        val practitionersLatestSession = service.connectOriginal(webSocketSession, webSocketMessage)
         connect(webSocketSession, webSocketMessage, practitionersLatestSession)
     }
 
@@ -89,7 +88,7 @@ class WebSocketHandler {
      * Connects fake practitioner to a practitioner that is an original and already in the webSocket
      */
     private fun connectFakes(webSocketSession: Session, webSocketMessage: WebSocketMessage) {
-        val practitionersLatestSession = service.connectAnother(webSocketSession, webSocketMessage)
+        val practitionersLatestSession = service.connectFake(webSocketSession, webSocketMessage)
         connect(webSocketSession, webSocketMessage, practitionersLatestSession)
     }
 
@@ -134,9 +133,9 @@ class WebSocketHandler {
      * @param message - the message for the client
      */
     private fun broadcastToOthers(webSocketSession: Session, message: WebSocketMessage){
-            service.getPractitionersSessionMap()
-                    .filter { it.key != webSocketSession }
-                    .forEach { emit(it.key, message) }
+            service.getPractitionersWebSocketSessions()
+                    .filter { it != webSocketSession }
+                    .forEach { emit(it, message) }
     }
 
     private fun debugPrintout(eventText: String) {
