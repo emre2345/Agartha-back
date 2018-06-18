@@ -6,6 +6,7 @@ package agartha.site.objects.webSocket
  */
 enum class WebSocketEvents(val eventName : String) {
     START_SESSION ("start_session"),
+    START_VIRTUAL_SESSION ("start_virtual_session"),
     RECONNECT_SESSION("reconnect_session"),
     NEW_COMPANION ("new_companion"),
     COMPANIONS_SESSIONS ("companions_sessions"),
