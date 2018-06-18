@@ -62,6 +62,7 @@ class CircleController(private val mService: IPractitionerService) : AbstractCon
      * Add a circle to argument practitioner
      * @return practitioner object
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun addCircle(request: Request, response: Response): String {
         // Get practitioner ID from API path
         val practitionerId: String = request.params(":userid")
@@ -79,9 +80,11 @@ class CircleController(private val mService: IPractitionerService) : AbstractCon
 
     /**
      * Get a receipt of a circle
+     * reuqires paramters practitioner id and circle id where both must exist in database
      *
      * @return receipt
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun circleReceipt(request: Request, response: Response): String {
         // Get practitioner Id from API path
         val userId: String = request.params(":userId")
