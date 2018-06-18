@@ -13,7 +13,7 @@ import org.eclipse.jetty.websocket.api.Session
  * Created by Rebecca Fransson on 2018-06-11
  */
 class WebSocketService(private val mService: IPractitionerService) {
-    private val practitionersSessions = HashMap<Session, List<SessionDBO>>()
+    private val practitionersSessions = HashMap<Session, MutableList<SessionDBO>>()
 
     /**
      * Add The webSocketSession and practitioners latest session to the Map
@@ -36,17 +36,16 @@ class WebSocketService(private val mService: IPractitionerService) {
         val practitioner: PractitionerDBO = mService.getById(webSocketMessage.data)!!
         // Get practitioners last session
         val practitionersLatestSession: SessionDBO = practitioner.sessions.last()
-        // Put practitioners session and webSocket-session to a map
-
-        // Find the practitionerSession for the webSocketSession
+        // Find the practitionerSession from the webSocketSession
         val sessions = practitionersSessions.get(webSocketSession)
-        val toMutableList = sessions!!.toMutableList()
-        toMutableList.add(practitionersLatestSession)
-
-
-
-
-        practitionersSessions.put(webSocketSession, toMutableList.toList())
+        // If there is a session for this practitioners webSocket
+        if (sessions != null) {
+            // Then make a mutable sessionList and add the practitionersSession to the sessionList
+            val sessionList = mutableListOf<SessionDBO>()
+            sessionList.add(practitionersLatestSession)
+            // Update the hasMap with the webSocketSession and the new sessionList
+            practitionersSessions.put(webSocketSession, sessionList)
+        }
         return practitionersLatestSession
     }
 
@@ -79,7 +78,8 @@ class WebSocketService(private val mService: IPractitionerService) {
         practitionersSessions.values.forEach {
             for (session in it) {
                 sessions.add(session)
-            } }
+            }
+        }
         // Return all the lists
         return sessions
     }
