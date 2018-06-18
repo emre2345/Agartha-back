@@ -59,7 +59,6 @@ class SessionUtil {
                     .filter { it.sessionOverlap(startDateTime, endDateTime) }
         }
 
-
         /**
          * Extract currently ongoing sessions
          * Max one session can be counted per practitioner since it is not possible have two concurrent sessions
@@ -78,6 +77,23 @@ class SessionUtil {
                     .map { it.sessions.last() }
                     // Filter out the abandon and finished
                     .filter { it.ongoing() }
+        }
+
+        /**
+         * Get all sessions for a specific circle
+         *
+         * @param practitioners list of practitioners
+         * @param circleId Id of circle
+         * @return list of sessions within this circle
+         */
+        fun getAllSessionsInCircle(practitioners: List<PractitionerDBO>, circleId: String): List<SessionDBO> {
+            return practitioners
+                    // Extract all sessions
+                    .flatMap { it.sessions }
+                    // Filter out all sessions for circles
+                    .filter { it.circle != null }
+                    // Filter out those with this circle Id
+                    .filter { it.circle?._id == circleId }
         }
     }
 

@@ -72,6 +72,11 @@ class PractitionerService : IPractitionerService {
         return session
     }
 
+    /**
+     * End a practitioner session
+     * Observe: Session must be ended before the circle,
+     * (we calculate total contribution for a circle by using sessions ended before circle is ended)
+     */
     override fun endSession(practitionerId: String, contributionPoints: Long): PractitionerDBO? {
         // Get current practitioner
         val practitioner: PractitionerDBO? = getById(practitionerId)

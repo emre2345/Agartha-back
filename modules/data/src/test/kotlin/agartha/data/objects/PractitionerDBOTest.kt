@@ -353,7 +353,7 @@ class PractitionerDBOTest {
         val practitioner = PractitionerDBO(
                 spiritBankLog = listOf(
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50),
-                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.CREATED_CIRCLE, points = 53),
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = 53),
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = -3)))
         assertThat(practitioner.calculateSpiritBankPointsFromLog()).isEqualTo(100)
     }

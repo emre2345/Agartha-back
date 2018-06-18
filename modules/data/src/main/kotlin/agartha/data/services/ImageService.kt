@@ -35,11 +35,11 @@ class ImageService  : IBaseService<ImageDBO> {
     }
 
     /**
-     * This function call can be quite big to return via http
-     * Use with care
+     * Returns an empty list
+     * This function call can be quite big to return via http and therefore should not be used
      */
     override fun getAll(): List<ImageDBO> {
-        return collection.find().toList()
+       return listOf()
     }
 
     /**

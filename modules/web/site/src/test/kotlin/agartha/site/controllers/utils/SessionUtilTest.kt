@@ -1,5 +1,6 @@
 package agartha.site.controllers.utils
 
+import agartha.data.objects.CircleDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import org.assertj.core.api.Assertions.assertThat
@@ -412,6 +413,62 @@ class SessionUtilTest {
                         ))
                 ),
                 "abc")
+        assertThat(response.size).isEqualTo(1)
+    }
+
+    private fun generateCircle(id: String) : CircleDBO {
+        return CircleDBO(
+                _id = id,
+                name = "",
+                description = "",
+                startTime = LocalDateTime.now(),
+                endTime = LocalDateTime.now(),
+                disciplines = listOf(),
+                intentions = listOf(),
+                minimumSpiritContribution = 4)
+    }
+
+    @Test
+    fun getSessionsInCircle_noPractitioners_0() {
+        val response = SessionUtil.getAllSessionsInCircle(
+                listOf(),
+                "c1")
+        assertThat(response.size).isEqualTo(0)
+    }
+
+    @Test
+    fun getSessionsInCircle_circleIsNull_0() {
+        val response = SessionUtil.getAllSessionsInCircle(
+                listOf(
+                        PractitionerDBO(
+                                _id = "a",
+                                sessions = listOf(SessionDBO(discipline = "", intention = "")))
+                ),
+                "c1")
+        assertThat(response.size).isEqualTo(0)
+    }
+
+    @Test
+    fun getSessionsInCircle_noMatch_0() {
+        val response = SessionUtil.getAllSessionsInCircle(
+                listOf(
+                        PractitionerDBO(
+                                _id = "a",
+                                sessions = listOf(SessionDBO(discipline = "", intention = "", circle = generateCircle("c2"))))
+                ),
+                "c1")
+        assertThat(response.size).isEqualTo(0)
+    }
+
+    @Test
+    fun getSessionsInCircle_match_1() {
+        val response = SessionUtil.getAllSessionsInCircle(
+                listOf(
+                        PractitionerDBO(
+                                _id = "a",
+                                sessions = listOf(SessionDBO(discipline = "", intention = "", circle = generateCircle("c1"))))
+                ),
+                "c1")
         assertThat(response.size).isEqualTo(1)
     }
 }
