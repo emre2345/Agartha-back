@@ -14,10 +14,13 @@ data class CircleReport(
         // Circle description
         val description: String,
         //
-        val numberOfPractitioners: Int) {
+        val numberOfPractitioners: Int,
+        //
+        val generatedPoints: Long) {
 
-    constructor(circle: CircleDBO, sessions: List<SessionDBO>) : this(
+    constructor(circle: CircleDBO, sessions: List<SessionDBO>, points: Long) : this(
             circle.name,
             circle.description,
-            sessions.size)
+            sessions.size,
+            points)
 }

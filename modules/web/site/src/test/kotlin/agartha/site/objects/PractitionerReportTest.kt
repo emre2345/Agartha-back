@@ -117,7 +117,7 @@ class PractitionerReportTest {
                 description = "This is me",
                 spiritBankLog = listOf(
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = SPIRIT_BANK_START_POINTS),
-                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.CREATED_CIRCLE, points = 53),
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = 53),
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = -3))))
         assertThat(user.spiritBankPoints).isEqualTo(100)
     }

@@ -2,9 +2,12 @@ package agartha.site.controllers
 
 import agartha.common.config.Settings.Companion.SPIRIT_BANK_START_POINTS
 import agartha.data.objects.CircleDBO
+import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
+import agartha.site.controllers.utils.SessionUtil
+import agartha.site.controllers.utils.SpiritBankLogUtil
 import agartha.site.objects.response.CircleReport
 import spark.Request
 import spark.Response
@@ -84,12 +87,16 @@ class CircleController(private val mService: IPractitionerService) : AbstractCon
         val userId: String = request.params(":userId")
         // Get circle Id from API path
         val circleId: String = request.params(":circleId")
+        //
+        val practitioner = getPractitionerFromDatabase(userId, mService)
         // Validate that practitioner exists and is the circle creator
-        val circle = validateCircleCreator(userId, circleId)
+        val circle = validateCircleCreator(practitioner, circleId)
+        // Count points generated for this circle
+        val logPoints = SpiritBankLogUtil.countLogPointsForCircle(practitioner.spiritBankLog, circle)
         // get all sessions in this circle
-        val sessions = getAllSessionsWithCircle(circleId)
+        val sessions = SessionUtil.getAllSessionsInCircle(mService.getAll(), circleId)
         // Generate and return report/receipt
-        return ControllerUtil.objectToString(CircleReport(circle, sessions))
+        return ControllerUtil.objectToString(CircleReport(circle, sessions, logPoints))
     }
 
 
@@ -105,33 +112,23 @@ class CircleController(private val mService: IPractitionerService) : AbstractCon
     }
 
     /**
-     * Get all sessions for a specific circle
+     * Make sure the circle is created by this practitioner
+     * If not (or practitioner does not exist) a 400 is returned
      *
-     * @param circleId Id of circle
-     * @return list of sessions within this circle
+     * @param practitioner practitioner from API argument
+     * @param circleId id of circle
+     * @return the circle as object
      */
-    private fun getAllSessionsWithCircle(circleId: String): List<SessionDBO> {
-        return mService
-                // Get all practitioners
-                .getAll()
-                // Extract all sessions
-                .flatMap { it.sessions }
-                // Filter out all sessions for circles
-                .filter { it.circle != null }
-                // Filter out those with this circle Id
-                .filter { it.circle?._id == circleId }
-    }
-
-    private fun validateCircleCreator(practitionerId: String, circleId: String): CircleDBO {
+    private fun validateCircleCreator(practitioner: PractitionerDBO, circleId: String): CircleDBO {
         // Make sure practitioner is creator of circle
-        val circle = getPractitionerFromDatabase(practitionerId, mService)
+        val circle = practitioner
                 .circles
                 .filter { it._id == circleId }
                 .firstOrNull()
         // Make sure we exit if practitioner is not creator of circle
         if (circle == null) {
             halt(400, "Practitioner is not the createor of this circle")
-            // Create a dummy to avoid null response
+            // Create a dummy to avoid null response for function
             return CircleDBO(
                     name = "",
                     description = "",

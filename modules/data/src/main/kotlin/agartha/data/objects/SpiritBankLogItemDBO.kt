@@ -18,9 +18,12 @@ data class SpiritBankLogItemDBO(
  * Enum to hold the different spirit bank log item types
  */
 enum class SpiritBankLogItemType {
-    ENDED_SESSION,
-    CREATED_CIRCLE,
+    // When practitioner joins Agartha
     START,
+    // When practitioner ends a session
+    ENDED_SESSION,
+    // When practitioner Joins a Circle
     JOINED_CIRCLE,
+    // When a circle creator ends his/her session in circle
     ENDED_CREATED_CIRCLE
 }
