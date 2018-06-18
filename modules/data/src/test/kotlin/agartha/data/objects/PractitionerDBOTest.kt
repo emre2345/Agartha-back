@@ -337,7 +337,7 @@ class PractitionerDBOTest {
         val practitioner = PractitionerDBO(
                 spiritBankLog = listOf(
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50),
-                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.SESSION, points = 3)))
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.ENDED_SESSION, points = 3)))
         assertThat(practitioner.calculateSpiritBankPointsFromLog()).isEqualTo(53)
     }
     @Test

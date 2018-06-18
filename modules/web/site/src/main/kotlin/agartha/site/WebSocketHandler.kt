@@ -69,7 +69,7 @@ class WebSocketHandler {
         val returnSessions = ControllerUtil.objectToString(service.getPractitionersSessionMap().values.toList())
         // The disconnected practitioners session
         val returnPractitionersSession = ControllerUtil.objectToString(practitionersLatestSession)
-        // Broadcast to all users connected except this session
+        // Broadcast to all practitioners connected except this session
         broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.NEW_COMPANION.eventName, returnSessions, returnPractitionersSession))
         // Send to self
         emit(webSocketSession, WebSocketMessage(WebSocketEvents.COMPANIONS_SESSIONS.eventName, returnSessions))

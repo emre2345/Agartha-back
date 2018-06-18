@@ -18,7 +18,7 @@ data class SpiritBankLogItemDBO(
  * Enum to hold the different spirit bank log item types
  */
 enum class SpiritBankLogItemType {
-    SESSION,
+    ENDED_SESSION,
     CREATED_CIRCLE,
     START,
     JOINED_CIRCLE,

@@ -16,7 +16,7 @@ class WebSocketService(private val mService: IPractitionerService) {
     private val practitionersSessions = HashMap<Session, SessionDBO>()
 
     /**
-     * Add The webSocketSession and users latest session to the Map
+     * Add The webSocketSession and practitioners latest session to the Map
      */
     fun connect(webSocketSession: Session, webSocketMessage: WebSocketMessage): SessionDBO {
         // Get the practitioner

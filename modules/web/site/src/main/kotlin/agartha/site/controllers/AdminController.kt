@@ -52,7 +52,7 @@ class AdminController(private val mService: IPractitionerService, settings: Sett
             // Generate [COUNT] number of new practitioners
             Spark.post("/generate/:count", ::generatePractitioners)
             // Add Session to existing practitioner
-            Spark.post("/session/add/:id/:discipline/:intention", ::addSession)
+            Spark.post("/session/add/:userid/:discipline/:intention", ::addSession)
             // Remove all practitioners
             Spark.post("/remove/all", ::removeAll)
             // Remove all generated practitioners
@@ -116,11 +116,11 @@ class AdminController(private val mService: IPractitionerService, settings: Sett
      * Add/Start a session for an existing practitioner
      */
     private fun addSession(request: Request, response: Response): String {
-        val userId = request.params(":id")
+        val practitionerId = request.params(":userid")
         val discipline = request.params(":discipline")
         val intention = request.params(":intention")
 
-        val practitioner = mService.getById(userId)
+        val practitioner = mService.getById(practitionerId)
         if (practitioner != null) {
             val session = mService.startSession(
                     session = SessionDBO(
@@ -133,7 +133,7 @@ class AdminController(private val mService: IPractitionerService, settings: Sett
         }
 
         response.status(400)
-        return "Practitioner id $userId does not exist in database"
+        return "Practitioner id $practitionerId does not exist in database"
     }
 
     /**
@@ -160,9 +160,9 @@ class AdminController(private val mService: IPractitionerService, settings: Sett
     @Suppress("UNUSED_PARAMETER")
     private fun removePractitioner(request: Request, response: Response): String {
         // Get current userid
-        val userId: String = request.params(":userid")
+        val practitionerId: String = request.params(":userid")
         // Remove by id
-        return ControllerUtil.objectToString(mService.removeById(userId))
+        return ControllerUtil.objectToString(mService.removeById(practitionerId))
     }
 
     /**
@@ -171,7 +171,7 @@ class AdminController(private val mService: IPractitionerService, settings: Sett
      */
     @Suppress("UNUSED_PARAMETER")
     private fun removeCircle(request: Request, response: Response): String {
-        // Get current userid
+        // Get circleid
         val circleId: String = request.params(":circleid")
         // Find practitioner whom created this circle
         val practitioner: PractitionerDBO? = mService

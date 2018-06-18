@@ -27,10 +27,10 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         // API path for session
         Spark.path("/practitioner") {
             //
-            // Where we have no practitionerId set yet - return info for user
+            // Where we have no practitionerId set yet - return info for the practitioner
             Spark.get("", ::getInformation)
             //
-            // Where practitionerId has been set - return info for user and about user
+            // Where practitionerId has been set - return info for the practitioner and about practitioner
             Spark.get("/:userid", ::getInformation)
             //
             // Update practitioner data
@@ -56,12 +56,12 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
      */
     @Suppress("UNUSED_PARAMETER")
     private fun getInformation(request: Request, response: Response): String {
-        // Get current userid or generate new
-        val userId = getUserIdFromRequest(request)
-        // Get user from data source
-        val user: PractitionerDBO = getPractitionerFromDataSource(userId)
-        // Create Report for current user
-        val report = PractitionerReport(user)
+        // Get current practitionerid or generate new
+        val practitionerId = getPractitionerIdFromRequest(request)
+        // Get practitioner from data source
+        val practitioner: PractitionerDBO = getPractitionerFromDataSource(practitionerId)
+        // Create Report for current practitioner
+        val report = PractitionerReport(practitioner)
         // Return
         return ControllerUtil.objectToString(report)
     }
@@ -76,38 +76,38 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         val involvedInformation: PractitionerInvolvedInformation =
                 ControllerUtil.stringToObject(request.body(), PractitionerInvolvedInformation::class.java)
         // Get params
-        val userId: String = request.params(":userid")
-        // Get user
-        val user: PractitionerDBO = getPractitionerFromDatabase(userId, mService)
-        // Update user
-        val updatedUser: PractitionerDBO = mService.updatePractitionerWithInvolvedInformation(
-                user,
+        val practitionerId: String = request.params(":userid")
+        // Get practitioner
+        val practitioner: PractitionerDBO = getPractitionerFromDatabase(practitionerId, mService)
+        // Update practitioner
+        val updatedPractitioner: PractitionerDBO = mService.updatePractitionerWithInvolvedInformation(
+                practitioner,
                 involvedInformation.fullName,
                 involvedInformation.email,
                 involvedInformation.description)
-        // Return updated user
-        return ControllerUtil.objectToString(updatedUser)
+        // Return updated practitioner
+        return ControllerUtil.objectToString(updatedPractitioner)
     }
 
     /**
      * Get a practitioner from its practitionerId from datasource or create if it does not exists
      *
-     * @param userId database id for user
+     * @param practitionerId database id for practitioner
      * @return Database representation of practitioner
      */
-    private fun getPractitionerFromDataSource(userId: String): PractitionerDBO {
-        // If user exists in database, return it otherwise create, store and return
-        return mService.getById(userId)
-                ?: mService.insert(PractitionerDBO(userId, LocalDateTime.now(), mutableListOf()))
+    private fun getPractitionerFromDataSource(practitionerId: String): PractitionerDBO {
+        // If practitioner exists in database, return it otherwise create, store and return
+        return mService.getById(practitionerId)
+                ?: mService.insert(PractitionerDBO(practitionerId, LocalDateTime.now(), mutableListOf()))
     }
 
     /**
-     * Start a new user session
+     * Start a new practitioner session
      * @return id/index for started session
      */
     @Suppress("UNUSED_PARAMETER")
     private fun startSession(request: Request, response: Response): String {
-        // Get current userid
+        // Get current practitionerId
         val practitionerId: String = request.params(":userid")
         // Make sure practitionerId exists in database
         val practitioner = getPractitionerFromDatabase(practitionerId, mService)
@@ -131,13 +131,13 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
      */
     @Suppress("UNUSED_PARAMETER")
     private fun endSession(request: Request, response: Response): String {
-        // Get current userid
-        val userId: String = request.params(":userid")
+        // Get current practitionerId
+        val practitionerId: String = request.params(":userid")
         val contributionPoints: Long = request.params(":contributionpoints").toLong()
         // Make sure practitionerId exists in database
-        getPractitionerFromDatabase(userId, mService)
-        // Stop the last session for user with the total gathered contributionPoints
-        val practitioner = mService.endSession(userId, contributionPoints)
+        getPractitionerFromDatabase(practitionerId, mService)
+        // Stop the last session for practitioner with the total gathered contributionPoints
+        val practitioner = mService.endSession(practitionerId, contributionPoints)
         // Return the updated practitioner
         return ControllerUtil.objectToString(practitioner)
     }
@@ -148,7 +148,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
     @Suppress("UNUSED_PARAMETER")
     private fun joinCircle(request: Request, response: Response): String {
         // Get params
-        val practitionerId: String = getUserIdFromRequest(request)
+        val practitionerId: String = getPractitionerIdFromRequest(request)
         val circleId: String = request.params(":circleid")
         val discipline: String = request.params(":discipline")
         val intention: String = request.params(":intention")
@@ -160,7 +160,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         // Validate
         validateDiscipline(circle, discipline)
         validateIntention(circle, intention)
-        validateUserCanAffordToJoin(practitioner, circle.minimumSpiritContribution)
+        validatePractitionerCanAffordToJoin(practitioner, circle.minimumSpiritContribution)
 
         // Create a session
         val session = SessionDBO(
@@ -169,7 +169,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
                 intention = intention,
                 startTime = LocalDateTime.now(),
                 circle = circle)
-        // Add session to user
+        // Add session to practitioner
         return ControllerUtil.objectToString(mService.startSession(practitioner, session))
     }
 
@@ -179,7 +179,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
     @Suppress("UNUSED_PARAMETER")
     private fun getSpiritBankHistory(request: Request, response: Response): String {
         // Get params
-        val practitionerId: String = getUserIdFromRequest(request)
+        val practitionerId: String = getPractitionerIdFromRequest(request)
         // Get practitioner
         val practitioner = getPractitionerFromDatabase(practitionerId, mService)
         // Return the list
@@ -187,11 +187,11 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
     }
 
     /**
-     * Get user id, and if missing create a new
+     * Get practitioner id, and if missing create a new
      * @param request object
-     * @return UserId as string (GUID/UUID)
+     * @return practitionerId as string (GUID/UUID)
      */
-    private fun getUserIdFromRequest(request: Request): String {
+    private fun getPractitionerIdFromRequest(request: Request): String {
         return request.params(":userid") ?: ObjectId().toHexString()
     }
 
@@ -224,9 +224,9 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
     }
 
     /**
-     * If users spiritBankLog has less points than then spiritContributionCost then throe a 400
+     * If practitioners spiritBankLog has less points than then spiritContributionCost then throw a 400
      */
-    private fun validateUserCanAffordToJoin(practitioner: PractitionerDBO, spiritContributionCost: Long) {
+    private fun validatePractitionerCanAffordToJoin(practitioner: PractitionerDBO, spiritContributionCost: Long) {
         if (practitioner.calculateSpiritBankPointsFromLog() < spiritContributionCost) {
             Spark.halt(400, "Practitioner cannot afford to join this circle")
         }

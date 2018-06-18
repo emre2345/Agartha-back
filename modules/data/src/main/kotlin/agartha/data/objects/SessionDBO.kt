@@ -21,16 +21,15 @@ data class SessionDBO(
         val startTime: LocalDateTime = LocalDateTime.now(),
         // Time when ended
         val endTime: LocalDateTime? = null,
-        // Has a user practiced in a circle or not
+        // Has a practitioner practiced in a circle or not
         val circle: CircleDBO? = null) {
-
 
     /**
      * Function to calculate duration for a session
      * @return number of minutes for session
      */
     fun sessionDurationMinutes(): Long {
-        // If the session has been abandoned, inactive for too long for user to still be active
+        // If the session has been abandoned, inactive for too long for practitioner to still be active
         if (isAbandoned()) {
             return 0
         }

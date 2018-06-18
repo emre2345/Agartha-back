@@ -30,7 +30,7 @@ class SessionUtil {
                 practitioners: List<PractitionerDBO>,
                 practitionerId: String): List<SessionDBO> {
             return practitioners
-                    // Filter out current user id
+                    // Filter out current practitioner id
                     .filter { it._id != practitionerId }
                     .filter { it.hasOngoingSession() }
                     // Map to first matching overlapping session
@@ -70,7 +70,7 @@ class SessionUtil {
          */
         fun filterOngoingSessions(practitioners: List<PractitionerDBO>, practitionerId: String): List<SessionDBO> {
             return practitioners
-                    // Filter out current user
+                    // Filter out current practitioner
                     .filter { it._id != practitionerId }
                     // Filter out those without session to avoid null pointer exception in map below
                     .filter { it.sessions.isNotEmpty() }
