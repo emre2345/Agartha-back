@@ -19,8 +19,8 @@ class ImageServiceTest : DatabaseHandler() {
 
     @Test
     fun insertImage_responseObject_isSame() {
-        ImageService().insert(ImageDBO(_id = "abc123", fileName = "abc.jpg", image = "abc".toByteArray()))
-        assertThat("abc123").isEqualTo("abc123")
+        val image = ImageService().insert(ImageDBO(_id = "abc123", fileName = "abc.jpg", image = "abc".toByteArray()))
+        assertThat(image._id).isEqualTo("abc123")
     }
 
     @Test
@@ -56,5 +56,16 @@ class ImageServiceTest : DatabaseHandler() {
     fun getById_nonExisting_null() {
         val image = ImageService().getById("abc")
         assertThat(image).isNull()
+    }
+
+    /**
+     * Get all should always return empty list
+     * Needed to exist since we want to implement all functions in Interface and not to throw exception
+     */
+    @Test
+    fun getAll_response_empty() {
+        ImageService().insert(ImageDBO(_id = "abc123", fileName = "abc.jpg", image = "abc".toByteArray()))
+        val list = ImageService().getAll()
+        assertThat(list.size).isEqualTo(0)
     }
 }
