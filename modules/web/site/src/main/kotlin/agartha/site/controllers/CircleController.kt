@@ -130,7 +130,7 @@ class CircleController(private val mService: IPractitionerService) : AbstractCon
                 .firstOrNull()
         // Make sure we exit if practitioner is not creator of circle
         if (circle == null) {
-            halt(400, "Practitioner is not the createor of this circle")
+            halt(400, "Practitioner is not the creator of this circle")
             // Create a dummy to avoid null response for function
             return CircleDBO(
                     name = "",
