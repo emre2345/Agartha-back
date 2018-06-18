@@ -61,12 +61,12 @@ class PractitionerService : IPractitionerService {
         // PractitionerId will never be an empty string, but kotlin wont allow us to access practitioner._id without it maybe being null
         val practitionerId: String = practitioner._id ?: ""
         // Push session to practitioner
-        pushObjectToPractitionersArray(practitionerId, PractitionersArraysEnum.SESSIONS.name, session)
+        pushObjectToPractitionersArray(practitionerId, PractitionersArraysEnum.SESSIONS, session)
         // If session has a circle then it should add a new item to the spiritBankLog
         // But not if the practitioner is a creator of the circle
         if (session.circle != null && !practitioner.creatorOfCircle(session.circle)) {
             val cost = returnNegativeNumber(session.circle.minimumSpiritContribution)
-            pushObjectToPractitionersArray(practitionerId, PractitionersArraysEnum.SPIRIT_BANK_LOG.name, SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = cost))
+            pushObjectToPractitionersArray(practitionerId, PractitionersArraysEnum.SPIRIT_BANK_LOG, SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = cost))
         }
         // return next index
         return session
@@ -97,7 +97,7 @@ class PractitionerService : IPractitionerService {
      * Add a circle to a practitioner
      */
     override fun addCircle(practitionerId: String, circle: CircleDBO): PractitionerDBO? {
-        pushObjectToPractitionersArray(practitionerId, PractitionersArraysEnum.CIRCLES.name, circle)
+        pushObjectToPractitionersArray(practitionerId, PractitionersArraysEnum.CIRCLES, circle)
         return getById(practitionerId)
     }
 
@@ -146,7 +146,7 @@ class PractitionerService : IPractitionerService {
             collection.updateOneById(
                     practitionerId,
                     Document("${MongoOperator.set}",
-                            Document("${PractitionersArraysEnum.SESSIONS.name}.${index - 1}.endTime", LocalDateTime.now())))
+                            Document("${PractitionersArraysEnum.SESSIONS.value}.${index - 1}.endTime", LocalDateTime.now())))
         }
     }
 
@@ -166,7 +166,7 @@ class PractitionerService : IPractitionerService {
             collection.updateOneById(
                     practitionerId,
                     Document("${MongoOperator.set}",
-                            Document("${PractitionersArraysEnum.CIRCLES.name}.$index.endTime", LocalDateTime.now())))
+                            Document("${PractitionersArraysEnum.CIRCLES.value}.$index.endTime", LocalDateTime.now())))
         }
     }
 
@@ -195,7 +195,7 @@ class PractitionerService : IPractitionerService {
             updateCircleWithEndTime(practitionerId, ongoingSession.circle)
         }
         // Push to the log
-        pushObjectToPractitionersArray(practitionerId, PractitionersArraysEnum.SPIRIT_BANK_LOG.name, SpiritBankLogItemDBO(type = spiritBankLogType, points = addedContributionPoints))
+        pushObjectToPractitionersArray(practitionerId, PractitionersArraysEnum.SPIRIT_BANK_LOG, SpiritBankLogItemDBO(type = spiritBankLogType, points = addedContributionPoints))
     }
 
     /**
@@ -205,19 +205,19 @@ class PractitionerService : IPractitionerService {
      * @param item the object that should be to added
      * @return practitioner with newly added object
      */
-    private fun pushObjectToPractitionersArray(practitionerId: String, objectName: String, item: Any) {
+    private fun <T>pushObjectToPractitionersArray(practitionerId: String, objectName: PractitionersArraysEnum, item: T) {
         collection.updateOneById(
                 practitionerId,
                 Document("${MongoOperator.push}",
                         // Create Mongo Document to be added to sessions list
-                        Document(objectName, item)))
+                        Document(objectName.value, item)))
     }
 
     override fun removeCircleById(practitionerId: String, circleId: String): Boolean {
         val result: UpdateResult = collection.updateOneById(
                 practitionerId,
                 Document("${MongoOperator.pull}",
-                        Document(PractitionersArraysEnum.CIRCLES.name, Document("_id", circleId))))
+                        Document(PractitionersArraysEnum.CIRCLES.value, Document("_id", circleId))))
         //
         return result.modifiedCount == 1L
     }
