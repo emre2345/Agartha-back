@@ -13,10 +13,16 @@ import org.eclipse.jetty.websocket.api.Session
  * Created by Rebecca Fransson on 2018-06-11
  */
 class WebSocketService(private val mService: IPractitionerService) {
+    /**
+     * PractitionersSessions map contains
+     * Session                  - a webSocket session, unique session for a user
+     * MutableList<SessionDBO>  - a list with sessions that is connected to the webSocketSession for a user
+     * The mutable list exist because a practitioner can have one original session and many virtual session connected to a webSocketSession
+     */
     private val practitionersSessions = HashMap<Session, MutableList<SessionDBO>>()
 
     /**
-     * Add The webSocketSession and practitioners latest session to the Map
+     * Add a original practitioners latest session to the webSocket map
      */
     fun connectOriginal(webSocketSession: Session, webSocketMessage: WebSocketMessage): SessionDBO {
         // Get the practitioner
@@ -29,9 +35,9 @@ class WebSocketService(private val mService: IPractitionerService) {
     }
 
     /**
-     * Add The webSocketSession and practitioners latest session to the Map
+     * Add a virtual practitioners session to a original practitioners webSocketSession in the map
      */
-    fun connectFake(webSocketSession: Session, webSocketMessage: WebSocketMessage): SessionDBO {
+    fun connectVirtual(webSocketSession: Session, webSocketMessage: WebSocketMessage): SessionDBO {
         // Get the practitioner
         val practitioner: PractitionerDBO = mService.getById(webSocketMessage.data)!!
         // Get practitioners last session

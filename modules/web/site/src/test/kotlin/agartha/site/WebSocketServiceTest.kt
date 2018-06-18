@@ -31,8 +31,8 @@ class WebSocketServiceTest {
                 mockedWebSocketSession,
                 connectMessage)
     }
-    private fun connectAFakeUser(): SessionDBO{
-        return webSocketService.connectFake(
+    private fun connectAVirtualUser(): SessionDBO{
+        return webSocketService.connectVirtual(
                 mockedWebSocketSession,
                 connectMessage)
     }
@@ -68,7 +68,7 @@ class WebSocketServiceTest {
     @Test
     fun webSocketService_connectFake_newValueArrayInKey() {
         connectAUser()
-        connectAFakeUser()
+        connectAVirtualUser()
         assertThat(webSocketService.getPractitionersSessionsSize()).isEqualTo(2)
     }
 
@@ -78,7 +78,7 @@ class WebSocketServiceTest {
     @Test
     fun webSocketService_connectFakeSessionReturned_sessionThatUserHas() {
         connectAUser()
-        val session = connectAFakeUser()
+        val session = connectAVirtualUser()
         assertThat(session).isEqualTo(expectedSession)
     }
 
@@ -115,7 +115,7 @@ class WebSocketServiceTest {
     fun webSocketService_disconnectWithAFake_nothingInMap() {
         // First connect user
         connectAUser()
-        connectAFakeUser()
+        connectAVirtualUser()
         // Then test the disconnect
         webSocketService.disconnect(
                 mockedWebSocketSession)
@@ -129,7 +129,7 @@ class WebSocketServiceTest {
     fun webSocketService_disconnectWithAFakeSessionReturned_sessionThatUserHas() {
         // First connect user
         connectAUser()
-        connectAFakeUser()
+        connectAVirtualUser()
         // Then test the disconnect
         val session = webSocketService.disconnect(
                 mockedWebSocketSession)

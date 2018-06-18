@@ -44,15 +44,18 @@ class WebSocketHandler {
         when (webSocketMessage.event) {
             // Start web socket session
             WebSocketEvents.START_SESSION.eventName -> {
+                // Connect a original practitioner to the webSocket
                 connectOriginal(webSocketSession, webSocketMessage)
             }
             // Reconnect web socket session, should be when Heroku re-starts and client connection is lost
             WebSocketEvents.RECONNECT_SESSION.eventName -> {
+                // Connect a original practitioner to the webSocket
                 connectOriginal(webSocketSession, webSocketMessage)
             }
             // Reconnect web socket session, should be when Heroku re-starts and client connection is lost
-            WebSocketEvents.START_ANOTHER_SESSION.eventName -> {
-                connectFakes(webSocketSession, webSocketMessage)
+            WebSocketEvents.START_VIRTUAL_SESSION.eventName -> {
+                // Connect a virtual practitioner to a original practitioners webSocketSession
+                connectVirtual(webSocketSession, webSocketMessage)
             }
         }
     }
@@ -87,8 +90,8 @@ class WebSocketHandler {
     /**
      * Connects fake practitioner to a practitioner that is an original and already in the webSocket
      */
-    private fun connectFakes(webSocketSession: Session, webSocketMessage: WebSocketMessage) {
-        val practitionersLatestSession = service.connectFake(webSocketSession, webSocketMessage)
+    private fun connectVirtual(webSocketSession: Session, webSocketMessage: WebSocketMessage) {
+        val practitionersLatestSession = service.connectVirtual(webSocketSession, webSocketMessage)
         connect(webSocketSession, webSocketMessage, practitionersLatestSession)
     }
 
