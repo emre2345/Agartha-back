@@ -1,8 +1,6 @@
 package agartha.site
 
-import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
-import agartha.data.services.IPractitionerService
 import agartha.data.services.PractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.objects.webSocket.WebSocketEvents
@@ -46,11 +44,18 @@ class WebSocketHandler {
         when (webSocketMessage.event) {
             // Start web socket session
             WebSocketEvents.START_SESSION.eventName -> {
-                connect(webSocketSession, webSocketMessage)
+                // Connect a original practitioner to the webSocket
+                connectOriginal(webSocketSession, webSocketMessage)
             }
             // Reconnect web socket session, should be when Heroku re-starts and client connection is lost
             WebSocketEvents.RECONNECT_SESSION.eventName -> {
-                connect(webSocketSession, webSocketMessage)
+                // Connect a original practitioner to the webSocket
+                connectOriginal(webSocketSession, webSocketMessage)
+            }
+            // Reconnect web socket session, should be when Heroku re-starts and client connection is lost
+            WebSocketEvents.START_VIRTUAL_SESSION.eventName -> {
+                // Connect a virtual practitioner to a original practitioners webSocketSession
+                connectVirtual(webSocketSession, webSocketMessage)
             }
         }
     }
@@ -61,19 +66,33 @@ class WebSocketHandler {
      * - Broadcast to everybody else that a new companion joined
      * - emit to self all the sessions in the WebSocket
      */
-    fun connect(webSocketSession: Session, webSocketMessage: WebSocketMessage) {
-        val practitionersLatestSession = service.connect(webSocketSession, webSocketMessage)
+    private fun connect(webSocketSession: Session, webSocketMessage: WebSocketMessage, practitionersLatestSession: SessionDBO) {
         debugPrintout(
                 "starting '${practitionersLatestSession.discipline}' for '${practitionersLatestSession.intention}'")
         // The sessions remaining in the socket
-        val returnSessions = ControllerUtil.objectToString(service.getPractitionersSessionMap().values.toList())
+        val returnSessions = ControllerUtil.objectToString(service.getAllPractitionersSessions())
         // The disconnected practitioners session
         val returnPractitionersSession = ControllerUtil.objectToString(practitionersLatestSession)
         // Broadcast to all practitioners connected except this session
         broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.NEW_COMPANION.eventName, returnSessions, returnPractitionersSession))
         // Send to self
         emit(webSocketSession, WebSocketMessage(WebSocketEvents.COMPANIONS_SESSIONS.eventName, returnSessions))
+    }
 
+    /**
+     * Connects a single practitioner to the webSocket
+     */
+    private fun connectOriginal(webSocketSession: Session, webSocketMessage: WebSocketMessage) {
+        val practitionersLatestSession = service.connectOriginal(webSocketSession, webSocketMessage)
+        connect(webSocketSession, webSocketMessage, practitionersLatestSession)
+    }
+
+    /**
+     * Connects fake practitioner to a practitioner that is an original and already in the webSocket
+     */
+    private fun connectVirtual(webSocketSession: Session, webSocketMessage: WebSocketMessage) {
+        val practitionersLatestSession = service.connectVirtual(webSocketSession, webSocketMessage)
+        connect(webSocketSession, webSocketMessage, practitionersLatestSession)
     }
 
     /**
@@ -88,7 +107,7 @@ class WebSocketHandler {
         debugPrintout(
                 "closing '${practitionersSession?.discipline}' for '${practitionersSession?.intention}' lasted for '${practitionersSession?.sessionDurationMinutes()}' minutes")
         // The sessions remaining in the socket
-        val returnSessions = ControllerUtil.objectToString(service.getPractitionersSessionMap().values.toList())
+        val returnSessions = ControllerUtil.objectToString(service.getAllPractitionersSessions())
         // The disconnected practitioners session
         val returnPractitionersSession = ControllerUtil.objectToString(practitionersSession)
         // Notify all other practitionersSessions this practitioner has left the webSocketSession
@@ -117,9 +136,9 @@ class WebSocketHandler {
      * @param message - the message for the client
      */
     private fun broadcastToOthers(webSocketSession: Session, message: WebSocketMessage){
-            service.getPractitionersSessionMap()
-                    .filter { it.key != webSocketSession }
-                    .forEach { emit(it.key, message) }
+            service.getPractitionersWebSocketSessions()
+                    .filter { it != webSocketSession }
+                    .forEach { emit(it, message) }
     }
 
     private fun debugPrintout(eventText: String) {
