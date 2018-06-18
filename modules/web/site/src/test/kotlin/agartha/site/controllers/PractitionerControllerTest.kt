@@ -268,7 +268,7 @@ class PractitionerControllerTest {
         val httpResponse = testController.testServer.execute(postRequest)
         val responseBody = String(httpResponse.body())
         val prac = ControllerUtil.stringToObject(responseBody, PractitionerDBO::class.java)
-        assertThat(prac.spiritBankLog.last().type).isEqualTo(SpiritBankLogItemType.SESSION)
+        assertThat(prac.spiritBankLog.last().type).isEqualTo(SpiritBankLogItemType.ENDED_SESSION)
     }
 
     /**
@@ -633,7 +633,7 @@ class PractitionerControllerTest {
         mockedService.insert(PractitionerDBO(_id = "a",
                 spiritBankLog = listOf(
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = SPIRIT_BANK_START_POINTS),
-                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.SESSION, points = 20),
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.ENDED_SESSION, points = 20),
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = -10)
                 )))
 

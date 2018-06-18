@@ -2,7 +2,6 @@ package agartha.site.controllers
 
 import agartha.common.config.Settings.Companion.SPIRIT_BANK_START_POINTS
 import agartha.data.objects.CircleDBO
-import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
@@ -56,24 +55,23 @@ class CircleController(private val mService: IPractitionerService) : AbstractCon
     }
 
 
-
     /**
      * Add a circle to argument practitioner
      * @return practitioner object
      */
     private fun addCircle(request: Request, response: Response): String {
         // Get practitioner ID from API path
-        val userId: String = request.params(":userId")
+        val practitionerId: String = request.params(":userid")
         // Make sure practitionerId exists in database
-        val practitioner = getPractitionerFromDatabase(userId, mService)
+        val practitioner = getPractitionerFromDatabase(practitionerId, mService)
         // Practitioner cannot create a circle if less then 50 points in spiritBank
-        if(practitioner.calculateSpiritBankPointsFromLog() < SPIRIT_BANK_START_POINTS){
+        if (practitioner.calculateSpiritBankPointsFromLog() < SPIRIT_BANK_START_POINTS) {
             Spark.halt(400, "Practitioner cannot create circle with less than 50 contribution points")
         }
         // Get circle data from body
         val circle: CircleDBO = ControllerUtil.stringToObject(request.body(), CircleDBO::class.java)
         // Store it and return the complete practitioner object
-        return ControllerUtil.objectToString(mService.addCircle(userId, circle))
+        return ControllerUtil.objectToString(mService.addCircle(practitionerId, circle))
     }
 
     /**
@@ -113,13 +111,13 @@ class CircleController(private val mService: IPractitionerService) : AbstractCon
      * @return list of sessions within this circle
      */
     private fun getAllSessionsWithCircle(circleId: String): List<SessionDBO> {
-       return mService
+        return mService
                 // Get all practitioners
                 .getAll()
                 // Extract all sessions
                 .flatMap { it.sessions }
                 // Filter out all sessions for circles
-                .filter{ it.circle != null }
+                .filter { it.circle != null }
                 // Filter out those with this circle Id
                 .filter { it.circle?._id == circleId }
     }

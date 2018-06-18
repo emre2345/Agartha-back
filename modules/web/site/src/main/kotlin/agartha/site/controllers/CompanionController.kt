@@ -29,7 +29,7 @@ class CompanionController(private val mService: IPractitionerService) : Abstract
         Spark.path("/companion") {
             // Get companions for predefined timespan
             Spark.get("", ::companionReport)
-            // Get companions for last user session
+            // Get companions for practitioners last session
             Spark.get("/:userid", ::companionSessionReport)
             // Get companions for ongoing
             Spark.get("/ongoing/:userid", ::companionOngoing)
@@ -64,18 +64,18 @@ class CompanionController(private val mService: IPractitionerService) : Abstract
     }
 
     /**
-     * Get report with all sessions active during current user's latest session
-     * Should include current user
+     * Get report with all sessions active during current practitioner's latest session
+     * Should include current practitioner
      */
     @Suppress("UNUSED_PARAMETER")
     private fun companionSessionReport(request: Request, response: Response): String {
         // Get practitioner ID from API path
-        val userId: String = request.params(":userid")
+        val practitionerId: String = request.params(":userid")
         // Make sure practitionerId exists in database
-        val user: PractitionerDBO = getPractitionerFromDatabase(userId, mService)
+        val practitioner: PractitionerDBO = getPractitionerFromDatabase(practitionerId, mService)
         //
-        val startDateTime: LocalDateTime = user.sessions.last().startTime
-        val endDateTime: LocalDateTime = user.sessions.last().endTime ?: LocalDateTime.now()
+        val startDateTime: LocalDateTime = practitioner.sessions.last().startTime
+        val endDateTime: LocalDateTime = practitioner.sessions.last().endTime ?: LocalDateTime.now()
         // Get practitioners with sessions between
         val practitioners = mService.getAll().filter {
             it.hasSessionBetween(startDateTime, endDateTime)
@@ -94,14 +94,14 @@ class CompanionController(private val mService: IPractitionerService) : Abstract
      */
     @Suppress("UNUSED_PARAMETER")
     private fun companionOngoing(request: Request, response: Response): String {
-        // Get current userid
-        val userId: String = request.params(":userid")
-        // Make sure user id exists
-        getPractitionerFromDatabase(userId, mService)
+        // Get current practitionerid
+        val practitionerId: String = request.params(":userid")
+        // Make sure practitioner exists
+        getPractitionerFromDatabase(practitionerId, mService)
         // Get all companions with ongoing session
         val practitioners = getOngoingCompanions()
         // Extract sessions from these companions
-        val sessions = getOngoingCompanionsSessions(userId, practitioners)
+        val sessions = getOngoingCompanionsSessions(practitionerId, practitioners)
         // Generate report
         val companionReport = CompanionReport(practitioners.count(), sessions)
         // Return the report
@@ -120,11 +120,11 @@ class CompanionController(private val mService: IPractitionerService) : Abstract
 
     /**
      * Get all ongoing sessions from a list of practitioners
-     * The argument userId is removed from sessions
+     * The argument practitionerId is removed from sessions
      */
-    private fun getOngoingCompanionsSessions(userId: String, practitioners: List<PractitionerDBO>): List<SessionDBO> {
+    private fun getOngoingCompanionsSessions(practitionerId: String, practitioners: List<PractitionerDBO>): List<SessionDBO> {
         // Filter out ongoing sessions
         return SessionUtil
-                .filterSingleOngoingSession(practitioners, userId)
+                .filterSingleOngoingSession(practitioners, practitionerId)
     }
 }
