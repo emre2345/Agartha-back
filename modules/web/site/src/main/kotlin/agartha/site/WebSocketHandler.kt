@@ -1,8 +1,5 @@
 package agartha.site
 
-import agartha.data.objects.PractitionerDBO
-import agartha.data.objects.SessionDBO
-import agartha.data.services.IPractitionerService
 import agartha.data.services.PractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.objects.webSocket.WebSocketEvents
@@ -52,6 +49,11 @@ class WebSocketHandler {
             WebSocketEvents.RECONNECT_SESSION.eventName -> {
                 connect(webSocketSession, webSocketMessage)
             }
+            // Reconnect web socket session, should be when Heroku re-starts and client connection is lost
+            WebSocketEvents.START_ANOTHER_SESSION.eventName -> {
+                println("STRATING ANTOHER SESSION FORT THE "+ webSocketMessage.data)
+                connectAnother(webSocketSession, webSocketMessage)
+            }
         }
     }
 
@@ -66,7 +68,28 @@ class WebSocketHandler {
         debugPrintout(
                 "starting '${practitionersLatestSession.discipline}' for '${practitionersLatestSession.intention}'")
         // The sessions remaining in the socket
-        val returnSessions = ControllerUtil.objectToString(service.getPractitionersSessionMap().values.toList())
+        val returnSessions = ControllerUtil.objectToString(service.getAllPractitionersSessions())
+        // The disconnected practitioners session
+        val returnPractitionersSession = ControllerUtil.objectToString(practitionersLatestSession)
+        // Broadcast to all practitioners connected except this session
+        broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.NEW_COMPANION.eventName, returnSessions, returnPractitionersSession))
+        // Send to self
+        emit(webSocketSession, WebSocketMessage(WebSocketEvents.COMPANIONS_SESSIONS.eventName, returnSessions))
+
+    }
+
+    /**
+     * Opening the webSocket results in:
+     * - connect WebSocketSession
+     * - Broadcast to everybody else that a new companion joined
+     * - emit to self all the sessions in the WebSocket
+     */
+    private fun connectAnother(webSocketSession: Session, webSocketMessage: WebSocketMessage) {
+        val practitionersLatestSession = service.connectAnother(webSocketSession, webSocketMessage)
+        debugPrintout(
+                "starting another practitioner with '${practitionersLatestSession.discipline}' for '${practitionersLatestSession.intention}'")
+        // The sessions remaining in the socket
+        val returnSessions = ControllerUtil.objectToString(service.getAllPractitionersSessions())
         // The disconnected practitioners session
         val returnPractitionersSession = ControllerUtil.objectToString(practitionersLatestSession)
         // Broadcast to all practitioners connected except this session
@@ -88,7 +111,7 @@ class WebSocketHandler {
         debugPrintout(
                 "closing '${practitionersSession?.discipline}' for '${practitionersSession?.intention}' lasted for '${practitionersSession?.sessionDurationMinutes()}' minutes")
         // The sessions remaining in the socket
-        val returnSessions = ControllerUtil.objectToString(service.getPractitionersSessionMap().values.toList())
+        val returnSessions = ControllerUtil.objectToString(service.getAllPractitionersSessions())
         // The disconnected practitioners session
         val returnPractitionersSession = ControllerUtil.objectToString(practitionersSession)
         // Notify all other practitionersSessions this practitioner has left the webSocketSession
