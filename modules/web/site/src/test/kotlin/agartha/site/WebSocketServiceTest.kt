@@ -1,5 +1,6 @@
 package agartha.site
 
+import agartha.data.objects.CircleDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.site.controllers.mocks.MockedPractitionerService
@@ -8,6 +9,7 @@ import agartha.site.objects.webSocket.WebSocketMessage
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
+import java.time.LocalDateTime
 
 /**
  * Purpose of this class is to test the hashMap in the WebSocketService
@@ -19,8 +21,16 @@ class WebSocketServiceTest {
     private val practitionerService = MockedPractitionerService()
     // create webSocketService with the mocked practitioner service
     private val webSocketService = WebSocketService(practitionerService)
+    // Expected circle
+    private val expectedCircle = CircleDBO(intentions = listOf(),
+            disciplines = listOf(),
+            description = "",
+            startTime = LocalDateTime.now(),
+            endTime = LocalDateTime.now().plusHours(2),
+            minimumSpiritContribution = 5,
+            name = "CircleName")
     // Expected Session for practitioner
-    private val expectedSession = SessionDBO(null, "", "")
+    private val expectedSession = SessionDBO(null, "", "", circle = expectedCircle)
     // The mockedWebSocketSession only initialized once
     private val mockedWebSocketSession = MockedWebSocketSession()
     // WebSocket connect message
@@ -42,6 +52,8 @@ class WebSocketServiceTest {
     fun setupClass() {
         // Add a practitioner to the mocked db
         practitionerService.insert(PractitionerDBO(_id = "abc", sessions = listOf(expectedSession)))
+        // Add a practitioner that owns a circle to the mocked db
+        practitionerService.insert(PractitionerDBO(_id = "deg", sessions = listOf(expectedSession), circles = listOf(expectedCircle)))
     }
 
     /***********
