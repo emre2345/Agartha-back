@@ -1,4 +1,4 @@
-package agartha.site.objects
+package agartha.site.objects.response
 
 import agartha.common.config.Settings.Companion.SPIRIT_BANK_START_POINTS
 import agartha.common.utils.DateTimeFormat
