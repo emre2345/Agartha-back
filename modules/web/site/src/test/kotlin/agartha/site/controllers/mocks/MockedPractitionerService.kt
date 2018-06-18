@@ -112,7 +112,7 @@ class MockedPractitionerService : IPractitionerService {
         // If session has a circle then it should
         // add a new item to the practitioners spiritBankLog
         val newSpiritBankLog = practitioner.spiritBankLog.toMutableList()
-        var spiritBankLogItemType = SpiritBankLogItemType.SESSION
+        var spiritBankLogItemType = SpiritBankLogItemType.ENDED_SESSION
         var addedContributionPoints = contributionPoints
         if (lastSession.circle !== null && practitioner.circles.contains(lastSession.circle!!)) {
             spiritBankLogItemType = SpiritBankLogItemType.ENDED_CREATED_CIRCLE

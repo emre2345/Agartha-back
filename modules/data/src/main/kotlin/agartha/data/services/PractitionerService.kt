@@ -78,13 +78,30 @@ class PractitionerService : IPractitionerService {
         if (practitioner != null && practitioner.sessions.isNotEmpty()) {
             // get the current session
             val ongoingSession = practitioner.sessions.lastOrNull()
-            // If there is a matching practitioner with sessions
+            // If there is a matching practitioner with the session
             if (ongoingSession != null) {
                 // Update the session with a endTime
-                updateSessionWithEndTime(practitionerId)
-
-                // Add the new logItem about the ended session to the spiritBankLog for the practitioner
-                storeSpiritBankLogEndedSession(practitioner, contributionPoints, ongoingSession)
+                updateSessionWithEndTimeNow(practitionerId)
+                // If the practitioner is in a circle that the practitioner is the creator of
+                if (ongoingSession.circle != null && practitioner.creatorOfCircle(ongoingSession.circle)) {
+                    // Calculate the total points for contribution
+                    val totalCalculatedContributionPoints = calculatePointsFromPractitionersJoiningCreatorsCircle(ongoingSession.circle, ongoingSession.startTime, contributionPoints)
+                    // Close the circle
+                    updateCircleWithEndTimeNow(practitionerId, ongoingSession.circle)
+                    // Push the points as a ended circle to the log
+                    pushObjectToPractitionersArray(practitionerId,
+                            PractitionersArraysEnum.SPIRIT_BANK_LOG,
+                            SpiritBankLogItemDBO(
+                                    type = SpiritBankLogItemType.ENDED_CREATED_CIRCLE,
+                                    points = totalCalculatedContributionPoints))
+                } else {
+                    // Push the points as a ended session to the log
+                    pushObjectToPractitionersArray(practitionerId,
+                            PractitionersArraysEnum.SPIRIT_BANK_LOG,
+                            SpiritBankLogItemDBO(
+                                    type = SpiritBankLogItemType.ENDED_SESSION,
+                                    points = contributionPoints))
+                }
 
                 // Return the new updated practitioner
                 return getById(practitionerId)
@@ -123,7 +140,7 @@ class PractitionerService : IPractitionerService {
     }
 
     /**
-     * Removes one item from the collection
+     * Removes one Practitioner from the collection
      * @return True if the deletion went fine
      */
     override fun removeById(practitionerId: String): Boolean {
@@ -133,11 +150,25 @@ class PractitionerService : IPractitionerService {
 
 
     /**
+     * Removes one circle from the practitioner-collection
+     * @return True if the deletion went fine
+     */
+    override fun removeCircleById(practitionerId: String, circleId: String): Boolean {
+        val result: UpdateResult = collection.updateOneById(
+                practitionerId,
+                Document("${MongoOperator.pull}",
+                        Document(PractitionersArraysEnum.CIRCLES.value, Document("_id", circleId))))
+        //
+        return result.modifiedCount == 1L
+    }
+
+
+    /**
      * Update the last session for a user by setting endTime to now
      *
      * @param practitionerId - string - the practitioner to be updated
      */
-    private fun updateSessionWithEndTime(practitionerId: String) {
+    private fun updateSessionWithEndTimeNow(practitionerId: String) {
         // Get index of latest session
         val index = getById(practitionerId)?.sessions?.size ?: -1
         // If we have a latest session
@@ -157,7 +188,7 @@ class PractitionerService : IPractitionerService {
      * @param practitionerId - string - the practitioner to be updated
      * @param circleToUpdate - CircleDBO - the circle that should be updated
      */
-    private fun updateCircleWithEndTime(practitionerId: String, circleToUpdate: CircleDBO) {
+    private fun updateCircleWithEndTimeNow(practitionerId: String, circleToUpdate: CircleDBO) {
         // Get index of the circle that we want to update
         val index = getById(practitionerId)?.circles?.indexOf(circleToUpdate) ?: -1
         // If we have a the circle we are looking for
@@ -169,34 +200,7 @@ class PractitionerService : IPractitionerService {
                             Document("${PractitionersArraysEnum.CIRCLES.value}.$index.endTime", LocalDateTime.now())))
         }
     }
-
-
-    /**
-     * When ending a session log into the spiritBank depending on if the practitioner is a creator of the circle
-     *
-     * @param practitioner      - PractitionerDBO - the practitioner
-     * @param contributionPoints- Long - the points that was contributed
-     * @param ongoingSession    - Long - the ongoing session for the practitioner
-     */
-    private fun storeSpiritBankLogEndedSession(practitioner: PractitionerDBO,
-                                               contributionPoints: Long,
-                                               ongoingSession: SessionDBO) {
-        // PractitionerId will never be an empty string, but kotlin wont allow us to access practitioner._id without it maybe being null
-        val practitionerId: String = practitioner._id ?: ""
-        // create variables
-        var spiritBankLogType = SpiritBankLogItemType.SESSION
-        var addedContributionPoints = contributionPoints
-        // Check if practitioner is in a circle and if practitioner is a creator of that circle
-        if (ongoingSession.circle != null && practitioner.creatorOfCircle(ongoingSession.circle)) {
-            spiritBankLogType = SpiritBankLogItemType.ENDED_CREATED_CIRCLE
-            // Calculate the points practitioner should get from those that joined the circle
-            addedContributionPoints += calculatePointsFromPractitionersJoiningCreatorsCircle(ongoingSession.circle, ongoingSession.startTime)
-            // Close the creators circle
-            updateCircleWithEndTime(practitionerId, ongoingSession.circle)
-        }
-        // Push to the log
-        pushObjectToPractitionersArray(practitionerId, PractitionersArraysEnum.SPIRIT_BANK_LOG, SpiritBankLogItemDBO(type = spiritBankLogType, points = addedContributionPoints))
-    }
+    
 
     /**
      * Add a object to a practitioners array in  DB
@@ -205,7 +209,7 @@ class PractitionerService : IPractitionerService {
      * @param item the object that should be to added
      * @return practitioner with newly added object
      */
-    private fun <T>pushObjectToPractitionersArray(practitionerId: String, objectName: PractitionersArraysEnum, item: T) {
+    private fun <T> pushObjectToPractitionersArray(practitionerId: String, objectName: PractitionersArraysEnum, item: T) {
         collection.updateOneById(
                 practitionerId,
                 Document("${MongoOperator.push}",
@@ -213,27 +217,20 @@ class PractitionerService : IPractitionerService {
                         Document(objectName.value, item)))
     }
 
-    override fun removeCircleById(practitionerId: String, circleId: String): Boolean {
-        val result: UpdateResult = collection.updateOneById(
-                practitionerId,
-                Document("${MongoOperator.pull}",
-                        Document(PractitionersArraysEnum.CIRCLES.value, Document("_id", circleId))))
-        //
-        return result.modifiedCount == 1L
-    }
-
     /**
      * Calculates the contribution points gathered from practitioners joining
      * the circle that is in the ongoingSession for a practitioner
+     * And then adds the contributionPoints from the client(number of points from the endedSessions)
      *
      * @return number of contribution points
      */
-    private fun calculatePointsFromPractitionersJoiningCreatorsCircle(circle: CircleDBO, startTime: LocalDateTime): Long {
+    private fun calculatePointsFromPractitionersJoiningCreatorsCircle(circle: CircleDBO, startTime: LocalDateTime, contributionPoints: Long): Long {
         // Find all practitioners that has a session with this circle and is started after practitioners session started
         val sessionsInCircle: List<PractitionerDBO> = getAll().filter { it.hasSessionInCircleAfterStartTime(startTime, circle) }
         // Number of practitioner that started a session in "my" circle and payed the minimumSpiritContribution
-        // should be multiplied by the minimumSpiritContribution
-        return sessionsInCircle.size * circle.minimumSpiritContribution
+        // will be multiplied by the minimumSpiritContribution
+        // then the contributionPoints from the ended sessions will be added
+        return (sessionsInCircle.size * circle.minimumSpiritContribution) + contributionPoints
     }
 
 }

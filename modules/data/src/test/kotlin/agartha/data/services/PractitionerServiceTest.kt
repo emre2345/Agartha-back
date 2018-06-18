@@ -281,7 +281,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         PractitionerService().endSession(practitioner._id!!, 7)
         // Get from database
         val item = PractitionerService().getById(practitioner._id!!)
-        assertThat(item!!.spiritBankLog.last().type).isEqualTo(SpiritBankLogItemType.SESSION)
+        assertThat(item!!.spiritBankLog.last().type).isEqualTo(SpiritBankLogItemType.ENDED_SESSION)
     }
 
 
