@@ -30,7 +30,7 @@ class CircleReportTest {
     @Test
     fun description_match_MyDescription() {
         val report = CircleReport(circle, listOf(), 42)
-        assertThat(report.name).isEqualTo("My Description")
+        assertThat(report.description).isEqualTo("My Description")
     }
 
     @Test
