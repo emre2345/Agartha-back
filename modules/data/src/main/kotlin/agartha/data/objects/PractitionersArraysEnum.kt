@@ -1,7 +1,7 @@
 package agartha.data.objects
 
 /**
- * Enum to hold the different spirit bank log item types
+ * Enum to hold the different arrays in the practitioners-collection
  */
 enum class PractitionersArraysEnum(val value: String) {
     CIRCLES("circles"),

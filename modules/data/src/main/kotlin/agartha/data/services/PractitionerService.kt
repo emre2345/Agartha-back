@@ -200,7 +200,7 @@ class PractitionerService : IPractitionerService {
                             Document("${PractitionersArraysEnum.CIRCLES.value}.$index.endTime", LocalDateTime.now())))
         }
     }
-    
+
 
     /**
      * Add a object to a practitioners array in  DB
