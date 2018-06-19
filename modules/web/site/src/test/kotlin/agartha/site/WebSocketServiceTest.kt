@@ -1,8 +1,6 @@
 package agartha.site
 
-import agartha.data.objects.CircleDBO
-import agartha.data.objects.PractitionerDBO
-import agartha.data.objects.SessionDBO
+import agartha.data.objects.*
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.controllers.mocks.MockedWebSocketSession
 import agartha.site.objects.webSocket.WebSocketMessage
@@ -78,9 +76,13 @@ class WebSocketServiceTest {
     @Before
     fun setupClass() {
         // Add a practitioner to the mocked db
-        practitionerService.insert(PractitionerDBO(_id = "abc", sessions = listOf(expectedSession)))
+        practitionerService.insert(PractitionerDBO(_id = "abc",
+                sessions = listOf(expectedSession)))
         // Add a practitioner that owns a circle to the mocked db
-        practitionerService.insert(PractitionerDBO(_id = "dfg", sessions = listOf(expectedSession), circles = listOf(expectedCircle)))
+        practitionerService.insert(PractitionerDBO(_id = "dfg",
+                sessions = listOf(expectedSession),
+                spiritBankLog = listOf(SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50)),
+                circles = listOf(expectedCircle)))
     }
 
     /***********
@@ -109,6 +111,24 @@ class WebSocketServiceTest {
         connectAUserWithCircle()
         connectAVirtualUserWithCircle()
         assertThat(webSocketService.getPractitionersSessionsSize()).isEqualTo(2)
+    }
+
+    @Test
+    fun webSocketService_connectVirtual_pointsLeft45() {
+        connectAUserWithCircle()
+        connectAVirtualUserWithCircle()
+        val practitioner = practitionerService.getById("dfg")
+        val pointsLeft = practitioner!!.calculateSpiritBankPointsFromLog()
+        assertThat(pointsLeft).isEqualTo(45)
+    }
+
+    @Test
+    fun webSocketService_connectVirtual_newLogInSpiritBank() {
+        connectAUserWithCircle()
+        connectAVirtualUserWithCircle()
+        val practitioner = practitionerService.getById("dfg")
+        val log = practitioner!!.spiritBankLog.last()
+        assertThat(log.type).isEqualTo(SpiritBankLogItemType.ADD_VIRTUAL_TO_CIRCLE)
     }
 
     /**

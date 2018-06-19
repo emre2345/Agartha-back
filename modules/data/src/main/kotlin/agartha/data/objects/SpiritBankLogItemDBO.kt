@@ -25,5 +25,7 @@ enum class SpiritBankLogItemType {
     // When practitioner Joins a Circle
     JOINED_CIRCLE,
     // When a circle creator ends his/her session in circle
-    ENDED_CREATED_CIRCLE
+    ENDED_CREATED_CIRCLE,
+    // When a circle creator wants to add virtual sessions to its circle
+    ADD_VIRTUAL_TO_CIRCLE
 }

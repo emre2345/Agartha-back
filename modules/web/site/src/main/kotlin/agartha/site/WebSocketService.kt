@@ -50,7 +50,9 @@ class WebSocketService(private val mService: IPractitionerService) {
         // And if the session has a circle and if it is the practitioner's circle
         if (sessions != null &&
                 circle != null &&
-                practitioner.creatorOfCircle(circle)) {
+                practitioner.creatorOfCircle(circle) &&
+                // Make the practitioner pays for the added sessions
+                mService.payForAddingVirtualSessions(practitioner, 1)) {
             // Then make a mutable sessionList and add the practitionersSession to the sessionList
             sessions.add(practitionersLatestSession)
             // Update the hasMap with the webSocketSession and the new sessionList
@@ -88,7 +90,7 @@ class WebSocketService(private val mService: IPractitionerService) {
         practitionersSessions.values.forEach {
             sessions.addAll(it)
         }
-        // Return all the lists
+        // Return all sessions in the lists
         return sessions
     }
 

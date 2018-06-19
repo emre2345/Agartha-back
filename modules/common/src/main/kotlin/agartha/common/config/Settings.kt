@@ -16,6 +16,8 @@ class Settings {
         const val COMPANION_GOAL_MINUTES: Long = 10000 * 60
         // Start points in the first log in the SpiritBank
         const val SPIRIT_BANK_START_POINTS: Long = 50
+        // Pints to pay when adding a virtual session in a circle
+        const val COST_ADD_VIRTUAL_SESSION_POINTS: Long = 5
 
         /**
          * Returns a negative number by multiplying the number with -1

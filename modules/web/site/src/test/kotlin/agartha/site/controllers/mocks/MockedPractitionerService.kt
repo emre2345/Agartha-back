@@ -1,5 +1,6 @@
 package agartha.site.controllers.mocks
 
+import agartha.common.config.Settings
 import agartha.data.objects.*
 import agartha.data.services.IPractitionerService
 import java.time.LocalDateTime
@@ -168,6 +169,31 @@ class MockedPractitionerService : IPractitionerService {
                     email = practitioner.email,
                     description = practitioner.description,
                     spiritBankLog = practitioner.spiritBankLog))
+            return true
+        }
+        return false
+    }
+
+    override fun payForAddingVirtualSessions(practitioner: PractitionerDBO, numberOfSessions: Long): Boolean {
+        val practitionerId: String = practitioner._id ?: ""
+        val pointsToPay = Settings.COST_ADD_VIRTUAL_SESSION_POINTS * numberOfSessions
+        val spiritBankLog = practitioner.spiritBankLog.toMutableList()
+        if (practitioner.calculateSpiritBankPointsFromLog() >= pointsToPay) {
+            // Add new logItem to spiritBank log
+            spiritBankLog.add(SpiritBankLogItemDBO(
+                    type = SpiritBankLogItemType.ADD_VIRTUAL_TO_CIRCLE,
+                    points = Settings.returnNegativeNumber(pointsToPay)))
+            // Replace old practitioner with updated with spiritBankLog-item
+            removeById(practitionerId)
+            insert(PractitionerDBO(
+                    _id = practitioner._id,
+                    created = practitioner.created,
+                    sessions = practitioner.sessions,
+                    circles = practitioner.circles,
+                    fullName = practitioner.fullName,
+                    email = practitioner.email,
+                    description = practitioner.description,
+                    spiritBankLog = spiritBankLog))
             return true
         }
         return false
