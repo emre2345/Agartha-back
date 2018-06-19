@@ -12,6 +12,7 @@ import org.bson.types.ObjectId
 import spark.Request
 import spark.Response
 import spark.Spark
+import spark.Spark.halt
 import java.time.LocalDateTime
 
 /**
@@ -37,16 +38,28 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
             Spark.post("/:userid", ::updatePractitioner)
             //
             // Start a Session
+            Spark.before("/session/start/:userid", ::validateSessionStart)
             Spark.post("/session/start/:userid", ::startSession)
             //
             // End a Session
             Spark.post("/session/end/:userid/:contributionpoints", ::endSession)
             //
             // Start practicing by Joining a Circle
+            Spark.before("/circle/join/:userid/:circleid", ::validateSessionStart)
             Spark.post("/circle/join/:userid/:circleid", ::joinCircle)
             //
             // Get practitioners spiritBankHistory
             Spark.get("/spiritbankhistory/:userid", ::getSpiritBankHistory)
+        }
+    }
+
+    private fun validateSessionStart(request: Request, response: Response) {
+        // Get selected geolocation, discipline and intention
+        val sessionInfo: StartSessionInformation =
+                ControllerUtil.stringToObject(request.body(), StartSessionInformation::class.java)
+
+        if (sessionInfo.discipline.isEmpty() || sessionInfo.intention.isEmpty()) {
+            halt(400, "Discipline and Intention cannot be empty")
         }
     }
 

@@ -220,6 +220,20 @@ class PractitionerControllerTest {
         assertThat(data.discipline).isEqualTo("Yoga")
     }
 
+    @Test
+    fun startSession_emptyDiscipline_status400() {
+        // Setup
+        mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
+        //
+        val request = testController.testServer.post(
+                "/practitioner/session/start/abc",
+                """{"discipline":"","intention":"Salary raise"}""",
+                false)
+        val response = testController.testServer.execute(request)
+        //
+        assertThat(response.code()).isEqualTo(400)
+    }
+
     /**
      *
      */
@@ -347,6 +361,28 @@ class PractitionerControllerTest {
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
                 """{"geolocation":null,"discipline":"D","intention":"I"}""",
+                false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
+    }
+
+    @Test
+    fun joinCircle_intentionEmpty_400() {
+        // Insert the creator of circle
+        mockedService.insert(PractitionerDBO(
+                _id = "a",
+                circles = listOf(CircleDBO(
+                        _id = "1",
+                        name = "MyCircle",
+                        description = "MyDescription",
+                        disciplines = listOf(DisciplineDBO("D", "D")),
+                        intentions = listOf(IntentionDBO("I", "I")),
+                        startTime = LocalDateTime.now().minusMinutes(10),
+                        endTime = LocalDateTime.now().plusMinutes(10),
+                        minimumSpiritContribution = 2))))
+        val request = testController.testServer.post(
+                "/practitioner/circle/join/a/1",
+                """{"geolocation":null,"discipline":"D","intention":""}""",
                 false)
         val response = testController.testServer.execute(request)
         assertThat(response.code()).isEqualTo(400)
