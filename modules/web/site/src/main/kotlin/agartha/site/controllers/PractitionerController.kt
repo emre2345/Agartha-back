@@ -40,6 +40,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
             Spark.post("/:userid", ::updatePractitioner)
             //
             // Start a Session
+            Spark.before("/session/start/:userid", ::validatePractitionerIdentity)
             Spark.before("/session/start/:userid", ::validateSessionStart)
             Spark.post("/session/start/:userid", ::startSession)
             //
@@ -48,7 +49,9 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
             Spark.post("/session/end/:userid/:contributionpoints", ::endSession)
             //
             // Start practicing by Joining a Circle
+            Spark.before("/circle/join/:userid/:circleid", ::validatePractitionerIdentity)
             Spark.before("/circle/join/:userid/:circleid", ::validateSessionStart)
+            Spark.before("/circle/join/:userid/:circleid", ::validateJoinCircle)
             Spark.post("/circle/join/:userid/:circleid", ::joinCircle)
             //
             // Get practitioners spiritBankHistory
@@ -72,7 +75,6 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
      */
     @Suppress("UNUSED_PARAMETER")
     private fun validateSessionStart(request: Request, response: Response) {
-        validatePractitionerIdentity(request, response)
         // Get selected geolocation, discipline and intention
         val sessionInfo: StartSessionInformation =
                 ControllerUtil.stringToObject(request.body(), StartSessionInformation::class.java)
@@ -82,6 +84,40 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
             halt(400, "Discipline and Intention cannot be empty")
         }
     }
+
+
+
+    private fun validateJoinCircle(request: Request, response: Response) {
+        val circleId: String = request.params(":circleid")
+        val sessionInfo: StartSessionInformation =
+                ControllerUtil.stringToObject(request.body(), StartSessionInformation::class.java)
+
+        val circle = mService
+                // Get all practitioner
+                .getAll()
+                // Get all circles from practitioner
+                .flatMap { it.circles }
+                // Filter out active
+                .filter { it.active() }
+                // Find the one with correct id
+                .find { it._id == circleId }
+
+        if (circle == null) {
+            halt(400, "Circle not active")
+        } else {
+            if (circle.disciplines.isNotEmpty()) {
+                if (circle.disciplines.find { it.title == sessionInfo.discipline } == null) {
+                    Spark.halt(400, "Selected discipline does not match any in Circle")
+                }
+            }
+            if (circle.intentions.isNotEmpty()) {
+                if (circle.intentions.find { it.title == sessionInfo.intention } == null) {
+                    Spark.halt(400, "Selected intention does not match any in Circle")
+                }
+            }
+        }
+    }
+
 
     /**
      * Get practitioner from datasource
@@ -186,20 +222,18 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         val practitioner: PractitionerDBO = getPractitioner(request)
         val circleId: String = request.params(":circleid")
         // Get selected geolocation, discipline and intention
-        val startSessionInformation: StartSessionInformation =
+        val sessionInfo: StartSessionInformation =
                 ControllerUtil.stringToObject(request.body(), StartSessionInformation::class.java)
 
         val circle: CircleDBO = getActiveCircleFromDatabase(circleId, mService)
         // Validate
-        validateDiscipline(circle, startSessionInformation.discipline)
-        validateIntention(circle, startSessionInformation.intention)
         validatePractitionerCanAffordToJoin(practitioner, circle.minimumSpiritContribution)
 
         // Create a session
         val session = SessionDBO(
-                geolocation = startSessionInformation.geolocation,
-                discipline = startSessionInformation.discipline,
-                intention = startSessionInformation.intention,
+                geolocation = sessionInfo.geolocation,
+                discipline = sessionInfo.discipline,
+                intention = sessionInfo.intention,
                 startTime = LocalDateTime.now(),
                 circle = circle)
         // Add session to practitioner
@@ -215,34 +249,6 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         val practitioner: PractitionerDBO = getPractitioner(request)
         // Return the list
         return ControllerUtil.objectListToString(practitioner.spiritBankLog)
-    }
-
-    private fun validateDiscipline(circle: CircleDBO, discipline: String) {
-        if (circle.disciplines.isEmpty()) {
-            return
-        }
-
-        circle.disciplines.forEach {
-            if (it.title == discipline) {
-                return
-            }
-        }
-
-        Spark.halt(400, "Selected discipline does not match any in Circle")
-    }
-
-    private fun validateIntention(circle: CircleDBO, intention: String) {
-        if (circle.intentions.isEmpty()) {
-            return
-        }
-
-        circle.intentions.forEach {
-            if (it.title == intention) {
-                return
-            }
-        }
-
-        Spark.halt(400, "Selected intention does not match any in Circle")
     }
 
     /**
