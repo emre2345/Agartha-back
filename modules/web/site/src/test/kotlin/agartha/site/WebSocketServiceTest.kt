@@ -202,9 +202,9 @@ class WebSocketServiceTest {
         assertThat(session).isEqualTo(expectedSession)
     }
 
-    /**************************
-     * Disconnect with a fake *
-     **************************/
+    /*****************************
+     * Disconnect with a virtual *
+     *****************************/
     @Test
     fun webSocketService_disconnectWithAFake_nothingInMap() {
         // First connect user
@@ -220,7 +220,7 @@ class WebSocketServiceTest {
      *
      */
     @Test
-    fun webSocketService_disconnectWithAFakeSessionReturned_sessionThatUserHas() {
+    fun webSocketService_disconnectWithAVirtualSessionReturned_sessionThatUserHas() {
         // First connect user
         connectAUser()
         connectAVirtualUserWithCircle()

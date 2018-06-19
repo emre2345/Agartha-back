@@ -116,7 +116,7 @@ class WebSocketHandler {
         // If the disconnect was successful
         if(practitionersSessions != null){
             debugPrintout(
-                    "closing '${practitionersSessions[0].discipline}' for '${practitionersSessions[0].intention}' lasted for '${practitionersSession?.sessionDurationMinutes()}' minutes")
+                    "closing '${practitionersSessions[0].discipline}' for '${practitionersSessions[0].intention}' lasted for '${practitionersSessions[0].sessionDurationMinutes()}' minutes")
             // The sessions remaining in the socket
             val returnSessions = ControllerUtil.objectToString(service.getAllPractitionersSessions())
             // The disconnected practitioners session, the original will be the first in the list
