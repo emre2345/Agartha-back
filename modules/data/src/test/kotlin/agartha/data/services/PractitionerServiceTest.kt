@@ -439,9 +439,9 @@ class PractitionerServiceTest : DatabaseHandler() {
         assertThat(PractitionerService().getAll().size).isEqualTo(0)
     }
 
-    /**
-     *
-     */
+    /*******************
+     * removeGenerated *
+     *******************/
     @Test
     fun removeGenerated_dataCount_1() {
         // Insert a new generated user and normal user
@@ -452,6 +452,9 @@ class PractitionerServiceTest : DatabaseHandler() {
         assertThat(PractitionerService().getAll().size).isEqualTo(1)
     }
 
+    /**************
+     * removeById *
+     **************/
     @Test
     fun removeById_itemExists_true() {
         val practitioner = PractitionerService().insert(PractitionerDBO())
@@ -465,6 +468,9 @@ class PractitionerServiceTest : DatabaseHandler() {
         assertThat(response).isFalse()
     }
 
+    /****************
+     * removeCircle *
+     ****************/
     @Test
     fun removeCircle_practitionerMissing_false() {
         PractitionerService().insert(PractitionerDBO(_id = "p1"))
@@ -496,6 +502,7 @@ class PractitionerServiceTest : DatabaseHandler() {
                                 startTime = LocalDateTime.now(), endTime = LocalDateTime.now().plusHours(1),
                                 intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 3)))
     }
+
 
     @Test
     fun removeCircle_firstOfMany_true() {
