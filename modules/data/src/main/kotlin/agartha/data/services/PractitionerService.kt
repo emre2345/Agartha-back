@@ -1,5 +1,6 @@
 package agartha.data.services
 
+import agartha.common.config.Settings.Companion.COST_ADD_VIRTUAL_SESSION_POINTS
 import agartha.common.config.Settings.Companion.returnNegativeNumber
 import agartha.data.db.conn.MongoConnection
 import agartha.data.objects.*
@@ -165,6 +166,35 @@ class PractitionerService : IPractitionerService {
                         Document(PractitionersArraysEnum.CIRCLES.value, Document("_id", circleId))))
         //
         return result.modifiedCount == 1L
+    }
+
+
+
+    /**
+     * Calculates the cost for adding virtual sessions to a circle
+     * Makes sure the practitioner have those points in its bank
+     * Makes a new log for the practitioner spirit bank log with the cost
+     *
+     * @param practitioner the practitioner that wants to add virtual sessions
+     * @param numberOfSessions the number of sessions the practitioner wants to add
+     * @return true if practitioner successfully paid the contributionsPoints
+     */
+    override fun payForAddingVirtualSessions(practitioner: PractitionerDBO, numberOfSessions: Int): Boolean {
+        // PractitionerId will never be an empty string, but kotlin wont allow us to access practitioner._id without it maybe being null
+        val practitionerId: String = practitioner._id ?: ""
+        // Multiply the cost for adding a virtual session with the number of sessions that it wants to add
+        val pointsToPay = COST_ADD_VIRTUAL_SESSION_POINTS * numberOfSessions
+        // Practitioner needs to have pointsToPay in its bank
+        if(practitioner.calculateSpiritBankPointsFromLog() >= pointsToPay){
+            // Add a new log to the practitioners spirit bank log
+            pushObjectToPractitionersArray(practitionerId,
+                    PractitionersArraysEnum.SPIRIT_BANK_LOG,
+                    SpiritBankLogItemDBO(
+                            type = SpiritBankLogItemType.ADD_VIRTUAL_TO_CIRCLE,
+                            points = returnNegativeNumber(pointsToPay)))
+            return true
+        }
+        return false
     }
 
 

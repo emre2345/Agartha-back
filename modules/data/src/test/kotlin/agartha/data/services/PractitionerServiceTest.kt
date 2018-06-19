@@ -1,9 +1,6 @@
 package agartha.data.services
 
-import agartha.data.objects.CircleDBO
-import agartha.data.objects.PractitionerDBO
-import agartha.data.objects.SessionDBO
-import agartha.data.objects.SpiritBankLogItemType
+import agartha.data.objects.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -442,9 +439,9 @@ class PractitionerServiceTest : DatabaseHandler() {
         assertThat(PractitionerService().getAll().size).isEqualTo(0)
     }
 
-    /**
-     *
-     */
+    /*******************
+     * removeGenerated *
+     *******************/
     @Test
     fun removeGenerated_dataCount_1() {
         // Insert a new generated user and normal user
@@ -455,6 +452,9 @@ class PractitionerServiceTest : DatabaseHandler() {
         assertThat(PractitionerService().getAll().size).isEqualTo(1)
     }
 
+    /**************
+     * removeById *
+     **************/
     @Test
     fun removeById_itemExists_true() {
         val practitioner = PractitionerService().insert(PractitionerDBO())
@@ -468,6 +468,9 @@ class PractitionerServiceTest : DatabaseHandler() {
         assertThat(response).isFalse()
     }
 
+    /****************
+     * removeCircle *
+     ****************/
     @Test
     fun removeCircle_practitionerMissing_false() {
         PractitionerService().insert(PractitionerDBO(_id = "p1"))
@@ -499,6 +502,7 @@ class PractitionerServiceTest : DatabaseHandler() {
                                 startTime = LocalDateTime.now(), endTime = LocalDateTime.now().plusHours(1),
                                 intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 3)))
     }
+
 
     @Test
     fun removeCircle_firstOfMany_true() {
@@ -536,5 +540,50 @@ class PractitionerServiceTest : DatabaseHandler() {
         val practitioner = PractitionerService().getById("p1")
         val removedCircle = practitioner!!.circles.filter { it._id == "c2" }.firstOrNull()
         assertThat(removedCircle).isNull()
+    }
+
+    /*******************************
+     * payForAddingVirtualSessions *
+     *******************************/
+    private fun generatePractitionerWithPoints(): PractitionerDBO {
+        return PractitionerDBO(
+                _id = "p1",
+                spiritBankLog = listOf(
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50)))
+    }
+    @Test
+    fun payForAddingVirtualSessions_practitionerCanAfford_true() {
+        val practitioner = generatePractitionerWithPoints()
+        PractitionerService().insert(practitioner)
+        val wentFine = PractitionerService().payForAddingVirtualSessions(practitioner, 3)
+        assertThat(wentFine).isTrue()
+    }
+    @Test
+    fun payForAddingVirtualSessions_practitionerCanAfford_practitionerSpiritBankPoints35() {
+        val practitioner = generatePractitionerWithPoints()
+        PractitionerService().insert(practitioner)
+        PractitionerService().payForAddingVirtualSessions(practitioner, 3)
+        val points = PractitionerService().getById(practitioner._id!!)!!.calculateSpiritBankPointsFromLog()
+        assertThat(points).isEqualTo(35)
+    }
+    @Test
+    fun payForAddingVirtualSessions_practitionerCanAfford_newLogInSpiritBankType() {
+        val practitioner = generatePractitionerWithPoints()
+        PractitionerService().insert(practitioner)
+        PractitionerService().payForAddingVirtualSessions(practitioner, 3)
+        val logItem = PractitionerService().getById(practitioner._id!!)!!.spiritBankLog.last()
+        assertThat(logItem.type).isEqualTo(SpiritBankLogItemType.ADD_VIRTUAL_TO_CIRCLE)
+    }
+    @Test
+    fun payForAddingVirtualSessions_practitionerCanNotAfford_false() {
+        val practitioner = PractitionerDBO(
+                _id = "p1",
+                spiritBankLog = listOf(
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50),
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.ADD_VIRTUAL_TO_CIRCLE, points = -45)
+                        ))
+        PractitionerService().insert(practitioner)
+        val wentFine = PractitionerService().payForAddingVirtualSessions(practitioner, 3)
+        assertThat(wentFine).isFalse()
     }
 }

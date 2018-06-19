@@ -6,4 +6,4 @@ package agartha.site.objects.webSocket
  * @param data - String. Data that is stringified. (used in both to and from client)
  * @param practitionersSession - String. The practitioners session (used only when sending connected or closed to client)
  */
-class WebSocketMessage(val event: String, val data: String, val practitionersSession: String = "")
+class WebSocketMessage(val event: String, val data: String, val practitionersSession: String = "", val nrOfVirtualSessions: Int = 0)

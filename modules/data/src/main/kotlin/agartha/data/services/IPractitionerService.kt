@@ -78,4 +78,16 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      */
     fun removeCircleById(
             practitionerId: String, circleId: String): Boolean
+
+    /**
+     * Calculates the cost for adding virtual sessions to a circle
+     * Makes sure the practitioner have those points in its bank
+     * Makes a new log for the practitioner spirit bank log with the cost
+     *
+     * @param practitioner the practitioner that wants to add virtual sessions
+     * @param numberOfSessions the number of sessions the practitioner wants to add
+     * @return true if practitioner successfully paid the contributionsPoints
+     */
+    fun payForAddingVirtualSessions(
+            practitioner: PractitionerDBO, numberOfSessions: Int): Boolean
 }
