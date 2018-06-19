@@ -70,7 +70,7 @@ class CircleController(private val mService: IPractitionerService) : AbstractCon
         val practitioner = getPractitionerFromDatabase(practitionerId, mService)
         // Practitioner cannot create a circle if less then 50 points in spiritBank
         if (practitioner.calculateSpiritBankPointsFromLog() < SPIRIT_BANK_START_POINTS) {
-            Spark.halt(400, "Practitioner cannot create circle with less than 50 contribution points")
+            Spark.halt(400, "Practitioner cannot create circle with less than $SPIRIT_BANK_START_POINTS contribution points")
         }
         // Get circle data from body
         val circle: CircleDBO = ControllerUtil.stringToObject(request.body(), CircleDBO::class.java)
