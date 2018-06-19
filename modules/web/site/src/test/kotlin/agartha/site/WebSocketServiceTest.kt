@@ -199,7 +199,7 @@ class WebSocketServiceTest {
         // Then test the disconnect
         val session = webSocketService.disconnect(
                 mockedWebSocketSession)
-        assertThat(session).isEqualTo(expectedSession)
+        assertThat(session).isEqualTo(listOf(expectedSession))
     }
 
     /*****************************
@@ -220,14 +220,14 @@ class WebSocketServiceTest {
      *
      */
     @Test
-    fun webSocketService_disconnectWithAVirtualSessionReturned_sessionThatUserHas() {
+    fun webSocketService_disconnectWithAVirtualSessionReturned_2() {
         // First connect user
         connectAUser()
         connectAVirtualUserWithCircle()
         // Then test the disconnect
         val session = webSocketService.disconnect(
                 mockedWebSocketSession)
-        assertThat(session).isEqualTo(expectedSession)
+        assertThat(session!!.size).isEqualTo(2)
     }
 
     /***************************
