@@ -37,7 +37,7 @@ class WebSocketService(private val mService: IPractitionerService) {
     /**
      * Add a virtual practitioners session to a original practitioners webSocketSession in the map
      */
-    fun connectVirtual(webSocketSession: Session, practitionerId: String, nrOfVirtualSessions: Long): SessionDBO {
+    fun connectVirtual(webSocketSession: Session, practitionerId: String, nrOfVirtualSessions: Int): SessionDBO {
         // Get the practitioner
         val practitioner: PractitionerDBO = mService.getById(practitionerId)!!
         // Get practitioners last session
@@ -65,15 +65,11 @@ class WebSocketService(private val mService: IPractitionerService) {
 
     /**
      * Remove the webSocketSession from the Map
+     * @return the WebSocketSession's value - the array with Sessions
      */
-    fun disconnect(webSocketSession: Session): SessionDBO? {
+    fun disconnect(webSocketSession: Session): MutableList<SessionDBO>? {
         // Remove the practitioners session from the list
-        val removedSession = practitionersSessions.remove(webSocketSession)
-        if (removedSession != null) {
-            // return the first element in the list(The session that is the original)
-            return removedSession[0]
-        }
-        return null
+        return practitionersSessions.remove(webSocketSession)
     }
 
     /**

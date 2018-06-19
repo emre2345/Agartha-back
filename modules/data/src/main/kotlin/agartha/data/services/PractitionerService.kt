@@ -179,7 +179,7 @@ class PractitionerService : IPractitionerService {
      * @param numberOfSessions the number of sessions the practitioner wants to add
      * @return true if practitioner successfully paid the contributionsPoints
      */
-    override fun payForAddingVirtualSessions(practitioner: PractitionerDBO, numberOfSessions: Long): Boolean {
+    override fun payForAddingVirtualSessions(practitioner: PractitionerDBO, numberOfSessions: Int): Boolean {
         // PractitionerId will never be an empty string, but kotlin wont allow us to access practitioner._id without it maybe being null
         val practitionerId: String = practitioner._id ?: ""
         // Multiply the cost for adding a virtual session with the number of sessions that it wants to add

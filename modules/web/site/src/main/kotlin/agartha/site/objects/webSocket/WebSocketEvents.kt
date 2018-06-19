@@ -10,5 +10,6 @@ enum class WebSocketEvents(val eventName : String) {
     RECONNECT_SESSION("reconnect_session"),
     NEW_COMPANION ("new_companion"),
     COMPANIONS_SESSIONS ("companions_sessions"),
-    COMPANION_LEFT ("companion_left")
+    COMPANION_LEFT ("companion_left"),
+    COMPANION_LEFT_WITH_VIRTUAL_SESSIONS ("companion_left_with_virtual_sessions")
 }

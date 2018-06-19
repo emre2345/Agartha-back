@@ -106,25 +106,42 @@ class WebSocketHandler {
      * Closing the webSocket results in:
      * - disconnect WebSocketSession
      * - Broadcast to everybody else that a companion left
+     *   OR
+     * - Broadcast to everybody else that a companion with its virutal sessions left
      */
     @OnWebSocketClose
     fun disconnect(webSocketSession: Session, code: Int, reason: String?) {
         // Remove the practitioner from the hashMap
-        val practitionersSession = service.disconnect(webSocketSession)
-        debugPrintout(
-                "closing '${practitionersSession?.discipline}' for '${practitionersSession?.intention}' lasted for '${practitionersSession?.sessionDurationMinutes()}' minutes")
-        // The sessions remaining in the socket
-        val returnSessions = ControllerUtil.objectToString(service.getAllPractitionersSessions())
-        // The disconnected practitioners session
-        val returnPractitionersSession = ControllerUtil.objectToString(practitionersSession)
-        // Notify all other practitionersSessions this practitioner has left the webSocketSession
-        if (practitionersSession != null) {
-            broadcastToOthers(webSocketSession,
-                    WebSocketMessage(
-                            event =WebSocketEvents.COMPANION_LEFT.eventName,
-                            data = returnSessions,
-                            practitionersSession = returnPractitionersSession))
+        val practitionersSessions = service.disconnect(webSocketSession)
+        // If the disconnect was successful
+        if(practitionersSessions != null){
+            debugPrintout(
+                    "closing '${practitionersSessions[0].discipline}' for '${practitionersSessions[0].intention}' lasted for '${practitionersSession?.sessionDurationMinutes()}' minutes")
+            // The sessions remaining in the socket
+            val returnSessions = ControllerUtil.objectToString(service.getAllPractitionersSessions())
+            // The disconnected practitioners session, the original will be the first in the list
+            val returnPractitionersSession = ControllerUtil.objectToString(practitionersSessions[0])
+            // If there is more then one session for this practitioners webSocketSession
+            // Then the practitioner has virtual sessions
+            if (practitionersSessions.size > 1) {
+                // Notify all other practitionersSessions this practitioner and some virtualSessions has left the webSocketSession
+                broadcastToOthers(webSocketSession,
+                        WebSocketMessage(
+                                event = WebSocketEvents.COMPANION_LEFT_WITH_VIRTUAL_SESSIONS.eventName,
+                                data = returnSessions,
+                                practitionersSession = returnPractitionersSession,
+                                nrOfVirtualSessions = practitionersSessions.size))
+            }else {
+                // Notify all other practitionersSessions this practitioner has left the webSocketSession
+                broadcastToOthers(webSocketSession,
+                        WebSocketMessage(
+                                event =WebSocketEvents.COMPANION_LEFT.eventName,
+                                data = returnSessions,
+                                practitionersSession = returnPractitionersSession))
+            }
         }
+        // If the disconnect was'nt successful
+        // TODO: Return a webSocket message with event Error
     }
 
 
