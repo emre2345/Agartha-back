@@ -9,6 +9,7 @@ import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.controllers.utils.SessionUtil
 import agartha.site.controllers.utils.SpiritBankLogUtil
 import agartha.site.objects.response.CircleReport
+import io.schinzel.basicutils.configvar.IConfigVar
 import spark.Request
 import spark.Response
 import spark.Spark
@@ -20,8 +21,13 @@ import java.time.LocalDateTime
  *
  * Created by Jorgen Andersson on 2018-06-07.
  * @param mService object from reading from and writing to data source
+ * @param mConfig object to read config params from
  */
-class CircleController(private val mService: IPractitionerService) : AbstractController() {
+class CircleController(
+        private val mService: IPractitionerService,
+        private val mConfig: IConfigVar) : AbstractController() {
+
+    private val minConfigCircleCreate = mConfig.getValue("A_MIN_POINTS_CREATE_CIRCLE").toLong()
 
     init {
         // API path for circles
@@ -69,8 +75,8 @@ class CircleController(private val mService: IPractitionerService) : AbstractCon
         // Make sure practitionerId exists in database
         val practitioner = getPractitionerFromDatabase(practitionerId, mService)
         // Practitioner cannot create a circle if less then 50 points in spiritBank
-        if (practitioner.calculateSpiritBankPointsFromLog() < SPIRIT_BANK_START_POINTS) {
-            Spark.halt(400, "Practitioner cannot create circle with less than 50 contribution points")
+        if (practitioner.calculateSpiritBankPointsFromLog() < minConfigCircleCreate) {
+            Spark.halt(400, "Practitioner cannot create circle with less than $minConfigCircleCreate contribution points")
         }
         // Get circle data from body
         val circle: CircleDBO = ControllerUtil.stringToObject(request.body(), CircleDBO::class.java)
