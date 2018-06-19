@@ -43,7 +43,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
             Spark.post("/session/end/:userid/:contributionpoints", ::endSession)
             //
             // Start practicing by Joining a Circle
-            Spark.post("/circle/join/:userid/:circleid/:discipline/:intention", ::joinCircle)
+            Spark.post("/circle/join/:userid/:circleid", ::joinCircle)
             //
             // Get practitioners spiritBankHistory
             Spark.get("/spiritbankhistory/:userid", ::getSpiritBankHistory)
@@ -150,23 +150,24 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         // Get params
         val practitionerId: String = getPractitionerIdFromRequest(request)
         val circleId: String = request.params(":circleid")
-        val discipline: String = request.params(":discipline")
-        val intention: String = request.params(":intention")
+        // Get selected geolocation, discipline and intention
+        val startSessionInformation: StartSessionInformation =
+                ControllerUtil.stringToObject(request.body(), StartSessionInformation::class.java)
 
         // Get objects and validate they exist
         val practitioner = getPractitionerFromDatabase(practitionerId, mService)
         val circle: CircleDBO = getActiveCircleFromDatabase(circleId, mService)
 
         // Validate
-        validateDiscipline(circle, discipline)
-        validateIntention(circle, intention)
+        validateDiscipline(circle, startSessionInformation.discipline)
+        validateIntention(circle, startSessionInformation.intention)
         validatePractitionerCanAffordToJoin(practitioner, circle.minimumSpiritContribution)
 
         // Create a session
         val session = SessionDBO(
-                geolocation = circle.geolocation,
-                discipline = discipline,
-                intention = intention,
+                geolocation = startSessionInformation.geolocation,
+                discipline = startSessionInformation.discipline,
+                intention = startSessionInformation.intention,
                 startTime = LocalDateTime.now(),
                 circle = circle)
         // Add session to practitioner
