@@ -42,17 +42,17 @@ class WebSocketHandler {
 
         // Do different things depending on the WebSocketMessage event
         when (webSocketMessage.event) {
-            // Start web socket session
+        // Start web socket session
             WebSocketEvents.START_SESSION.eventName -> {
                 // Connect a original practitioner to the webSocket
                 connectOriginal(webSocketSession, webSocketMessage)
             }
-            // Reconnect web socket session, should be when Heroku re-starts and client connection is lost
+        // Reconnect web socket session, should be when Heroku re-starts and client connection is lost
             WebSocketEvents.RECONNECT_SESSION.eventName -> {
                 // Connect a original practitioner to the webSocket
                 connectOriginal(webSocketSession, webSocketMessage)
             }
-            // Reconnect web socket session, should be when Heroku re-starts and client connection is lost
+        // Reconnect web socket session, should be when Heroku re-starts and client connection is lost
             WebSocketEvents.START_VIRTUAL_SESSION.eventName -> {
                 // Connect a virtual practitioner to a original practitioners webSocketSession
                 connectVirtual(webSocketSession, webSocketMessage)
@@ -82,8 +82,8 @@ class WebSocketHandler {
         // Send to self
         emit(webSocketSession,
                 WebSocketMessage(
-                event = WebSocketEvents.COMPANIONS_SESSIONS.eventName,
-                data = returnSessions))
+                        event = WebSocketEvents.COMPANIONS_SESSIONS.eventName,
+                        data = returnSessions))
     }
 
     /**
@@ -114,7 +114,7 @@ class WebSocketHandler {
         // Remove the practitioner from the hashMap
         val practitionersSessions = service.disconnect(webSocketSession)
         // If the disconnect was successful
-        if(practitionersSessions != null){
+        if (practitionersSessions != null) {
             debugPrintout(
                     "closing '${practitionersSessions[0].discipline}' for '${practitionersSessions[0].intention}' lasted for '${practitionersSessions[0].sessionDurationMinutes()}' minutes")
             // The sessions remaining in the socket
@@ -131,11 +131,11 @@ class WebSocketHandler {
                                 data = returnSessions,
                                 practitionersSession = returnPractitionersSession,
                                 nrOfVirtualSessions = practitionersSessions.size))
-            }else {
+            } else {
                 // Notify all other practitionersSessions this practitioner has left the webSocketSession
                 broadcastToOthers(webSocketSession,
                         WebSocketMessage(
-                                event =WebSocketEvents.COMPANION_LEFT.eventName,
+                                event = WebSocketEvents.COMPANION_LEFT.eventName,
                                 data = returnSessions,
                                 practitionersSession = returnPractitionersSession))
             }
@@ -150,7 +150,7 @@ class WebSocketHandler {
      * @param webSocketSession - the practitionersSessions webSocket-session
      * @param message - the message for the client
      */
-    private fun emit(webSocketSession: Session, message: WebSocketMessage){
+    private fun emit(webSocketSession: Session, message: WebSocketMessage) {
         webSocketSession.remote.sendString(jacksonObjectMapper().writeValueAsString(message))
     }
 
@@ -159,10 +159,10 @@ class WebSocketHandler {
      * @param webSocketSession - the practitionersSessions webSocket-session
      * @param message - the message for the client
      */
-    private fun broadcastToOthers(webSocketSession: Session, message: WebSocketMessage){
-            service.getPractitionersWebSocketSessions()
-                    .filter { it != webSocketSession }
-                    .forEach { emit(it, message) }
+    private fun broadcastToOthers(webSocketSession: Session, message: WebSocketMessage) {
+        service.getPractitionersWebSocketSessions()
+                .filter { it != webSocketSession }
+                .forEach { emit(it, message) }
     }
 
     private fun debugPrintout(eventText: String) {
