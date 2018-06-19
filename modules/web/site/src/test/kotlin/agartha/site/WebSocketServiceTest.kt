@@ -72,6 +72,15 @@ class WebSocketServiceTest {
                 "dfg", 1)
     }
 
+    /**
+     * Create a Virtual session with the practitioner that is the creator of the circle
+     */
+    private fun connect5VirtualUserWithCircle(): SessionDBO {
+        return webSocketService.connectVirtual(
+                mockedWebSocketSession,
+                "dfg", 5)
+    }
+
 
     @Before
     fun setupClass() {
@@ -113,6 +122,19 @@ class WebSocketServiceTest {
         assertThat(webSocketService.getPractitionersSessionsSize()).isEqualTo(2)
     }
 
+    /**
+     *
+     */
+    @Test
+    fun webSocketService_connectVirtual5NewSessions_activeSessionsSize6() {
+        connectAUserWithCircle()
+        connect5VirtualUserWithCircle()
+        assertThat(webSocketService.getPractitionersSessionsSize()).isEqualTo(6)
+    }
+
+    /**
+     *
+     */
     @Test
     fun webSocketService_connectVirtual_pointsLeft45() {
         connectAUserWithCircle()
@@ -122,6 +144,9 @@ class WebSocketServiceTest {
         assertThat(pointsLeft).isEqualTo(45)
     }
 
+    /**
+     *
+     */
     @Test
     fun webSocketService_connectVirtual_newLogInSpiritBank() {
         connectAUserWithCircle()
