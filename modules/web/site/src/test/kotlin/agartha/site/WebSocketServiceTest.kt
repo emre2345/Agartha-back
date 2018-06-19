@@ -60,7 +60,7 @@ class WebSocketServiceTest {
     private fun connectAVirtualUserWithoutCircle(): SessionDBO {
         return webSocketService.connectVirtual(
                 mockedWebSocketSession,
-                connectMessage)
+                "abc", 1)
     }
 
     /**
@@ -69,7 +69,7 @@ class WebSocketServiceTest {
     private fun connectAVirtualUserWithCircle(): SessionDBO {
         return webSocketService.connectVirtual(
                 mockedWebSocketSession,
-                connectMessageCircle)
+                "dfg", 1)
     }
 
 

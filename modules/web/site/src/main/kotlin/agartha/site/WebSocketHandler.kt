@@ -66,7 +66,7 @@ class WebSocketHandler {
      * - Broadcast to everybody else that a new companion joined
      * - emit to self all the sessions in the WebSocket
      */
-    private fun connect(webSocketSession: Session, webSocketMessage: WebSocketMessage, practitionersLatestSession: SessionDBO) {
+    private fun connect(webSocketSession: Session, practitionersLatestSession: SessionDBO) {
         debugPrintout(
                 "starting '${practitionersLatestSession.discipline}' for '${practitionersLatestSession.intention}'")
         // The sessions remaining in the socket
@@ -74,7 +74,7 @@ class WebSocketHandler {
         // The disconnected practitioners session
         val returnPractitionersSession = ControllerUtil.objectToString(practitionersLatestSession)
         // Broadcast to all practitioners connected except this session
-        broadcastToOthers(webSocketSession, WebSocketMessage(WebSocketEvents.NEW_COMPANION.eventName, returnSessions, returnPractitionersSession))
+        broadcastToOthers(webSocketSession, WebSocketMessage(event = WebSocketEvents.NEW_COMPANION.eventName, data = returnSessions, practitionersSession = returnPractitionersSession))
         // Send to self
         emit(webSocketSession, WebSocketMessage(WebSocketEvents.COMPANIONS_SESSIONS.eventName, returnSessions))
     }
@@ -84,15 +84,15 @@ class WebSocketHandler {
      */
     private fun connectOriginal(webSocketSession: Session, webSocketMessage: WebSocketMessage) {
         val practitionersLatestSession = service.connectOriginal(webSocketSession, webSocketMessage)
-        connect(webSocketSession, webSocketMessage, practitionersLatestSession)
+        connect(webSocketSession, practitionersLatestSession)
     }
 
     /**
      * Connects fake practitioner to a practitioner that is an original and already in the webSocket
      */
     private fun connectVirtual(webSocketSession: Session, webSocketMessage: WebSocketMessage) {
-        val practitionersLatestSession = service.connectVirtual(webSocketSession, webSocketMessage)
-        connect(webSocketSession, webSocketMessage, practitionersLatestSession)
+        val practitionersLatestSession = service.connectVirtual(webSocketSession, webSocketMessage.data, webSocketMessage.nrOfVirtualSessions)
+        connect(webSocketSession, practitionersLatestSession)
     }
 
     /**

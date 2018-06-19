@@ -37,9 +37,9 @@ class WebSocketService(private val mService: IPractitionerService) {
     /**
      * Add a virtual practitioners session to a original practitioners webSocketSession in the map
      */
-    fun connectVirtual(webSocketSession: Session, webSocketMessage: WebSocketMessage): SessionDBO {
+    fun connectVirtual(webSocketSession: Session, practitionerId: String, nrOfVirtualSessions: Long): SessionDBO {
         // Get the practitioner
-        val practitioner: PractitionerDBO = mService.getById(webSocketMessage.data)!!
+        val practitioner: PractitionerDBO = mService.getById(practitionerId)!!
         // Get practitioners last session
         val practitionersLatestSession: SessionDBO = practitioner.sessions.last()
         // get circle of session
@@ -51,10 +51,12 @@ class WebSocketService(private val mService: IPractitionerService) {
         if (sessions != null &&
                 circle != null &&
                 practitioner.creatorOfCircle(circle) &&
-                // Make the practitioner pays for the added sessions
-                mService.payForAddingVirtualSessions(practitioner, 1)) {
-            // Then make a mutable sessionList and add the practitionersSession to the sessionList
-            sessions.add(practitionersLatestSession)
+                // Make sure that the practitioner can pay for the added sessions
+                mService.payForAddingVirtualSessions(practitioner, nrOfVirtualSessions)) {
+            // Then add the practitionersSession to the sessionList as many times that the practitioner requested
+            for (i in 1..nrOfVirtualSessions) {
+                sessions.add(practitionersLatestSession)
+            }
             // Update the hasMap with the webSocketSession and the new sessionList
             practitionersSessions.put(webSocketSession, sessions)
         }
