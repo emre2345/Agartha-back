@@ -37,6 +37,7 @@ fun startServer(args: Array<String>) {
 
     // Handling the API
     Spark.path("/v1") {
+        val config = ConfigVar.create(".env")
         /*
          * CORS (Cross Origin stuff)
          * Allow requests from any origin, needed to be able to access this path
@@ -44,17 +45,23 @@ fun startServer(args: Array<String>) {
         Spark.before("/*", { _, response -> response.header("Access-Control-Allow-Origin", "*") })
         //
         // Controller/Service for current Practitioner
-        SettingsController(SettingsService())
+        SettingsController(
+                SettingsService())
         // Controller/Service for Practitioners and Practitioners circles
-        PractitionerController(PractitionerService())
-        CircleController(PractitionerService())
-        ImageController(ImageService())
+        PractitionerController(
+                PractitionerService())
+        CircleController(
+                PractitionerService(),
+                config)
+        ImageController(
+                ImageService())
         // Controller/Service for Practitioner Companions
-        CompanionController(PractitionerService())
+        CompanionController(
+                PractitionerService())
         // TODO: Admin stuff, this will maniuplate database. Remove before sharp production mode
         AdminController(
                 PractitionerService(),
-                ConfigVar.create(".env"),
+                config,
                 SettingsService().getAll().firstOrNull())
     }
 
