@@ -5,7 +5,7 @@ import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.controllers.utils.DevGeolocationSelect
 import agartha.site.controllers.utils.SetupUtil
-import io.schinzel.basicutils.configvar.ConfigVar
+import io.schinzel.basicutils.configvar.IConfigVar
 import spark.Request
 import spark.Response
 import spark.Spark
@@ -20,7 +20,9 @@ import java.util.*
  *
  * Created by Jorgen Andersson on 2018-05-30.
  */
-class AdminController(private val mService: IPractitionerService, settings: SettingsDBO?) {
+class AdminController(private val mService: IPractitionerService,
+                      private val config: IConfigVar,
+                      settings: SettingsDBO?) {
 
     // Generate a list of geolocation to random from
     private val geoLocations = DevGeolocationSelect.values().map { it.geolocationDBO }
@@ -29,24 +31,25 @@ class AdminController(private val mService: IPractitionerService, settings: Sett
             intentions = SetupUtil.getDefaultIntentions(),
             disciplines = SetupUtil.getDefaultDisciplines())
     // Authentication Pass Phrase, read from config variable (.env file locally or Heroku Settings), Default value for tests
-    private val passPhrase: String = getPassPhrase()
+    private val passPhrase: String = config.getValue("A_PASS_PHRASE")
 
     init {
         Spark.path("/admin") {
             // Validate that a pass phrase exists in body
-            Spark.before("/*", { request: Request, _ ->
+            Spark.before("/*") { request: Request, _ ->
                 val body = request.body() ?: ""
 
                 if (body != passPhrase) {
                     Spark.halt(401, "Unauthorized")
                 }
-            })
+            }
 
             // All API must have type POST to be able to have a body
             // Validate pass Phrase
-            Spark.post("/auth", { _, _ ->
+            Spark.post("/auth") { _, _ ->
                 "true"
-            })
+            }
+
             // Get all practitioners from data source
             Spark.post("/practitioners", ::getPractitioners)
             // Generate [COUNT] number of new practitioners
@@ -61,18 +64,6 @@ class AdminController(private val mService: IPractitionerService, settings: Sett
             Spark.post("/remove/practitioner/:userid", ::removePractitioner)
             // Remove a circle
             Spark.post("/remove/circle/:circleid", ::removeCircle)
-        }
-    }
-
-    /**
-     * Config var not accessible from Tests (unless we symlink root .env into site folder)
-     * For tests "Santa" is returned
-     */
-    private fun getPassPhrase(): String {
-        try {
-            return ConfigVar.create(".env").getValue("A_PASS_PHRASE")
-        } catch (exception: Exception) {
-            return "Santa"
         }
     }
 

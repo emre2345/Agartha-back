@@ -5,6 +5,7 @@ import agartha.data.objects.*
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.objects.response.CircleReport
+import io.schinzel.basicutils.configvar.IConfigVar
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.BeforeClass
@@ -18,6 +19,13 @@ import java.time.LocalDateTime
  */
 class CircleControllerTest {
 
+    class ConfigDummy : IConfigVar {
+        override fun getValue(p0: String?): String {
+            return "50"
+        }
+
+    }
+
     companion object {
         val mockedService = MockedPractitionerService()
         val testController = ControllerServer()
@@ -28,7 +36,7 @@ class CircleControllerTest {
         @BeforeClass
         @JvmStatic
         fun setupClass() {
-            CircleController(mockedService)
+            CircleController(mockedService, ConfigDummy())
             spark.Spark.awaitInitialization()
         }
     }
