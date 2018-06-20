@@ -220,6 +220,20 @@ class PractitionerControllerTest {
         assertThat(data.discipline).isEqualTo("Yoga")
     }
 
+    @Test
+    fun startSession_emptyDiscipline_status400() {
+        // Setup
+        mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
+        //
+        val request = testController.testServer.post(
+                "/practitioner/session/start/abc",
+                """{"discipline":"","intention":"Salary raise"}""",
+                false)
+        val response = testController.testServer.execute(request)
+        //
+        assertThat(response.code()).isEqualTo(400)
+    }
+
     /**
      *
      */
@@ -322,7 +336,10 @@ class PractitionerControllerTest {
 
     @Test
     fun joinCircle_missingParams_404() {
-        val request = testController.testServer.post("/cicle/join/a/", "", false)
+        val request = testController.testServer.post(
+                "/cicle/join/a/",
+                """{"geolocation":null,"discipline":"D","intention":"I"}""",
+                false)
         val response = testController.testServer.execute(request)
         assertThat(response.code()).isEqualTo(404)
     }
@@ -341,7 +358,32 @@ class PractitionerControllerTest {
                         startTime = LocalDateTime.now().minusMinutes(10),
                         endTime = LocalDateTime.now().plusMinutes(10),
                         minimumSpiritContribution = 2))))
-        val request = testController.testServer.post("/practitioner/circle/join/a/1/D/I", "", false)
+        val request = testController.testServer.post(
+                "/practitioner/circle/join/a/1",
+                """{"geolocation":null,"discipline":"D","intention":"I"}""",
+                false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
+    }
+
+    @Test
+    fun joinCircle_intentionEmpty_400() {
+        // Insert the creator of circle
+        mockedService.insert(PractitionerDBO(
+                _id = "a",
+                circles = listOf(CircleDBO(
+                        _id = "1",
+                        name = "MyCircle",
+                        description = "MyDescription",
+                        disciplines = listOf(DisciplineDBO("D", "D")),
+                        intentions = listOf(IntentionDBO("I", "I")),
+                        startTime = LocalDateTime.now().minusMinutes(10),
+                        endTime = LocalDateTime.now().plusMinutes(10),
+                        minimumSpiritContribution = 2))))
+        val request = testController.testServer.post(
+                "/practitioner/circle/join/a/1",
+                """{"geolocation":null,"discipline":"D","intention":""}""",
+                false)
         val response = testController.testServer.execute(request)
         assertThat(response.code()).isEqualTo(400)
     }
@@ -350,7 +392,10 @@ class PractitionerControllerTest {
     fun joinCircle_circleIdMissing_400() {
         // Insert the current user
         mockedService.insert(PractitionerDBO(_id = "a"))
-        val request = testController.testServer.post("/practitioner/circle/join/a/1/D/I", "", false)
+        val request = testController.testServer.post(
+                "/practitioner/circle/join/a/1",
+                """{"geolocation":null,"discipline":"D","intention":"I"}""",
+                false)
         val response = testController.testServer.execute(request)
         assertThat(response.code()).isEqualTo(400)
     }
@@ -372,7 +417,10 @@ class PractitionerControllerTest {
                         endTime = LocalDateTime.now().plusMinutes(10),
                         minimumSpiritContribution = 2))))
         // let user id a join session 1 from user b
-        val request = testController.testServer.post("/practitioner/circle/join/a/1/D/I", "", false)
+        val request = testController.testServer.post(
+                "/practitioner/circle/join/a/1",
+                """{"geolocation":null,"discipline":"D","intention":"I"}""",
+                false)
         val response = testController.testServer.execute(request)
         assertThat(response.code()).isEqualTo(200)
     }
@@ -394,7 +442,10 @@ class PractitionerControllerTest {
                         endTime = LocalDateTime.now().plusMinutes(10),
                         minimumSpiritContribution = 2))))
         // let user id a join session 1 from user b
-        val request = testController.testServer.post("/practitioner/circle/join/a/1/D/I", "", false)
+        val request = testController.testServer.post(
+                "/practitioner/circle/join/a/1",
+                """{"geolocation":null,"discipline":"D","intention":"I"}""",
+                false)
         val response = testController.testServer.execute(request)
         assertThat(response.code()).isEqualTo(400)
     }
@@ -416,7 +467,10 @@ class PractitionerControllerTest {
                         endTime = LocalDateTime.now().plusMinutes(10),
                         minimumSpiritContribution = 2))))
         // let user id a join session 1 from user b
-        val request = testController.testServer.post("/practitioner/circle/join/a/1/D/I", "", false)
+        val request = testController.testServer.post(
+                "/practitioner/circle/join/a/1",
+                """{"geolocation":null,"discipline":"D","intention":"I"}""",
+                false)
         testController.testServer.execute(request)
         // validate the data source
         val practitioner = mockedService.getById("a")
@@ -440,7 +494,10 @@ class PractitionerControllerTest {
                         endTime = LocalDateTime.now().plusMinutes(10),
                         minimumSpiritContribution = 2))))
         // let user id a join session 1 from user b
-        val request = testController.testServer.post("/practitioner/circle/join/a/1/D/I", "", false)
+        val request = testController.testServer.post(
+                "/practitioner/circle/join/a/1",
+                """{"geolocation":null,"discipline":"D","intention":"I"}""",
+                false)
         val response = testController.testServer.execute(request)
         val session = ControllerUtil.stringToObject(String(response.body()), SessionDBO::class.java)
         assertThat(session.endTime).isNull()
@@ -463,7 +520,10 @@ class PractitionerControllerTest {
                         endTime = LocalDateTime.now().plusMinutes(10),
                         minimumSpiritContribution = 2))))
         // let user id a join session 1 from user b
-        val request = testController.testServer.post("/practitioner/circle/join/a/1/Q/I", "", false)
+        val request = testController.testServer.post(
+                "/practitioner/circle/join/a/1",
+                """{"geolocation":null,"discipline":"Q","intention":"I"}""",
+                false)
         val response = testController.testServer.execute(request)
         assertThat(response.code()).isEqualTo(400)
     }
@@ -485,7 +545,10 @@ class PractitionerControllerTest {
                         endTime = LocalDateTime.now().plusMinutes(10),
                         minimumSpiritContribution = 2))))
         // let user id a join session 1 from user b
-        val request = testController.testServer.post("/practitioner/circle/join/a/1/D/Q", "", false)
+        val request = testController.testServer.post(
+                "/practitioner/circle/join/a/1",
+                """{"geolocation":null,"discipline":"D","intention":"Q"}""",
+                false)
         val response = testController.testServer.execute(request)
         assertThat(response.code()).isEqualTo(400)
     }
@@ -506,7 +569,10 @@ class PractitionerControllerTest {
                         startTime = LocalDateTime.now().minusMinutes(10),
                         endTime = LocalDateTime.now().plusMinutes(10),
                         minimumSpiritContribution = 2))))
-        val request = testController.testServer.post("/practitioner/circle/join/a/1/D/I", "", false)
+        val request = testController.testServer.post(
+                "/practitioner/circle/join/a/1",
+                """{"geolocation":null,"discipline":"D","intention":"I"}""",
+                false)
         val response = testController.testServer.execute(request)
         assertThat(response.code()).isEqualTo(200)
     }
@@ -527,7 +593,10 @@ class PractitionerControllerTest {
                         startTime = LocalDateTime.now().minusMinutes(10),
                         endTime = LocalDateTime.now().plusMinutes(10),
                         minimumSpiritContribution = 2))))
-        val request = testController.testServer.post("/practitioner/circle/join/a/1/D/I", "", false)
+        val request = testController.testServer.post(
+                "/practitioner/circle/join/a/1",
+                """{"geolocation":null,"discipline":"D","intention":"I"}""",
+                false)
         val response = testController.testServer.execute(request)
         // validate the data source
         val practitioner = mockedService.getById("a")
@@ -550,7 +619,10 @@ class PractitionerControllerTest {
                         startTime = LocalDateTime.now().minusMinutes(10),
                         endTime = LocalDateTime.now().plusMinutes(10),
                         minimumSpiritContribution = 2))))
-        val request = testController.testServer.post("/practitioner/circle/join/a/1/D/I", "", false)
+        val request = testController.testServer.post(
+                "/practitioner/circle/join/a/1",
+                """{"geolocation":null,"discipline":"D","intention":"I"}""",
+                false)
         val response = testController.testServer.execute(request)
         // validate the data source
         val practitioner = mockedService.getById("a")
@@ -573,7 +645,10 @@ class PractitionerControllerTest {
                         startTime = LocalDateTime.now().minusMinutes(10),
                         endTime = LocalDateTime.now().plusMinutes(10),
                         minimumSpiritContribution = 2))))
-        val request = testController.testServer.post("/practitioner/circle/join/a/1/D/I", "", false)
+        val request = testController.testServer.post(
+                "/practitioner/circle/join/a/1",
+                """{"geolocation":null,"discipline":"D","intention":"I"}""",
+                false)
         val response = testController.testServer.execute(request)
         // validate the data source
         val practitioner = mockedService.getById("a")
@@ -597,7 +672,10 @@ class PractitionerControllerTest {
                         startTime = LocalDateTime.now().minusMinutes(10),
                         endTime = LocalDateTime.now().plusMinutes(10),
                         minimumSpiritContribution = 2))))
-        val request = testController.testServer.post("/practitioner/circle/join/a/1/D/I", "", false)
+        val request = testController.testServer.post(
+                "/practitioner/circle/join/a/1",
+                """{"geolocation":null,"discipline":"D","intention":"I"}""",
+                false)
         val response = testController.testServer.execute(request)
         // validate the data source
         val practitioner = mockedService.getById("a")
@@ -622,7 +700,10 @@ class PractitionerControllerTest {
                         startTime = LocalDateTime.now().minusMinutes(10),
                         endTime = LocalDateTime.now().plusMinutes(10),
                         minimumSpiritContribution = 100))))
-        val request = testController.testServer.post("/practitioner/circle/join/a/1/D/I", "", false)
+        val request = testController.testServer.post(
+                "/practitioner/circle/join/a/1",
+                """{"geolocation":null,"discipline":"D","intention":"I"}""",
+                false)
         val response = testController.testServer.execute(request)
         assertThat(response.code()).isEqualTo(400)
     }
