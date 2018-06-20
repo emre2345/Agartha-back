@@ -107,10 +107,11 @@ class WebSocketHandler {
             connect(webSocketSession, practitionersLatestSession)
         } else {
             // If the size has'nt changed then emit an error to the practitioner's session
+            val cost = webSocketMessage.nrOfVirtualSessions * Settings.COST_ADD_VIRTUAL_SESSION_POINTS
             emit(webSocketSession,
                     WebSocketMessage(
                             event = WebSocketEvents.ERROR_OCCURRED.eventName,
-                            data = "The Practitioner needs to be in a circle and be the creator of the circle. The practitioner needs to have at least "+webSocketMessage.nrOfVirtualSessions * Settings.COST_ADD_VIRTUAL_SESSION_POINTS +" points in its spirit bank"))
+                            data = "The Practitioner needs to be in a circle and be the creator of the circle. The practitioner needs to have at least $cost points in its spirit bank"))
         }
     }
 
