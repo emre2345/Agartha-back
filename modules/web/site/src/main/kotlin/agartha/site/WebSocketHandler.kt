@@ -96,7 +96,8 @@ class WebSocketHandler {
     }
 
     /**
-     * Connects fake practitioner to a practitioner that is an original and already in the webSocket
+     * Connects virtual practitioner to a practitioner that is an original and already in the webSocket
+     * If there was a problem in the service the virtual sessions will not be added and the webSocket will emit a Error instead
      */
     private fun connectVirtual(webSocketSession: Session, webSocketMessage: WebSocketMessage) {
         val practitionersSessionsSize = service.getPractitionersSessionsSize()
