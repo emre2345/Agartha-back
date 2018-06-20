@@ -4,6 +4,7 @@ import agartha.data.objects.CircleDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
+import agartha.site.controllers.utils.ReqArgument
 import agartha.site.controllers.utils.SessionUtil
 import agartha.site.controllers.utils.SpiritBankLogUtil
 import agartha.site.objects.response.CircleReport
@@ -36,15 +37,15 @@ class CircleController(
             Spark.get("/active", ::getAllActive)
             //
             // Add a circle to a practitioner
-            Spark.before("/${Arguments.PRACTITIONER_ID.value}", ::validatePractitioner)
-            Spark.before("/${Arguments.PRACTITIONER_ID.value}", ::validateCreateCircle)
-            Spark.post("/${Arguments.PRACTITIONER_ID.value}", ::addCircle)
+            Spark.before("/add/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
+            Spark.before("/add/${ReqArgument.PRACTITIONER_ID.value}", ::validateCreateCircle)
+            Spark.post("/add/${ReqArgument.PRACTITIONER_ID.value}", ::addCircle)
             //
             // Get a receipt of my circle
-            Spark.before("/receipt/${Arguments.PRACTITIONER_ID.value}/${Arguments.CIRCLE_ID.value}", ::validatePractitioner)
-            Spark.before("/receipt/${Arguments.PRACTITIONER_ID.value}/${Arguments.CIRCLE_ID.value}", ::validateCircle)
-            Spark.before("/receipt/${Arguments.PRACTITIONER_ID.value}/${Arguments.CIRCLE_ID.value}", ::validateCircleCreator)
-            Spark.get("/receipt/${Arguments.PRACTITIONER_ID.value}/${Arguments.CIRCLE_ID.value}", ::circleReceipt)
+            Spark.before("/receipt/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validatePractitioner)
+            Spark.before("/receipt/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateCircle)
+            Spark.before("/receipt/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateCircleCreator)
+            Spark.get("/receipt/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::circleReceipt)
         }
     }
 
@@ -67,7 +68,7 @@ class CircleController(
     @Suppress("UNUSED_PARAMETER")
     fun validateCircleCreator(request: Request, response: Response) {
         val practitioner = getPractitioner(request)
-        val circleId: String = request.params("${Arguments.CIRCLE_ID.value}")
+        val circleId: String = request.params("${ReqArgument.CIRCLE_ID.value}")
         val circle = practitioner
                 .circles
                 .filter { it._id == circleId }

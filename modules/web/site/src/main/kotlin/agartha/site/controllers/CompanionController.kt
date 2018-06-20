@@ -5,6 +5,7 @@ import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
+import agartha.site.controllers.utils.ReqArgument
 import agartha.site.controllers.utils.SessionUtil
 import agartha.site.objects.response.CompanionReport
 import spark.Request
@@ -30,11 +31,11 @@ class CompanionController(private val mService: IPractitionerService) : Abstract
             // Get companions for predefined timespan
             Spark.get("", ::companionReport)
             // Get companions for practitioners last session
-            Spark.before("/${Arguments.PRACTITIONER_ID.value}", ::validatePractitioner)
-            Spark.get("/${Arguments.PRACTITIONER_ID.value}", ::companionSessionReport)
+            Spark.before("/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
+            Spark.get("/${ReqArgument.PRACTITIONER_ID.value}", ::companionSessionReport)
             // Get companions for ongoing
-            Spark.before("/ongoing/${Arguments.PRACTITIONER_ID.value}", ::validatePractitioner)
-            Spark.get("/ongoing/${Arguments.PRACTITIONER_ID.value}", ::companionOngoing)
+            Spark.before("/ongoing/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
+            Spark.get("/ongoing/${ReqArgument.PRACTITIONER_ID.value}", ::companionOngoing)
         }
     }
 
@@ -79,7 +80,7 @@ class CompanionController(private val mService: IPractitionerService) : Abstract
      * @return Report of active sessions between these dates
      */
     private fun generateCompanionReport(
-            startDateTime: LocalDateTime, endDateTime: LocalDateTime) : CompanionReport {
+            startDateTime: LocalDateTime, endDateTime: LocalDateTime): CompanionReport {
         // Get practitioners with sessions between
         val practitioners = mService
                 .getAll()

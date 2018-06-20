@@ -3,8 +3,7 @@ package agartha.site.controllers
 import agartha.data.objects.CircleDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.services.IPractitionerService
-import javafx.scene.shape.Circle
-import org.bson.types.ObjectId
+import agartha.site.controllers.utils.ReqArgument
 import spark.Request
 import spark.Response
 import spark.Spark.halt
@@ -16,12 +15,6 @@ import java.time.LocalDateTime
  * Created by Jorgen Andersson on 2018-06-07.
  */
 abstract class AbstractController(private val mService: IPractitionerService) {
-
-    enum class Arguments(val value: String) {
-        PRACTITIONER_ID(":userId"),
-        CIRCLE_ID(":circleId"),
-        POINTS(":points")
-    }
 
     /**
      * Validate that the argument "userid" does exist in datastore
@@ -50,7 +43,7 @@ abstract class AbstractController(private val mService: IPractitionerService) {
      * The null should not happen since Spark.before should catch these
      */
     fun getPractitioner(request: Request): PractitionerDBO {
-        val practitionerId = request.params(Arguments.PRACTITIONER_ID.value)
+        val practitionerId = request.params(ReqArgument.PRACTITIONER_ID.value)
         return mService.getById(practitionerId) ?: PractitionerDBO(_id = "")
     }
 
@@ -59,9 +52,9 @@ abstract class AbstractController(private val mService: IPractitionerService) {
      */
     fun getCircle(request: Request): CircleDBO {
         // Get circle id from request
-        val circleId: String = request.params(Arguments.CIRCLE_ID.value)
+        val circleId: String = request.params(ReqArgument.CIRCLE_ID.value)
         // Find the circle
-        val circle : CircleDBO? =  mService
+        val circle: CircleDBO? = mService
                 // Get all practitioner
                 .getAll()
                 // Get all circles from practitioner

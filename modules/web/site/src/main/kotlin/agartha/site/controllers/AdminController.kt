@@ -46,10 +46,7 @@ class AdminController(private val mService: IPractitionerService,
 
             // All API must have type POST to be able to have a body
             // Validate pass Phrase
-            Spark.post("/auth") { _, _ ->
-                "true"
-            }
-
+            Spark.post("/auth") { _, _ -> "true" }
             // Get all practitioners from data source
             Spark.post("/practitioners", ::getPractitioners)
             // Generate [COUNT] number of new practitioners

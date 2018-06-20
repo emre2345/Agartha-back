@@ -5,6 +5,7 @@ import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
+import agartha.site.controllers.utils.ReqArgument
 import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.objects.request.StartSessionInformation
 import agartha.site.objects.response.PractitionerReport
@@ -33,30 +34,31 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
             Spark.get("", ::createPractitioner)
             //
             //
-            Spark.before("/${Arguments.PRACTITIONER_ID.value}", ::validatePractitioner)
+            Spark.before("/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
             // Where practitionerId has been set - return info for the practitioner and about practitioner
-            Spark.get("/${Arguments.PRACTITIONER_ID.value}", ::getInformation)
+            Spark.get("/${ReqArgument.PRACTITIONER_ID.value}", ::getInformation)
             // Update practitioner data
-            Spark.post("/${Arguments.PRACTITIONER_ID.value}", ::updatePractitioner)
+            Spark.post("/${ReqArgument.PRACTITIONER_ID.value}", ::updatePractitioner)
             //
             // Start a Session
-            Spark.before("/session/start/${Arguments.PRACTITIONER_ID.value}", ::validatePractitioner)
-            Spark.before("/session/start/${Arguments.PRACTITIONER_ID.value}", ::validateSessionStart)
-            Spark.post("/session/start/${Arguments.PRACTITIONER_ID.value}", ::startSession)
+            Spark.before("/session/start/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
+            Spark.before("/session/start/${ReqArgument.PRACTITIONER_ID.value}", ::validateSessionStart)
+            Spark.post("/session/start/${ReqArgument.PRACTITIONER_ID.value}", ::startSession)
             //
             // End a Session
-            Spark.before("/session/end/${Arguments.PRACTITIONER_ID.value}/${Arguments.POINTS.value}", ::validatePractitioner)
-            Spark.post("/session/end/${Arguments.PRACTITIONER_ID.value}/${Arguments.POINTS.value}", ::endSession)
+            Spark.before("/session/end/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.POINTS.value}", ::validatePractitioner)
+            Spark.post("/session/end/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.POINTS.value}", ::endSession)
             //
             // Start practicing by Joining a Circle
-            Spark.before("/circle/join/${Arguments.PRACTITIONER_ID.value}/${Arguments.CIRCLE_ID.value}", ::validatePractitioner)
-            Spark.before("/circle/join/${Arguments.PRACTITIONER_ID.value}/${Arguments.CIRCLE_ID.value}", ::validateSessionStart)
-            Spark.before("/circle/join/${Arguments.PRACTITIONER_ID.value}/${Arguments.CIRCLE_ID.value}", ::validateJoinCircle)
-            Spark.post("/circle/join/${Arguments.PRACTITIONER_ID.value}/${Arguments.CIRCLE_ID.value}", ::joinCircle)
+            Spark.before("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validatePractitioner)
+            Spark.before("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateSessionStart)
+            Spark.before("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateCircle)
+            Spark.before("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateJoinCircle)
+            Spark.post("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::joinCircle)
             //
             // Get practitioners spiritBankHistory
-            Spark.before("/spiritbankhistory/${Arguments.PRACTITIONER_ID.value}", ::validatePractitioner)
-            Spark.get("/spiritbankhistory/${Arguments.PRACTITIONER_ID.value}", ::getSpiritBankHistory)
+            Spark.before("/spiritbankhistory/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
+            Spark.get("/spiritbankhistory/${ReqArgument.PRACTITIONER_ID.value}", ::getSpiritBankHistory)
         }
     }
 
@@ -190,7 +192,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
     private fun endSession(request: Request, response: Response): String {
         // Get practitioner from data source
         val practitioner: PractitionerDBO = getPractitioner(request)
-        val contributionPoints: Long = request.params("${Arguments.POINTS.value}").toLong()
+        val contributionPoints: Long = request.params("${ReqArgument.POINTS.value}").toLong()
         // Stop the last session for practitioner with the total gathered contributionPoints
         // Return the updated practitioner
         return ControllerUtil.objectToString(mService.endSession(practitioner._id ?: "", contributionPoints))
