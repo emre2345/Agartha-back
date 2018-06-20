@@ -7,7 +7,6 @@ import spark.Request
 import spark.Response
 import spark.Spark
 import spark.kotlin.halt
-import java.io.File
 import javax.servlet.MultipartConfigElement
 
 
@@ -25,7 +24,7 @@ class ImageController(private val mService: IBaseService<ImageDBO>) {
 
     init {
         Spark.path("/image") {
-            Spark.before("/${ReqArgument.IMAGE_ID.value}", ::validateStuff)
+            Spark.before("/${ReqArgument.IMAGE_ID.value}", ::validateImageRequest)
             // Read the image from database
             Spark.get("/${ReqArgument.IMAGE_ID.value}", ::getImage)
             // Write image to database
@@ -33,7 +32,12 @@ class ImageController(private val mService: IBaseService<ImageDBO>) {
         }
     }
 
-    private fun validateStuff(request: Request, response: Response) {
+    /**
+     * Validate requests.
+     * Both POST and GET have same path and validated together
+     */
+    @Suppress("UNUSED_PARAMETER")
+    private fun validateImageRequest(request: Request, response: Response) {
 
         if (request.requestMethod() == "POST") {
             // getPart("file") where file matches the name in HTML <input type="file" name="" />
@@ -86,6 +90,7 @@ class ImageController(private val mService: IBaseService<ImageDBO>) {
      * Code borrowed with style from following page:
      * https://stackoverflow.com/questions/34746900/sparkjava-upload-file-didt-work-in-spark-java-framework
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun setImage(request: Request, response: Response): String {
         // Get image ID from API path
         val imageId: String = request.params(ReqArgument.IMAGE_ID.value)
