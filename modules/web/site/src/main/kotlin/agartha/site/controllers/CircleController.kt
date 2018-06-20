@@ -68,7 +68,7 @@ class CircleController(
     @Suppress("UNUSED_PARAMETER")
     fun validateCircleCreator(request: Request, response: Response) {
         val practitioner = getPractitioner(request)
-        val circleId: String = request.params("${ReqArgument.CIRCLE_ID.value}")
+        val circleId: String = request.params(ReqArgument.CIRCLE_ID.value)
         val circle = practitioner
                 .circles
                 .filter { it._id == circleId }

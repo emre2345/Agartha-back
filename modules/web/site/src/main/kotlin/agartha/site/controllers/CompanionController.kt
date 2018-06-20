@@ -98,7 +98,7 @@ class CompanionController(private val mService: IPractitionerService) : Abstract
     @Suppress("UNUSED_PARAMETER")
     private fun companionOngoing(request: Request, response: Response): String {
         // Get current practitioner id
-        val practitionerId: String = request.params(":userid")
+        val practitionerId: String = request.params(ReqArgument.PRACTITIONER_ID.value)
         // Get all companions with ongoing session
         val practitioners = mService
                 .getAll()

@@ -8,5 +8,9 @@ package agartha.site.controllers.utils
 enum class ReqArgument(val value: String) {
     PRACTITIONER_ID(":userId"),
     CIRCLE_ID(":circleId"),
-    POINTS(":points")
+    IMAGE_ID(":imageId"),
+    POINTS(":points"),
+    COUNT(":count"),
+    DISCIPLINE(":discipline"),
+    INTENTION(":intention")
 }

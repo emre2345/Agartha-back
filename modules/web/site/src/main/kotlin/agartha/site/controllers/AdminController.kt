@@ -4,6 +4,7 @@ import agartha.data.objects.*
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.controllers.utils.DevGeolocationSelect
+import agartha.site.controllers.utils.ReqArgument
 import agartha.site.controllers.utils.SetupUtil
 import io.schinzel.basicutils.configvar.IConfigVar
 import spark.Request
@@ -50,17 +51,17 @@ class AdminController(private val mService: IPractitionerService,
             // Get all practitioners from data source
             Spark.post("/practitioners", ::getPractitioners)
             // Generate [COUNT] number of new practitioners
-            Spark.post("/generate/:count", ::generatePractitioners)
+            Spark.post("/generate/${ReqArgument.COUNT.value}", ::generatePractitioners)
             // Add Session to existing practitioner
-            Spark.post("/session/add/:userid/:discipline/:intention", ::addSession)
+            Spark.post("/session/add/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.DISCIPLINE.value}/${ReqArgument.INTENTION.value}", ::addSession)
             // Remove all practitioners
             Spark.post("/remove/all", ::removeAll)
             // Remove all generated practitioners
             Spark.post("/remove/generated", ::removeGenerated)
             // Remove a practitioner
-            Spark.post("/remove/practitioner/:userid", ::removePractitioner)
+            Spark.post("/remove/practitioner/${ReqArgument.PRACTITIONER_ID.value}", ::removePractitioner)
             // Remove a circle
-            Spark.post("/remove/circle/:circleid", ::removeCircle)
+            Spark.post("/remove/circle/${ReqArgument.CIRCLE_ID.value}", ::removeCircle)
         }
     }
 
@@ -78,7 +79,7 @@ class AdminController(private val mService: IPractitionerService,
     @Suppress("UNUSED_PARAMETER")
     private fun generatePractitioners(request: Request, response: Response): String {
         // Get number of practitioners to generate, default (if missing) is zero
-        val count: Long = request.params(":count").toLongOrNull() ?: 0
+        val count: Long = request.params("${ReqArgument.COUNT.value}").toLongOrNull() ?: 0
         // List of inserted practitioners (to be returned)
         val practitioners = mutableListOf<PractitionerDBO>()
 
@@ -104,9 +105,9 @@ class AdminController(private val mService: IPractitionerService,
      * Add/Start a session for an existing practitioner
      */
     private fun addSession(request: Request, response: Response): String {
-        val practitionerId = request.params(":userid")
-        val discipline = request.params(":discipline")
-        val intention = request.params(":intention")
+        val practitionerId = request.params(ReqArgument.PRACTITIONER_ID.value)
+        val discipline = request.params(ReqArgument.DISCIPLINE.value)
+        val intention = request.params(ReqArgument.INTENTION.value)
 
         val practitioner = mService.getById(practitionerId)
         if (practitioner != null) {
@@ -148,7 +149,7 @@ class AdminController(private val mService: IPractitionerService,
     @Suppress("UNUSED_PARAMETER")
     private fun removePractitioner(request: Request, response: Response): String {
         // Get current userid
-        val practitionerId: String = request.params(":userid")
+        val practitionerId: String = request.params("${ReqArgument.PRACTITIONER_ID.value}")
         // Remove by id
         return ControllerUtil.objectToString(mService.removeById(practitionerId))
     }
@@ -160,7 +161,7 @@ class AdminController(private val mService: IPractitionerService,
     @Suppress("UNUSED_PARAMETER")
     private fun removeCircle(request: Request, response: Response): String {
         // Get circleid
-        val circleId: String = request.params(":circleid")
+        val circleId: String = request.params("${ReqArgument.CIRCLE_ID.value}")
         // Find practitioner whom created this circle
         val practitioner: PractitionerDBO? = mService
                 .getAll()

@@ -2,6 +2,7 @@ package agartha.site.controllers
 
 import agartha.data.objects.ImageDBO
 import agartha.data.services.IBaseService
+import agartha.site.controllers.utils.ReqArgument
 import spark.Request
 import spark.Response
 import spark.Spark
@@ -25,9 +26,9 @@ class ImageController(private val mService: IBaseService<ImageDBO>) {
     init {
         Spark.path("/image") {
             // Read the image from database
-            Spark.get("/:imageid", ::getImage)
+            Spark.get("/${ReqArgument.IMAGE_ID.value}", ::getImage)
             // Write image to database
-            Spark.post("/:imageid", "multipart/form-data", ::setImage)
+            Spark.post("/${ReqArgument.IMAGE_ID.value}", "multipart/form-data", ::setImage)
         }
     }
 
@@ -36,7 +37,7 @@ class ImageController(private val mService: IBaseService<ImageDBO>) {
      */
     private fun getImage(request: Request, response: Response): String {
         // Get image ID from API path
-        val imageId: String = request.params(":imageid")
+        val imageId: String = request.params(ReqArgument.IMAGE_ID.value)
         // Get image from database
         val image = mService.getById(imageId)
         // If exists from database
@@ -63,7 +64,7 @@ class ImageController(private val mService: IBaseService<ImageDBO>) {
      */
     private fun setImage(request: Request, response: Response): String {
         // Get image ID from API path
-        val imageId: String = request.params(":imageid")
+        val imageId: String = request.params(ReqArgument.IMAGE_ID.value)
         //
         val location = "image"                  // the directory location where files will be stored
         val maxFileSize: Long = 1_000_000       // the maximum size allowed for uploaded files
