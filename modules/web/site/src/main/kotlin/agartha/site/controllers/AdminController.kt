@@ -79,12 +79,11 @@ class AdminController(private val mService: IPractitionerService,
     @Suppress("UNUSED_PARAMETER")
     private fun generatePractitioners(request: Request, response: Response): String {
         // Get number of practitioners to generate, default (if missing) is zero
-        val count: Long = request.params("${ReqArgument.COUNT.value}").toLongOrNull() ?: 0
+        val count: Long = request.params(ReqArgument.COUNT.value).toLongOrNull() ?: 0
         // List of inserted practitioners (to be returned)
         val practitioners = mutableListOf<PractitionerDBO>()
 
         for (index in 1..count) {
-
             practitioners.add(
                     mService.insert(
                             PractitionerDBO(
@@ -149,7 +148,7 @@ class AdminController(private val mService: IPractitionerService,
     @Suppress("UNUSED_PARAMETER")
     private fun removePractitioner(request: Request, response: Response): String {
         // Get current userid
-        val practitionerId: String = request.params("${ReqArgument.PRACTITIONER_ID.value}")
+        val practitionerId: String = request.params(ReqArgument.PRACTITIONER_ID.value)
         // Remove by id
         return ControllerUtil.objectToString(mService.removeById(practitionerId))
     }
@@ -161,7 +160,7 @@ class AdminController(private val mService: IPractitionerService,
     @Suppress("UNUSED_PARAMETER")
     private fun removeCircle(request: Request, response: Response): String {
         // Get circleid
-        val circleId: String = request.params("${ReqArgument.CIRCLE_ID.value}")
+        val circleId = request.params(ReqArgument.CIRCLE_ID.value)
         // Find practitioner whom created this circle
         val practitioner: PractitionerDBO? = mService
                 .getAll()
