@@ -85,13 +85,15 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         }
     }
 
-
-
+    /**
+     * Validate
+     */
+    @Suppress("UNUSED_PARAMETER")
     private fun validateJoinCircle(request: Request, response: Response) {
         val circleId: String = request.params(":circleid")
         val sessionInfo: StartSessionInformation =
                 ControllerUtil.stringToObject(request.body(), StartSessionInformation::class.java)
-
+        // Get the original circle user wants to join
         val circle = mService
                 // Get all practitioner
                 .getAll()
@@ -101,15 +103,17 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
                 .filter { it.active() }
                 // Find the one with correct id
                 .find { it._id == circleId }
-
+        // Validate that circle is active and the selected discipline and intention matching
         if (circle == null) {
             halt(400, "Circle not active")
         } else {
+            // Only try to match if circle has disciplines
             if (circle.disciplines.isNotEmpty()) {
                 if (circle.disciplines.find { it.title == sessionInfo.discipline } == null) {
                     Spark.halt(400, "Selected discipline does not match any in Circle")
                 }
             }
+            // Only try to match if circle has intentions
             if (circle.intentions.isNotEmpty()) {
                 if (circle.intentions.find { it.title == sessionInfo.intention } == null) {
                     Spark.halt(400, "Selected intention does not match any in Circle")
