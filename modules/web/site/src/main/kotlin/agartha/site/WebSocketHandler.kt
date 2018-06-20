@@ -1,5 +1,6 @@
 package agartha.site
 
+import agartha.common.config.Settings
 import agartha.data.objects.SessionDBO
 import agartha.data.services.PractitionerService
 import agartha.site.controllers.utils.ControllerUtil
@@ -98,8 +99,18 @@ class WebSocketHandler {
      * Connects fake practitioner to a practitioner that is an original and already in the webSocket
      */
     private fun connectVirtual(webSocketSession: Session, webSocketMessage: WebSocketMessage) {
+        val practitionersSessionsSize = service.getPractitionersSessionsSize()
         val practitionersLatestSession = service.connectVirtual(webSocketSession, webSocketMessage.data, webSocketMessage.nrOfVirtualSessions)
-        connect(webSocketSession, practitionersLatestSession)
+        //If the PractitionersSessionSize has changed then connect the virtual sessions
+        if (service.getPractitionersSessionsSize() > practitionersSessionsSize) {
+            connect(webSocketSession, practitionersLatestSession)
+        } else {
+            // If the size has'nt changed then emit an error to the practitioner's session
+            emit(webSocketSession,
+                    WebSocketMessage(
+                            event = WebSocketEvents.ERROR_OCCURRED.eventName,
+                            data = "The Practitioner needs to be in a circle and be the creator of the circle. The practitioner needs to have at least "+webSocketMessage.nrOfVirtualSessions * Settings.COST_ADD_VIRTUAL_SESSION_POINTS +" points in its spirit bank"))
+        }
     }
 
     /**
@@ -107,7 +118,7 @@ class WebSocketHandler {
      * - disconnect WebSocketSession
      * - Broadcast to everybody else that a companion left
      *   OR
-     * - Broadcast to everybody else that a companion with its virutal sessions left
+     * - Broadcast to everybody else that a companion with its virtual sessions left
      */
     @OnWebSocketClose
     fun disconnect(webSocketSession: Session, code: Int, reason: String?) {
