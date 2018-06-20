@@ -11,5 +11,6 @@ enum class WebSocketEvents(val eventName : String) {
     NEW_COMPANION ("new_companion"),
     COMPANIONS_SESSIONS ("companions_sessions"),
     COMPANION_LEFT ("companion_left"),
-    COMPANION_LEFT_WITH_VIRTUAL_SESSIONS ("companion_left_with_virtual_sessions")
+    COMPANION_LEFT_WITH_VIRTUAL_SESSIONS ("companion_left_with_virtual_sessions"),
+    ERROR_OCCURRED("error_occurred")
 }
