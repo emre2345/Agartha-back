@@ -94,15 +94,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         val sessionInfo: StartSessionInformation =
                 ControllerUtil.stringToObject(request.body(), StartSessionInformation::class.java)
         // Get the original circle user wants to join
-        val circle = mService
-                // Get all practitioner
-                .getAll()
-                // Get all circles from practitioner
-                .flatMap { it.circles }
-                // Filter out active
-                .filter { it.active() }
-                // Find the one with correct id
-                .find { it._id == circleId }
+        val circle = getActiveCircleFromDatabase(circleId, mService)
         // Validate that circle is active and the selected discipline and intention matching
         if (circle == null) {
             halt(400, "Circle not active")
