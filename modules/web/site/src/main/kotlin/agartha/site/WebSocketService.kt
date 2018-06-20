@@ -99,7 +99,7 @@ class WebSocketService(private val mService: IPractitionerService) {
     /**
      * @return the size of all the practitionersSessions in the Map
      */
-    fun getPractitionersSessionsSize(): Number {
+    fun getPractitionersSessionsSize(): Int {
         return getAllPractitionersSessions().size
     }
 }
