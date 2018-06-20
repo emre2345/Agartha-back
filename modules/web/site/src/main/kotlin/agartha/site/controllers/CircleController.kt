@@ -1,9 +1,7 @@
 package agartha.site.controllers
 
-import agartha.common.config.Settings.Companion.SPIRIT_BANK_START_POINTS
 import agartha.data.objects.CircleDBO
 import agartha.data.objects.PractitionerDBO
-import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.controllers.utils.SessionUtil
@@ -13,8 +11,6 @@ import io.schinzel.basicutils.configvar.IConfigVar
 import spark.Request
 import spark.Response
 import spark.Spark
-import spark.kotlin.halt
-import java.time.LocalDateTime
 
 /**
  * Purpose of this file is handling API request for practitioners circles
@@ -25,7 +21,7 @@ import java.time.LocalDateTime
  */
 class CircleController(
         private val mService: IPractitionerService,
-        private val mConfig: IConfigVar) : AbstractController() {
+        private val mConfig: IConfigVar) : AbstractController(mService) {
 
     private val minConfigCircleCreate = mConfig.getValue("A_MIN_POINTS_CREATE_CIRCLE").toLong()
 
@@ -40,10 +36,45 @@ class CircleController(
             Spark.get("/active", ::getAllActive)
             //
             // Add a circle to a practitioner
-            Spark.post("/:userId", ::addCircle)
+            Spark.before("/${Arguments.PRACTITIONER_ID.value}", ::validatePractitioner)
+            Spark.before("/${Arguments.PRACTITIONER_ID.value}", ::validateCreateCircle)
+            Spark.post("/${Arguments.PRACTITIONER_ID.value}", ::addCircle)
             //
             // Get a receipt of my circle
-            Spark.get("/receipt/:userId/:circleId", ::circleReceipt)
+            Spark.before("/receipt/${Arguments.PRACTITIONER_ID.value}/${Arguments.CIRCLE_ID.value}", ::validatePractitioner)
+            Spark.before("/receipt/${Arguments.PRACTITIONER_ID.value}/${Arguments.CIRCLE_ID.value}", ::validateCircle)
+            Spark.before("/receipt/${Arguments.PRACTITIONER_ID.value}/${Arguments.CIRCLE_ID.value}", ::validateCircleCreator)
+            Spark.get("/receipt/${Arguments.PRACTITIONER_ID.value}/${Arguments.CIRCLE_ID.value}", ::circleReceipt)
+        }
+    }
+
+    /**
+     * Valdate that the argument "userid" is allowed to create a circle
+     */
+    @Suppress("UNUSED_PARAMETER")
+    private fun validateCreateCircle(request: Request, response: Response) {
+        // Get practitioner from data source
+        val practitioner: PractitionerDBO = getPractitioner(request)
+        // Practitioner cannot create a circle if less then 50 points in spiritBank
+        if (practitioner.calculateSpiritBankPointsFromLog() < minConfigCircleCreate) {
+            Spark.halt(400, "Practitioner cannot create circle with less than $minConfigCircleCreate contribution points")
+        }
+    }
+
+    /**
+     * Validate that the argument "circleid" is created by the argument "userid"
+     */
+    @Suppress("UNUSED_PARAMETER")
+    fun validateCircleCreator(request: Request, response: Response) {
+        val practitioner = getPractitioner(request)
+        val circleId: String = request.params("${Arguments.CIRCLE_ID.value}")
+        val circle = practitioner
+                .circles
+                .filter { it._id == circleId }
+                .firstOrNull()
+        // Make sure we exit if practitioner is not creator of circle
+        if (circle == null) {
+            spark.kotlin.halt(400, "Practitioner is not the creator of this circle")
         }
     }
 
@@ -70,18 +101,12 @@ class CircleController(
      */
     @Suppress("UNUSED_PARAMETER")
     private fun addCircle(request: Request, response: Response): String {
-        // Get practitioner ID from API path
-        val practitionerId: String = request.params(":userid")
-        // Make sure practitionerId exists in database
-        val practitioner = getPractitionerFromDatabase(practitionerId, mService)
-        // Practitioner cannot create a circle if less then 50 points in spiritBank
-        if (practitioner.calculateSpiritBankPointsFromLog() < minConfigCircleCreate) {
-            Spark.halt(400, "Practitioner cannot create circle with less than $minConfigCircleCreate contribution points")
-        }
+        // Get practitioner from data source
+        val practitioner: PractitionerDBO = getPractitioner(request)
         // Get circle data from body
         val circle: CircleDBO = ControllerUtil.stringToObject(request.body(), CircleDBO::class.java)
         // Store it and return the complete practitioner object
-        return ControllerUtil.objectToString(mService.addCircle(practitionerId, circle))
+        return ControllerUtil.objectToString(mService.addCircle(practitioner._id ?: "", circle))
     }
 
     /**
@@ -92,22 +117,17 @@ class CircleController(
      */
     @Suppress("UNUSED_PARAMETER")
     private fun circleReceipt(request: Request, response: Response): String {
-        // Get practitioner Id from API path
-        val userId: String = request.params(":userId")
-        // Get circle Id from API path
-        val circleId: String = request.params(":circleId")
-        //
-        val practitioner = getPractitionerFromDatabase(userId, mService)
+        // Get practitioner from data source
+        val practitioner: PractitionerDBO = getPractitioner(request)
         // Validate that practitioner exists and is the circle creator
-        val circle = validateCircleCreator(practitioner, circleId)
+        val circle: CircleDBO = getCircle(request)
         // Count points generated for this circle
         val logPoints = SpiritBankLogUtil.countLogPointsForCircle(practitioner.spiritBankLog, circle)
         // get all sessions in this circle
-        val sessions = SessionUtil.getAllSessionsInCircle(mService.getAll(), circleId)
+        val sessions = SessionUtil.getAllSessionsInCircle(mService.getAll(), circle._id)
         // Generate and return report/receipt
         return ControllerUtil.objectToString(CircleReport(circle, sessions, logPoints))
     }
-
 
     /**
      * Get all circles from practitioners
@@ -118,35 +138,5 @@ class CircleController(
                 .flatMap {
                     it.circles
                 }
-    }
-
-    /**
-     * Make sure the circle is created by this practitioner
-     * If not (or practitioner does not exist) a 400 is returned
-     *
-     * @param practitioner practitioner from API argument
-     * @param circleId id of circle
-     * @return the circle as object
-     */
-    private fun validateCircleCreator(practitioner: PractitionerDBO, circleId: String): CircleDBO {
-        // Make sure practitioner is creator of circle
-        val circle = practitioner
-                .circles
-                .filter { it._id == circleId }
-                .firstOrNull()
-        // Make sure we exit if practitioner is not creator of circle
-        if (circle == null) {
-            halt(400, "Practitioner is not the creator of this circle")
-            // Create a dummy to avoid null response for function
-            return CircleDBO(
-                    name = "",
-                    description = "",
-                    startTime = LocalDateTime.now(),
-                    endTime = LocalDateTime.now(),
-                    disciplines = listOf(),
-                    intentions = listOf(),
-                    minimumSpiritContribution = 0)
-        }
-        return circle
     }
 }
