@@ -5,6 +5,7 @@ import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
+import agartha.site.controllers.utils.ReqArgument
 import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.objects.request.StartSessionInformation
 import agartha.site.objects.response.PractitionerReport
@@ -22,7 +23,7 @@ import java.time.LocalDateTime
  *
  * @param mService object for reading data from data source
  */
-class PractitionerController(private val mService: IPractitionerService) : AbstractController() {
+class PractitionerController(private val mService: IPractitionerService) : AbstractController(mService) {
 
     init {
         // API path for session
@@ -33,41 +34,34 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
             Spark.get("", ::createPractitioner)
             //
             //
-            Spark.before("/:userid", ::validatePractitionerIdentity)
+            Spark.before("/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
             // Where practitionerId has been set - return info for the practitioner and about practitioner
-            Spark.get("/:userid", ::getInformation)
+            Spark.get("/${ReqArgument.PRACTITIONER_ID.value}", ::getInformation)
             // Update practitioner data
-            Spark.post("/:userid", ::updatePractitioner)
+            Spark.post("/${ReqArgument.PRACTITIONER_ID.value}", ::updatePractitioner)
             //
             // Start a Session
-            Spark.before("/session/start/:userid", ::validatePractitionerIdentity)
-            Spark.before("/session/start/:userid", ::validateSessionStart)
-            Spark.post("/session/start/:userid", ::startSession)
+            Spark.before("/session/start/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
+            Spark.before("/session/start/${ReqArgument.PRACTITIONER_ID.value}", ::validateSessionStart)
+            Spark.post("/session/start/${ReqArgument.PRACTITIONER_ID.value}", ::startSession)
             //
             // End a Session
-            Spark.before("/session/end/:userid/:contributionpoints", ::validatePractitionerIdentity)
-            Spark.post("/session/end/:userid/:contributionpoints", ::endSession)
+            Spark.before("/session/end/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.POINTS.value}", ::validatePractitioner)
+            Spark.post("/session/end/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.POINTS.value}", ::endSession)
             //
             // Start practicing by Joining a Circle
-            Spark.before("/circle/join/:userid/:circleid", ::validatePractitionerIdentity)
-            Spark.before("/circle/join/:userid/:circleid", ::validateSessionStart)
-            Spark.before("/circle/join/:userid/:circleid", ::validateJoinCircle)
-            Spark.post("/circle/join/:userid/:circleid", ::joinCircle)
+            Spark.before("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validatePractitioner)
+            Spark.before("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateSessionStart)
+            Spark.before("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateCircle)
+            Spark.before("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateJoinCircle)
+            Spark.post("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::joinCircle)
             //
             // Get practitioners spiritBankHistory
-            Spark.before("/spiritbankhistory/:userid", ::validatePractitionerIdentity)
-            Spark.get("/spiritbankhistory/:userid", ::getSpiritBankHistory)
+            Spark.before("/spiritbankhistory/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
+            Spark.get("/spiritbankhistory/${ReqArgument.PRACTITIONER_ID.value}", ::getSpiritBankHistory)
         }
     }
 
-    @Suppress("UNUSED_PARAMETER")
-    private fun validatePractitionerIdentity(request: Request, response: Response) {
-        val practitionerId = request.params(":userid")
-        val practitioner = mService.getById(practitionerId)
-        if (practitioner == null) {
-            halt(400, "Practitioner Id missing or incorrect")
-        }
-    }
 
     /**
      * Validate that required body exists and is readable before access to the API methods
@@ -86,15 +80,20 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
     }
 
     /**
-     * Validate
+     * Validate that practitioner can join circle
      */
     @Suppress("UNUSED_PARAMETER")
     private fun validateJoinCircle(request: Request, response: Response) {
-        val circleId: String = request.params(":circleid")
+        // Get the original circle user wants to join
+        val circle = getCircle(request)
         val sessionInfo: StartSessionInformation =
                 ControllerUtil.stringToObject(request.body(), StartSessionInformation::class.java)
-        // Get the original circle user wants to join
-        val circle = getActiveCircleFromDatabase(circleId, mService)
+        //
+        // Validate that the practitioner can afford joingin circle
+        if (getPractitioner(request).calculateSpiritBankPointsFromLog() < circle.minimumSpiritContribution) {
+            Spark.halt(400, "Practitioner cannot afford to join this circle")
+        }
+        //
         // Validate that circle is active and the selected discipline and intention matching
         if (circle == null) {
             halt(400, "Circle not active")
@@ -112,16 +111,6 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
                 }
             }
         }
-    }
-
-
-    /**
-     * Get practitioner from datasource
-     * The null should not happen since Spark.before should catch these
-     */
-    private fun getPractitioner(request: Request) : PractitionerDBO {
-        val practitionerId = request.params(":userid")
-        return mService.getById(practitionerId) ?: PractitionerDBO()
     }
 
     /**
@@ -182,15 +171,15 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         // Get practitioner from data source
         val practitioner: PractitionerDBO = getPractitioner(request)
         // Get selected geolocation, discipline and intention
-        val startSessionInformation: StartSessionInformation =
+        val sessionInfo: StartSessionInformation =
                 ControllerUtil.stringToObject(request.body(), StartSessionInformation::class.java)
         // Start a session
         val session = mService.startSession(
                 practitioner,
                 SessionDBO(
-                        geolocation = startSessionInformation.geolocation,
-                        discipline = startSessionInformation.discipline,
-                        intention = startSessionInformation.intention))
+                        geolocation = sessionInfo.geolocation,
+                        discipline = sessionInfo.discipline,
+                        intention = sessionInfo.intention))
         // Return the started session
         return ControllerUtil.objectToString(session)
     }
@@ -203,7 +192,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
     private fun endSession(request: Request, response: Response): String {
         // Get practitioner from data source
         val practitioner: PractitionerDBO = getPractitioner(request)
-        val contributionPoints: Long = request.params(":contributionpoints").toLong()
+        val contributionPoints: Long = request.params("${ReqArgument.POINTS.value}").toLong()
         // Stop the last session for practitioner with the total gathered contributionPoints
         // Return the updated practitioner
         return ControllerUtil.objectToString(mService.endSession(practitioner._id ?: "", contributionPoints))
@@ -214,17 +203,12 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
      */
     @Suppress("UNUSED_PARAMETER")
     private fun joinCircle(request: Request, response: Response): String {
-        // Get practitioner from data source
+        // Get from data source
         val practitioner: PractitionerDBO = getPractitioner(request)
-        val circleId: String = request.params(":circleid")
+        val circle: CircleDBO = getCircle(request)
         // Get selected geolocation, discipline and intention
         val sessionInfo: StartSessionInformation =
                 ControllerUtil.stringToObject(request.body(), StartSessionInformation::class.java)
-
-        val circle: CircleDBO = getActiveCircleFromDatabase(circleId, mService)
-        // Validate
-        validatePractitionerCanAffordToJoin(practitioner, circle.minimumSpiritContribution)
-
         // Create a session
         val session = SessionDBO(
                 geolocation = sessionInfo.geolocation,
@@ -246,14 +230,4 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         // Return the list
         return ControllerUtil.objectListToString(practitioner.spiritBankLog)
     }
-
-    /**
-     * If practitioners spiritBankLog has less points than then spiritContributionCost then throw a 400
-     */
-    private fun validatePractitionerCanAffordToJoin(practitioner: PractitionerDBO, spiritContributionCost: Long) {
-        if (practitioner.calculateSpiritBankPointsFromLog() < spiritContributionCost) {
-            Spark.halt(400, "Practitioner cannot afford to join this circle")
-        }
-    }
-
 }

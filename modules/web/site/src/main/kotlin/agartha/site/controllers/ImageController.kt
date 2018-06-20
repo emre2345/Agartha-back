@@ -2,11 +2,11 @@ package agartha.site.controllers
 
 import agartha.data.objects.ImageDBO
 import agartha.data.services.IBaseService
+import agartha.site.controllers.utils.ReqArgument
 import spark.Request
 import spark.Response
 import spark.Spark
 import spark.kotlin.halt
-import java.io.File
 import javax.servlet.MultipartConfigElement
 
 
@@ -24,10 +24,44 @@ class ImageController(private val mService: IBaseService<ImageDBO>) {
 
     init {
         Spark.path("/image") {
+            Spark.before("/${ReqArgument.IMAGE_ID.value}", ::validateImageRequest)
             // Read the image from database
-            Spark.get("/:imageid", ::getImage)
+            Spark.get("/${ReqArgument.IMAGE_ID.value}", ::getImage)
             // Write image to database
-            Spark.post("/:imageid", "multipart/form-data", ::setImage)
+            Spark.post("/${ReqArgument.IMAGE_ID.value}", "multipart/form-data", ::setImage)
+        }
+    }
+
+    /**
+     * Validate requests.
+     * Both POST and GET have same path and validated together
+     */
+    @Suppress("UNUSED_PARAMETER")
+    private fun validateImageRequest(request: Request, response: Response) {
+
+        if (request.requestMethod() == "POST") {
+            // getPart("file") where file matches the name in HTML <input type="file" name="" />
+            val uploadedFile = request.raw().getPart("file")
+            if (uploadedFile == null) {
+                halt(400, "Image missing or not of type jpg, jpeg or png")
+            } else {
+                if (uploadedFile.submittedFileName.endsWith(".jpg") ||
+                        uploadedFile.submittedFileName.endsWith(".jpeg") ||
+                        uploadedFile.submittedFileName.endsWith(".png")) {
+                } else {
+                    halt(400, "Image missing or not of type jpg, jpeg or png")
+                }
+            }
+        }
+
+        if (request.requestMethod() == "GET") {
+            // Get image ID from API path
+            val imageId: String = request.params(ReqArgument.IMAGE_ID.value)
+            // Get image from database
+            val image = mService.getById(imageId)
+            if (image == null) {
+                halt(404)
+            }
         }
     }
 
@@ -36,7 +70,7 @@ class ImageController(private val mService: IBaseService<ImageDBO>) {
      */
     private fun getImage(request: Request, response: Response): String {
         // Get image ID from API path
-        val imageId: String = request.params(":imageid")
+        val imageId: String = request.params(ReqArgument.IMAGE_ID.value)
         // Get image from database
         val image = mService.getById(imageId)
         // If exists from database
@@ -48,11 +82,6 @@ class ImageController(private val mService: IBaseService<ImageDBO>) {
             raw.getOutputStream().flush();
             raw.getOutputStream().close();
         }
-        // If it does not exist
-        else {
-            halt(404)
-        }
-
         return ""
     }
 
@@ -61,9 +90,10 @@ class ImageController(private val mService: IBaseService<ImageDBO>) {
      * Code borrowed with style from following page:
      * https://stackoverflow.com/questions/34746900/sparkjava-upload-file-didt-work-in-spark-java-framework
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun setImage(request: Request, response: Response): String {
         // Get image ID from API path
-        val imageId: String = request.params(":imageid")
+        val imageId: String = request.params(ReqArgument.IMAGE_ID.value)
         //
         val location = "image"                  // the directory location where files will be stored
         val maxFileSize: Long = 1_000_000       // the maximum size allowed for uploaded files
@@ -77,22 +107,17 @@ class ImageController(private val mService: IBaseService<ImageDBO>) {
         val uploadedFile = request.raw().getPart("file")
 
         if (uploadedFile != null) {
-            if (uploadedFile.submittedFileName.endsWith(".jpg") ||
-                    uploadedFile.submittedFileName.endsWith(".jpeg") ||
-                    uploadedFile.submittedFileName.endsWith(".png")) {
-                // Insert/Update database
-                mService.insert(
-                        ImageDBO(
-                                _id = imageId,
-                                fileName = uploadedFile.submittedFileName,
-                                image = uploadedFile.inputStream.readBytes()))
+            // Insert/Update database
+            mService.insert(
+                    ImageDBO(
+                            _id = imageId,
+                            fileName = uploadedFile.submittedFileName,
+                            image = uploadedFile.inputStream.readBytes()))
 
-                // Return path to image
-                return request.pathInfo()
-            }
+            // Return path to image
+            return request.pathInfo()
         }
 
-        halt(400, "Image missing or not of type jpg, jpeg or png")
         return ""
 
     }

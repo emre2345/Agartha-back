@@ -5,6 +5,7 @@ import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
+import agartha.site.controllers.utils.ReqArgument
 import agartha.site.controllers.utils.SessionUtil
 import agartha.site.objects.response.CompanionReport
 import spark.Request
@@ -19,7 +20,7 @@ import java.time.LocalDateTime
  *
  * @param mService object for reading data from data source
  */
-class CompanionController(private val mService: IPractitionerService) : AbstractController() {
+class CompanionController(private val mService: IPractitionerService) : AbstractController(mService) {
 
     /**
      * Class init
@@ -30,12 +31,13 @@ class CompanionController(private val mService: IPractitionerService) : Abstract
             // Get companions for predefined timespan
             Spark.get("", ::companionReport)
             // Get companions for practitioners last session
-            Spark.get("/:userid", ::companionSessionReport)
+            Spark.before("/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
+            Spark.get("/${ReqArgument.PRACTITIONER_ID.value}", ::companionSessionReport)
             // Get companions for ongoing
-            Spark.get("/ongoing/:userid", ::companionOngoing)
+            Spark.before("/ongoing/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
+            Spark.get("/ongoing/${ReqArgument.PRACTITIONER_ID.value}", ::companionOngoing)
         }
     }
-
 
     /**
      * Get all practitioners with sessions/practices during last 24 hours
@@ -47,18 +49,8 @@ class CompanionController(private val mService: IPractitionerService) : Abstract
                 .minusMinutes(COMPANION_NUMBER_OF_MINUTES)
         // End date from when we should look for sessions (now)
         val endDateTime: LocalDateTime = LocalDateTime.now()
-        //
-        // Get list of practitioners with at least one session ongoing in this time span
-        val practitioners = mService.getAll().filter {
-            it.hasSessionBetween(startDateTime, endDateTime)
-        }
-        //
-        // Filter out all sessions matching dates from these practitioners
-        val sessions = SessionUtil
-                .filterAllSessionsActiveBetween(
-                        practitioners, startDateTime, endDateTime)
         // Generate report
-        val companionReport = CompanionReport(practitioners.count(), sessions)
+        val companionReport = generateCompanionReport(startDateTime, endDateTime)
         // Return the report
         return ControllerUtil.objectToString(companionReport)
     }
@@ -69,24 +61,35 @@ class CompanionController(private val mService: IPractitionerService) : Abstract
      */
     @Suppress("UNUSED_PARAMETER")
     private fun companionSessionReport(request: Request, response: Response): String {
-        // Get practitioner ID from API path
-        val practitionerId: String = request.params(":userid")
-        // Make sure practitionerId exists in database
-        val practitioner: PractitionerDBO = getPractitionerFromDatabase(practitionerId, mService)
+        // Get practitioner from data source
+        val practitioner: PractitionerDBO = getPractitioner(request)
         //
         val startDateTime: LocalDateTime = practitioner.sessions.last().startTime
         val endDateTime: LocalDateTime = practitioner.sessions.last().endTime ?: LocalDateTime.now()
-        // Get practitioners with sessions between
-        val practitioners = mService.getAll().filter {
-            it.hasSessionBetween(startDateTime, endDateTime)
-        }
-        // Filter out overlapping sessions
-        val sessions: List<SessionDBO> = SessionUtil.filterAllSessionsActiveBetween(
-                practitioners, startDateTime, endDateTime)
         // Generate report
-        val companionReport = CompanionReport(practitioners.count(), sessions)
+        val companionReport = generateCompanionReport(startDateTime, endDateTime)
         // Return the report
         return ControllerUtil.objectToString(companionReport)
+    }
+
+    /**
+     * Common code for compaionReport and companionSessionReport
+     * Filter out active sessions between these two dateTimes and generate a report from them
+     * @param startDateTime
+     * @param endDateTime
+     * @return Report of active sessions between these dates
+     */
+    private fun generateCompanionReport(
+            startDateTime: LocalDateTime, endDateTime: LocalDateTime): CompanionReport {
+        // Get practitioners with sessions between
+        val practitioners = mService
+                .getAll()
+                .filter { it.hasSessionBetween(startDateTime, endDateTime) }
+        // Filter out overlapping sessions
+        val sessions: List<SessionDBO> = SessionUtil
+                .filterAllSessionsActiveBetween(practitioners, startDateTime, endDateTime)
+        // Generate report
+        return CompanionReport(practitioners.count(), sessions)
     }
 
     /**
@@ -94,37 +97,18 @@ class CompanionController(private val mService: IPractitionerService) : Abstract
      */
     @Suppress("UNUSED_PARAMETER")
     private fun companionOngoing(request: Request, response: Response): String {
-        // Get current practitionerid
-        val practitionerId: String = request.params(":userid")
-        // Make sure practitioner exists
-        getPractitionerFromDatabase(practitionerId, mService)
+        // Get current practitioner id
+        val practitionerId: String = request.params(ReqArgument.PRACTITIONER_ID.value)
         // Get all companions with ongoing session
-        val practitioners = getOngoingCompanions()
+        val practitioners = mService
+                .getAll()
+                .filter { it.hasOngoingSession() }
         // Extract sessions from these companions
-        val sessions = getOngoingCompanionsSessions(practitionerId, practitioners)
+        val sessions = SessionUtil
+                .filterSingleOngoingSession(practitioners, practitionerId)
         // Generate report
         val companionReport = CompanionReport(practitioners.count(), sessions)
         // Return the report
         return ControllerUtil.objectToString(companionReport)
-    }
-
-    /**
-     * Get all practitioners with ongoing session
-     */
-    private fun getOngoingCompanions(): List<PractitionerDBO> {
-        // Get practitioners with sessions between
-        return mService.getAll().filter {
-            it.hasOngoingSession()
-        }
-    }
-
-    /**
-     * Get all ongoing sessions from a list of practitioners
-     * The argument practitionerId is removed from sessions
-     */
-    private fun getOngoingCompanionsSessions(practitionerId: String, practitioners: List<PractitionerDBO>): List<SessionDBO> {
-        // Filter out ongoing sessions
-        return SessionUtil
-                .filterSingleOngoingSession(practitioners, practitionerId)
     }
 }

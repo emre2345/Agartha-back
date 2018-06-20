@@ -173,7 +173,7 @@ class CircleControllerTest {
     fun addCircle_statusNoGeolocation_200() {
         setup()
         val request = testController.testServer.post(
-                "/circle/a",
+                "/circle/add/a",
                 """{
                         "name":"MyCircle Name",
                         "description":"MyCircle Desc",
@@ -192,7 +192,7 @@ class CircleControllerTest {
     fun addCircle_statusGeolocation_200() {
         setup()
         val request = testController.testServer.post(
-                "/circle/a",
+                "/circle/add/a",
                 """{
                         "name":"MyCircle Name",
                         "description":"MyCircle Desc",
@@ -212,7 +212,7 @@ class CircleControllerTest {
     fun addCircle_statusDisciplineAndIntention_200() {
         setup()
         val request = testController.testServer.post(
-                "/circle/a",
+                "/circle/add/a",
                 """{
                         "name":"MyCircle Name",
                         "description":"MyCircle Desc",
@@ -231,7 +231,7 @@ class CircleControllerTest {
     fun addCircle_responseObjectCircles_1() {
         setup()
         val request = testController.testServer.post(
-                "/circle/a",
+                "/circle/add/a",
                 """{
                         "name":"MyCircle Name",
                         "description":"MyCircle Desc",
@@ -251,7 +251,7 @@ class CircleControllerTest {
     fun addCircle_withoutEnoughPointsResponseStatus_400() {
         setup()
         val request = testController.testServer.post(
-                "/circle/d",
+                "/circle/add/d",
                 """{
                         "name":"MyCircle Name",
                         "description":"MyCircle Desc",
