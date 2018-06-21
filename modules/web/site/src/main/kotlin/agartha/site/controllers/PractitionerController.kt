@@ -1,5 +1,6 @@
 package agartha.site.controllers
 
+import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.CircleDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
@@ -14,7 +15,6 @@ import spark.Request
 import spark.Response
 import spark.Spark
 import spark.Spark.halt
-import java.time.LocalDateTime
 
 /**
  * Purpose of this file is handling API requests for practitioning sessions
@@ -214,7 +214,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
                 geolocation = sessionInfo.geolocation,
                 discipline = sessionInfo.discipline,
                 intention = sessionInfo.intention,
-                startTime = LocalDateTime.now(),
+                startTime = DateTimeFormat.localDateTimeUTC(),
                 circle = circle)
         // Add session to practitioner
         return ControllerUtil.objectToString(mService.startSession(practitioner, session))

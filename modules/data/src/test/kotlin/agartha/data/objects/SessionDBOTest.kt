@@ -36,7 +36,7 @@ class SessionDBOTest {
     @Test
     fun sessionDuration_withNullEndTime_3() {
         val session = SessionDBO(null, "Yoga", "Love",
-                LocalDateTime.now().minusMinutes(3),
+                DateTimeFormat.localDateTimeUTC().minusMinutes(3),
                 null)
         assertThat(session.sessionDurationMinutes()).isEqualTo(3)
     }
@@ -80,7 +80,7 @@ class SessionDBOTest {
     @Test
     fun sessionDuration_abandon_0() {
         val session = SessionDBO(null, "Yoga", "Love",
-                LocalDateTime.now().minusMinutes(185))
+                DateTimeFormat.localDateTimeUTC().minusMinutes(185))
         assertThat(session.sessionDurationMinutes()).isEqualTo(0)
     }
 
@@ -90,7 +90,7 @@ class SessionDBOTest {
     @Test
     fun sessionDuration_activeNotAbandon_30() {
         val session = SessionDBO(null, "Yoga", "Love",
-                LocalDateTime.now().minusMinutes(30))
+                DateTimeFormat.localDateTimeUTC().minusMinutes(30))
         assertThat(session.sessionDurationMinutes()).isEqualTo(30)
     }
 
@@ -170,11 +170,11 @@ class SessionDBOTest {
     @Test
     fun sessionOverLap_sessionIsAbandon_false() {
         val session = SessionDBO(null, "Yoga", "Love",
-                LocalDateTime.now().minusMinutes(200),
+                DateTimeFormat.localDateTimeUTC().minusMinutes(200),
                 null)
         assertThat(session.sessionOverlap(
-                LocalDateTime.now().minusMinutes(60),
-                LocalDateTime.now()
+                DateTimeFormat.localDateTimeUTC().minusMinutes(60),
+                DateTimeFormat.localDateTimeUTC()
         )).isFalse()
     }
 
@@ -184,11 +184,11 @@ class SessionDBOTest {
     @Test
     fun sessionOverLap_sessionOngoing_true() {
         val session = SessionDBO(null, "Yoga", "Love",
-                LocalDateTime.now().minusMinutes(150),
+                DateTimeFormat.localDateTimeUTC().minusMinutes(150),
                 null)
         assertThat(session.sessionOverlap(
-                LocalDateTime.now().minusMinutes(60),
-                LocalDateTime.now()
+                DateTimeFormat.localDateTimeUTC().minusMinutes(60),
+                DateTimeFormat.localDateTimeUTC()
         )).isTrue()
     }
 
@@ -198,10 +198,10 @@ class SessionDBOTest {
     @Test
     fun sessionAfter_startedBefore_false() {
         val session = SessionDBO(null, "Yoga", "Love",
-                LocalDateTime.now().minusMinutes(150),
+                DateTimeFormat.localDateTimeUTC().minusMinutes(150),
                 null)
         assertThat(session.sessionAfter(
-                LocalDateTime.now().minusMinutes(60)
+                DateTimeFormat.localDateTimeUTC().minusMinutes(60)
         )).isFalse()
     }
 
@@ -211,10 +211,10 @@ class SessionDBOTest {
     @Test
     fun sessionAfter_startedAfter_true() {
         val session = SessionDBO(null, "Yoga", "Love",
-                LocalDateTime.now().minusMinutes(50),
+                DateTimeFormat.localDateTimeUTC().minusMinutes(50),
                 null)
         assertThat(session.sessionAfter(
-                LocalDateTime.now().minusMinutes(60)
+                DateTimeFormat.localDateTimeUTC().minusMinutes(60)
         )).isTrue()
     }
 
@@ -224,7 +224,7 @@ class SessionDBOTest {
     @Test
     fun ongoing_abandon_false() {
         val session = SessionDBO (null, "Yoga", "Love",
-                LocalDateTime.now().minusMinutes(185),
+                DateTimeFormat.localDateTimeUTC().minusMinutes(185),
                 null)
         assertThat(session.ongoing()).isFalse()
     }
@@ -235,8 +235,8 @@ class SessionDBOTest {
     @Test
     fun ongoing_ended_false() {
         val session = SessionDBO(null, "Yoga", "Love",
-                LocalDateTime.now().minusMinutes(30),
-                LocalDateTime.now().minusMinutes(20))
+                DateTimeFormat.localDateTimeUTC().minusMinutes(30),
+                DateTimeFormat.localDateTimeUTC().minusMinutes(20))
         assertThat(session.ongoing()).isFalse()
     }
 
@@ -246,7 +246,7 @@ class SessionDBOTest {
     @Test
     fun ongoing_ongoing_true() {
         val session = SessionDBO( null, "Yoga", "Love",
-                LocalDateTime.now().minusMinutes(175),
+                DateTimeFormat.localDateTimeUTC().minusMinutes(175),
                 null)
         assertThat(session.ongoing()).isTrue()
     }

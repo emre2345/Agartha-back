@@ -1,5 +1,6 @@
 package agartha.data.objects
 
+import agartha.common.utils.DateTimeFormat
 import org.bson.types.ObjectId
 import java.time.LocalDateTime
 
@@ -26,6 +27,6 @@ data class CircleDBO(
      * @return true if circle is active now
      */
     fun active(): Boolean {
-        return this.startTime.isBefore(LocalDateTime.now()) and this.endTime.isAfter(LocalDateTime.now())
+        return this.startTime.isBefore(DateTimeFormat.localDateTimeUTC()) and this.endTime.isAfter(DateTimeFormat.localDateTimeUTC())
     }
 }

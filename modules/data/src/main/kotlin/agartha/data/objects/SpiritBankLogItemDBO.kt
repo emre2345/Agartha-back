@@ -1,5 +1,6 @@
 package agartha.data.objects
 
+import agartha.common.utils.DateTimeFormat
 import java.time.LocalDateTime
 
 
@@ -9,7 +10,7 @@ import java.time.LocalDateTime
  * Created by Rebecca Fransson on 2018-06-07.
  */
 data class SpiritBankLogItemDBO(
-        val created: LocalDateTime = LocalDateTime.now(),
+        val created: LocalDateTime = DateTimeFormat.localDateTimeUTC(),
         val type: SpiritBankLogItemType,
         val points: Long)
 

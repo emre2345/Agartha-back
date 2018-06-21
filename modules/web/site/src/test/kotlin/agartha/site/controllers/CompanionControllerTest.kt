@@ -1,5 +1,6 @@
 package agartha.site.controllers
 
+import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.site.controllers.mocks.MockedPractitionerService
@@ -9,7 +10,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.BeforeClass
 import org.junit.Test
-import java.time.LocalDateTime
 
 /**
  * Created by Jorgen Andersson on 2018-05-03.
@@ -32,53 +32,53 @@ class CompanionControllerTest {
 
     private fun setupReport() {
         //
-        mockedService.insert(PractitionerDBO("a", LocalDateTime.now(), mutableListOf(
+        mockedService.insert(PractitionerDBO("a", DateTimeFormat.localDateTimeUTC(), mutableListOf(
                 SessionDBO(null, "Yoga", "Transformation",
-                        LocalDateTime.now().minusDays(13),
-                        LocalDateTime.now().minusDays(13)),
+                        DateTimeFormat.localDateTimeUTC().minusDays(13),
+                        DateTimeFormat.localDateTimeUTC().minusDays(13)),
                 SessionDBO(null, "Yoga", "Empowerment",
-                        LocalDateTime.now().minusDays(11),
-                        LocalDateTime.now().minusDays(11)),
+                        DateTimeFormat.localDateTimeUTC().minusDays(11),
+                        DateTimeFormat.localDateTimeUTC().minusDays(11)),
                 SessionDBO(null, "Meditation", "Harmony",
-                        LocalDateTime.now().minusDays(5),
-                        LocalDateTime.now().minusDays(5)),
+                        DateTimeFormat.localDateTimeUTC().minusDays(5),
+                        DateTimeFormat.localDateTimeUTC().minusDays(5)),
                 SessionDBO(null, "Yoga", "Freedom",
-                        LocalDateTime.now().minusMinutes(41),
-                        LocalDateTime.now().minusMinutes(1)))))
+                        DateTimeFormat.localDateTimeUTC().minusMinutes(41),
+                        DateTimeFormat.localDateTimeUTC().minusMinutes(1)))))
         //
-        mockedService.insert(PractitionerDBO("b", LocalDateTime.now(), mutableListOf(
+        mockedService.insert(PractitionerDBO("b", DateTimeFormat.localDateTimeUTC(), mutableListOf(
                 SessionDBO(null, "Meditation", "Love",
-                        LocalDateTime.now().minusMinutes(20),
-                        LocalDateTime.now().minusMinutes(5)))))
+                        DateTimeFormat.localDateTimeUTC().minusMinutes(20),
+                        DateTimeFormat.localDateTimeUTC().minusMinutes(5)))))
         //
-        mockedService.insert(PractitionerDBO("c", LocalDateTime.now(), mutableListOf(
+        mockedService.insert(PractitionerDBO("c", DateTimeFormat.localDateTimeUTC(), mutableListOf(
                 SessionDBO(null, "Yoga", "Love",
-                        LocalDateTime.now().minusDays(13),
-                        LocalDateTime.now().minusDays(13)),
+                        DateTimeFormat.localDateTimeUTC().minusDays(13),
+                        DateTimeFormat.localDateTimeUTC().minusDays(13)),
                 SessionDBO(null, "Yoga", "Freedom",
-                        LocalDateTime.now().minusDays(11),
-                        LocalDateTime.now().minusDays(11)),
+                        DateTimeFormat.localDateTimeUTC().minusDays(11),
+                        DateTimeFormat.localDateTimeUTC().minusDays(11)),
                 SessionDBO(null, "Yoga", "Love",
-                        LocalDateTime.now().minusDays(3).minusMinutes(45),
-                        LocalDateTime.now().minusDays(3)),
+                        DateTimeFormat.localDateTimeUTC().minusDays(3).minusMinutes(45),
+                        DateTimeFormat.localDateTimeUTC().minusDays(3)),
                 SessionDBO(null, "Meditation", "Harmony",
-                        LocalDateTime.now().minusMinutes(20).minusSeconds(10),
-                        LocalDateTime.now()))))
+                        DateTimeFormat.localDateTimeUTC().minusMinutes(20).minusSeconds(10),
+                        DateTimeFormat.localDateTimeUTC()))))
         //
-        mockedService.insert(PractitionerDBO("d", LocalDateTime.now(), mutableListOf(
+        mockedService.insert(PractitionerDBO("d", DateTimeFormat.localDateTimeUTC(), mutableListOf(
                 SessionDBO(null, "Meditation", "Empathy",
-                        LocalDateTime.now().minusMinutes(35),
-                        LocalDateTime.now().minusMinutes(5)))))
+                        DateTimeFormat.localDateTimeUTC().minusMinutes(35),
+                        DateTimeFormat.localDateTimeUTC().minusMinutes(5)))))
         //
-        mockedService.insert(PractitionerDBO("e", LocalDateTime.now(), mutableListOf(
+        mockedService.insert(PractitionerDBO("e", DateTimeFormat.localDateTimeUTC(), mutableListOf(
                 SessionDBO(null, "Meditation", "Harmony",
-                        LocalDateTime.now().minusMinutes(35),
-                        LocalDateTime.now().minusMinutes(5)))))
+                        DateTimeFormat.localDateTimeUTC().minusMinutes(35),
+                        DateTimeFormat.localDateTimeUTC().minusMinutes(5)))))
         //
-        mockedService.insert(PractitionerDBO("f", LocalDateTime.now(), mutableListOf(
+        mockedService.insert(PractitionerDBO("f", DateTimeFormat.localDateTimeUTC(), mutableListOf(
                 SessionDBO(null, "Meditation", "Celebration",
-                        LocalDateTime.now().minusDays(5),
-                        LocalDateTime.now().minusDays(5)))))
+                        DateTimeFormat.localDateTimeUTC().minusDays(5),
+                        DateTimeFormat.localDateTimeUTC().minusDays(5)))))
     }
 
     /**

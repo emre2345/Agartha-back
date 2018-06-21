@@ -1,5 +1,6 @@
 package agartha.data.objects
 
+import agartha.common.utils.DateTimeFormat
 import java.time.LocalDateTime
 
 /**
@@ -9,7 +10,7 @@ import java.time.LocalDateTime
  */
 data class PractitionerDBO(
         val _id: String? = null,
-        val created: LocalDateTime = LocalDateTime.now(),
+        val created: LocalDateTime = DateTimeFormat.localDateTimeUTC(),
         val sessions: List<SessionDBO> = listOf(),
         val circles: List<CircleDBO> = listOf(),
         var fullName: String? = null,

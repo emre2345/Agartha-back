@@ -1,5 +1,6 @@
 package agartha.site.controllers
 
+import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.*
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
@@ -204,6 +205,6 @@ class AdminController(private val mService: IPractitionerService,
      */
     private fun getShuffledStartTime(): LocalDateTime {
         val minutes: Long = (Random().nextInt(60)).toLong()
-        return LocalDateTime.now().minusMinutes(minutes)
+        return DateTimeFormat.localDateTimeUTC().minusMinutes(minutes)
     }
 }

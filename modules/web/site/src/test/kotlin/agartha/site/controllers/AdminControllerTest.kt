@@ -1,5 +1,6 @@
 package agartha.site.controllers
 
+import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.CircleDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
@@ -10,7 +11,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.BeforeClass
 import org.junit.Test
-import java.time.LocalDateTime
 
 /**
  * Purpose of this file is to test AdminController
@@ -249,8 +249,8 @@ class AdminControllerTest {
     fun removeById_response_true() {
         // Setup
         mockedService.insert(
-                PractitionerDBO("abc", LocalDateTime.now(), mutableListOf(
-                        SessionDBO(null, "D", "I", LocalDateTime.now()))))
+                PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf(
+                        SessionDBO(null, "D", "I", DateTimeFormat.localDateTimeUTC()))))
 
         val postRequest = testController.testServer.post("/admin/remove/practitioner/abc", passPhrase,false)
         val httpResponse = testController.testServer.execute(postRequest)
@@ -263,9 +263,9 @@ class AdminControllerTest {
         mockedService.insert(
                 PractitionerDBO(
                         _id = "p1",
-                        created = LocalDateTime.now(),
+                        created = DateTimeFormat.localDateTimeUTC(),
                         circles = listOf(CircleDBO(_id="c1", name = "", description = "",
-                                        startTime = LocalDateTime.now(), endTime = LocalDateTime.now(),
+                                        startTime = DateTimeFormat.localDateTimeUTC(), endTime = DateTimeFormat.localDateTimeUTC(),
                                         intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 2))))
 
         val request = testController.testServer.post("/admin/remove/circle/c1", passPhrase, false)
@@ -278,9 +278,9 @@ class AdminControllerTest {
         mockedService.insert(
                 PractitionerDBO(
                         _id = "p1",
-                        created = LocalDateTime.now(),
+                        created = DateTimeFormat.localDateTimeUTC(),
                         circles = listOf(CircleDBO(_id="c1", name = "", description = "",
-                                startTime = LocalDateTime.now(), endTime = LocalDateTime.now(),
+                                startTime = DateTimeFormat.localDateTimeUTC(), endTime = DateTimeFormat.localDateTimeUTC(),
                                 intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 2))))
 
         val request = testController.testServer.post("/admin/remove/circle/", passPhrase, false)
@@ -293,9 +293,9 @@ class AdminControllerTest {
         mockedService.insert(
                 PractitionerDBO(
                         _id = "p1",
-                        created = LocalDateTime.now(),
+                        created = DateTimeFormat.localDateTimeUTC(),
                         circles = listOf(CircleDBO(_id="c1", name = "", description = "",
-                                startTime = LocalDateTime.now(), endTime = LocalDateTime.now(),
+                                startTime = DateTimeFormat.localDateTimeUTC(), endTime = DateTimeFormat.localDateTimeUTC(),
                                 intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 2))))
 
         val request = testController.testServer.post("/admin/remove/circle/c1", passPhrase, false)
@@ -308,9 +308,9 @@ class AdminControllerTest {
         mockedService.insert(
                 PractitionerDBO(
                         _id = "p1",
-                        created = LocalDateTime.now(),
+                        created = DateTimeFormat.localDateTimeUTC(),
                         circles = listOf(CircleDBO(_id="c1", name = "", description = "",
-                                startTime = LocalDateTime.now(), endTime = LocalDateTime.now(),
+                                startTime = DateTimeFormat.localDateTimeUTC(), endTime = DateTimeFormat.localDateTimeUTC(),
                                 intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 2))))
 
         val request = testController.testServer.post("/admin/remove/circle/c2", passPhrase, false)

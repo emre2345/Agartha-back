@@ -1,6 +1,7 @@
 package agartha.site.controllers
 
 import agartha.common.config.Settings.Companion.COMPANION_NUMBER_OF_MINUTES
+import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
@@ -45,10 +46,10 @@ class CompanionController(private val mService: IPractitionerService) : Abstract
     @Suppress("UNUSED_PARAMETER")
     private fun companionReport(request: Request, response: Response): String {
         // Start date from when we should look for sessions
-        val startDateTime: LocalDateTime = LocalDateTime.now()
+        val startDateTime: LocalDateTime = DateTimeFormat.localDateTimeUTC()
                 .minusMinutes(COMPANION_NUMBER_OF_MINUTES)
         // End date from when we should look for sessions (now)
-        val endDateTime: LocalDateTime = LocalDateTime.now()
+        val endDateTime: LocalDateTime = DateTimeFormat.localDateTimeUTC()
         // Generate report
         val companionReport = generateCompanionReport(startDateTime, endDateTime)
         // Return the report
@@ -65,7 +66,7 @@ class CompanionController(private val mService: IPractitionerService) : Abstract
         val practitioner: PractitionerDBO = getPractitioner(request)
         //
         val startDateTime: LocalDateTime = practitioner.sessions.last().startTime
-        val endDateTime: LocalDateTime = practitioner.sessions.last().endTime ?: LocalDateTime.now()
+        val endDateTime: LocalDateTime = practitioner.sessions.last().endTime ?: DateTimeFormat.localDateTimeUTC()
         // Generate report
         val companionReport = generateCompanionReport(startDateTime, endDateTime)
         // Return the report
