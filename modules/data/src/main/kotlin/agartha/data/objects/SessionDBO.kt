@@ -1,6 +1,7 @@
 package agartha.data.objects
 
 import agartha.common.config.Settings
+import agartha.common.utils.DateTimeFormat
 import java.time.Duration
 import java.time.LocalDateTime
 
@@ -18,7 +19,7 @@ data class SessionDBO(
         // Type of intention on the practice
         val intention: String,
         // Time when started
-        val startTime: LocalDateTime = LocalDateTime.now(),
+        val startTime: LocalDateTime = DateTimeFormat.localDateTimeUTC(),
         // Time when ended
         val endTime: LocalDateTime? = null,
         // Has a practitioner practiced in a circle or not
@@ -35,7 +36,7 @@ data class SessionDBO(
         }
         // If the session has not ended yet, return diff between now and start time
         if (endTime == null) {
-            return Duration.between(startTime, LocalDateTime.now()).toMinutes()
+            return Duration.between(startTime, DateTimeFormat.localDateTimeUTC()).toMinutes()
         }
         // If session is ended return diff between end and start time
         return Duration.between(startTime, endTime).toMinutes()
@@ -97,6 +98,6 @@ data class SessionDBO(
     private fun isAbandoned(): Boolean {
         // If end time is null (session not finished) and session started more than 3 hours ago
         return this.endTime == null &&
-                this.startTime.isBefore(LocalDateTime.now().minusMinutes(Settings.ABANDON_SESSION_MINUTES))
+                this.startTime.isBefore(DateTimeFormat.localDateTimeUTC().minusMinutes(Settings.ABANDON_SESSION_MINUTES))
     }
 }

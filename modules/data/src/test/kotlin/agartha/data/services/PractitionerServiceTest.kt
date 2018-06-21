@@ -1,10 +1,12 @@
 package agartha.data.services
 
+import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 /**
@@ -47,7 +49,7 @@ class PractitionerServiceTest : DatabaseHandler() {
      */
     @Test
     fun insertUser_dateSavedCorrect_18() {
-        val date = LocalDateTime.parse("2018-04-18 12:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        val date = LocalDateTime.parse("2018-04-18 12:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.of("UTC")))
         PractitionerService().insert(PractitionerDBO(created = date, sessions = listOf()))
         val firstUser: PractitionerDBO? = PractitionerService().getAll().firstOrNull()
         // Throw exception if firstUser is null
@@ -124,14 +126,14 @@ class PractitionerServiceTest : DatabaseHandler() {
                                 SessionDBO(
                                         discipline = "Yoga",
                                         intention = "Love",
-                                        startTime = LocalDateTime.now().minusHours(2),
-                                        endTime = LocalDateTime.now().minusHours(1))),
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusHours(2),
+                                        endTime = DateTimeFormat.localDateTimeUTC().minusHours(1))),
                         circles = listOf(
                                 CircleDBO(
                                         name = "",
                                         description = "",
-                                        startTime = LocalDateTime.now().plusMinutes(15),
-                                        endTime = LocalDateTime.now().plusMinutes(45),
+                                        startTime = DateTimeFormat.localDateTimeUTC().plusMinutes(15),
+                                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(45),
                                         intentions = listOf(),
                                         disciplines = listOf(),
                                         minimumSpiritContribution = 12))))
@@ -293,8 +295,8 @@ class PractitionerServiceTest : DatabaseHandler() {
         val circle = CircleDBO(
                 name = "",
                 description = "",
-                startTime = LocalDateTime.now(),
-                endTime = LocalDateTime.now().plusMinutes(15),
+                startTime = DateTimeFormat.localDateTimeUTC(),
+                endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(15),
                 disciplines = listOf(),
                 intentions = listOf(),
                 minimumSpiritContribution = 4)
@@ -305,14 +307,14 @@ class PractitionerServiceTest : DatabaseHandler() {
                 null,
                 "Test 1",
                 "Testing 1",
-                startTime = LocalDateTime.now(),
+                startTime = DateTimeFormat.localDateTimeUTC(),
                 circle = circle))
         // Start session for second practitioner with the created circle
         PractitionerService().startSession(secondPractitioner, SessionDBO(
                 null,
                 "Test 2",
                 "Testing 2",
-                startTime = LocalDateTime.now(),
+                startTime = DateTimeFormat.localDateTimeUTC(),
                 circle = circle))
         // End session for circle creator
         PractitionerService().endSession("a", 7)
@@ -332,8 +334,8 @@ class PractitionerServiceTest : DatabaseHandler() {
         val circle = CircleDBO(
                 name = "",
                 description = "",
-                startTime = LocalDateTime.now(),
-                endTime = LocalDateTime.now().plusMinutes(15),
+                startTime = DateTimeFormat.localDateTimeUTC(),
+                endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(15),
                 disciplines = listOf(),
                 intentions = listOf(),
                 minimumSpiritContribution = 3)
@@ -344,14 +346,14 @@ class PractitionerServiceTest : DatabaseHandler() {
                 null,
                 "Test 1",
                 "Testing 1",
-                startTime = LocalDateTime.now(),
+                startTime = DateTimeFormat.localDateTimeUTC(),
                 circle = circle))
         // Start session for second practitioner with the created circle
         PractitionerService().startSession(secondPractitioner, SessionDBO(
                 null,
                 "Test 2",
                 "Testing 2",
-                startTime = LocalDateTime.now(),
+                startTime = DateTimeFormat.localDateTimeUTC(),
                 circle = circle))
         // End session for circle creator
         PractitionerService().endSession("a", 7)
@@ -367,11 +369,11 @@ class PractitionerServiceTest : DatabaseHandler() {
     fun endSession_creatorOfCircle_circleEndTime() {
         // Insert a new practising user
         val practitioner = PractitionerService().insert(PractitionerDBO(_id = "a"))
-        val circleEndTime = LocalDateTime.now().plusMinutes(15)
+        val circleEndTime = DateTimeFormat.localDateTimeUTC().plusMinutes(15)
         val circle = CircleDBO(
                 name = "",
                 description = "",
-                startTime = LocalDateTime.now(),
+                startTime = DateTimeFormat.localDateTimeUTC(),
                 endTime = circleEndTime,
                 disciplines = listOf(),
                 intentions = listOf(),
@@ -383,7 +385,7 @@ class PractitionerServiceTest : DatabaseHandler() {
                 null,
                 "Test 1",
                 "Testing 1",
-                startTime = LocalDateTime.now(),
+                startTime = DateTimeFormat.localDateTimeUTC(),
                 circle = circle))
         // End session for circle creator
         PractitionerService().endSession("a", 7)
@@ -418,8 +420,8 @@ class PractitionerServiceTest : DatabaseHandler() {
         val circlePractitioner = PractitionerService().addCircle(practitioner._id!!, CircleDBO(
                 name = "",
                 description = "",
-                startTime = LocalDateTime.now(),
-                endTime = LocalDateTime.now().plusMinutes(15),
+                startTime = DateTimeFormat.localDateTimeUTC(),
+                endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(15),
                 disciplines = listOf(),
                 intentions = listOf(),
                 minimumSpiritContribution = 4))
@@ -491,15 +493,15 @@ class PractitionerServiceTest : DatabaseHandler() {
                 circles = listOf(
                         CircleDBO(
                                 _id = "c1", name = "", description = "",
-                                startTime = LocalDateTime.now(), endTime = LocalDateTime.now().plusHours(1),
+                                startTime = DateTimeFormat.localDateTimeUTC(), endTime = DateTimeFormat.localDateTimeUTC().plusHours(1),
                                 intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 3),
                         CircleDBO(
                                 _id = "c2", name = "", description = "",
-                                startTime = LocalDateTime.now(), endTime = LocalDateTime.now().plusHours(1),
+                                startTime = DateTimeFormat.localDateTimeUTC(), endTime = DateTimeFormat.localDateTimeUTC().plusHours(1),
                                 intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 3),
                         CircleDBO(
                                 _id = "c3", name = "", description = "",
-                                startTime = LocalDateTime.now(), endTime = LocalDateTime.now().plusHours(1),
+                                startTime = DateTimeFormat.localDateTimeUTC(), endTime = DateTimeFormat.localDateTimeUTC().plusHours(1),
                                 intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 3)))
     }
 

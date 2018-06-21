@@ -1,10 +1,10 @@
 package agartha.site.objects.response
 
+import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.CircleDBO
 import agartha.data.objects.SessionDBO
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import java.time.LocalDateTime
 
 /**
  * Created by Jorgen Andersson on 2018-06-18.
@@ -15,8 +15,8 @@ class CircleReportTest {
             _id = "a",
             name = "My Circle",
             description = "My Description",
-            startTime = LocalDateTime.now(),
-            endTime = LocalDateTime.now(),
+            startTime = DateTimeFormat.localDateTimeUTC(),
+            endTime = DateTimeFormat.localDateTimeUTC(),
             intentions = listOf(),
             disciplines = listOf(),
             minimumSpiritContribution = 11)

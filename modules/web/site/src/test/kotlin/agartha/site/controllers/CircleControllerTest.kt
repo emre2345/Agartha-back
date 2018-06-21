@@ -1,6 +1,7 @@
 package agartha.site.controllers
 
 import agartha.common.config.Settings.Companion.SPIRIT_BANK_START_POINTS
+import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.*
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
@@ -53,7 +54,7 @@ class CircleControllerTest {
         // User with no circles
         mockedService.insert(PractitionerDBO(
                 _id = "a",
-                created = LocalDateTime.now(),
+                created = DateTimeFormat.localDateTimeUTC(),
                 sessions = listOf(),
                 spiritBankLog = listOf(
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = SPIRIT_BANK_START_POINTS)
@@ -61,30 +62,30 @@ class CircleControllerTest {
         // User with 3 circles
         mockedService.insert(PractitionerDBO(
                 _id = "b",
-                created = LocalDateTime.now(),
+                created = DateTimeFormat.localDateTimeUTC(),
                 sessions = listOf(),
                 circles = listOf(
                         CircleDBO(
                                 name = "",
                                 description = "",
-                                startTime = LocalDateTime.now().plusHours(1),
-                                endTime = LocalDateTime.now().plusHours(3),
+                                startTime = DateTimeFormat.localDateTimeUTC().plusHours(1),
+                                endTime = DateTimeFormat.localDateTimeUTC().plusHours(3),
                                 intentions = listOf(),
                                 disciplines = listOf(),
                                 minimumSpiritContribution = 5),
                         CircleDBO(
                                 name = "",
                                 description = "",
-                                startTime = LocalDateTime.now().minusHours(1),
-                                endTime = LocalDateTime.now().plusHours(1),
+                                startTime = DateTimeFormat.localDateTimeUTC().minusHours(1),
+                                endTime = DateTimeFormat.localDateTimeUTC().plusHours(1),
                                 intentions = listOf(),
                                 disciplines = listOf(),
                                 minimumSpiritContribution = 5),
                         CircleDBO(
                                 name = "",
                                 description = "",
-                                startTime = LocalDateTime.now().plusHours(14),
-                                endTime = LocalDateTime.now().plusHours(15),
+                                startTime = DateTimeFormat.localDateTimeUTC().plusHours(14),
+                                endTime = DateTimeFormat.localDateTimeUTC().plusHours(15),
                                 intentions = listOf(),
                                 disciplines = listOf(),
                                 minimumSpiritContribution = 5)),
@@ -94,27 +95,27 @@ class CircleControllerTest {
         // User with 1 circles
         mockedService.insert(PractitionerDBO(
                 _id = "c",
-                created = LocalDateTime.now(),
+                created = DateTimeFormat.localDateTimeUTC(),
                 sessions = listOf(),
                 circles = listOf(
                         CircleDBO(
                                 _id = "c1",
                                 name = "CName",
                                 description = "CDesc",
-                                startTime = LocalDateTime.now().minusMinutes(30),
-                                endTime = LocalDateTime.now().plusMinutes(90),
+                                startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(30),
+                                endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(90),
                                 intentions = listOf(),
                                 disciplines = listOf(),
                                 minimumSpiritContribution = 5)),
                 spiritBankLog = listOf(
-                        SpiritBankLogItemDBO(created = LocalDateTime.now().minusHours(4), type = SpiritBankLogItemType.START, points = SPIRIT_BANK_START_POINTS),
-                        SpiritBankLogItemDBO(created = LocalDateTime.now(), type = SpiritBankLogItemType.START, points = 3)
+                        SpiritBankLogItemDBO(created = DateTimeFormat.localDateTimeUTC().minusHours(4), type = SpiritBankLogItemType.START, points = SPIRIT_BANK_START_POINTS),
+                        SpiritBankLogItemDBO(created = DateTimeFormat.localDateTimeUTC(), type = SpiritBankLogItemType.START, points = 3)
                 )))
 
         // User without enough points in spiritBankLog
         mockedService.insert(PractitionerDBO(
                 _id = "d",
-                created = LocalDateTime.now(),
+                created = DateTimeFormat.localDateTimeUTC(),
                 sessions = listOf(
                         SessionDBO(
                                 discipline = "D",
@@ -125,8 +126,8 @@ class CircleControllerTest {
                                         description = "CDesc",
                                         intentions = listOf(),
                                         disciplines = listOf(),
-                                        startTime = LocalDateTime.now().minusMinutes(30),
-                                        endTime = LocalDateTime.now().plusMinutes(30),
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(30),
+                                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(30),
                                         minimumSpiritContribution = 12))
                 ),
                 circles = listOf(),

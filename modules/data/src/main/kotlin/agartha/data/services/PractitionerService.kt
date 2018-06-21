@@ -2,6 +2,7 @@ package agartha.data.services
 
 import agartha.common.config.Settings.Companion.COST_ADD_VIRTUAL_SESSION_POINTS
 import agartha.common.config.Settings.Companion.returnNegativeNumber
+import agartha.common.utils.DateTimeFormat
 import agartha.data.db.conn.MongoConnection
 import agartha.data.objects.*
 import com.mongodb.client.result.UpdateResult
@@ -212,7 +213,7 @@ class PractitionerService : IPractitionerService {
             collection.updateOneById(
                     practitionerId,
                     Document("${MongoOperator.set}",
-                            Document("${PractitionersArraysEnum.SESSIONS.value}.${index - 1}.endTime", LocalDateTime.now())))
+                            Document("${PractitionersArraysEnum.SESSIONS.value}.${index - 1}.endTime", DateTimeFormat.localDateTimeUTC())))
         }
     }
 
@@ -232,7 +233,7 @@ class PractitionerService : IPractitionerService {
             collection.updateOneById(
                     practitionerId,
                     Document("${MongoOperator.set}",
-                            Document("${PractitionersArraysEnum.CIRCLES.value}.$index.endTime", LocalDateTime.now())))
+                            Document("${PractitionersArraysEnum.CIRCLES.value}.$index.endTime", DateTimeFormat.localDateTimeUTC())))
         }
     }
 

@@ -1,5 +1,6 @@
 package agartha.data.objects
 
+import agartha.common.utils.DateTimeFormat
 import java.time.LocalDateTime
 
 /**
@@ -9,5 +10,5 @@ import java.time.LocalDateTime
  */
 data class MonitorDBO(
         val value: String,
-        val created: LocalDateTime = LocalDateTime.now(),
+        val created: LocalDateTime = DateTimeFormat.localDateTimeUTC(),
         val _id: String? = null)

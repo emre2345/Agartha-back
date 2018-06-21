@@ -1,11 +1,11 @@
 package agartha.site.controllers.utils
 
+import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.CircleDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import java.time.LocalDateTime
 
 /**
  * Purpose of this file is test Session Utils
@@ -37,7 +37,7 @@ class SessionUtilTest {
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(175))
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(175))
                         ))
                 ),
                 "abc")
@@ -56,8 +56,8 @@ class SessionUtilTest {
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(120),
-                                        endTime = LocalDateTime.now().minusMinutes(50))
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(120),
+                                        endTime = DateTimeFormat.localDateTimeUTC().minusMinutes(50))
                         ))
                 ),
                 "abc")
@@ -76,8 +76,8 @@ class SessionUtilTest {
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(30),
-                                        endTime = LocalDateTime.now().minusMinutes(20))
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(30),
+                                        endTime = DateTimeFormat.localDateTimeUTC().minusMinutes(20))
                         ))
                 ),
                 "abc")
@@ -96,13 +96,13 @@ class SessionUtilTest {
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(100),
-                                        endTime = LocalDateTime.now().minusMinutes(50)),
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(100),
+                                        endTime = DateTimeFormat.localDateTimeUTC().minusMinutes(50)),
                                 SessionDBO(
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(30))
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(30))
                         ))
                 ),
                 "abc")
@@ -121,13 +121,13 @@ class SessionUtilTest {
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(100),
-                                        endTime = LocalDateTime.now().minusMinutes(50)),
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(100),
+                                        endTime = DateTimeFormat.localDateTimeUTC().minusMinutes(50)),
                                 SessionDBO(
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Love",
-                                        startTime = LocalDateTime.now().minusMinutes(30))
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(30))
                         ))
                 ),
                 "abc")
@@ -146,14 +146,14 @@ class SessionUtilTest {
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(30))
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(30))
                         )),
                         PractitionerDBO(_id = "abc", sessions = listOf(
                                 SessionDBO(
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(30))
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(30))
                         ))
                 ),
                 "abc")
@@ -167,8 +167,8 @@ class SessionUtilTest {
     fun filterAllSessionsPerPractitioner_emptyInputList_emptyList() {
         val response = SessionUtil.filterAllSessionsActiveBetween(
                 listOf(),
-                LocalDateTime.now().minusMinutes(60),
-                LocalDateTime.now())
+                DateTimeFormat.localDateTimeUTC().minusMinutes(60),
+                DateTimeFormat.localDateTimeUTC())
         assertThat(response).isEmpty()
     }
 
@@ -182,8 +182,8 @@ class SessionUtilTest {
                         PractitionerDBO(_id = "aaa"),
                         PractitionerDBO(_id = "bbb")
                 ),
-                LocalDateTime.now().minusMinutes(60),
-                LocalDateTime.now())
+                DateTimeFormat.localDateTimeUTC().minusMinutes(60),
+                DateTimeFormat.localDateTimeUTC())
         assertThat(response).isEmpty()
     }
 
@@ -199,11 +199,11 @@ class SessionUtilTest {
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(200))
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(200))
                         ))
                 ),
-                LocalDateTime.now().minusMinutes(60),
-                LocalDateTime.now())
+                DateTimeFormat.localDateTimeUTC().minusMinutes(60),
+                DateTimeFormat.localDateTimeUTC())
         assertThat(response).isEmpty()
     }
 
@@ -220,14 +220,14 @@ class SessionUtilTest {
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(500),
-                                        endTime = LocalDateTime.now().minusMinutes(400)),
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(500),
+                                        endTime = DateTimeFormat.localDateTimeUTC().minusMinutes(400)),
                                 SessionDBO(
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(400),
-                                        endTime = LocalDateTime.now().minusMinutes(300))
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(400),
+                                        endTime = DateTimeFormat.localDateTimeUTC().minusMinutes(300))
 
                         )),
                         // No session should be included, abandon
@@ -236,7 +236,7 @@ class SessionUtilTest {
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(400))
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(400))
                         )),
                         // One session should be included, started but ongoing
                         PractitionerDBO(_id = "ccc", sessions = listOf(
@@ -244,13 +244,13 @@ class SessionUtilTest {
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(500),
-                                        endTime = LocalDateTime.now().minusMinutes(400)),
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(500),
+                                        endTime = DateTimeFormat.localDateTimeUTC().minusMinutes(400)),
                                 SessionDBO(
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(100))
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(100))
 
                         )),
                         // Both sessions should be included
@@ -259,19 +259,19 @@ class SessionUtilTest {
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(200),
-                                        endTime = LocalDateTime.now().minusMinutes(100)),
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(200),
+                                        endTime = DateTimeFormat.localDateTimeUTC().minusMinutes(100)),
                                 SessionDBO(
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(60),
-                                        endTime = LocalDateTime.now().minusMinutes(10))
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(60),
+                                        endTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10))
 
                         ))
                 ),
-                LocalDateTime.now().minusMinutes(150),
-                LocalDateTime.now())
+                DateTimeFormat.localDateTimeUTC().minusMinutes(150),
+                DateTimeFormat.localDateTimeUTC())
         //
         assertThat(response.size).isEqualTo(3)
     }
@@ -299,7 +299,7 @@ class SessionUtilTest {
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(175))
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(175))
                         ))
                 ),
                 "abc")
@@ -318,7 +318,7 @@ class SessionUtilTest {
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(185))
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(185))
                         ))
                 ),
                 "abc")
@@ -337,8 +337,8 @@ class SessionUtilTest {
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(120),
-                                        endTime = LocalDateTime.now().minusMinutes(50))
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(120),
+                                        endTime = DateTimeFormat.localDateTimeUTC().minusMinutes(50))
                         ))
                 ),
                 "abc")
@@ -357,8 +357,8 @@ class SessionUtilTest {
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusDays(30),
-                                        endTime = LocalDateTime.now().minusDays(29))
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusDays(30),
+                                        endTime = DateTimeFormat.localDateTimeUTC().minusDays(29))
                         ))
                 ),
                 "abc")
@@ -377,13 +377,13 @@ class SessionUtilTest {
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(100),
-                                        endTime = LocalDateTime.now().minusMinutes(50)),
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(100),
+                                        endTime = DateTimeFormat.localDateTimeUTC().minusMinutes(50)),
                                 SessionDBO(
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(30))
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(30))
                         ))
                 ),
                 "abc")
@@ -402,14 +402,14 @@ class SessionUtilTest {
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(30))
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(30))
                         )),
                         PractitionerDBO(_id = "abc", sessions = listOf(
                                 SessionDBO(
                                         geolocation = null,
                                         discipline = "Yoga",
                                         intention = "Wellbeing",
-                                        startTime = LocalDateTime.now().minusMinutes(30))
+                                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(30))
                         ))
                 ),
                 "abc")
@@ -421,8 +421,8 @@ class SessionUtilTest {
                 _id = id,
                 name = "",
                 description = "",
-                startTime = LocalDateTime.now(),
-                endTime = LocalDateTime.now(),
+                startTime = DateTimeFormat.localDateTimeUTC(),
+                endTime = DateTimeFormat.localDateTimeUTC(),
                 disciplines = listOf(),
                 intentions = listOf(),
                 minimumSpiritContribution = 4)

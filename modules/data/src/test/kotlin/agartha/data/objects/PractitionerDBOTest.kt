@@ -1,8 +1,8 @@
 package agartha.data.objects
 
+import agartha.common.utils.DateTimeFormat
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import java.time.LocalDateTime
 
 /**
  *
@@ -57,100 +57,100 @@ class PractitionerDBOTest {
     fun hasSessionBetween_before_false() {
         val practitioner = PractitionerDBO(
                 _id = "abc",
-                created = LocalDateTime.now().minusMinutes(21),
+                created = DateTimeFormat.localDateTimeUTC().minusMinutes(21),
                 sessions = listOf(
                         SessionDBO(
                                 discipline = "d",
                                 intention = "i",
-                                startTime = LocalDateTime.now().minusMinutes(60),
-                                endTime = LocalDateTime.now().minusMinutes(50)),
+                                startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(60),
+                                endTime = DateTimeFormat.localDateTimeUTC().minusMinutes(50)),
                         SessionDBO(
                                 discipline = "d",
                                 intention = "i",
-                                startTime = LocalDateTime.now().minusMinutes(40),
-                                endTime = LocalDateTime.now().minusMinutes(30))))
+                                startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(40),
+                                endTime = DateTimeFormat.localDateTimeUTC().minusMinutes(30))))
         assertThat(practitioner.hasSessionBetween(
-                LocalDateTime.now().minusMinutes(75),
-                LocalDateTime.now().minusMinutes(70))).isFalse()
+                DateTimeFormat.localDateTimeUTC().minusMinutes(75),
+                DateTimeFormat.localDateTimeUTC().minusMinutes(70))).isFalse()
     }
 
     @Test
     fun hasSessionBetween_after_false() {
         val practitioner = PractitionerDBO(
                 _id = "abc",
-                created = LocalDateTime.now().minusMinutes(21),
+                created = DateTimeFormat.localDateTimeUTC().minusMinutes(21),
                 sessions = listOf(
                         SessionDBO(
                                 discipline = "d",
                                 intention = "i",
-                                startTime = LocalDateTime.now().minusMinutes(60),
-                                endTime = LocalDateTime.now().minusMinutes(50)),
+                                startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(60),
+                                endTime = DateTimeFormat.localDateTimeUTC().minusMinutes(50)),
                         SessionDBO(
                                 discipline = "d",
                                 intention = "i",
-                                startTime = LocalDateTime.now().minusMinutes(40),
-                                endTime = LocalDateTime.now().minusMinutes(30))))
+                                startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(40),
+                                endTime = DateTimeFormat.localDateTimeUTC().minusMinutes(30))))
         assertThat(practitioner.hasSessionBetween(
-                LocalDateTime.now().minusMinutes(25),
-                LocalDateTime.now().minusMinutes(20))).isFalse()
+                DateTimeFormat.localDateTimeUTC().minusMinutes(25),
+                DateTimeFormat.localDateTimeUTC().minusMinutes(20))).isFalse()
     }
 
     @Test
     fun hasSessionBetween_around_true() {
         val practitioner = PractitionerDBO(
                 _id = "abc",
-                created = LocalDateTime.now().minusMinutes(21),
+                created = DateTimeFormat.localDateTimeUTC().minusMinutes(21),
                 sessions = listOf(
                         SessionDBO(
                                 discipline = "d",
                                 intention = "i",
-                                startTime = LocalDateTime.now().minusMinutes(60),
-                                endTime = LocalDateTime.now().minusMinutes(50)),
+                                startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(60),
+                                endTime = DateTimeFormat.localDateTimeUTC().minusMinutes(50)),
                         SessionDBO(
                                 discipline = "d",
                                 intention = "i",
-                                startTime = LocalDateTime.now().minusMinutes(40),
-                                endTime = LocalDateTime.now().minusMinutes(30))))
+                                startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(40),
+                                endTime = DateTimeFormat.localDateTimeUTC().minusMinutes(30))))
         assertThat(practitioner.hasSessionBetween(
-                LocalDateTime.now().minusMinutes(75),
-                LocalDateTime.now().minusMinutes(20))).isTrue()
+                DateTimeFormat.localDateTimeUTC().minusMinutes(75),
+                DateTimeFormat.localDateTimeUTC().minusMinutes(20))).isTrue()
     }
 
     @Test
     fun hasSessionBetween_within_true() {
         val practitioner = PractitionerDBO(
                 _id = "abc",
-                created = LocalDateTime.now().minusMinutes(21),
+                created = DateTimeFormat.localDateTimeUTC().minusMinutes(21),
                 sessions = listOf(
                         SessionDBO(
                                 discipline = "d",
                                 intention = "i",
-                                startTime = LocalDateTime.now().minusMinutes(60),
-                                endTime = LocalDateTime.now().minusMinutes(50)),
+                                startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(60),
+                                endTime = DateTimeFormat.localDateTimeUTC().minusMinutes(50)),
                         SessionDBO(
                                 discipline = "d",
                                 intention = "i",
-                                startTime = LocalDateTime.now().minusMinutes(40),
-                                endTime = LocalDateTime.now().minusMinutes(30))))
+                                startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(40),
+                                endTime = DateTimeFormat.localDateTimeUTC().minusMinutes(30))))
         assertThat(practitioner.hasSessionBetween(
-                LocalDateTime.now().minusMinutes(55),
-                LocalDateTime.now().minusMinutes(35))).isTrue()
+                DateTimeFormat.localDateTimeUTC().minusMinutes(55),
+                DateTimeFormat.localDateTimeUTC().minusMinutes(35))).isTrue()
     }
 
     @Test
     fun hasSessionBetween_ongoing_true() {
         val practitioner = PractitionerDBO(
                 _id = "abc",
-                created = LocalDateTime.now().minusMinutes(21),
+                created = DateTimeFormat.localDateTimeUTC().minusMinutes(21),
                 sessions = listOf(
                         SessionDBO(
                                 discipline = "d",
                                 intention = "i",
-                                startTime = LocalDateTime.now().minusMinutes(60))))
+                                startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(60))))
 
         assertThat(practitioner.hasSessionBetween(
-                LocalDateTime.now().minusMinutes(55),
-                LocalDateTime.now().minusMinutes(35))).isTrue()
+                DateTimeFormat.localDateTimeUTC().minusMinutes(55),
+                DateTimeFormat.localDateTimeUTC().minusMinutes(35))).isTrue()
     }
 
     /**
@@ -159,16 +159,16 @@ class PractitionerDBOTest {
     val circle = CircleDBO(
             name = "Circle name",
             description = "Circle description",
-            startTime = LocalDateTime.now(),
-            endTime = LocalDateTime.now().plusHours(6),
+            startTime = DateTimeFormat.localDateTimeUTC(),
+            endTime = DateTimeFormat.localDateTimeUTC().plusHours(6),
             intentions = listOf(),
             disciplines = listOf(),
             minimumSpiritContribution = 12L)
     val circle2 = CircleDBO(
             name = "Circle name2",
             description = "Circle description2",
-            startTime = LocalDateTime.now(),
-            endTime = LocalDateTime.now().plusHours(5),
+            startTime = DateTimeFormat.localDateTimeUTC(),
+            endTime = DateTimeFormat.localDateTimeUTC().plusHours(5),
             intentions = listOf(),
             disciplines = listOf(),
             minimumSpiritContribution = 1200L)
@@ -180,11 +180,11 @@ class PractitionerDBOTest {
                         SessionDBO(
                                 discipline = "d",
                                 intention = "i",
-                                startTime = LocalDateTime.now().minusMinutes(10),
+                                startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
                                 circle = circle)))
 
         assertThat(practitioner.hasSessionInCircleAfterStartTime(
-                LocalDateTime.now().minusMinutes(55), circle)).isTrue()
+                DateTimeFormat.localDateTimeUTC().minusMinutes(55), circle)).isTrue()
     }
     @Test
     fun hasSessionInCircleAfterStartTime_startedAfterNoCircle_false() {
@@ -194,10 +194,10 @@ class PractitionerDBOTest {
                         SessionDBO(
                                 discipline = "d",
                                 intention = "i",
-                                startTime = LocalDateTime.now().minusMinutes(10))))
+                                startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10))))
 
         assertThat(practitioner.hasSessionInCircleAfterStartTime(
-                LocalDateTime.now().minusMinutes(55), circle)).isFalse()
+                DateTimeFormat.localDateTimeUTC().minusMinutes(55), circle)).isFalse()
     }
 
     @Test
@@ -208,11 +208,11 @@ class PractitionerDBOTest {
                         SessionDBO(
                                 discipline = "d",
                                 intention = "i",
-                                startTime = LocalDateTime.now().minusMinutes(10),
+                                startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
                                 circle= circle2)))
 
         assertThat(practitioner.hasSessionInCircleAfterStartTime(
-                LocalDateTime.now().minusMinutes(55), circle)).isFalse()
+                DateTimeFormat.localDateTimeUTC().minusMinutes(55), circle)).isFalse()
     }
 
     @Test
@@ -223,11 +223,11 @@ class PractitionerDBOTest {
                         SessionDBO(
                                 discipline = "d",
                                 intention = "i",
-                                startTime = LocalDateTime.now().minusMinutes(50),
+                                startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(50),
                                 circle= circle)))
 
         assertThat(practitioner.hasSessionInCircleAfterStartTime(
-                LocalDateTime.now().minusMinutes(10), circle)).isFalse()
+                DateTimeFormat.localDateTimeUTC().minusMinutes(10), circle)).isFalse()
     }
 
 
@@ -238,7 +238,7 @@ class PractitionerDBOTest {
     fun hasOngoingSession_empty_false() {
         val practitioner = PractitionerDBO(
                 _id = "abc",
-                created = LocalDateTime.now().minusMinutes(21),
+                created = DateTimeFormat.localDateTimeUTC().minusMinutes(21),
                 sessions = listOf())
         assertThat(practitioner.hasOngoingSession()).isFalse()
     }
@@ -247,11 +247,11 @@ class PractitionerDBOTest {
     fun hasOngoingSession_singleSessionOngoing_true() {
         val practitioner = PractitionerDBO(
                 _id = "abc",
-                created = LocalDateTime.now().minusMinutes(21),
+                created = DateTimeFormat.localDateTimeUTC().minusMinutes(21),
                 sessions = listOf(SessionDBO(
                         discipline = "d",
                         intention = "i",
-                        startTime = LocalDateTime.now().minusMinutes(20))))
+                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(20))))
        assertThat(practitioner.hasOngoingSession()).isTrue()
     }
 
@@ -259,11 +259,11 @@ class PractitionerDBOTest {
     fun hasOngoingSession_singleSessionAbandon_false() {
         val practitioner = PractitionerDBO(
                 _id = "abc",
-                created = LocalDateTime.now().minusMinutes(182),
+                created = DateTimeFormat.localDateTimeUTC().minusMinutes(182),
                 sessions = listOf(SessionDBO(
                         discipline = "d",
                         intention = "i",
-                        startTime = LocalDateTime.now().minusMinutes(181))))
+                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(181))))
         assertThat(practitioner.hasOngoingSession()).isFalse()
     }
 
@@ -271,16 +271,16 @@ class PractitionerDBOTest {
     fun hasOngoingSession_multipleSessionOngoing_true() {
         val practitioner = PractitionerDBO(
                 _id = "abc",
-                created = LocalDateTime.now().minusMinutes(21),
+                created = DateTimeFormat.localDateTimeUTC().minusMinutes(21),
                 sessions = listOf(
                         SessionDBO(
                                 discipline = "d",
                                 intention = "i",
-                                startTime = LocalDateTime.now().minusMinutes(20)),
+                                startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(20)),
                         SessionDBO(
                                 discipline = "d",
                                 intention = "i",
-                                startTime = LocalDateTime.now().minusMinutes(15))))
+                                startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(15))))
         assertThat(practitioner.hasOngoingSession()).isTrue()
     }
 
@@ -288,12 +288,12 @@ class PractitionerDBOTest {
     fun hasOngoingSession_singleSessionClosed_false() {
         val practitioner = PractitionerDBO(
                 _id = "abc",
-                created = LocalDateTime.now().minusMinutes(21),
+                created = DateTimeFormat.localDateTimeUTC().minusMinutes(21),
                 sessions = listOf(SessionDBO(
                         discipline = "d",
                         intention = "i",
-                        startTime = LocalDateTime.now().minusMinutes(20),
-                        endTime = LocalDateTime.now())))
+                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(20),
+                        endTime = DateTimeFormat.localDateTimeUTC())))
         assertThat(practitioner.hasOngoingSession()).isFalse()
     }
 
@@ -301,17 +301,17 @@ class PractitionerDBOTest {
     fun hasOngoingSession_multipleSessionSecondLastOngoing_false() {
         val practitioner = PractitionerDBO(
                 _id = "abc",
-                created = LocalDateTime.now().minusMinutes(21),
+                created = DateTimeFormat.localDateTimeUTC().minusMinutes(21),
                 sessions = listOf(
                         SessionDBO(
                                 discipline = "d",
                                 intention = "i",
-                                startTime = LocalDateTime.now().minusMinutes(20)),
+                                startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(20)),
                         SessionDBO(
                                 discipline = "d",
                                 intention = "i",
-                                startTime = LocalDateTime.now().minusMinutes(15),
-                                endTime = LocalDateTime.now())))
+                                startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(15),
+                                endTime = DateTimeFormat.localDateTimeUTC())))
         assertThat(practitioner.hasOngoingSession()).isFalse()
     }
 

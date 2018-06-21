@@ -1,5 +1,6 @@
 package agartha.site
 
+import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.*
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.controllers.mocks.MockedWebSocketSession
@@ -7,7 +8,6 @@ import agartha.site.objects.webSocket.WebSocketMessage
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
-import java.time.LocalDateTime
 
 /**
  * Purpose of this class is to test the hashMap in the WebSocketService
@@ -23,8 +23,8 @@ class WebSocketServiceTest {
     private val expectedCircle = CircleDBO(intentions = listOf(),
             disciplines = listOf(),
             description = "",
-            startTime = LocalDateTime.now(),
-            endTime = LocalDateTime.now().plusHours(2),
+            startTime = DateTimeFormat.localDateTimeUTC(),
+            endTime = DateTimeFormat.localDateTimeUTC().plusHours(2),
             minimumSpiritContribution = 5,
             name = "CircleName")
     // Expected Session for practitioner

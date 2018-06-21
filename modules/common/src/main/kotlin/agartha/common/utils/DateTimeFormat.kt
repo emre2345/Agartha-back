@@ -1,6 +1,8 @@
 package agartha.common.utils
 
+import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 /**
@@ -12,7 +14,9 @@ class DateTimeFormat {
 
 
     companion object {
-        private val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        private val dateTimeFormatter = DateTimeFormatter
+                .ofPattern("yyyy-MM-dd HH:mm:ss")
+                .withZone(ZoneId.of("UTC"))
 
         /**
          * Format a string to datetime object
@@ -20,8 +24,13 @@ class DateTimeFormat {
          * @param dateTimeAsString
          * @return
          */
-        fun stringToLocalDateTime(dateTimeAsString: String): LocalDateTime {
+        fun stringToLocalDateTimeUTC(dateTimeAsString: String): LocalDateTime {
             return LocalDateTime.parse(dateTimeAsString, dateTimeFormatter)
         }
+
+        fun localDateTimeUTC(): LocalDateTime {
+            return LocalDateTime.ofInstant(Instant.now(), ZoneId.of("UTC"))
+        }
     }
+
 }

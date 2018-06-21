@@ -1,6 +1,7 @@
 package agartha.site.controllers
 
 import agartha.common.config.Settings.Companion.SPIRIT_BANK_START_POINTS
+import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.*
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
@@ -10,7 +11,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.BeforeClass
 import org.junit.Test
-import java.time.LocalDateTime
 
 /**
  * Purpose of this file is to test the Practitioner controller
@@ -41,60 +41,60 @@ class PractitionerControllerTest {
 
     private fun setupReport() {
         //
-        mockedService.insert(PractitionerDBO("a", LocalDateTime.now(), mutableListOf(
+        mockedService.insert(PractitionerDBO("a", DateTimeFormat.localDateTimeUTC(), mutableListOf(
                 SessionDBO(null, "Yoga", "Transformation",
-                        LocalDateTime.now().minusDays(13),
-                        LocalDateTime.now().minusDays(13)),
+                        DateTimeFormat.localDateTimeUTC().minusDays(13),
+                        DateTimeFormat.localDateTimeUTC().minusDays(13)),
                 SessionDBO(null, "Yoga", "Empowerment",
-                        LocalDateTime.now().minusDays(11),
-                        LocalDateTime.now().minusDays(11)),
+                        DateTimeFormat.localDateTimeUTC().minusDays(11),
+                        DateTimeFormat.localDateTimeUTC().minusDays(11)),
                 SessionDBO(null, "Meditation", "Harmony",
-                        LocalDateTime.now().minusDays(5),
-                        LocalDateTime.now().minusDays(5)),
+                        DateTimeFormat.localDateTimeUTC().minusDays(5),
+                        DateTimeFormat.localDateTimeUTC().minusDays(5)),
                 SessionDBO(null, "Yoga", "Freedom",
-                        LocalDateTime.now().minusMinutes(41),
-                        LocalDateTime.now().minusMinutes(1)))))
+                        DateTimeFormat.localDateTimeUTC().minusMinutes(41),
+                        DateTimeFormat.localDateTimeUTC().minusMinutes(1)))))
         //
-        mockedService.insert(PractitionerDBO("b", LocalDateTime.now(), mutableListOf(
+        mockedService.insert(PractitionerDBO("b", DateTimeFormat.localDateTimeUTC(), mutableListOf(
                 SessionDBO(null, "Meditation", "Love",
-                        LocalDateTime.now().minusMinutes(20),
-                        LocalDateTime.now().minusMinutes(5)))))
+                        DateTimeFormat.localDateTimeUTC().minusMinutes(20),
+                        DateTimeFormat.localDateTimeUTC().minusMinutes(5)))))
         //
-        mockedService.insert(PractitionerDBO("c", LocalDateTime.now(), mutableListOf(
+        mockedService.insert(PractitionerDBO("c", DateTimeFormat.localDateTimeUTC(), mutableListOf(
                 SessionDBO(null, "Yoga", "Love",
-                        LocalDateTime.now().minusDays(13),
-                        LocalDateTime.now().minusDays(13)),
+                        DateTimeFormat.localDateTimeUTC().minusDays(13),
+                        DateTimeFormat.localDateTimeUTC().minusDays(13)),
                 SessionDBO(null, "Yoga", "Freedom",
-                        LocalDateTime.now().minusDays(11),
-                        LocalDateTime.now().minusDays(11)),
+                        DateTimeFormat.localDateTimeUTC().minusDays(11),
+                        DateTimeFormat.localDateTimeUTC().minusDays(11)),
                 SessionDBO(null, "Yoga", "Love",
-                        LocalDateTime.now().minusDays(3).minusMinutes(45),
-                        LocalDateTime.now().minusDays(3)),
+                        DateTimeFormat.localDateTimeUTC().minusDays(3).minusMinutes(45),
+                        DateTimeFormat.localDateTimeUTC().minusDays(3)),
                 SessionDBO(null, "Meditation", "Harmony",
-                        LocalDateTime.now().minusMinutes(20).minusSeconds(10),
-                        LocalDateTime.now()))))
+                        DateTimeFormat.localDateTimeUTC().minusMinutes(20).minusSeconds(10),
+                        DateTimeFormat.localDateTimeUTC()))))
         //
-        mockedService.insert(PractitionerDBO("d", LocalDateTime.now(), mutableListOf(
+        mockedService.insert(PractitionerDBO("d", DateTimeFormat.localDateTimeUTC(), mutableListOf(
                 SessionDBO(null, "Meditation", "Empathy",
-                        LocalDateTime.now().minusMinutes(35),
-                        LocalDateTime.now().minusMinutes(5)))))
+                        DateTimeFormat.localDateTimeUTC().minusMinutes(35),
+                        DateTimeFormat.localDateTimeUTC().minusMinutes(5)))))
         //
-        mockedService.insert(PractitionerDBO("e", LocalDateTime.now(), mutableListOf(
+        mockedService.insert(PractitionerDBO("e", DateTimeFormat.localDateTimeUTC(), mutableListOf(
                 SessionDBO(null, "Meditation", "Empowerment",
-                        LocalDateTime.now().minusMinutes(35),
-                        LocalDateTime.now().minusMinutes(5)))))
+                        DateTimeFormat.localDateTimeUTC().minusMinutes(35),
+                        DateTimeFormat.localDateTimeUTC().minusMinutes(5)))))
         //
-        mockedService.insert(PractitionerDBO("f", LocalDateTime.now(), mutableListOf(
+        mockedService.insert(PractitionerDBO("f", DateTimeFormat.localDateTimeUTC(), mutableListOf(
                 SessionDBO(null, "Meditation", "Celebration",
-                        LocalDateTime.now().minusDays(5),
-                        LocalDateTime.now().minusDays(5)))))
+                        DateTimeFormat.localDateTimeUTC().minusDays(5),
+                        DateTimeFormat.localDateTimeUTC().minusDays(5)))))
         // Ongoing sessions
-        mockedService.insert(PractitionerDBO("g", LocalDateTime.now(), mutableListOf(
+        mockedService.insert(PractitionerDBO("g", DateTimeFormat.localDateTimeUTC(), mutableListOf(
                 SessionDBO(null, "Meditation", "Celebration",
-                        LocalDateTime.now().minusMinutes(15)))))
-        mockedService.insert(PractitionerDBO("h", LocalDateTime.now(), mutableListOf(
+                        DateTimeFormat.localDateTimeUTC().minusMinutes(15)))))
+        mockedService.insert(PractitionerDBO("h", DateTimeFormat.localDateTimeUTC(), mutableListOf(
                 SessionDBO(null, "Meditation", "Love",
-                        LocalDateTime.now().minusMinutes(25)))))
+                        DateTimeFormat.localDateTimeUTC().minusMinutes(25)))))
     }
 
     /**
@@ -126,7 +126,7 @@ class PractitionerControllerTest {
     @Test
     fun getInformation_userId_userExists() {
         // Setup
-        mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
+        mockedService.insert(PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf()))
         //
         val getRequest = testController.testServer.get("/practitioner/abc", false)
         val httpResponse = testController.testServer.execute(getRequest)
@@ -184,7 +184,7 @@ class PractitionerControllerTest {
     @Test
     fun updatePractitioner_insertedUser_updatedUserWithInvolvedInformation() {
         // Setup
-        mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
+        mockedService.insert(PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf()))
         //
         val involvedInformation = PractitionerInvolvedInformation(
                 "Santa Clause",
@@ -207,7 +207,7 @@ class PractitionerControllerTest {
     @Test
     fun startSession_discipline_Yoga() {
         // Setup
-        mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
+        mockedService.insert(PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf()))
         //
         val postRequest = testController.testServer.post(
                 "/practitioner/session/start/abc",
@@ -223,7 +223,7 @@ class PractitionerControllerTest {
     @Test
     fun startSession_emptyDiscipline_status400() {
         // Setup
-        mockedService.insert(PractitionerDBO("abc", LocalDateTime.now(), mutableListOf()))
+        mockedService.insert(PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf()))
         //
         val request = testController.testServer.post(
                 "/practitioner/session/start/abc",
@@ -241,8 +241,8 @@ class PractitionerControllerTest {
     fun endSession_response_pracSessionsEndTimeIsNotNull() {
         // Setup
         mockedService.insert(
-                PractitionerDBO("abc", LocalDateTime.now(), mutableListOf(
-                        SessionDBO(null, "D", "I", LocalDateTime.now()))))
+                PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf(
+                        SessionDBO(null, "D", "I", DateTimeFormat.localDateTimeUTC()))))
 
         val postRequest = testController.testServer.post("/practitioner/session/end/abc/8", "", false)
         val httpResponse = testController.testServer.execute(postRequest)
@@ -258,8 +258,8 @@ class PractitionerControllerTest {
     fun endSession_response_pracSpiritBankLogHas8PointsInLastLog() {
         // Setup
         mockedService.insert(
-                PractitionerDBO("abc", LocalDateTime.now(), mutableListOf(
-                        SessionDBO(null, "D", "I", LocalDateTime.now()))))
+                PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf(
+                        SessionDBO(null, "D", "I", DateTimeFormat.localDateTimeUTC()))))
 
         val postRequest = testController.testServer.post("/practitioner/session/end/abc/8", "", false)
         val httpResponse = testController.testServer.execute(postRequest)
@@ -275,8 +275,8 @@ class PractitionerControllerTest {
     fun endSession_response_pracSpiritBankLogHasTypeSESSIONInLastLog() {
         // Setup
         mockedService.insert(
-                PractitionerDBO("abc", LocalDateTime.now(), mutableListOf(
-                        SessionDBO(null, "D", "I", LocalDateTime.now()))))
+                PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf(
+                        SessionDBO(null, "D", "I", DateTimeFormat.localDateTimeUTC()))))
 
         val postRequest = testController.testServer.post("/practitioner/session/end/abc/8", "", false)
         val httpResponse = testController.testServer.execute(postRequest)
@@ -292,8 +292,8 @@ class PractitionerControllerTest {
     fun endSession_response_pracSpiritBankLogStoredOneNewLog() {
         // Setup
         mockedService.insert(
-                PractitionerDBO("abc", LocalDateTime.now(), mutableListOf(
-                        SessionDBO(null, "D", "I", LocalDateTime.now()))))
+                PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf(
+                        SessionDBO(null, "D", "I", DateTimeFormat.localDateTimeUTC()))))
 
         val postRequest = testController.testServer.post("/practitioner/session/end/abc/8", "", false)
         val httpResponse = testController.testServer.execute(postRequest)
@@ -310,21 +310,21 @@ class PractitionerControllerTest {
         val circle = CircleDBO(
                 name = "",
                 description = "",
-                startTime = LocalDateTime.now(),
-                endTime = LocalDateTime.now().plusMinutes(15),
+                startTime = DateTimeFormat.localDateTimeUTC(),
+                endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(15),
                 disciplines = listOf(),
                 intentions = listOf(),
                 minimumSpiritContribution = 4)
         // Setup prac with started session in own circle
         mockedService.insert(
-                PractitionerDBO("abc", LocalDateTime.now(), mutableListOf(
-                        SessionDBO(null, "D", "I", LocalDateTime.now(),
+                PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf(
+                        SessionDBO(null, "D", "I", DateTimeFormat.localDateTimeUTC(),
                                 circle = circle)),
                         circles = listOf(circle)))
         // Setup prac with started session in someone else circle
         mockedService.insert(
-                PractitionerDBO("dfg", LocalDateTime.now(), mutableListOf(
-                        SessionDBO(null, "D", "I", LocalDateTime.now(),
+                PractitionerDBO("dfg", DateTimeFormat.localDateTimeUTC(), mutableListOf(
+                        SessionDBO(null, "D", "I", DateTimeFormat.localDateTimeUTC(),
                                 circle = circle))))
 
         val postRequest = testController.testServer.post("/practitioner/session/end/abc/8", "", false)
@@ -355,8 +355,8 @@ class PractitionerControllerTest {
                         description = "MyDescription",
                         disciplines = listOf(DisciplineDBO("D", "D")),
                         intentions = listOf(IntentionDBO("I", "I")),
-                        startTime = LocalDateTime.now().minusMinutes(10),
-                        endTime = LocalDateTime.now().plusMinutes(10),
+                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
+                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
                         minimumSpiritContribution = 2))))
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
@@ -377,8 +377,8 @@ class PractitionerControllerTest {
                         description = "MyDescription",
                         disciplines = listOf(DisciplineDBO("D", "D")),
                         intentions = listOf(IntentionDBO("I", "I")),
-                        startTime = LocalDateTime.now().minusMinutes(10),
-                        endTime = LocalDateTime.now().plusMinutes(10),
+                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
+                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
                         minimumSpiritContribution = 2))))
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
@@ -413,8 +413,8 @@ class PractitionerControllerTest {
                         description = "MyDescription",
                         disciplines = listOf(DisciplineDBO("D", "D")),
                         intentions = listOf(IntentionDBO("I", "I")),
-                        startTime = LocalDateTime.now().minusMinutes(10),
-                        endTime = LocalDateTime.now().plusMinutes(10),
+                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
+                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
                         minimumSpiritContribution = 2))))
         // let user id a join session 1 from user b
         val request = testController.testServer.post(
@@ -438,8 +438,8 @@ class PractitionerControllerTest {
                         description = "MyDescription",
                         disciplines = listOf(DisciplineDBO("D", "D")),
                         intentions = listOf(IntentionDBO("I", "I")),
-                        startTime = LocalDateTime.now().plusMinutes(5),
-                        endTime = LocalDateTime.now().plusMinutes(10),
+                        startTime = DateTimeFormat.localDateTimeUTC().plusMinutes(5),
+                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
                         minimumSpiritContribution = 2))))
         // let user id a join session 1 from user b
         val request = testController.testServer.post(
@@ -463,8 +463,8 @@ class PractitionerControllerTest {
                         description = "MyDescription",
                         disciplines = listOf(DisciplineDBO("D", "D")),
                         intentions = listOf(IntentionDBO("I", "I")),
-                        startTime = LocalDateTime.now().minusMinutes(10),
-                        endTime = LocalDateTime.now().plusMinutes(10),
+                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
+                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
                         minimumSpiritContribution = 2))))
         // let user id a join session 1 from user b
         val request = testController.testServer.post(
@@ -490,8 +490,8 @@ class PractitionerControllerTest {
                         description = "MyDescription",
                         disciplines = listOf(DisciplineDBO("D", "D")),
                         intentions = listOf(IntentionDBO("I", "I")),
-                        startTime = LocalDateTime.now().minusMinutes(10),
-                        endTime = LocalDateTime.now().plusMinutes(10),
+                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
+                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
                         minimumSpiritContribution = 2))))
         // let user id a join session 1 from user b
         val request = testController.testServer.post(
@@ -516,8 +516,8 @@ class PractitionerControllerTest {
                         description = "MyDescription",
                         disciplines = listOf(DisciplineDBO("D", "D")),
                         intentions = listOf(IntentionDBO("I", "I")),
-                        startTime = LocalDateTime.now().minusMinutes(10),
-                        endTime = LocalDateTime.now().plusMinutes(10),
+                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
+                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
                         minimumSpiritContribution = 2))))
         // let user id a join session 1 from user b
         val request = testController.testServer.post(
@@ -541,8 +541,8 @@ class PractitionerControllerTest {
                         description = "MyDescription",
                         disciplines = listOf(DisciplineDBO("D", "D")),
                         intentions = listOf(IntentionDBO("I", "I")),
-                        startTime = LocalDateTime.now().minusMinutes(10),
-                        endTime = LocalDateTime.now().plusMinutes(10),
+                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
+                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
                         minimumSpiritContribution = 2))))
         // let user id a join session 1 from user b
         val request = testController.testServer.post(
@@ -566,8 +566,8 @@ class PractitionerControllerTest {
                         description = "MyDescription",
                         disciplines = listOf(),
                         intentions = listOf(),
-                        startTime = LocalDateTime.now().minusMinutes(10),
-                        endTime = LocalDateTime.now().plusMinutes(10),
+                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
+                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
                         minimumSpiritContribution = 2))))
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
@@ -590,8 +590,8 @@ class PractitionerControllerTest {
                         description = "MyDescription",
                         disciplines = listOf(),
                         intentions = listOf(),
-                        startTime = LocalDateTime.now().minusMinutes(10),
-                        endTime = LocalDateTime.now().plusMinutes(10),
+                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
+                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
                         minimumSpiritContribution = 2))))
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
@@ -616,8 +616,8 @@ class PractitionerControllerTest {
                         description = "MyDescription",
                         disciplines = listOf(),
                         intentions = listOf(),
-                        startTime = LocalDateTime.now().minusMinutes(10),
-                        endTime = LocalDateTime.now().plusMinutes(10),
+                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
+                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
                         minimumSpiritContribution = 2))))
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
@@ -642,8 +642,8 @@ class PractitionerControllerTest {
                         description = "MyDescription",
                         disciplines = listOf(),
                         intentions = listOf(),
-                        startTime = LocalDateTime.now().minusMinutes(10),
-                        endTime = LocalDateTime.now().plusMinutes(10),
+                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
+                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
                         minimumSpiritContribution = 2))))
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
@@ -669,8 +669,8 @@ class PractitionerControllerTest {
                         description = "MyDescription",
                         disciplines = listOf(),
                         intentions = listOf(),
-                        startTime = LocalDateTime.now().minusMinutes(10),
-                        endTime = LocalDateTime.now().plusMinutes(10),
+                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
+                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
                         minimumSpiritContribution = 2))))
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
@@ -697,8 +697,8 @@ class PractitionerControllerTest {
                         description = "MyDescription",
                         disciplines = listOf(),
                         intentions = listOf(),
-                        startTime = LocalDateTime.now().minusMinutes(10),
-                        endTime = LocalDateTime.now().plusMinutes(10),
+                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
+                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
                         minimumSpiritContribution = 100))))
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",

@@ -1,6 +1,7 @@
 package agartha.site.controllers.mocks
 
 import agartha.common.config.Settings
+import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.*
 import agartha.data.services.IPractitionerService
 import java.time.LocalDateTime
@@ -104,7 +105,7 @@ class MockedPractitionerService : IPractitionerService {
                 .lastOrNull()
         // Set endTime on last session
         val lastSession = practitioner!!.sessions.last()
-        val session = SessionDBO(lastSession.geolocation, lastSession.discipline, lastSession.intention, lastSession.startTime, LocalDateTime.now(), lastSession.circle)
+        val session = SessionDBO(lastSession.geolocation, lastSession.discipline, lastSession.intention, lastSession.startTime, DateTimeFormat.localDateTimeUTC(), lastSession.circle)
         val sessions = practitioner.sessions.toMutableList()
         sessions.removeAt(0)
         sessions.add(session)

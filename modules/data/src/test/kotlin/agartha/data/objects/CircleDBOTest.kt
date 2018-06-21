@@ -1,5 +1,6 @@
 package agartha.data.objects
 
+import agartha.common.utils.DateTimeFormat
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import java.time.LocalDateTime
@@ -14,8 +15,8 @@ class CircleDBOTest {
     val circle = CircleDBO(
             name = "Circle name",
             description = "Circle description",
-            startTime = LocalDateTime.now().plusHours(4),
-            endTime = LocalDateTime.now().plusHours(6),
+            startTime = DateTimeFormat.localDateTimeUTC().plusHours(4),
+            endTime = DateTimeFormat.localDateTimeUTC().plusHours(6),
             intentions = listOf(
                     IntentionDBO("Intention 1", "Intention 1")),
             disciplines = listOf(
@@ -35,22 +36,22 @@ class CircleDBOTest {
 
     @Test
     fun circle_startTime_IsBefore4Hours1minute() {
-        assertThat(circle.startTime).isBefore(LocalDateTime.now().plusMinutes((4 * 60) + 1))
+        assertThat(circle.startTime).isBefore(DateTimeFormat.localDateTimeUTC().plusMinutes((4 * 60) + 1))
     }
 
     @Test
     fun circle_startTime_IsAfter3Hours59minute() {
-        assertThat(circle.startTime).isAfter(LocalDateTime.now().plusMinutes((3 * 60) + 59))
+        assertThat(circle.startTime).isAfter(DateTimeFormat.localDateTimeUTC().plusMinutes((3 * 60) + 59))
     }
 
     @Test
     fun circle_endTime_IsBefore6Hours1minute() {
-        assertThat(circle.endTime).isBefore(LocalDateTime.now().plusMinutes((6 * 60) + 1))
+        assertThat(circle.endTime).isBefore(DateTimeFormat.localDateTimeUTC().plusMinutes((6 * 60) + 1))
     }
 
     @Test
     fun circle_endTime_IsAfter5Hours59minute() {
-        assertThat(circle.endTime).isAfter(LocalDateTime.now().plusMinutes((5 * 60) + 59))
+        assertThat(circle.endTime).isAfter(DateTimeFormat.localDateTimeUTC().plusMinutes((5 * 60) + 59))
     }
 
     @Test
@@ -73,8 +74,8 @@ class CircleDBOTest {
         val c = CircleDBO(
                 name = "Circle name",
                 description = "Circle description",
-                startTime = LocalDateTime.now().plusHours(4),
-                endTime = LocalDateTime.now().plusHours(6),
+                startTime = DateTimeFormat.localDateTimeUTC().plusHours(4),
+                endTime = DateTimeFormat.localDateTimeUTC().plusHours(6),
                 intentions = listOf(),
                 disciplines = listOf(),
                 minimumSpiritContribution = 12L)
@@ -86,8 +87,8 @@ class CircleDBOTest {
         val c = CircleDBO(
                 name = "Circle name",
                 description = "Circle description",
-                startTime = LocalDateTime.now().minusHours(1),
-                endTime = LocalDateTime.now().plusHours(1),
+                startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(1),
+                endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(1),
                 intentions = listOf(),
                 disciplines = listOf(),
                 minimumSpiritContribution = 12L)

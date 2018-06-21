@@ -1,5 +1,6 @@
 package agartha.site.controllers
 
+import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.CircleDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.services.IPractitionerService
@@ -7,7 +8,6 @@ import agartha.site.controllers.utils.ReqArgument
 import spark.Request
 import spark.Response
 import spark.Spark.halt
-import java.time.LocalDateTime
 
 /**
  * Purpose of this file is handle mapping requests that can go wrong
@@ -65,7 +65,7 @@ abstract class AbstractController(private val mService: IPractitionerService) {
                 .find { it._id == circleId }
 
         return circle ?: CircleDBO(_id = "", name = "", description = "",
-                startTime = LocalDateTime.now(), endTime = LocalDateTime.now(),
+                startTime = DateTimeFormat.localDateTimeUTC(), endTime = DateTimeFormat.localDateTimeUTC(),
                 disciplines = listOf(), intentions = listOf(), minimumSpiritContribution = 0)
     }
 }
