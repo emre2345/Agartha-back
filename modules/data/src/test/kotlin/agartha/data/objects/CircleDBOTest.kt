@@ -87,8 +87,8 @@ class CircleDBOTest {
         val c = CircleDBO(
                 name = "Circle name",
                 description = "Circle description",
-                startTime = DateTimeFormat.localDateTimeUTC().minusHours(1),
-                endTime = DateTimeFormat.localDateTimeUTC().plusHours(1),
+                startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(1),
+                endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(1),
                 intentions = listOf(),
                 disciplines = listOf(),
                 minimumSpiritContribution = 12L)

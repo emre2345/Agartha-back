@@ -2,7 +2,6 @@ package agartha.site.objects.response
 
 import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.SessionDBO
-import agartha.site.objects.response.CompanionReport
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
@@ -16,20 +15,20 @@ class CompanionReportTest {
     private fun generateSessions(): List<SessionDBO> {
         return listOf(
                 SessionDBO( null, "Yoga","Wellbeing",
-                        DateTimeFormat.stringToLocalDateTime("2018-04-18 12:00:00"),
-                        DateTimeFormat.stringToLocalDateTime("2018-04-18 12:40:00")),
+                        DateTimeFormat.stringToLocalDateTimeUTC("2018-04-18 12:00:00"),
+                        DateTimeFormat.stringToLocalDateTimeUTC("2018-04-18 12:40:00")),
                 SessionDBO(null, "Meditation","Transformation",
-                        DateTimeFormat.stringToLocalDateTime("2018-04-19 12:00:00"),
-                        DateTimeFormat.stringToLocalDateTime("2018-04-19 12:30:00")),
+                        DateTimeFormat.stringToLocalDateTimeUTC("2018-04-19 12:00:00"),
+                        DateTimeFormat.stringToLocalDateTimeUTC("2018-04-19 12:30:00")),
                 SessionDBO(null,"Meditation","Wellbeing",
-                        DateTimeFormat.stringToLocalDateTime("2018-04-20 12:00:00"),
-                        DateTimeFormat.stringToLocalDateTime("2018-04-20 12:20:00")),
+                        DateTimeFormat.stringToLocalDateTimeUTC("2018-04-20 12:00:00"),
+                        DateTimeFormat.stringToLocalDateTimeUTC("2018-04-20 12:20:00")),
                 SessionDBO(null,  "Meditation","Wellbeing",
-                        DateTimeFormat.stringToLocalDateTime("2018-04-19 12:00:00"),
-                        DateTimeFormat.stringToLocalDateTime("2018-04-19 12:30:00")),
+                        DateTimeFormat.stringToLocalDateTimeUTC("2018-04-19 12:00:00"),
+                        DateTimeFormat.stringToLocalDateTimeUTC("2018-04-19 12:30:00")),
                 SessionDBO( null, "Meditation","Empathy",
-                        DateTimeFormat.stringToLocalDateTime("2018-04-19 12:00:00"),
-                        DateTimeFormat.stringToLocalDateTime("2018-04-19 12:30:00"))
+                        DateTimeFormat.stringToLocalDateTimeUTC("2018-04-19 12:00:00"),
+                        DateTimeFormat.stringToLocalDateTimeUTC("2018-04-19 12:30:00"))
                 )
     }
 

@@ -6,7 +6,6 @@ import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.objects.SpiritBankLogItemDBO
 import agartha.data.objects.SpiritBankLogItemType
-import agartha.site.objects.response.PractitionerReport
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
@@ -20,14 +19,14 @@ class PractitionerReportTest {
     private fun generateSessions() : List<SessionDBO> {
         return listOf(
                 SessionDBO(null,"Yoga", "Wellbeing",
-                        DateTimeFormat.stringToLocalDateTime("2018-04-18 12:00:00"),
-                        DateTimeFormat.stringToLocalDateTime("2018-04-18 12:40:00")),
+                        DateTimeFormat.stringToLocalDateTimeUTC("2018-04-18 12:00:00"),
+                        DateTimeFormat.stringToLocalDateTimeUTC("2018-04-18 12:40:00")),
                 SessionDBO(null,"Meditation","Wellbeing",
-                        DateTimeFormat.stringToLocalDateTime("2018-04-19 12:00:00"),
-                        DateTimeFormat.stringToLocalDateTime("2018-04-19 12:30:00")),
+                        DateTimeFormat.stringToLocalDateTimeUTC("2018-04-19 12:00:00"),
+                        DateTimeFormat.stringToLocalDateTimeUTC("2018-04-19 12:30:00")),
                 SessionDBO(null, "Meditation","Wellbeing",
-                        DateTimeFormat.stringToLocalDateTime("2018-04-20 12:00:00"),
-                        DateTimeFormat.stringToLocalDateTime("2018-04-20 12:20:00"))
+                        DateTimeFormat.stringToLocalDateTimeUTC("2018-04-20 12:00:00"),
+                        DateTimeFormat.stringToLocalDateTimeUTC("2018-04-20 12:20:00"))
         )
     }
 

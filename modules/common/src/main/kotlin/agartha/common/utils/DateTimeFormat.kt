@@ -24,20 +24,12 @@ class DateTimeFormat {
          * @param dateTimeAsString
          * @return
          */
-        fun stringToLocalDateTime(dateTimeAsString: String): LocalDateTime {
+        fun stringToLocalDateTimeUTC(dateTimeAsString: String): LocalDateTime {
             return LocalDateTime.parse(dateTimeAsString, dateTimeFormatter)
-        }
-
-        fun stringToUTC(dateTimeAsString: String): LocalDateTime {
-            return LocalDateTime.ofInstant(stringToIntant(dateTimeAsString), ZoneId.of("UTC"))
         }
 
         fun localDateTimeUTC(): LocalDateTime {
             return LocalDateTime.ofInstant(Instant.now(), ZoneId.of("UTC"))
-        }
-
-        private fun stringToIntant(dateTimeAsString: String): Instant {
-            return Instant.parse(dateTimeAsString)
         }
     }
 
