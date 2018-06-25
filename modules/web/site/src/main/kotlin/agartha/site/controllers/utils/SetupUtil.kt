@@ -47,5 +47,13 @@ class SetupUtil {
                     DisciplineDBO("Personal growth", "Therapy, coaching, goal-setting, leadership training"),
                     DisciplineDBO("Meals", "Individual, family, social, special occasion, date, holiday, fasting"))
         }
+
+        /**
+         * These are the default languages, will be added to Database via SettingsController when database Settings collection is empty
+         * Also used by Admin controller where user does not need to be "logged on"
+         */
+        fun getDefaultLanguages(): List<String> {
+            return listOf("English", "Svenska", "Français", "Deutsch", "Español", "Italiano")
+        }
     }
 }
