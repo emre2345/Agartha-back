@@ -81,4 +81,12 @@ class SettingsDBOTest {
         Assertions.assertThat(settings.companionGoalMinutes).isEqualTo(2)
     }
 
+    /************************
+     * Variable - languages *
+     ************************/
+    @Test
+    fun settings_languagesSize_6() {
+        Assertions.assertThat(settings.languages.size).isEqualTo(6)
+    }
+
 }

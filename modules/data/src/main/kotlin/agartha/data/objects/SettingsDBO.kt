@@ -14,10 +14,10 @@ data class SettingsDBO(
         val intentions : List<IntentionDBO> = emptyList(),
         // List of disciplines
         val disciplines : List<DisciplineDBO> = emptyList(),
+        // Languages that the audio in a circle can be in
+        val languages: List<String> = emptyList(),
         // Number of minutes to calculate stats from in Companion
         val companionMinutes: Long = Settings.COMPANION_NUMBER_OF_MINUTES,
         // Number of minutes as goal in Companions
-        val companionGoalMinutes: Long = Settings.COMPANION_GOAL_MINUTES,
-        // Languages that the audio in a circle can be in
-        val languages: List<String> = emptyList()
+        val companionGoalMinutes: Long = Settings.COMPANION_GOAL_MINUTES
 )
