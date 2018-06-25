@@ -410,9 +410,10 @@ class PractitionerServiceTest : DatabaseHandler() {
         assertThat(item!!.spiritBankLog.size).isEqualTo(2)
     }
 
-    /**
-     * add circle
-     */
+    /**************
+     * add circle *
+     **************/
+    @Test
     fun addCircle_responsePractitionerCircles_1() {
         // Insert a new practising user
         val practitioner = PractitionerService().insert(PractitionerDBO())
@@ -427,6 +428,40 @@ class PractitionerServiceTest : DatabaseHandler() {
                 minimumSpiritContribution = 4))
 
         assertThat(circlePractitioner!!.circles.size).isEqualTo(1)
+    }
+
+    /***************
+     * edit circle *
+     ***************/
+    @Test
+    fun editCircle_responseCircleName_EditedName() {
+        val circle = CircleDBO(
+                _id = "1",
+                name = "",
+                description = "",
+                startTime = DateTimeFormat.localDateTimeUTC(),
+                endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(15),
+                disciplines = listOf(),
+                intentions = listOf(),
+                minimumSpiritContribution = 4)
+        // Insert a new practising user
+        val practitioner = PractitionerService().insert(PractitionerDBO())
+        // Add Circle
+        PractitionerService().addCircle(practitioner._id!!, circle)
+        // Edit the circle
+        val editCircle = CircleDBO(
+                _id = "1",
+                name = "Edited Name",
+                description = circle.description,
+                startTime = circle.startTime,
+                endTime = circle.endTime,
+                disciplines = circle.disciplines,
+                intentions = circle.intentions,
+                minimumSpiritContribution = circle.minimumSpiritContribution)
+
+        val circlePractitioner = PractitionerService().editCircle(practitioner._id!!, editCircle)
+
+        assertThat(circlePractitioner!!.circles.last().name).isEqualTo("Edited Name")
     }
 
     /**************

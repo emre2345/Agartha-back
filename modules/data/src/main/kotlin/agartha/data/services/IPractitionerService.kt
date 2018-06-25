@@ -52,6 +52,15 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
             practitionerId: String, circle: CircleDBO): PractitionerDBO?
 
     /**
+     * Edit a circle to a practitioner
+     * @param practitionerId practitioner id to add circle to
+     * @param circle - to edit that belongs to practitioner
+     * @return
+     */
+    fun editCircle(
+            practitionerId: String, circle: CircleDBO): PractitionerDBO?
+
+    /**
      * Remove all practitioners
      * @return boolean - true oif all went fine
      */
