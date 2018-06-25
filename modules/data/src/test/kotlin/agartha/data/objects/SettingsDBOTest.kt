@@ -12,6 +12,7 @@ class SettingsDBOTest {
                     IntentionDBO("LOVE", "description of love"),
                     IntentionDBO("HORSES", "description of horses")),
             disciplines = listOf(DisciplineDBO("Yoga", "description of Yoga")),
+            languages = listOf("English", "Svenska", "Español"),
             companionMinutes = 1,
             companionGoalMinutes = 2
     )
@@ -85,8 +86,8 @@ class SettingsDBOTest {
      * Variable - languages *
      ************************/
     @Test
-    fun settings_languagesSize_6() {
-        Assertions.assertThat(settings.languages.size).isEqualTo(6)
+    fun settings_languagesSize_3() {
+        Assertions.assertThat(settings.languages.size).isEqualTo(3)
     }
 
 }

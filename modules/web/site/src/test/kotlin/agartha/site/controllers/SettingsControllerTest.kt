@@ -142,7 +142,7 @@ class SettingsControllerTest {
         val body = String(httpResponse.body())
 
         val item = jacksonObjectMapper().readValue(body, SettingsDBO::class.java)
-        assertThat(item.languages.size).isEqualTo(6)
+        assertThat(item.languages.size).isEqualTo(3)
     }
 
     /**

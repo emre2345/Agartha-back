@@ -204,7 +204,8 @@ class CircleControllerTest {
                         "endTime":"2020-03-15T14:00:00.000Z",
                         "disciplines":[],
                         "intentions":[],
-                        "minimumSpiritContribution":14
+                        "minimumSpiritContribution":14,
+                        "language": "Swedish"
                         }""",
                 false)
         val response = testController.testServer.execute(request)
@@ -224,7 +225,8 @@ class CircleControllerTest {
                         "endTime":"2020-03-15T14:00:00.000Z",
                         "disciplines":[],
                         "intentions":[],
-                        "minimumSpiritContribution":14
+                        "minimumSpiritContribution":14,
+                        "language": "Swedish"
                         }""",
                 false)
         val response = testController.testServer.execute(request)
@@ -243,7 +245,8 @@ class CircleControllerTest {
                         "endTime":"2020-03-15T14:00:00.000Z",
                         "disciplines":[{"title":"D","description":"D"}],
                         "intentions":[{"title":"I","description":"I"}],
-                        "minimumSpiritContribution":14
+                        "minimumSpiritContribution":14,
+                        "language": "Swedish"
                         }""",
                 false)
         val response = testController.testServer.execute(request)
@@ -262,7 +265,8 @@ class CircleControllerTest {
                         "endTime":"2020-03-15T14:00:00.000Z",
                         "disciplines":[],
                         "intentions":[],
-                        "minimumSpiritContribution":14
+                        "minimumSpiritContribution":14,
+                        "language": "Swedish"
                         }""",
                 false)
         val response = testController.testServer.execute(request)
@@ -282,7 +286,8 @@ class CircleControllerTest {
                         "endTime":"2020-03-15T14:00:00.000Z",
                         "disciplines":[],
                         "intentions":[],
-                        "minimumSpiritContribution":14
+                        "minimumSpiritContribution":14,
+                        "language": "Swedish"
                         }""",
                 false)
         val response = testController.testServer.execute(request)
@@ -304,7 +309,8 @@ class CircleControllerTest {
                         "endTime":"2020-03-15T14:00:00.000Z",
                         "disciplines":[],
                         "intentions":[],
-                        "minimumSpiritContribution":14
+                        "minimumSpiritContribution":14,
+                        "language": "Swedish"
                         }""",
                 false)
         val response = testController.testServer.execute(request)
@@ -327,7 +333,8 @@ class CircleControllerTest {
                         "endTime":"2020-03-15T14:00:00.000Z",
                         "disciplines":[],
                         "intentions":[],
-                        "minimumSpiritContribution":14
+                        "minimumSpiritContribution":14,
+                        "language": "Swedish"
                         }""",
                 false)
         val response = testController.testServer.execute(request)
