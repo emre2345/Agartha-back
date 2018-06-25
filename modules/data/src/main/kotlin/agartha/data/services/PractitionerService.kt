@@ -126,6 +126,17 @@ class PractitionerService : IPractitionerService {
     }
 
     /**
+     * Add a circle to a practitioner
+     */
+    override fun editCircle(practitionerId: String, circle: CircleDBO): PractitionerDBO? {
+        // Remove the circle
+        removeCircleById(practitionerId, circle._id)
+        // Add the updated circle
+        pushObjectToPractitionersArray(practitionerId, PractitionersArraysEnum.CIRCLES, circle)
+        return getById(practitionerId)
+    }
+
+    /**
      * Remove all the practitioners in the db
      */
     override fun removeAll(): Boolean {
