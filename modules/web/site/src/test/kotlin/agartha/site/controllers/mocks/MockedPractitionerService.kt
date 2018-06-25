@@ -4,7 +4,6 @@ import agartha.common.config.Settings
 import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.*
 import agartha.data.services.IPractitionerService
-import java.time.LocalDateTime
 
 
 /**
@@ -96,13 +95,19 @@ class MockedPractitionerService : IPractitionerService {
         return getById(practitionerId)
     }
 
+
+    override fun editCircle(practitionerId: String, circle: CircleDBO): PractitionerDBO? {
+        removeCircleById(practitionerId, circle._id)
+        addCircle(practitionerId, circle)
+        return getById(practitionerId)
+    }
+
     override fun endSession(practitionerId: String, contributionPoints: Long): PractitionerDBO? {
 
         val practitioner = practitionerList
-                .filter {
+                .lastOrNull {
                     it._id.equals(practitionerId)
                 }
-                .lastOrNull()
         // Set endTime on last session
         val lastSession = practitioner!!.sessions.last()
         val session = SessionDBO(lastSession.geolocation, lastSession.discipline, lastSession.intention, lastSession.startTime, DateTimeFormat.localDateTimeUTC(), lastSession.circle)

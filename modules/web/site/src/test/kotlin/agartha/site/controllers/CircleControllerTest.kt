@@ -65,6 +65,7 @@ class CircleControllerTest {
                 sessions = listOf(),
                 circles = listOf(
                         CircleDBO(
+                                _id = "1",
                                 name = "",
                                 description = "",
                                 startTime = DateTimeFormat.localDateTimeUTC().plusHours(1),
@@ -282,6 +283,50 @@ class CircleControllerTest {
         val response = testController.testServer.execute(request)
         val practitioner = ControllerUtil.stringToObject(String(response.body()), PractitionerDBO::class.java)
         assertThat(practitioner.circles.size).isEqualTo(1)
+    }
+
+
+    @Test
+    fun editCircle_circleChangedAttributes_NameMyCircle() {
+        setup()
+        val request = testController.testServer.post(
+                "/circle/edit/b",
+                """{
+                        "_id": "1",
+                        "name":"MyCircle Name",
+                        "description":"MyCircle Desc",
+                        "startTime":"2020-03-15T12:00:00.000Z",
+                        "endTime":"2020-03-15T14:00:00.000Z",
+                        "disciplines":[],
+                        "intentions":[],
+                        "minimumSpiritContribution":14
+                        }""",
+                false)
+        val response = testController.testServer.execute(request)
+        val practitioner = ControllerUtil.stringToObject(String(response.body()), PractitionerDBO::class.java)
+        val circle =  practitioner.circles.find { it._id == "1" }
+        assertThat(circle!!.name).isEqualTo("MyCircle Name")
+    }
+
+
+    @Test
+    fun editCircle_practitionerDoesNotExistResponseStatus_400() {
+        setup()
+        val request = testController.testServer.post(
+                "/circle/edit/9",
+                """{
+                        "_id": "1",
+                        "name":"MyCircle Name",
+                        "description":"MyCircle Desc",
+                        "startTime":"2020-03-15T12:00:00.000Z",
+                        "endTime":"2020-03-15T14:00:00.000Z",
+                        "disciplines":[],
+                        "intentions":[],
+                        "minimumSpiritContribution":14
+                        }""",
+                false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
     }
 
     @Test

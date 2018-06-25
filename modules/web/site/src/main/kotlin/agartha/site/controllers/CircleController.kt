@@ -47,7 +47,6 @@ class CircleController(
             //
             // Add a circle to a practitioner
             Spark.before("/edit/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
-            Spark.before("/edit/${ReqArgument.PRACTITIONER_ID.value}", ::validateCreateCircle)
             Spark.post("/edit/${ReqArgument.PRACTITIONER_ID.value}", ::addOrEditCircle)
             //
             // Get a receipt of my circle
@@ -125,7 +124,8 @@ class CircleController(
         // Get circle data from body
         val circle: CircleDBO = ControllerUtil.stringToObject(request.body(), CircleDBO::class.java)
         // Check if this circle already exists to this practitioner
-        if (practitioner.creatorOfCircle(circle)) {
+        val circleToEdit = practitioner.circles.find { it._id == circle._id }
+        if (circleToEdit != null) {
             // Exists - Edit circle and return the complete practitioner object
             return ControllerUtil.objectToString(mService.editCircle(practitioner._id ?: "", circle))
         } else {
