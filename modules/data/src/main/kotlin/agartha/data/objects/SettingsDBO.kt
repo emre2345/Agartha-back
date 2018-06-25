@@ -17,5 +17,7 @@ data class SettingsDBO(
         // Number of minutes to calculate stats from in Companion
         val companionMinutes: Long = Settings.COMPANION_NUMBER_OF_MINUTES,
         // Number of minutes as goal in Companions
-        val companionGoalMinutes: Long = Settings.COMPANION_GOAL_MINUTES
+        val companionGoalMinutes: Long = Settings.COMPANION_GOAL_MINUTES,
+        // Languages that the audio in a circle can be in
+        val languages: List<String> = emptyList()
 )
