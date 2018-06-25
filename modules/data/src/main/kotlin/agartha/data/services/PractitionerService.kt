@@ -126,13 +126,11 @@ class PractitionerService : IPractitionerService {
     }
 
     /**
-     * Add a circle to a practitioner
+     * Edit a circle to a practitioner
      */
     override fun editCircle(practitionerId: String, circle: CircleDBO): PractitionerDBO? {
-        // Remove the circle
-        removeCircleById(practitionerId, circle._id)
-        // Add the updated circle
-        pushObjectToPractitionersArray(practitionerId, PractitionersArraysEnum.CIRCLES, circle)
+        // Update the circle
+        updateEditedCircle(practitionerId, circle)
         return getById(practitionerId)
     }
 
@@ -245,6 +243,27 @@ class PractitionerService : IPractitionerService {
                     practitionerId,
                     Document("${MongoOperator.set}",
                             Document("${PractitionersArraysEnum.CIRCLES.value}.$index.endTime", DateTimeFormat.localDateTimeUTC())))
+        }
+    }
+
+    /**
+     * Updates practitioners created circle by setting endTime to now
+     *
+     * @param practitionerId - string - the practitioner to be updated
+     * @param circleToEdit - CircleDBO - the circle that is edited
+     */
+    private fun updateEditedCircle(practitionerId: String, circleToEdit: CircleDBO) {
+        // Get index of the circle that we want to update
+        val circles = getById(practitionerId)?.circles
+        val circleToUpdate = circles?.find { it._id == circleToEdit._id }
+        val index = circles?.indexOf(circleToUpdate) ?: -1
+        // If we have a the circle we are looking for
+        if (index >= 0) {
+            // Update and set end time for this index to now
+            collection.updateOneById(
+                    practitionerId,
+                    Document("${MongoOperator.set}",
+                            Document("${PractitionersArraysEnum.CIRCLES.value}.$index", circleToEdit)))
         }
     }
 
