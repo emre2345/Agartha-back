@@ -36,6 +36,10 @@ class CircleController(
             // Get a list of all currently active circles
             Spark.get("/active", ::getAllActive)
             //
+            // Get a list of all circles for a user
+            Spark.before("/created/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
+            Spark.get("/created/${ReqArgument.PRACTITIONER_ID.value}", ::getAllForUser)
+            //
             // Add a circle to a practitioner
             Spark.before("/add/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
             Spark.before("/add/${ReqArgument.PRACTITIONER_ID.value}", ::validateCreateCircle)
@@ -66,7 +70,7 @@ class CircleController(
      * Validate that the argument "circleid" is created by the argument "userid"
      */
     @Suppress("UNUSED_PARAMETER")
-    fun validateCircleCreator(request: Request, response: Response) {
+    private fun validateCircleCreator(request: Request, response: Response) {
         val practitioner = getPractitioner(request)
         val circleId: String = request.params(ReqArgument.CIRCLE_ID.value)
         val circle = practitioner
@@ -93,6 +97,15 @@ class CircleController(
     @Suppress("UNUSED_PARAMETER")
     private fun getAllActive(request: Request, response: Response): String {
         return ControllerUtil.objectListToString(getAllCircles().filter { it.active() })
+    }
+
+    /**
+     * Get all circles that a user created
+     */
+    @Suppress("UNUSED_PARAMETER")
+    private fun getAllForUser(request: Request, response: Response): String {
+        val practitioner = getPractitioner(request)
+        return ControllerUtil.objectListToString(practitioner.circles)
     }
 
 
@@ -140,4 +153,5 @@ class CircleController(
                     it.circles
                 }
     }
+
 }
