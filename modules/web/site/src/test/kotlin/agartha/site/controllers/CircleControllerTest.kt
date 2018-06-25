@@ -11,7 +11,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.BeforeClass
 import org.junit.Test
-import java.time.LocalDateTime
 
 /**
  * Purpose of this class is tests for circle controller
@@ -168,6 +167,23 @@ class CircleControllerTest {
         val response = testController.testServer.execute(request)
         val circles = ControllerUtil.stringToObjectList(String(response.body()), CircleDBO::class.java)
         assertThat(circles.size).isEqualTo(2)
+    }
+
+    @Test
+    fun getCreated_status_200() {
+        setup()
+        val request = testController.testServer.get("/circle/created/b", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(200)
+    }
+
+    @Test
+    fun getCreated_size_3() {
+        setup()
+        val request = testController.testServer.get("/circle/created/b", false)
+        val response = testController.testServer.execute(request)
+        val circles = ControllerUtil.stringToObjectList(String(response.body()), CircleDBO::class.java)
+        assertThat(circles.size).isEqualTo(3)
     }
 
     @Test
