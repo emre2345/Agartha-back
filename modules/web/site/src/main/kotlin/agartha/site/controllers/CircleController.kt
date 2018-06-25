@@ -45,7 +45,7 @@ class CircleController(
             Spark.before("/add/${ReqArgument.PRACTITIONER_ID.value}", ::validateCreateCircle)
             Spark.post("/add/${ReqArgument.PRACTITIONER_ID.value}", ::addOrEditCircle)
             //
-            // Add a circle to a practitioner
+            // Edit a circle to a practitioner
             Spark.before("/edit/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
             Spark.post("/edit/${ReqArgument.PRACTITIONER_ID.value}", ::addOrEditCircle)
             //
@@ -114,7 +114,7 @@ class CircleController(
 
 
     /**
-     * Add a circle to argument practitioner
+     * Add or edit a circle to argument practitioner
      * @return practitioner object
      */
     @Suppress("UNUSED_PARAMETER")

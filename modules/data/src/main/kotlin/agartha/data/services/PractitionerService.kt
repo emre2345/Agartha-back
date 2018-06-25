@@ -247,7 +247,7 @@ class PractitionerService : IPractitionerService {
     }
 
     /**
-     * Updates practitioners created circle by setting endTime to now
+     * Updates practitioners created circle to the edited circle
      *
      * @param practitionerId - string - the practitioner to be updated
      * @param circleToEdit - CircleDBO - the circle that is edited
