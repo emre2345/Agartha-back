@@ -16,7 +16,8 @@ class SpiritBankLogUtilTest {
             _id = "c", name = "", description = "", intentions = listOf(), disciplines = listOf(),
             startTime = DateTimeFormat.localDateTimeUTC().minusHours(2),
             endTime = DateTimeFormat.localDateTimeUTC().minusHours(1),
-            minimumSpiritContribution = 2)
+            minimumSpiritContribution = 2,
+            language = "Swedish")
 
     @Test
     fun countLogPoints_emptyList_0() {

@@ -19,7 +19,8 @@ class CircleReportTest {
             endTime = DateTimeFormat.localDateTimeUTC(),
             intentions = listOf(),
             disciplines = listOf(),
-            minimumSpiritContribution = 11)
+            minimumSpiritContribution = 11,
+            language = "Swedish")
 
     @Test
     fun name_match_myCircle() {

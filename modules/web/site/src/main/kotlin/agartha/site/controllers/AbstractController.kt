@@ -66,6 +66,7 @@ abstract class AbstractController(private val mService: IPractitionerService) {
 
         return circle ?: CircleDBO(_id = "", name = "", description = "",
                 startTime = DateTimeFormat.localDateTimeUTC(), endTime = DateTimeFormat.localDateTimeUTC(),
-                disciplines = listOf(), intentions = listOf(), minimumSpiritContribution = 0)
+                disciplines = listOf(), intentions = listOf(), minimumSpiritContribution = 0,
+                language = "")
     }
 }
