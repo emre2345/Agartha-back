@@ -53,7 +53,7 @@ class SetupUtil {
          * Also used by Admin controller where user does not need to be "logged on"
          */
         fun getDefaultLanguages(): List<String> {
-            return listOf("English", "Svenska", "Français", "Deutsch", "Español", "Italiano")
+            return listOf("English", "Svenska", "Español")
         }
     }
 }

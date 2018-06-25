@@ -160,10 +160,7 @@ class SettingsControllerTest {
         // Validate first level practices
         assertThat(keys).contains("English")
         assertThat(keys).contains("Svenska")
-        assertThat(keys).contains("Français")
-        assertThat(keys).contains("Deutsch")
         assertThat(keys).contains("Español")
-        assertThat(keys).contains("Italiano")
     }
 
     @Test
