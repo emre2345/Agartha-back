@@ -91,7 +91,7 @@ class CircleController(
 
     /**
      * Get all circles
-     * @return list of circles
+     * @return list of circles as a string
      */
     @Suppress("UNUSED_PARAMETER")
     private fun getAll(request: Request, response: Response): String {
@@ -100,7 +100,7 @@ class CircleController(
 
     /**
      * Get all active circles
-     * @return list of circles
+     * @return list of circles as a string
      */
     @Suppress("UNUSED_PARAMETER")
     private fun getAllActive(request: Request, response: Response): String {
@@ -109,7 +109,7 @@ class CircleController(
 
     /**
      * Get all circles that a user created
-     * @return list of circles
+     * @return list of circles as a string
      */
     @Suppress("UNUSED_PARAMETER")
     private fun getAllForUser(request: Request, response: Response): String {
@@ -119,7 +119,7 @@ class CircleController(
 
     /**
      * Get all circles that a user is registered to
-     * @return list of circles
+     * @return list of circles as a string
      */
     @Suppress("UNUSED_PARAMETER")
     private fun getAllRegisteredForUser(request: Request, response: Response): String {
@@ -133,7 +133,7 @@ class CircleController(
 
     /**
      * Add or edit a circle to argument practitioner
-     * @return practitioner object
+     * @return practitioner object as a string
      */
     @Suppress("UNUSED_PARAMETER")
     private fun addOrEditCircle(request: Request, response: Response): String {
@@ -154,9 +154,9 @@ class CircleController(
 
     /**
      * Get a receipt of a circle
-     * reuqires paramters practitioner id and circle id where both must exist in database
+     * requires parameters practitioner id and circle id where both must exist in database
      *
-     * @return receipt
+     * @return receipt as a string
      */
     @Suppress("UNUSED_PARAMETER")
     private fun circleReceipt(request: Request, response: Response): String {
@@ -174,6 +174,7 @@ class CircleController(
 
     /**
      * Get all circles from practitioners
+     * @return List of all circles
      */
     private fun getAllCircles(): List<CircleDBO> {
         return mService

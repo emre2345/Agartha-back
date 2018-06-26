@@ -6,6 +6,7 @@ import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
+import agartha.site.controllers.utils.ErrorMessagesEnum
 import agartha.site.controllers.utils.ReqArgument
 import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.objects.request.StartSessionInformation
@@ -96,23 +97,23 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         //
         // Validate that the practitioner can afford joining circle
         if (getPractitioner(request).calculateSpiritBankPointsFromLog() < circle.minimumSpiritContribution) {
-            Spark.halt(400, "Practitioner cannot afford to join this circle")
+            Spark.halt(400, ErrorMessagesEnum.PRACTITIONER_NOT_AFFORD_CIRCLE.name)
         }
         //
         // Validate that circle is active and the selected discipline and intention matching
         if (circle._id.isEmpty()) {
-            halt(400, "Circle not active")
+            halt(400, ErrorMessagesEnum.CIRCLE_NOT_ACTIVE_OR_EXIST.message)
         } else {
             // Only try to match if circle has disciplines
             if (circle.disciplines.isNotEmpty()) {
                 if (circle.disciplines.find { it.title == sessionInfo.discipline } == null) {
-                    Spark.halt(400, "Selected discipline does not match any in Circle")
+                    Spark.halt(400, ErrorMessagesEnum.DISCIPLINE_NOT_MATCHED.message)
                 }
             }
             // Only try to match if circle has intentions
             if (circle.intentions.isNotEmpty()) {
                 if (circle.intentions.find { it.title == sessionInfo.intention } == null) {
-                    Spark.halt(400, "Selected intention does not match any in Circle")
+                    Spark.halt(400, ErrorMessagesEnum.INTENTION_NOT_MATCHED.message)
                 }
             }
         }
