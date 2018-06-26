@@ -58,6 +58,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
             //
             // Registered practitioner interest to a circle
             Spark.before("/circle/register/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validatePractitioner)
+            Spark.before("/circle/register/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateCircle)
             Spark.post("/circle/register/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::registerToCircle)
             //
             // Get practitioners spiritBankHistory

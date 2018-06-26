@@ -34,7 +34,7 @@ abstract class AbstractController(private val mService: IPractitionerService) {
     fun validateCircle(request: Request, response: Response) {
         val circle = getCircle(request)
         if (circle._id.isEmpty()) {
-            halt(400, "Circle not active")
+            halt(400, "Circle does not exist")
         }
     }
 
