@@ -93,6 +93,7 @@ class CircleController(
 
     /**
      * Get all circles
+     * @return list of circles
      */
     @Suppress("UNUSED_PARAMETER")
     private fun getAll(request: Request, response: Response): String {
@@ -101,6 +102,7 @@ class CircleController(
 
     /**
      * Get all active circles
+     * @return list of circles
      */
     @Suppress("UNUSED_PARAMETER")
     private fun getAllActive(request: Request, response: Response): String {
@@ -109,6 +111,7 @@ class CircleController(
 
     /**
      * Get all circles that a user created
+     * @return list of circles
      */
     @Suppress("UNUSED_PARAMETER")
     private fun getAllForUser(request: Request, response: Response): String {
@@ -117,15 +120,15 @@ class CircleController(
     }
 
     /**
-     * Get all circles that a user created
+     * Get all circles that a user is registered to
+     * @return list of circles
      */
     @Suppress("UNUSED_PARAMETER")
     private fun getAllRegisteredForUser(request: Request, response: Response): String {
         val practitioner = getPractitioner(request)
         val idOfRegisteredCircles = practitioner.registeredCircles
-        val allCircles = getAllCircles()
         // Filter out the circles that the practitioner is registered to
-        val registeredTo = allCircles.filter { idOfRegisteredCircles.contains(it._id) }
+        val registeredTo = getAllCircles().filter { idOfRegisteredCircles.contains(it._id) }
         return ControllerUtil.objectListToString(registeredTo)
     }
 
