@@ -117,6 +117,15 @@ class PractitionerService : IPractitionerService {
         return practitioner
     }
 
+
+    /**
+     * Add a circle id to a practitioner registeredCircles list
+     */
+    override fun addRegisteredCircle(practitionerId: String, circleId: String): PractitionerDBO? {
+        pushObjectToPractitionersArray(practitionerId, PractitionersArraysEnum.REGISTERED_CIRCLES, circleId)
+        return getById(practitionerId)
+    }
+
     /**
      * Add a circle to a practitioner
      */

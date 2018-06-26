@@ -62,7 +62,7 @@ class CircleController(
     }
 
     /**
-     * Valdate that the argument "userid" is allowed to create a circle
+     * Validate that the argument "userid" is allowed to create a circle
      */
     @Suppress("UNUSED_PARAMETER")
     private fun validateCreateCircle(request: Request, response: Response) {

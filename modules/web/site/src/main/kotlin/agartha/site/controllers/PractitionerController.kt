@@ -56,6 +56,10 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
             Spark.before("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateJoinCircle)
             Spark.post("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::joinCircle)
             //
+            // Registered practitioner interest to a circle
+            Spark.before("/circle/register/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validatePractitioner)
+            Spark.post("/circle/register/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::registerToCircle)
+            //
             // Get practitioners spiritBankHistory
             Spark.before("/spiritbankhistory/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
             Spark.get("/spiritbankhistory/${ReqArgument.PRACTITIONER_ID.value}", ::getSpiritBankHistory)
@@ -89,13 +93,13 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         val sessionInfo: StartSessionInformation =
                 ControllerUtil.stringToObject(request.body(), StartSessionInformation::class.java)
         //
-        // Validate that the practitioner can afford joingin circle
+        // Validate that the practitioner can afford joining circle
         if (getPractitioner(request).calculateSpiritBankPointsFromLog() < circle.minimumSpiritContribution) {
             Spark.halt(400, "Practitioner cannot afford to join this circle")
         }
         //
         // Validate that circle is active and the selected discipline and intention matching
-        if (circle == null) {
+        if (circle._id.isEmpty()) {
             halt(400, "Circle not active")
         } else {
             // Only try to match if circle has disciplines
@@ -218,6 +222,18 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
                 circle = circle)
         // Add session to practitioner
         return ControllerUtil.objectToString(mService.startSession(practitioner, session))
+    }
+
+    /**
+     * Register practitioner's interest in an circle
+     */
+    @Suppress("UNUSED_PARAMETER")
+    private fun registerToCircle(request: Request, response: Response): String {
+        // Get from data source
+        val practitioner: PractitionerDBO = getPractitioner(request)
+        val circle: CircleDBO = getCircle(request)
+        // Add session to practitioner
+        return ControllerUtil.objectToString(mService.addRegisteredCircle(practitioner._id!!, circle._id))
     }
 
     /**
