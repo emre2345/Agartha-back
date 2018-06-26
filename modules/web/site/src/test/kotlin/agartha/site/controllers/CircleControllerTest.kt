@@ -57,7 +57,8 @@ class CircleControllerTest {
                 sessions = listOf(),
                 spiritBankLog = listOf(
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = SPIRIT_BANK_START_POINTS)
-                )))
+                ),
+                registeredCircles = listOf("1", "c1")))
         // User with 3 circles
         mockedService.insert(PractitionerDBO(
                 _id = "b",
@@ -142,7 +143,9 @@ class CircleControllerTest {
                 )))
 
     }
-
+    /**********
+     * getAll *
+     **********/
     @Test
     fun getAll_status_200() {
         val request = testController.testServer.get("/circle", false)
@@ -159,6 +162,9 @@ class CircleControllerTest {
         assertThat(circles.size).isEqualTo(4)
     }
 
+    /*************
+     * getActive *
+     *************/
     @Test
     fun getActive_status_200() {
         val request = testController.testServer.get("/circle/active", false)
@@ -175,6 +181,9 @@ class CircleControllerTest {
         assertThat(circles.size).isEqualTo(2)
     }
 
+    /**************
+     * getCreated *
+     **************/
     @Test
     fun getCreated_status_200() {
         setup()
@@ -192,6 +201,29 @@ class CircleControllerTest {
         assertThat(circles.size).isEqualTo(3)
     }
 
+    /*****************
+     * getRegistered *
+     *****************/
+    @Test
+    fun getRegistered_status_200() {
+        setup()
+        val request = testController.testServer.get("/circle/registered/a", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(200)
+    }
+
+    @Test
+    fun getRegistered_size_2() {
+        setup()
+        val request = testController.testServer.get("/circle/registered/a", false)
+        val response = testController.testServer.execute(request)
+        val circles = ControllerUtil.stringToObjectList(String(response.body()), CircleDBO::class.java)
+        assertThat(circles.size).isEqualTo(2)
+    }
+
+    /*************
+     * addCircle *
+     *************/
     @Test
     fun addCircle_statusNoGeolocation_200() {
         setup()
@@ -295,7 +327,9 @@ class CircleControllerTest {
         assertThat(practitioner.circles.size).isEqualTo(1)
     }
 
-
+    /**************
+     * editCircle *
+     **************/
     @Test
     fun editCircle_circleChangedAttributes_NameMyCircle() {
         setup()
@@ -341,6 +375,9 @@ class CircleControllerTest {
         assertThat(response.code()).isEqualTo(400)
     }
 
+    /***********
+     * receipt *
+     ***********/
     @Test
     fun receipt_status_200() {
         setup()
