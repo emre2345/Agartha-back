@@ -26,7 +26,7 @@ class ControllerUtil {
          * Example: ControllerUnit.objectToString(MyDBO(id=0, name="Santa", phone="+15553332222"))
          * output: {"id":0,"name":"Santa","phone":"+15553332222"}
          *
-         * @param object
+         * @param item
          * @return object as JSON string
          */
         fun <T> objectToString(item: T): String {
@@ -41,7 +41,7 @@ class ControllerUtil {
          *
          * @param value string value to make object from
          * @param clazz object Java class
-         * @return serailized object
+         * @return serialized object
          */
         fun <T> stringToObject(value: String, clazz: Class<T>): T {
             return getDeserializer()
@@ -63,11 +63,11 @@ class ControllerUtil {
          * Example: ControllerUnit.stringToObjectList([{"id":0,"name":"Santa","phone":"+15553332222"}], MyDBO::class.java)
          * @param value
          * @param clazz object Java class
-         * @return list of serailized objects
+         * @return list of serialized objects
          */
         fun <T> stringToObjectList(value: String, clazz: Class<T>): List<T> {
             val objectMapper = getDeserializer()
-            return objectMapper.readValue(value, objectMapper.getTypeFactory().constructCollectionType(List::class.java, clazz))
+            return objectMapper.readValue(value, objectMapper.typeFactory.constructCollectionType(List::class.java, clazz))
         }
 
         /**

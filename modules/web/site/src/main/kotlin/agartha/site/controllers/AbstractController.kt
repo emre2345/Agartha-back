@@ -4,6 +4,7 @@ import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.CircleDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.services.IPractitionerService
+import agartha.site.controllers.utils.ErrorMessagesEnum
 import agartha.site.controllers.utils.ReqArgument
 import spark.Request
 import spark.Response
@@ -23,7 +24,7 @@ abstract class AbstractController(private val mService: IPractitionerService) {
     fun validatePractitioner(request: Request, response: Response) {
         val practitioner = getPractitioner(request)
         if (practitioner._id.isNullOrEmpty()) {
-            halt(400, "Practitioner Id missing or incorrect")
+            halt(400, ErrorMessagesEnum.PRACTITIONER_ID_INCORRECT.message)
         }
     }
 
@@ -34,7 +35,7 @@ abstract class AbstractController(private val mService: IPractitionerService) {
     fun validateCircle(request: Request, response: Response) {
         val circle = getCircle(request)
         if (circle._id.isEmpty()) {
-            halt(400, "Circle not active")
+            halt(400, ErrorMessagesEnum.CIRCLE_NOT_ACTIVE_OR_EXIST.message)
         }
     }
 

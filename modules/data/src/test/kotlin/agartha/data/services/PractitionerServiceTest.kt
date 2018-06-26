@@ -414,6 +414,19 @@ class PractitionerServiceTest : DatabaseHandler() {
         assertThat(item!!.spiritBankLog.size).isEqualTo(2)
     }
 
+    /*************************
+     * add registered circle *
+     *************************/
+    @Test
+    fun addRegisteredCircle_responsePractitionerRegisteredCircles_1() {
+        // Insert a new practising user
+        val practitioner = PractitionerService().insert(PractitionerDBO())
+        // Add registered Circle
+        val circlePractitioner = PractitionerService().addRegisteredCircle(practitioner._id!!, "1")
+        //
+        assertThat(circlePractitioner!!.registeredCircles.size).isEqualTo(1)
+    }
+
     /**************
      * add circle *
      **************/

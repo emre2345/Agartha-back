@@ -40,6 +40,10 @@ class CircleController(
             Spark.before("/created/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
             Spark.get("/created/${ReqArgument.PRACTITIONER_ID.value}", ::getAllForUser)
             //
+            // Get a list of all circles that a user is registered to
+            Spark.before("/registered/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
+            Spark.get("/registered/${ReqArgument.PRACTITIONER_ID.value}", ::getAllRegisteredForUser)
+            //
             // Add a circle to a practitioner
             Spark.before("/add/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
             Spark.before("/add/${ReqArgument.PRACTITIONER_ID.value}", ::validateCreateCircle)
@@ -58,7 +62,7 @@ class CircleController(
     }
 
     /**
-     * Valdate that the argument "userid" is allowed to create a circle
+     * Validate that the argument "userid" is allowed to create a circle
      */
     @Suppress("UNUSED_PARAMETER")
     private fun validateCreateCircle(request: Request, response: Response) {
@@ -78,9 +82,7 @@ class CircleController(
         val practitioner = getPractitioner(request)
         val circleId: String = request.params(ReqArgument.CIRCLE_ID.value)
         val circle = practitioner
-                .circles
-                .filter { it._id == circleId }
-                .firstOrNull()
+                .circles.firstOrNull { it._id == circleId }
         // Make sure we exit if practitioner is not creator of circle
         if (circle == null) {
             spark.kotlin.halt(400, "Practitioner is not the creator of this circle")
@@ -89,6 +91,7 @@ class CircleController(
 
     /**
      * Get all circles
+     * @return list of circles as a string
      */
     @Suppress("UNUSED_PARAMETER")
     private fun getAll(request: Request, response: Response): String {
@@ -97,6 +100,7 @@ class CircleController(
 
     /**
      * Get all active circles
+     * @return list of circles as a string
      */
     @Suppress("UNUSED_PARAMETER")
     private fun getAllActive(request: Request, response: Response): String {
@@ -105,6 +109,7 @@ class CircleController(
 
     /**
      * Get all circles that a user created
+     * @return list of circles as a string
      */
     @Suppress("UNUSED_PARAMETER")
     private fun getAllForUser(request: Request, response: Response): String {
@@ -112,10 +117,23 @@ class CircleController(
         return ControllerUtil.objectListToString(practitioner.circles)
     }
 
+    /**
+     * Get all circles that a user is registered to
+     * @return list of circles as a string
+     */
+    @Suppress("UNUSED_PARAMETER")
+    private fun getAllRegisteredForUser(request: Request, response: Response): String {
+        val practitioner = getPractitioner(request)
+        val idOfRegisteredCircles = practitioner.registeredCircles
+        // Filter out the circles that the practitioner is registered to
+        val registeredTo = getAllCircles().filter { idOfRegisteredCircles.contains(it._id) }
+        return ControllerUtil.objectListToString(registeredTo)
+    }
+
 
     /**
      * Add or edit a circle to argument practitioner
-     * @return practitioner object
+     * @return practitioner object as a string
      */
     @Suppress("UNUSED_PARAMETER")
     private fun addOrEditCircle(request: Request, response: Response): String {
@@ -125,20 +143,20 @@ class CircleController(
         val circle: CircleDBO = ControllerUtil.stringToObject(request.body(), CircleDBO::class.java)
         // Check if this circle already exists to this practitioner
         val circleToEdit = practitioner.circles.find { it._id == circle._id }
-        if (circleToEdit != null) {
+        return if (circleToEdit != null) {
             // Exists - Edit circle and return the complete practitioner object
-            return ControllerUtil.objectToString(mService.editCircle(practitioner._id ?: "", circle))
+            ControllerUtil.objectToString(mService.editCircle(practitioner._id ?: "", circle))
         } else {
             // Does not exist - Store circle and return the complete practitioner object
-            return ControllerUtil.objectToString(mService.addCircle(practitioner._id ?: "", circle))
+            ControllerUtil.objectToString(mService.addCircle(practitioner._id ?: "", circle))
         }
     }
 
     /**
      * Get a receipt of a circle
-     * reuqires paramters practitioner id and circle id where both must exist in database
+     * requires parameters practitioner id and circle id where both must exist in database
      *
-     * @return receipt
+     * @return receipt as a string
      */
     @Suppress("UNUSED_PARAMETER")
     private fun circleReceipt(request: Request, response: Response): String {
@@ -156,6 +174,7 @@ class CircleController(
 
     /**
      * Get all circles from practitioners
+     * @return List of all circles
      */
     private fun getAllCircles(): List<CircleDBO> {
         return mService

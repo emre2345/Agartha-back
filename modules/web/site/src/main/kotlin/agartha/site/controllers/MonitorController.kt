@@ -22,7 +22,7 @@ class MonitorController(private val mService: IBaseService<MonitorDBO>) {
             Spark.get("/status") { _, _ ->
                 "{\"text\": \"Still alive\"}"
             }
-            // Monitoring DB is read/writeable
+            // Monitoring DB is read/writable
             Spark.path("/db") {
                 // Write monitoring
                 Spark.post("/write") { _, _ ->

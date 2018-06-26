@@ -31,7 +31,7 @@ class WebSocketService(private val mService: IPractitionerService) {
         // Get practitioners last session
         val practitionersLatestSession: SessionDBO = practitioner.sessions.last()
         // Put practitioners session and webSocket-session to a map
-        practitionersSessions.put(webSocketSession, mutableListOf(practitionersLatestSession))
+        practitionersSessions[webSocketSession] = mutableListOf(practitionersLatestSession)
         return practitionersLatestSession
     }
 
@@ -47,7 +47,7 @@ class WebSocketService(private val mService: IPractitionerService) {
         // get circle of session
         val circle = practitionersLatestSession.circle
         // Find the practitionerSession from the webSocketSession
-        val sessions = practitionersSessions.get(webSocketSession)
+        val sessions = practitionersSessions[webSocketSession]
         // If there is a session for this practitioners webSocket
         // And if the session has a circle and if it is the practitioner's circle
         if (sessions != null &&
@@ -60,7 +60,7 @@ class WebSocketService(private val mService: IPractitionerService) {
                 sessions.add(practitionersLatestSession)
             }
             // Update the hasMap with the webSocketSession and the new sessionList
-            practitionersSessions.put(webSocketSession, sessions)
+            practitionersSessions[webSocketSession] = sessions
         }
         return practitionersLatestSession
     }

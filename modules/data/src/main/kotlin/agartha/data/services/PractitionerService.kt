@@ -117,8 +117,19 @@ class PractitionerService : IPractitionerService {
         return practitioner
     }
 
+
+    /**
+     * Add a circle id to a practitioner registeredCircles list
+     * @return practitioner with the new registered circle ids
+     */
+    override fun addRegisteredCircle(practitionerId: String, circleId: String): PractitionerDBO? {
+        pushObjectToPractitionersArray(practitionerId, PractitionersArraysEnum.REGISTERED_CIRCLES, circleId)
+        return getById(practitionerId)
+    }
+
     /**
      * Add a circle to a practitioner
+     * @return practitioner with the circles
      */
     override fun addCircle(practitionerId: String, circle: CircleDBO): PractitionerDBO? {
         pushObjectToPractitionersArray(practitionerId, PractitionersArraysEnum.CIRCLES, circle)
@@ -127,6 +138,7 @@ class PractitionerService : IPractitionerService {
 
     /**
      * Edit a circle to a practitioner
+     * @return practitioner with the edited attributes
      */
     override fun editCircle(practitionerId: String, circle: CircleDBO): PractitionerDBO? {
         // Update the circle
@@ -136,6 +148,7 @@ class PractitionerService : IPractitionerService {
 
     /**
      * Remove all the practitioners in the db
+     * @return true if all went fine
      */
     override fun removeAll(): Boolean {
         return try {
@@ -148,6 +161,7 @@ class PractitionerService : IPractitionerService {
 
     /**
      * Remove all practitioners that is generated
+     * @return list of practitioners that is left after the remove
      */
     override fun removeGenerated(): List<PractitionerDBO> {
         // Delete all that has this specific description

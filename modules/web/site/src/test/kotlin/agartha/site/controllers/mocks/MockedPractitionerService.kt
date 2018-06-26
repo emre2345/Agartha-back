@@ -78,6 +78,24 @@ class MockedPractitionerService : IPractitionerService {
     }
 
 
+    override fun addRegisteredCircle(practitionerId: String, circleId: String): PractitionerDBO? {
+        val practitioner = getById(practitionerId)
+        if (practitioner != null) {
+            val circles = practitioner.registeredCircles.toMutableList().plus(circleId)
+            removeById(practitionerId)
+            insert(PractitionerDBO(
+                    _id = practitioner._id,
+                    created = practitioner.created,
+                    sessions = practitioner.sessions,
+                    circles = practitioner.circles,
+                    fullName = practitioner.fullName,
+                    email = practitioner.email,
+                    description = practitioner.description,
+                    registeredCircles = circles))
+        }
+        return getById(practitionerId)
+    }
+
     override fun addCircle(practitionerId: String, circle: CircleDBO): PractitionerDBO? {
         val practitioner = getById(practitionerId)
         if (practitioner != null) {

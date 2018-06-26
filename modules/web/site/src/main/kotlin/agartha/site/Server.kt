@@ -58,7 +58,7 @@ fun startServer(args: Array<String>) {
         // Controller/Service for Practitioner Companions
         CompanionController(
                 PractitionerService())
-        // TODO: Admin stuff, this will maniuplate database. Remove before sharp production mode
+        // TODO: Admin stuff, this will manipulate database. Remove before sharp production mode
         AdminController(
                 PractitionerService(),
                 config,

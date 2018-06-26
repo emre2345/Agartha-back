@@ -12,7 +12,7 @@ class SetupUtil {
 
     companion object {
         /**
-         * These are the default intentions, will be added to Database via SettingsController when database Settings conllection is empty
+         * These are the default intentions, will be added to Database via SettingsController when database Settings collection is empty
          * Also used by Admin controller where user does not need to be "logged on"
          */
         fun getDefaultIntentions(): List<IntentionDBO> {

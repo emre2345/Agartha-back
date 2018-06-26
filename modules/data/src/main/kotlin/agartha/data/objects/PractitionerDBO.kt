@@ -16,7 +16,9 @@ data class PractitionerDBO(
         var fullName: String? = null,
         var email: String? = null,
         var description: String? = null,
-        val spiritBankLog: List<SpiritBankLogItemDBO> = listOf( SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50))
+        val spiritBankLog: List<SpiritBankLogItemDBO> = listOf( SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50)),
+        // List of _id connected to a circle that the practitioner has registered to
+        val registeredCircles: List<String> = listOf()
 ) {
 
     /**
@@ -40,11 +42,9 @@ data class PractitionerDBO(
      * @return true if user has at least one session in this timespan
      */
     fun hasSessionBetween(startDateTime: LocalDateTime, endDateTime: LocalDateTime): Boolean {
-        return this.sessions
-                .filter {
-                    it.sessionOverlap(startDateTime, endDateTime)
-                }
-                .isNotEmpty()
+        return this.sessions.any {
+            it.sessionOverlap(startDateTime, endDateTime)
+        }
     }
 
     /**
@@ -59,11 +59,9 @@ data class PractitionerDBO(
         return this.sessions
                 .filter {
                     circle == it.circle
-                }
-                .filter {
+                }.any {
                     it.sessionAfter(startDateTime)
                 }
-                .isNotEmpty()
     }
 
     /**
