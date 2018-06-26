@@ -723,6 +723,37 @@ class PractitionerControllerTest {
         assertThat(response.code()).isEqualTo(400)
     }
 
+    /**********************
+     * register To Circle *
+     **********************/
+    @Test
+    fun registerToCircle_registeredCircles_3() {
+        // Insert the user with the circle
+        mockedService.insert(PractitionerDBO(_id = "b",
+                circles = listOf(CircleDBO(
+                        _id = "3",
+                        name = "TheCircle",
+                        description = "TheDescription",
+                        disciplines = listOf(),
+                        intentions = listOf(),
+                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
+                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
+                        minimumSpiritContribution = 100,
+                        language = "Swedish"))))
+        // Insert the current user
+        mockedService.insert(PractitionerDBO(_id = "a",
+                registeredCircles = listOf("1", "2")))
+
+        val request = testController.testServer.post("/practitioner/circle/register/a/3", "", false)
+        val response = testController.testServer.execute(request)
+        val responseBody = String(response.body())
+        val practitioner = ControllerUtil.stringToObject(responseBody, PractitionerDBO::class.java)
+        assertThat(practitioner.registeredCircles.size).isEqualTo(3)
+    }
+
+    /***********************
+     * spirit Bank History *
+     ***********************/
     @Test
     fun spiritBankHistory_userHas3Logs_size3() {
         // Insert the current user
