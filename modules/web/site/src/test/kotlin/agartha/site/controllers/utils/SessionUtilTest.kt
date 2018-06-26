@@ -425,7 +425,8 @@ class SessionUtilTest {
                 endTime = DateTimeFormat.localDateTimeUTC(),
                 disciplines = listOf(),
                 intentions = listOf(),
-                minimumSpiritContribution = 4)
+                minimumSpiritContribution = 4,
+                language = "Swedish")
     }
 
     @Test

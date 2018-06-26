@@ -266,7 +266,8 @@ class AdminControllerTest {
                         created = DateTimeFormat.localDateTimeUTC(),
                         circles = listOf(CircleDBO(_id="c1", name = "", description = "",
                                         startTime = DateTimeFormat.localDateTimeUTC(), endTime = DateTimeFormat.localDateTimeUTC(),
-                                        intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 2))))
+                                        intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 2,
+                                language = "Swedish"))))
 
         val request = testController.testServer.post("/admin/remove/circle/c1", passPhrase, false)
         val response = testController.testServer.execute(request)
@@ -281,7 +282,8 @@ class AdminControllerTest {
                         created = DateTimeFormat.localDateTimeUTC(),
                         circles = listOf(CircleDBO(_id="c1", name = "", description = "",
                                 startTime = DateTimeFormat.localDateTimeUTC(), endTime = DateTimeFormat.localDateTimeUTC(),
-                                intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 2))))
+                                intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 2,
+                                language = "Swedish"))))
 
         val request = testController.testServer.post("/admin/remove/circle/", passPhrase, false)
         val response = testController.testServer.execute(request)
@@ -296,7 +298,8 @@ class AdminControllerTest {
                         created = DateTimeFormat.localDateTimeUTC(),
                         circles = listOf(CircleDBO(_id="c1", name = "", description = "",
                                 startTime = DateTimeFormat.localDateTimeUTC(), endTime = DateTimeFormat.localDateTimeUTC(),
-                                intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 2))))
+                                intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 2,
+                                language = "Swedish"))))
 
         val request = testController.testServer.post("/admin/remove/circle/c1", passPhrase, false)
         val response = testController.testServer.execute(request)
@@ -311,7 +314,8 @@ class AdminControllerTest {
                         created = DateTimeFormat.localDateTimeUTC(),
                         circles = listOf(CircleDBO(_id="c1", name = "", description = "",
                                 startTime = DateTimeFormat.localDateTimeUTC(), endTime = DateTimeFormat.localDateTimeUTC(),
-                                intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 2))))
+                                intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 2,
+                                language = "Swedish"))))
 
         val request = testController.testServer.post("/admin/remove/circle/c2", passPhrase, false)
         val response = testController.testServer.execute(request)

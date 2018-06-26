@@ -72,7 +72,8 @@ class CircleControllerTest {
                                 endTime = DateTimeFormat.localDateTimeUTC().plusHours(3),
                                 intentions = listOf(),
                                 disciplines = listOf(),
-                                minimumSpiritContribution = 5),
+                                minimumSpiritContribution = 5,
+                                language = "Swedish"),
                         CircleDBO(
                                 name = "",
                                 description = "",
@@ -80,7 +81,8 @@ class CircleControllerTest {
                                 endTime = DateTimeFormat.localDateTimeUTC().plusHours(1),
                                 intentions = listOf(),
                                 disciplines = listOf(),
-                                minimumSpiritContribution = 5),
+                                minimumSpiritContribution = 5,
+                                language = "Swedish"),
                         CircleDBO(
                                 name = "",
                                 description = "",
@@ -88,7 +90,8 @@ class CircleControllerTest {
                                 endTime = DateTimeFormat.localDateTimeUTC().plusHours(15),
                                 intentions = listOf(),
                                 disciplines = listOf(),
-                                minimumSpiritContribution = 5)),
+                                minimumSpiritContribution = 5,
+                                language = "Swedish")),
                 spiritBankLog = listOf(
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = SPIRIT_BANK_START_POINTS)
                 )))
@@ -106,7 +109,8 @@ class CircleControllerTest {
                                 endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(90),
                                 intentions = listOf(),
                                 disciplines = listOf(),
-                                minimumSpiritContribution = 5)),
+                                minimumSpiritContribution = 5,
+                                language = "Swedish")),
                 spiritBankLog = listOf(
                         SpiritBankLogItemDBO(created = DateTimeFormat.localDateTimeUTC().minusHours(4), type = SpiritBankLogItemType.START, points = SPIRIT_BANK_START_POINTS),
                         SpiritBankLogItemDBO(created = DateTimeFormat.localDateTimeUTC(), type = SpiritBankLogItemType.START, points = 3)
@@ -128,7 +132,8 @@ class CircleControllerTest {
                                         disciplines = listOf(),
                                         startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(30),
                                         endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(30),
-                                        minimumSpiritContribution = 12))
+                                        minimumSpiritContribution = 12,
+                                        language = "Swedish"))
                 ),
                 circles = listOf(),
                 spiritBankLog = listOf(
@@ -199,7 +204,8 @@ class CircleControllerTest {
                         "endTime":"2020-03-15T14:00:00.000Z",
                         "disciplines":[],
                         "intentions":[],
-                        "minimumSpiritContribution":14
+                        "minimumSpiritContribution":14,
+                        "language": "Swedish"
                         }""",
                 false)
         val response = testController.testServer.execute(request)
@@ -219,7 +225,8 @@ class CircleControllerTest {
                         "endTime":"2020-03-15T14:00:00.000Z",
                         "disciplines":[],
                         "intentions":[],
-                        "minimumSpiritContribution":14
+                        "minimumSpiritContribution":14,
+                        "language": "Swedish"
                         }""",
                 false)
         val response = testController.testServer.execute(request)
@@ -238,7 +245,8 @@ class CircleControllerTest {
                         "endTime":"2020-03-15T14:00:00.000Z",
                         "disciplines":[{"title":"D","description":"D"}],
                         "intentions":[{"title":"I","description":"I"}],
-                        "minimumSpiritContribution":14
+                        "minimumSpiritContribution":14,
+                        "language": "Swedish"
                         }""",
                 false)
         val response = testController.testServer.execute(request)
@@ -257,7 +265,8 @@ class CircleControllerTest {
                         "endTime":"2020-03-15T14:00:00.000Z",
                         "disciplines":[],
                         "intentions":[],
-                        "minimumSpiritContribution":14
+                        "minimumSpiritContribution":14,
+                        "language": "Swedish"
                         }""",
                 false)
         val response = testController.testServer.execute(request)
@@ -277,7 +286,8 @@ class CircleControllerTest {
                         "endTime":"2020-03-15T14:00:00.000Z",
                         "disciplines":[],
                         "intentions":[],
-                        "minimumSpiritContribution":14
+                        "minimumSpiritContribution":14,
+                        "language": "Swedish"
                         }""",
                 false)
         val response = testController.testServer.execute(request)
@@ -299,7 +309,8 @@ class CircleControllerTest {
                         "endTime":"2020-03-15T14:00:00.000Z",
                         "disciplines":[],
                         "intentions":[],
-                        "minimumSpiritContribution":14
+                        "minimumSpiritContribution":14,
+                        "language": "Swedish"
                         }""",
                 false)
         val response = testController.testServer.execute(request)
@@ -322,7 +333,8 @@ class CircleControllerTest {
                         "endTime":"2020-03-15T14:00:00.000Z",
                         "disciplines":[],
                         "intentions":[],
-                        "minimumSpiritContribution":14
+                        "minimumSpiritContribution":14,
+                        "language": "Swedish"
                         }""",
                 false)
         val response = testController.testServer.execute(request)

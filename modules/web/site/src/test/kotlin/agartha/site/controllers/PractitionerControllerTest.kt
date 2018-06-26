@@ -314,7 +314,8 @@ class PractitionerControllerTest {
                 endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(15),
                 disciplines = listOf(),
                 intentions = listOf(),
-                minimumSpiritContribution = 4)
+                minimumSpiritContribution = 4,
+                language = "Swedish")
         // Setup prac with started session in own circle
         mockedService.insert(
                 PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf(
@@ -357,7 +358,8 @@ class PractitionerControllerTest {
                         intentions = listOf(IntentionDBO("I", "I")),
                         startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
                         endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
-                        minimumSpiritContribution = 2))))
+                        minimumSpiritContribution = 2,
+                        language = "Swedish"))))
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
                 """{"geolocation":null,"discipline":"D","intention":"I"}""",
@@ -379,7 +381,8 @@ class PractitionerControllerTest {
                         intentions = listOf(IntentionDBO("I", "I")),
                         startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
                         endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
-                        minimumSpiritContribution = 2))))
+                        minimumSpiritContribution = 2,
+                        language = "Swedish"))))
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
                 """{"geolocation":null,"discipline":"D","intention":""}""",
@@ -415,7 +418,8 @@ class PractitionerControllerTest {
                         intentions = listOf(IntentionDBO("I", "I")),
                         startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
                         endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
-                        minimumSpiritContribution = 2))))
+                        minimumSpiritContribution = 2,
+                        language = "Swedish"))))
         // let user id a join session 1 from user b
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
@@ -440,7 +444,8 @@ class PractitionerControllerTest {
                         intentions = listOf(IntentionDBO("I", "I")),
                         startTime = DateTimeFormat.localDateTimeUTC().plusMinutes(5),
                         endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
-                        minimumSpiritContribution = 2))))
+                        minimumSpiritContribution = 2,
+                        language = "Swedish"))))
         // let user id a join session 1 from user b
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
@@ -465,7 +470,8 @@ class PractitionerControllerTest {
                         intentions = listOf(IntentionDBO("I", "I")),
                         startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
                         endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
-                        minimumSpiritContribution = 2))))
+                        minimumSpiritContribution = 2,
+                        language = "Swedish"))))
         // let user id a join session 1 from user b
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
@@ -492,7 +498,8 @@ class PractitionerControllerTest {
                         intentions = listOf(IntentionDBO("I", "I")),
                         startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
                         endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
-                        minimumSpiritContribution = 2))))
+                        minimumSpiritContribution = 2,
+                        language = "Swedish"))))
         // let user id a join session 1 from user b
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
@@ -518,7 +525,8 @@ class PractitionerControllerTest {
                         intentions = listOf(IntentionDBO("I", "I")),
                         startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
                         endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
-                        minimumSpiritContribution = 2))))
+                        minimumSpiritContribution = 2,
+                        language = "Swedish"))))
         // let user id a join session 1 from user b
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
@@ -543,7 +551,8 @@ class PractitionerControllerTest {
                         intentions = listOf(IntentionDBO("I", "I")),
                         startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
                         endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
-                        minimumSpiritContribution = 2))))
+                        minimumSpiritContribution = 2,
+                        language = "Swedish"))))
         // let user id a join session 1 from user b
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
@@ -568,7 +577,8 @@ class PractitionerControllerTest {
                         intentions = listOf(),
                         startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
                         endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
-                        minimumSpiritContribution = 2))))
+                        minimumSpiritContribution = 2,
+                        language = "Swedish"))))
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
                 """{"geolocation":null,"discipline":"D","intention":"I"}""",
@@ -592,12 +602,13 @@ class PractitionerControllerTest {
                         intentions = listOf(),
                         startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
                         endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
-                        minimumSpiritContribution = 2))))
+                        minimumSpiritContribution = 2,
+                        language = "Swedish"))))
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
                 """{"geolocation":null,"discipline":"D","intention":"I"}""",
                 false)
-        val response = testController.testServer.execute(request)
+        testController.testServer.execute(request)
         // validate the data source
         val practitioner = mockedService.getById("a")
         assertThat(practitioner!!.sessions.size).isEqualTo(1)
@@ -618,15 +629,16 @@ class PractitionerControllerTest {
                         intentions = listOf(),
                         startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
                         endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
-                        minimumSpiritContribution = 2))))
+                        minimumSpiritContribution = 2,
+                        language = "Swedish"))))
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
                 """{"geolocation":null,"discipline":"D","intention":"I"}""",
                 false)
-        val response = testController.testServer.execute(request)
+        testController.testServer.execute(request)
         // validate the data source
         val practitioner = mockedService.getById("a")
-        assertThat(practitioner!!.sessions.get(0).discipline).isEqualTo("D")
+        assertThat(practitioner!!.sessions[0].discipline).isEqualTo("D")
     }
 
     @Test
@@ -644,15 +656,16 @@ class PractitionerControllerTest {
                         intentions = listOf(),
                         startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
                         endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
-                        minimumSpiritContribution = 2))))
+                        minimumSpiritContribution = 2,
+                        language = "Swedish"))))
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
                 """{"geolocation":null,"discipline":"D","intention":"I"}""",
                 false)
-        val response = testController.testServer.execute(request)
+        testController.testServer.execute(request)
         // validate the data source
         val practitioner = mockedService.getById("a")
-        assertThat(practitioner!!.sessions.get(0).intention).isEqualTo("I")
+        assertThat(practitioner!!.sessions[0].intention).isEqualTo("I")
     }
 
     @Test
@@ -671,12 +684,13 @@ class PractitionerControllerTest {
                         intentions = listOf(),
                         startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
                         endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
-                        minimumSpiritContribution = 2))))
+                        minimumSpiritContribution = 2,
+                        language = "Swedish"))))
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
                 """{"geolocation":null,"discipline":"D","intention":"I"}""",
                 false)
-        val response = testController.testServer.execute(request)
+        testController.testServer.execute(request)
         // validate the data source
         val practitioner = mockedService.getById("a")
         assertThat(practitioner!!.spiritBankLog.last().type).isEqualTo(SpiritBankLogItemType.JOINED_CIRCLE)
@@ -699,7 +713,8 @@ class PractitionerControllerTest {
                         intentions = listOf(),
                         startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
                         endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
-                        minimumSpiritContribution = 100))))
+                        minimumSpiritContribution = 100,
+                        language = "Swedish"))))
         val request = testController.testServer.post(
                 "/practitioner/circle/join/a/1",
                 """{"geolocation":null,"discipline":"D","intention":"I"}""",

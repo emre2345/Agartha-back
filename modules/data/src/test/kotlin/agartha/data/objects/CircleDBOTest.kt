@@ -3,7 +3,6 @@ package agartha.data.objects
 import agartha.common.utils.DateTimeFormat
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import java.time.LocalDateTime
 
 /**
  * Purpose of this file is to test CircleDBO
@@ -22,7 +21,8 @@ class CircleDBOTest {
             disciplines = listOf(
                     DisciplineDBO("Discipline 1", "Discipline 1"),
                     DisciplineDBO("Discipline 2", "Discipline 2")),
-            minimumSpiritContribution = 12L)
+            minimumSpiritContribution = 12L,
+            language = "Swedish")
 
     @Test
     fun circle_name_CircleName() {
@@ -78,7 +78,8 @@ class CircleDBOTest {
                 endTime = DateTimeFormat.localDateTimeUTC().plusHours(6),
                 intentions = listOf(),
                 disciplines = listOf(),
-                minimumSpiritContribution = 12L)
+                minimumSpiritContribution = 12L,
+                language = "Swedish")
         assertThat(c.active()).isFalse()
     }
 
@@ -91,7 +92,8 @@ class CircleDBOTest {
                 endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(1),
                 intentions = listOf(),
                 disciplines = listOf(),
-                minimumSpiritContribution = 12L)
+                minimumSpiritContribution = 12L,
+                language = "Swedish")
         assertThat(c.active()).isTrue()
     }
 }

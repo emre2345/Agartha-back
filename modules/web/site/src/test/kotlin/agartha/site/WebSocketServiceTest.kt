@@ -26,7 +26,8 @@ class WebSocketServiceTest {
             startTime = DateTimeFormat.localDateTimeUTC(),
             endTime = DateTimeFormat.localDateTimeUTC().plusHours(2),
             minimumSpiritContribution = 5,
-            name = "CircleName")
+            name = "CircleName",
+            language = "Swedish")
     // Expected Session for practitioner
     private val expectedSession = SessionDBO(null, "", "", circle = expectedCircle)
     // The mockedWebSocketSession only initialized once

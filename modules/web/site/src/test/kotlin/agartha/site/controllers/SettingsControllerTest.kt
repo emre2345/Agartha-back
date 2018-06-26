@@ -45,9 +45,9 @@ class SettingsControllerTest {
         assertThat(httpResponse.code()).isEqualTo(200)
     }
 
-    /**
-     *
-     */
+    /**************
+     * Intentions *
+     **************/
     @Test
     fun settingController_settings_defaultIntentionCount() {
         val getRequest = testController.testServer.get("/settings", false)
@@ -88,9 +88,9 @@ class SettingsControllerTest {
         assertThat(keys).contains("Transformation")
     }
 
-    /**
-     *
-     */
+    /***************
+     * Disciplines *
+     ***************/
     @Test
     fun settingController_settings_defaultDisciplinesCount() {
         val getRequest = testController.testServer.get("/settings", false)
@@ -130,6 +130,37 @@ class SettingsControllerTest {
         assertThat(keys).contains("Outdoor activity")
         assertThat(keys).contains("Personal growth")
         assertThat(keys).contains("Meals")
+    }
+
+    /*************
+     * Languages *
+     *************/
+    @Test
+    fun settingController_settings_defaultLanguagesCount() {
+        val getRequest = testController.testServer.get("/settings", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+
+        val item = jacksonObjectMapper().readValue(body, SettingsDBO::class.java)
+        assertThat(item.languages.size).isEqualTo(3)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun settingController_settings_defaultLanguages() {
+        val getRequest = testController.testServer.get("/settings", false)
+        val httpResponse = testController.testServer.execute(getRequest)
+        val body = String(httpResponse.body())
+        val settings = jacksonObjectMapper().readValue(body, SettingsDBO::class.java)
+        //
+        val keys = settings.languages
+
+        // Validate first level practices
+        assertThat(keys).contains("English")
+        assertThat(keys).contains("Svenska")
+        assertThat(keys).contains("Español")
     }
 
     @Test

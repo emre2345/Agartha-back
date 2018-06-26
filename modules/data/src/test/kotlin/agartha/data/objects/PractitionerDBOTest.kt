@@ -163,7 +163,8 @@ class PractitionerDBOTest {
             endTime = DateTimeFormat.localDateTimeUTC().plusHours(6),
             intentions = listOf(),
             disciplines = listOf(),
-            minimumSpiritContribution = 12L)
+            minimumSpiritContribution = 12L,
+            language = "Swedish")
     val circle2 = CircleDBO(
             name = "Circle name2",
             description = "Circle description2",
@@ -171,7 +172,8 @@ class PractitionerDBOTest {
             endTime = DateTimeFormat.localDateTimeUTC().plusHours(5),
             intentions = listOf(),
             disciplines = listOf(),
-            minimumSpiritContribution = 1200L)
+            minimumSpiritContribution = 1200L,
+            language = "Swedish")
     @Test
     fun hasSessionInCircleAfterStartTime_startedAfterAndSameCircle_true() {
         val practitioner = PractitionerDBO(

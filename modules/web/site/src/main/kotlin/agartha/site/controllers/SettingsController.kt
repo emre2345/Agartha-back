@@ -57,9 +57,10 @@ class SettingsController(private val mService: ISettingsService) {
      * @return default settings
      */
     private fun getDefaultSettings(): SettingsDBO {
-        return SettingsDBO(
+       return SettingsDBO(
                 intentions = SetupUtil.getDefaultIntentions(),
-                disciplines = SetupUtil.getDefaultDisciplines())
+                disciplines = SetupUtil.getDefaultDisciplines(),
+                languages = SetupUtil.getDefaultLanguages())
     }
 
 }
