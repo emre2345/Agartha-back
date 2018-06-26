@@ -23,7 +23,7 @@ import java.util.*
  * Created by Jorgen Andersson on 2018-05-30.
  */
 class AdminController(private val mService: IPractitionerService,
-                      private val config: IConfigVar,
+                      config: IConfigVar,
                       settings: SettingsDBO?) {
 
     // Generate a list of geolocation to random from
@@ -164,11 +164,9 @@ class AdminController(private val mService: IPractitionerService,
         val circleId = request.params(ReqArgument.CIRCLE_ID.value)
         // Find practitioner whom created this circle
         val practitioner: PractitionerDBO? = mService
-                .getAll()
-                .filter {
-                    it.circles.filter { it._id == circleId }.isNotEmpty()
+                .getAll().firstOrNull {
+                    it.circles.any { it._id == circleId }
                 }
-                .firstOrNull()
         // Remove the circle
         return ControllerUtil.objectToString(
                 mService.removeCircleById(

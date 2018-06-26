@@ -46,7 +46,7 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      * Add a circle id to a practitioner's registered circles array
      * @param practitionerId practitioner id to add circle to
      * @param circleId id to add to the array
-     * @return
+     * @return practitioner with the new registered circles
      */
     fun addRegisteredCircle(
             practitionerId: String, circleId: String): PractitionerDBO?

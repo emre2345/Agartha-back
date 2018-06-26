@@ -423,7 +423,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         val practitioner = PractitionerService().insert(PractitionerDBO())
         // Add registered Circle
         val circlePractitioner = PractitionerService().addRegisteredCircle(practitioner._id!!, "1")
-
+        //
         assertThat(circlePractitioner!!.registeredCircles.size).isEqualTo(1)
     }
 

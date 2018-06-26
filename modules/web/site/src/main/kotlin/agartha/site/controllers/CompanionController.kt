@@ -29,7 +29,7 @@ class CompanionController(private val mService: IPractitionerService) : Abstract
     init {
         // API path for session
         Spark.path("/companion") {
-            // Get companions for predefined timespan
+            // Get companions for predefined time span
             Spark.get("", ::companionReport)
             // Get companions for practitioners last session
             Spark.before("/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
@@ -74,7 +74,7 @@ class CompanionController(private val mService: IPractitionerService) : Abstract
     }
 
     /**
-     * Common code for compaionReport and companionSessionReport
+     * Common code for companionReport and companionSessionReport
      * Filter out active sessions between these two dateTimes and generate a report from them
      * @param startDateTime
      * @param endDateTime

@@ -8,41 +8,31 @@ import org.junit.Test
  *
  */
 class PractitionerDBOTest {
-    val expectedFullName = "Santa Clause"
-    val expectedEmail = "santa@agartha.com"
-    val expectedDescription = "Jag gillar yoga!"
+    private val expectedFullName = "Santa Clause"
+    private val expectedEmail = "santa@agartha.com"
+    private val expectedDescription = "Jag gillar yoga!"
 
-    /**
-     * addInvolvedInformation
-     */
+    /****************************
+     * add Involved Information *
+     ****************************/
     @Test
     fun practitionerInvolvedInformation_isInvolved_true() {
         val practitioner = PractitionerDBO()
         practitioner.addInvolvedInformation(expectedFullName, expectedEmail, expectedDescription)
         assertThat(practitioner.involved()).isTrue()
     }
-
-    /**
-     * addInvolvedInformation
-     */
     @Test
     fun practitionerInvolvedInformation_fullName_Stanta() {
         val practitioner = PractitionerDBO()
         practitioner.addInvolvedInformation(expectedFullName, "", "")
         assertThat(practitioner.fullName).isEqualTo(expectedFullName)
     }
-
-    /**
-     * addInvolvedInformation
-     */
     @Test
     fun practitionerInvolvedInformation_email_SantaAtAgarthaCom() {
         val practitioner = PractitionerDBO()
         practitioner.addInvolvedInformation("", expectedEmail, "")
         assertThat(practitioner.email).isEqualTo(expectedEmail)
     }
-
-
     @Test
     fun practitionerInvolvedInformation_description_JagGillarYoga() {
         val practitioner = PractitionerDBO()
@@ -50,9 +40,9 @@ class PractitionerDBOTest {
         assertThat(practitioner.description).isEqualTo(expectedDescription)
     }
 
-    /**
-     * hasSessionBetween
-     */
+    /***********************
+     * has Session Between *
+     ***********************/
     @Test
     fun hasSessionBetween_before_false() {
         val practitioner = PractitionerDBO(
@@ -73,9 +63,6 @@ class PractitionerDBOTest {
                 DateTimeFormat.localDateTimeUTC().minusMinutes(75),
                 DateTimeFormat.localDateTimeUTC().minusMinutes(70))).isFalse()
     }
-    /**
-     * hasSessionBetween
-     */
     @Test
     fun hasSessionBetween_after_false() {
         val practitioner = PractitionerDBO(
@@ -96,9 +83,6 @@ class PractitionerDBOTest {
                 DateTimeFormat.localDateTimeUTC().minusMinutes(25),
                 DateTimeFormat.localDateTimeUTC().minusMinutes(20))).isFalse()
     }
-    /**
-     * hasSessionBetween
-     */
     @Test
     fun hasSessionBetween_around_true() {
         val practitioner = PractitionerDBO(
@@ -119,9 +103,6 @@ class PractitionerDBOTest {
                 DateTimeFormat.localDateTimeUTC().minusMinutes(75),
                 DateTimeFormat.localDateTimeUTC().minusMinutes(20))).isTrue()
     }
-    /**
-     * hasSessionBetween
-     */
     @Test
     fun hasSessionBetween_within_true() {
         val practitioner = PractitionerDBO(
@@ -142,9 +123,6 @@ class PractitionerDBOTest {
                 DateTimeFormat.localDateTimeUTC().minusMinutes(55),
                 DateTimeFormat.localDateTimeUTC().minusMinutes(35))).isTrue()
     }
-    /**
-     * hasSessionBetween
-     */
     @Test
     fun hasSessionBetween_ongoing_true() {
         val practitioner = PractitionerDBO(
@@ -161,9 +139,10 @@ class PractitionerDBOTest {
                 DateTimeFormat.localDateTimeUTC().minusMinutes(35))).isTrue()
     }
 
-    /**
-     * hasSessionInCircleAfterStartTime
-     */
+
+    /******************************************
+     * has Session In Circle After Start Time *
+     ******************************************/
     val circle = CircleDBO(
             name = "Circle name",
             description = "Circle description",
@@ -182,9 +161,6 @@ class PractitionerDBOTest {
             disciplines = listOf(),
             minimumSpiritContribution = 1200L,
             language = "Swedish")
-    /**
-     * hasSessionInCircleAfterStartTime
-     */
     @Test
     fun hasSessionInCircleAfterStartTime_startedAfterAndSameCircle_true() {
         val practitioner = PractitionerDBO(
@@ -199,9 +175,6 @@ class PractitionerDBOTest {
         assertThat(practitioner.hasSessionInCircleAfterStartTime(
                 DateTimeFormat.localDateTimeUTC().minusMinutes(55), circle)).isTrue()
     }
-    /**
-     * hasSessionInCircleAfterStartTime
-     */
     @Test
     fun hasSessionInCircleAfterStartTime_startedAfterNoCircle_false() {
         val practitioner = PractitionerDBO(
@@ -215,9 +188,6 @@ class PractitionerDBOTest {
         assertThat(practitioner.hasSessionInCircleAfterStartTime(
                 DateTimeFormat.localDateTimeUTC().minusMinutes(55), circle)).isFalse()
     }
-    /**
-     * hasSessionInCircleAfterStartTime
-     */
     @Test
     fun hasSessionInCircleAfterStartTime_startedAfterNotSameCircle_false() {
         val practitioner = PractitionerDBO(
@@ -232,9 +202,6 @@ class PractitionerDBOTest {
         assertThat(practitioner.hasSessionInCircleAfterStartTime(
                 DateTimeFormat.localDateTimeUTC().minusMinutes(55), circle)).isFalse()
     }
-    /**
-     * hasSessionInCircleAfterStartTime
-     */
     @Test
     fun hasSessionInCircleAfterStartTime_startedBeforeSameCircle_false() {
         val practitioner = PractitionerDBO(
@@ -251,9 +218,9 @@ class PractitionerDBOTest {
     }
 
 
-    /**
-     * hasOngoingSession
-     */
+    /***********************
+     * has Ongoing Session *
+     ***********************/
     @Test
     fun hasOngoingSession_empty_false() {
         val practitioner = PractitionerDBO(
@@ -262,9 +229,6 @@ class PractitionerDBOTest {
                 sessions = listOf())
         assertThat(practitioner.hasOngoingSession()).isFalse()
     }
-    /**
-     * hasOngoingSession
-     */
     @Test
     fun hasOngoingSession_singleSessionOngoing_true() {
         val practitioner = PractitionerDBO(
@@ -276,9 +240,6 @@ class PractitionerDBOTest {
                         startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(20))))
        assertThat(practitioner.hasOngoingSession()).isTrue()
     }
-    /**
-     * hasOngoingSession
-     */
     @Test
     fun hasOngoingSession_singleSessionAbandon_false() {
         val practitioner = PractitionerDBO(
@@ -290,9 +251,6 @@ class PractitionerDBOTest {
                         startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(181))))
         assertThat(practitioner.hasOngoingSession()).isFalse()
     }
-    /**
-     * hasOngoingSession
-     */
     @Test
     fun hasOngoingSession_multipleSessionOngoing_true() {
         val practitioner = PractitionerDBO(
@@ -309,9 +267,6 @@ class PractitionerDBOTest {
                                 startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(15))))
         assertThat(practitioner.hasOngoingSession()).isTrue()
     }
-    /**
-     * hasOngoingSession
-     */
     @Test
     fun hasOngoingSession_singleSessionClosed_false() {
         val practitioner = PractitionerDBO(
@@ -324,9 +279,6 @@ class PractitionerDBOTest {
                         endTime = DateTimeFormat.localDateTimeUTC())))
         assertThat(practitioner.hasOngoingSession()).isFalse()
     }
-    /**
-     * hasOngoingSession
-     */
     @Test
     fun hasOngoingSession_multipleSessionSecondLastOngoing_false() {
         val practitioner = PractitionerDBO(
@@ -345,26 +297,19 @@ class PractitionerDBOTest {
         assertThat(practitioner.hasOngoingSession()).isFalse()
     }
 
-    /**
-     * Spirit bank log
-     */
+    /*******************
+     * Spirit bank log *
+     *******************/
     @Test
     fun spiritBankLog_startPoints_50() {
         val practitioner = PractitionerDBO()
         assertThat(practitioner.spiritBankLog[0].points).isEqualTo(50)
     }
-
-    /**
-     * Spirit bank points
-     */
     @Test
     fun spiritBankPoints_totalPointsNoTransactions_50() {
         val practitioner = PractitionerDBO()
         assertThat(practitioner.calculateSpiritBankPointsFromLog()).isEqualTo(50)
     }
-    /**
-     * Spirit bank points
-     */
     @Test
     fun spiritBankPoints_totalPointsPlusTransaction_53() {
         val practitioner = PractitionerDBO(
@@ -373,9 +318,6 @@ class PractitionerDBOTest {
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.ENDED_SESSION, points = 3)))
         assertThat(practitioner.calculateSpiritBankPointsFromLog()).isEqualTo(53)
     }
-    /**
-     * Spirit bank points
-     */
     @Test
     fun spiritBankPoints_totalPointsSubtractTransaction_47() {
         val practitioner = PractitionerDBO(
@@ -384,9 +326,6 @@ class PractitionerDBOTest {
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = -3)))
         assertThat(practitioner.calculateSpiritBankPointsFromLog()).isEqualTo(47)
     }
-    /**
-     * Spirit bank points
-     */
     @Test
     fun spiritBankPoints_totalPointsBothPlusAndSubtractTransactions_47() {
         val practitioner = PractitionerDBO(

@@ -752,6 +752,18 @@ class PractitionerControllerTest {
     }
     @Test
     fun registerToCircle_registerNonExistingCircle_2() {
+        // Insert the user with the circle
+        mockedService.insert(PractitionerDBO(_id = "b",
+                circles = listOf(CircleDBO(
+                        _id = "3",
+                        name = "TheCircle",
+                        description = "TheDescription",
+                        disciplines = listOf(),
+                        intentions = listOf(),
+                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
+                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
+                        minimumSpiritContribution = 100,
+                        language = "Swedish"))))
         // Insert the current user
         mockedService.insert(PractitionerDBO(_id = "a",
                 registeredCircles = listOf("1", "2")))

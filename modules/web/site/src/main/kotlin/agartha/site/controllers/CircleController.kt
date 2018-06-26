@@ -82,9 +82,7 @@ class CircleController(
         val practitioner = getPractitioner(request)
         val circleId: String = request.params(ReqArgument.CIRCLE_ID.value)
         val circle = practitioner
-                .circles
-                .filter { it._id == circleId }
-                .firstOrNull()
+                .circles.firstOrNull { it._id == circleId }
         // Make sure we exit if practitioner is not creator of circle
         if (circle == null) {
             spark.kotlin.halt(400, "Practitioner is not the creator of this circle")
@@ -145,12 +143,12 @@ class CircleController(
         val circle: CircleDBO = ControllerUtil.stringToObject(request.body(), CircleDBO::class.java)
         // Check if this circle already exists to this practitioner
         val circleToEdit = practitioner.circles.find { it._id == circle._id }
-        if (circleToEdit != null) {
+        return if (circleToEdit != null) {
             // Exists - Edit circle and return the complete practitioner object
-            return ControllerUtil.objectToString(mService.editCircle(practitioner._id ?: "", circle))
+            ControllerUtil.objectToString(mService.editCircle(practitioner._id ?: "", circle))
         } else {
             // Does not exist - Store circle and return the complete practitioner object
-            return ControllerUtil.objectToString(mService.addCircle(practitioner._id ?: "", circle))
+            ControllerUtil.objectToString(mService.addCircle(practitioner._id ?: "", circle))
         }
     }
 

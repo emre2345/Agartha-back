@@ -76,11 +76,11 @@ class ImageController(private val mService: IBaseService<ImageDBO>) {
         // If exists from database
         if (image != null) {
             val raw = response.raw()
-            response.header("Content-Disposition", "attachment; filename=${image.fileName}");
-            response.type("application/force-download");
-            raw.getOutputStream().write(image.image);
-            raw.getOutputStream().flush();
-            raw.getOutputStream().close();
+            response.header("Content-Disposition", "attachment; filename=${image.fileName}")
+            response.type("application/force-download")
+            raw.outputStream.write(image.image)
+            raw.outputStream.flush()
+            raw.outputStream.close()
         }
         return ""
     }

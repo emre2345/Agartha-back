@@ -17,7 +17,7 @@ import spark.Spark
 import spark.Spark.halt
 
 /**
- * Purpose of this file is handling API requests for practitioning sessions
+ * Purpose of this file is handling API requests for practitioner's sessions
  *
  * Created by Jorgen Andersson on 2018-04-09.
  *
@@ -197,7 +197,7 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
     private fun endSession(request: Request, response: Response): String {
         // Get practitioner from data source
         val practitioner: PractitionerDBO = getPractitioner(request)
-        val contributionPoints: Long = request.params("${ReqArgument.POINTS.value}").toLong()
+        val contributionPoints: Long = request.params(ReqArgument.POINTS.value).toLong()
         // Stop the last session for practitioner with the total gathered contributionPoints
         // Return the updated practitioner
         return ControllerUtil.objectToString(mService.endSession(practitioner._id ?: "", contributionPoints))
