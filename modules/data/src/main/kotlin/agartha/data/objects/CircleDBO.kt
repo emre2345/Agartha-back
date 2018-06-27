@@ -22,6 +22,7 @@ data class CircleDBO(
         val disciplines: List<DisciplineDBO>,
         val minimumSpiritContribution: Long,
         val language: String,
+        // Number of virtual registered to this circle
         val virtualRegistered: Long = 0) {
 
     /**
