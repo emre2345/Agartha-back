@@ -151,8 +151,7 @@ class PractitionerDBOTest {
             intentions = listOf(),
             disciplines = listOf(),
             minimumSpiritContribution = 12L,
-            language = "Swedish",
-            virtualRegistered = 3)
+            language = "Swedish")
     val circle2 = CircleDBO(
             name = "Circle name2",
             description = "Circle description2",
@@ -161,8 +160,7 @@ class PractitionerDBOTest {
             intentions = listOf(),
             disciplines = listOf(),
             minimumSpiritContribution = 1200L,
-            language = "Swedish",
-            virtualRegistered = 3)
+            language = "Swedish")
     @Test
     fun hasSessionInCircleAfterStartTime_startedAfterAndSameCircle_true() {
         val practitioner = PractitionerDBO(
