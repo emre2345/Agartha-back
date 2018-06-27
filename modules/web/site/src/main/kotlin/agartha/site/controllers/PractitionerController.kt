@@ -65,6 +65,9 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
             // Get practitioners spiritBankHistory
             Spark.before("/spiritbankhistory/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
             Spark.get("/spiritbankhistory/${ReqArgument.PRACTITIONER_ID.value}", ::getSpiritBankHistory)
+            //
+            // Get practitioner from email address
+            Spark.get("/find/email/${ReqArgument.USER_EMAIL.value}", ::getFromEmail)
         }
     }
 
@@ -247,5 +250,17 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
         val practitioner: PractitionerDBO = getPractitioner(request)
         // Return the list
         return ControllerUtil.objectListToString(practitioner.spiritBankLog)
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    private fun getFromEmail(request: Request, response: Response): String {
+        val email: String = request.params(ReqArgument.USER_EMAIL.value)
+        val practitioner = mService
+                .getAll()
+                .firstOrNull { it.email == email }
+        if (practitioner == null) {
+            halt(404, ErrorMessagesEnum.EMAIL_NOT_FOUND.message)
+        }
+        return ControllerUtil.objectToString(practitioner)
     }
 }
