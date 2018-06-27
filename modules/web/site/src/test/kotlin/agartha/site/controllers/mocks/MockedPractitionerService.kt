@@ -198,11 +198,11 @@ class MockedPractitionerService : IPractitionerService {
         return false
     }
 
-    override fun payForAddingVirtualSessions(practitioner: PractitionerDBO, numberOfSessions: Int): Boolean {
+    override fun payForAddingVirtualSessions(practitioner: PractitionerDBO, virtualRegistered: Long): Boolean {
         val practitionerId: String = practitioner._id ?: ""
-        val pointsToPay = Settings.COST_ADD_VIRTUAL_SESSION_POINTS * numberOfSessions
+        val pointsToPay = Settings.COST_ADD_VIRTUAL_SESSION_POINTS * virtualRegistered
         val spiritBankLog = practitioner.spiritBankLog.toMutableList()
-        if (practitioner.calculateSpiritBankPointsFromLog() >= pointsToPay) {
+        if (checkPractitionerCanAffordVirtualRegistered(practitioner, virtualRegistered)) {
             // Add new logItem to spiritBank log
             spiritBankLog.add(SpiritBankLogItemDBO(
                     type = SpiritBankLogItemType.ADD_VIRTUAL_TO_CIRCLE,
@@ -221,6 +221,11 @@ class MockedPractitionerService : IPractitionerService {
             return true
         }
         return false
+    }
+
+    override fun checkPractitionerCanAffordVirtualRegistered(practitioner: PractitionerDBO, virtualRegistered: Long): Boolean {
+        val pointsToPay = Settings.COST_ADD_VIRTUAL_SESSION_POINTS * virtualRegistered
+        return practitioner.calculateSpiritBankPointsFromLog() >= pointsToPay
     }
 
     /**

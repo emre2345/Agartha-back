@@ -301,7 +301,8 @@ class PractitionerServiceTest : DatabaseHandler() {
                 disciplines = listOf(),
                 intentions = listOf(),
                 minimumSpiritContribution = 4,
-                language = "Swedish")
+                language = "Swedish",
+                virtualRegistered = 3)
         // Insert circle to practitioner
         PractitionerService().addCircle("a", circle)
         // Start session with the created circle
@@ -341,7 +342,8 @@ class PractitionerServiceTest : DatabaseHandler() {
                 disciplines = listOf(),
                 intentions = listOf(),
                 minimumSpiritContribution = 3,
-                language = "Swedish")
+                language = "Swedish",
+                virtualRegistered = 3)
         // Insert circle to practitioner
         PractitionerService().addCircle("a", circle)
         // Start session with the created circle
@@ -645,5 +647,28 @@ class PractitionerServiceTest : DatabaseHandler() {
         PractitionerService().insert(practitioner)
         val wentFine = PractitionerService().payForAddingVirtualSessions(practitioner, 3)
         assertThat(wentFine).isFalse()
+    }
+
+    /***********************************************
+     * checkPractitionerCanAffordVirtualRegistered *
+     ***********************************************/
+    @Test
+    fun checkPractitionerCanAffordVirtualRegistered_practitionerCanAfford_true() {
+        val practitioner = generatePractitionerWithPoints()
+        PractitionerService().insert(practitioner)
+        val canAfford = PractitionerService().checkPractitionerCanAffordVirtualRegistered(practitioner, 3)
+        assertThat(canAfford).isTrue()
+    }
+    @Test
+    fun checkPractitionerCanAffordVirtualRegistered_practitionerCanNotAfford_false() {
+        val practitioner = PractitionerDBO(
+                _id = "p1",
+                spiritBankLog = listOf(
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50),
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.ADD_VIRTUAL_TO_CIRCLE, points = -45)
+                ))
+        PractitionerService().insert(practitioner)
+        val canAfford = PractitionerService().checkPractitionerCanAffordVirtualRegistered(practitioner, 3)
+        assertThat(canAfford).isFalse()
     }
 }
