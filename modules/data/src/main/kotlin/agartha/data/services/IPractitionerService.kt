@@ -103,9 +103,20 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      * Makes a new log for the practitioner spirit bank log with the cost
      *
      * @param practitioner the practitioner that wants to add virtual sessions
-     * @param numberOfSessions the number of sessions the practitioner wants to add
+     * @param virtualRegistered the number of virtual registered that the practitioner wants to add
      * @return true if practitioner successfully paid the contributionsPoints
      */
     fun payForAddingVirtualSessions(
-            practitioner: PractitionerDBO, numberOfSessions: Int): Boolean
+            practitioner: PractitionerDBO, virtualRegistered: Long): Boolean
+
+
+    /**
+     * Checks if the practitioner can afford to pay for all the virtual registered to the circle
+     *
+     * @param practitioner the practitioner that wants to add virtual sessions
+     * @param virtualRegistered the number of virtual registered that the practitioner wants to add
+     * @return true if practitioner can afford to pay with contribution points
+     */
+    fun checkPractitionerCanAffordVirtualRegistered(
+            practitioner: PractitionerDBO, virtualRegistered: Long): Boolean
 }

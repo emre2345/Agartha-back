@@ -4,7 +4,6 @@ import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.*
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.controllers.mocks.MockedWebSocketSession
-import agartha.site.objects.webSocket.WebSocketMessage
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -27,59 +26,56 @@ class WebSocketServiceTest {
             endTime = DateTimeFormat.localDateTimeUTC().plusHours(2),
             minimumSpiritContribution = 5,
             name = "CircleName",
-            language = "Swedish")
+            language = "Swedish",
+            virtualRegistered = 5)
     // Expected Session for practitioner
     private val expectedSession = SessionDBO(null, "", "", circle = expectedCircle)
     // The mockedWebSocketSession only initialized once
     private val mockedWebSocketSession = MockedWebSocketSession()
-    // WebSocket connect message for a practitioner with a circle
-    private val connectMessage = WebSocketMessage("", "abc")
-    // WebSocket connect message for a practitioner with a circle
-    private val connectMessageCircle = WebSocketMessage("", "dfg")
 
     /**
      * Connect a user that does not own a circle that is in its latest session
      */
     private fun connectAUser(): SessionDBO {
-        return webSocketService.connectOriginal(
+        return webSocketService.connect(
                 mockedWebSocketSession,
-                connectMessage)
+                "abc")
     }
 
     /**
      * Connect a user that own the circle that is in its latest session
      */
     private fun connectAUserWithCircle(): SessionDBO {
-        return webSocketService.connectOriginal(
+        return webSocketService.connect(
                 mockedWebSocketSession,
-                connectMessageCircle)
+                "dfg")
     }
 
     /**
      * Create a Virtual session with the practitioner that does not own the circle
      */
     private fun connectAVirtualUserWithoutCircle(): SessionDBO {
-        return webSocketService.connectVirtual(
+        return webSocketService.connect(
                 mockedWebSocketSession,
-                "abc", 1)
+                "abc")
     }
 
     /**
      * Create a Virtual session with the practitioner that is the creator of the circle
      */
     private fun connectAVirtualUserWithCircle(): SessionDBO {
-        return webSocketService.connectVirtual(
+        return webSocketService.connect(
                 mockedWebSocketSession,
-                "dfg", 1)
+                "dfg")
     }
 
     /**
      * Create a Virtual session with the practitioner that is the creator of the circle
      */
     private fun connect5VirtualUserWithCircle(): SessionDBO {
-        return webSocketService.connectVirtual(
+        return webSocketService.connect(
                 mockedWebSocketSession,
-                "dfg", 5)
+                "dfg")
     }
 
 
@@ -117,10 +113,10 @@ class WebSocketServiceTest {
      * Connect virtual session *
      ***************************/
     @Test
-    fun webSocketService_connectVirtual_newValueArrayInKey() {
+    fun webSocketService_connectVirtual_6ValuesArrayInKey() {
         connectAUserWithCircle()
         connectAVirtualUserWithCircle()
-        assertThat(webSocketService.getPractitionersSessionsSize()).isEqualTo(2)
+        assertThat(webSocketService.getPractitionersSessionsSize()).isEqualTo(6)
     }
 
     /**
@@ -137,12 +133,12 @@ class WebSocketServiceTest {
      *
      */
     @Test
-    fun webSocketService_connectVirtual_pointsLeft45() {
+    fun webSocketService_connectVirtual_pointsLeft0() {
         connectAUserWithCircle()
         connectAVirtualUserWithCircle()
         val practitioner = practitionerService.getById("dfg")
         val pointsLeft = practitioner!!.calculateSpiritBankPointsFromLog()
-        assertThat(pointsLeft).isEqualTo(45)
+        assertThat(pointsLeft).isEqualTo(0)
     }
 
     /**
@@ -221,14 +217,14 @@ class WebSocketServiceTest {
      *
      */
     @Test
-    fun webSocketService_disconnectWithAVirtualSessionReturned_2() {
+    fun webSocketService_disconnectWithAVirtualSessionReturned_6() {
         // First connect user
         connectAUser()
         connectAVirtualUserWithCircle()
         // Then test the disconnect
         val session = webSocketService.disconnect(
                 mockedWebSocketSession)
-        assertThat(session!!.size).isEqualTo(2)
+        assertThat(session!!.size).isEqualTo(6)
     }
 
     /***************************

@@ -1,7 +1,5 @@
 package agartha.site
 
-import agartha.common.config.Settings
-import agartha.data.objects.SessionDBO
 import agartha.data.services.PractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.objects.webSocket.WebSocketEvents
@@ -46,17 +44,12 @@ class WebSocketHandler {
         // Start web socket session
             WebSocketEvents.START_SESSION.eventName -> {
                 // Connect a original practitioner to the webSocket
-                connectOriginal(webSocketSession, webSocketMessage)
+                connect(webSocketSession, webSocketMessage)
             }
         // Reconnect web socket session, should be when Heroku re-starts and client connection is lost
             WebSocketEvents.RECONNECT_SESSION.eventName -> {
                 // Connect a original practitioner to the webSocket
-                connectOriginal(webSocketSession, webSocketMessage)
-            }
-        // Reconnect web socket session, should be when Heroku re-starts and client connection is lost
-            WebSocketEvents.START_VIRTUAL_SESSION.eventName -> {
-                // Connect a virtual practitioner to a original practitioners webSocketSession
-                connectVirtual(webSocketSession, webSocketMessage)
+                connect(webSocketSession, webSocketMessage)
             }
         }
     }
@@ -67,7 +60,8 @@ class WebSocketHandler {
      * - Broadcast to everybody else that a new companion joined
      * - emit to self all the sessions in the WebSocket
      */
-    private fun connect(webSocketSession: Session, practitionersLatestSession: SessionDBO) {
+    private fun connect(webSocketSession: Session, webSocketMessage: WebSocketMessage) {
+        val practitionersLatestSession = service.connect(webSocketSession, webSocketMessage.data)
         debugPrintout(
                 "starting '${practitionersLatestSession.discipline}' for '${practitionersLatestSession.intention}'")
         // The sessions remaining in the socket
@@ -85,34 +79,6 @@ class WebSocketHandler {
                 WebSocketMessage(
                         event = WebSocketEvents.COMPANIONS_SESSIONS.eventName,
                         data = returnSessions))
-    }
-
-    /**
-     * Connects a single practitioner to the webSocket
-     */
-    private fun connectOriginal(webSocketSession: Session, webSocketMessage: WebSocketMessage) {
-        val practitionersLatestSession = service.connectOriginal(webSocketSession, webSocketMessage)
-        connect(webSocketSession, practitionersLatestSession)
-    }
-
-    /**
-     * Connects virtual practitioner to a practitioner that is an original and already in the webSocket
-     * If there was a problem in the service the virtual sessions will not be added and the webSocket will emit a Error instead
-     */
-    private fun connectVirtual(webSocketSession: Session, webSocketMessage: WebSocketMessage) {
-        val practitionersSessionsSize = service.getPractitionersSessionsSize()
-        val practitionersLatestSession = service.connectVirtual(webSocketSession, webSocketMessage.data, webSocketMessage.nrOfVirtualSessions)
-        //If the PractitionersSessionSize has changed then connect the virtual sessions
-        if (service.getPractitionersSessionsSize() > practitionersSessionsSize) {
-            connect(webSocketSession, practitionersLatestSession)
-        } else {
-            // If the size has'nt changed then emit an error to the practitioner's session
-            val cost = webSocketMessage.nrOfVirtualSessions * Settings.COST_ADD_VIRTUAL_SESSION_POINTS
-            emit(webSocketSession,
-                    WebSocketMessage(
-                            event = WebSocketEvents.ERROR_OCCURRED.eventName,
-                            data = "The Practitioner needs to be in a circle and be the creator of the circle. The practitioner needs to have at least $cost points in its spirit bank"))
-        }
     }
 
     /**
