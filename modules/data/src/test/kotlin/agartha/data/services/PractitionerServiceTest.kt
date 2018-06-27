@@ -668,7 +668,7 @@ class PractitionerServiceTest : DatabaseHandler() {
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.ADD_VIRTUAL_TO_CIRCLE, points = -45)
                 ))
         PractitionerService().insert(practitioner)
-        val wentFine = PractitionerService().checkPractitionerCanAffordVirtualRegistered(practitioner, 3)
-        assertThat(wentFine).isFalse()
+        val canAfford = PractitionerService().checkPractitionerCanAffordVirtualRegistered(practitioner, 3)
+        assertThat(canAfford).isFalse()
     }
 }

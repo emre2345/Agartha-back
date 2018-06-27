@@ -113,7 +113,7 @@ class WebSocketServiceTest {
      * Connect virtual session *
      ***************************/
     @Test
-    fun webSocketService_connectVirtual_5NewValueArrayInKey() {
+    fun webSocketService_connectVirtual_6ValuesArrayInKey() {
         connectAUserWithCircle()
         connectAVirtualUserWithCircle()
         assertThat(webSocketService.getPractitionersSessionsSize()).isEqualTo(6)
@@ -133,7 +133,7 @@ class WebSocketServiceTest {
      *
      */
     @Test
-    fun webSocketService_connectVirtual_pointsLeft45() {
+    fun webSocketService_connectVirtual_pointsLeft0() {
         connectAUserWithCircle()
         connectAVirtualUserWithCircle()
         val practitioner = practitionerService.getById("dfg")

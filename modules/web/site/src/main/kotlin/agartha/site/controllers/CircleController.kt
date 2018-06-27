@@ -3,10 +3,7 @@ package agartha.site.controllers
 import agartha.data.objects.CircleDBO
 import agartha.data.objects.PractitionerDBO
 import agartha.data.services.IPractitionerService
-import agartha.site.controllers.utils.ControllerUtil
-import agartha.site.controllers.utils.ReqArgument
-import agartha.site.controllers.utils.SessionUtil
-import agartha.site.controllers.utils.SpiritBankLogUtil
+import agartha.site.controllers.utils.*
 import agartha.site.objects.response.CircleReport
 import io.schinzel.basicutils.configvar.IConfigVar
 import spark.Request
@@ -85,7 +82,7 @@ class CircleController(
                 .circles.firstOrNull { it._id == circleId }
         // Make sure we exit if practitioner is not creator of circle
         if (circle == null) {
-            spark.kotlin.halt(400, "Practitioner is not the creator of this circle")
+            spark.kotlin.halt(400, ErrorMessagesEnum.PRACTITIONER_NOT_CREATOR_CIRCLE.message)
         }
     }
 
@@ -150,7 +147,7 @@ class CircleController(
                     !mService.checkPractitionerCanAffordVirtualRegistered(practitioner, circle.virtualRegistered)) {
                 //
                 // Cannot afford to edit to this amount of virtualRegistered
-                spark.kotlin.halt(400, "Practitioner cannot afford to have this many virtual registered to this circle")
+                spark.kotlin.halt(400, ErrorMessagesEnum.PRACTITIONER_NOT_AFFORD_ADD_VIRTUAL.message)
             }
             // Edit circle and return the complete practitioner object
             ControllerUtil.objectToString(mService.editCircle(practitioner._id ?: "", circle))
