@@ -237,7 +237,8 @@ class CircleControllerTest {
                         "disciplines":[],
                         "intentions":[],
                         "minimumSpiritContribution":14,
-                        "language": "Swedish"
+                        "language": "Swedish",
+                        "virtualRegistered": 0
                         }""",
                 false)
         val response = testController.testServer.execute(request)
@@ -258,7 +259,8 @@ class CircleControllerTest {
                         "disciplines":[],
                         "intentions":[],
                         "minimumSpiritContribution":14,
-                        "language": "Swedish"
+                        "language": "Swedish",
+                        "virtualRegistered": 0
                         }""",
                 false)
         val response = testController.testServer.execute(request)
@@ -278,7 +280,8 @@ class CircleControllerTest {
                         "disciplines":[{"title":"D","description":"D"}],
                         "intentions":[{"title":"I","description":"I"}],
                         "minimumSpiritContribution":14,
-                        "language": "Swedish"
+                        "language": "Swedish",
+                        "virtualRegistered": 0
                         }""",
                 false)
         val response = testController.testServer.execute(request)
@@ -298,7 +301,8 @@ class CircleControllerTest {
                         "disciplines":[],
                         "intentions":[],
                         "minimumSpiritContribution":14,
-                        "language": "Swedish"
+                        "language": "Swedish",
+                        "virtualRegistered": 0
                         }""",
                 false)
         val response = testController.testServer.execute(request)
@@ -319,7 +323,8 @@ class CircleControllerTest {
                         "disciplines":[],
                         "intentions":[],
                         "minimumSpiritContribution":14,
-                        "language": "Swedish"
+                        "language": "Swedish",
+                        "virtualRegistered": 0
                         }""",
                 false)
         val response = testController.testServer.execute(request)
@@ -344,7 +349,8 @@ class CircleControllerTest {
                         "disciplines":[],
                         "intentions":[],
                         "minimumSpiritContribution":14,
-                        "language": "Swedish"
+                        "language": "Swedish",
+                        "virtualRegistered": 0
                         }""",
                 false)
         val response = testController.testServer.execute(request)
@@ -368,7 +374,54 @@ class CircleControllerTest {
                         "disciplines":[],
                         "intentions":[],
                         "minimumSpiritContribution":14,
-                        "language": "Swedish"
+                        "language": "Swedish",
+                        "virtualRegistered": 0
+                        }""",
+                false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
+    }
+
+
+    @Test
+    fun editCircle_withVirtualRegisteredPractitionerCanAfford_200() {
+        setup()
+        val request = testController.testServer.post(
+                "/circle/edit/b",
+                """{
+                        "_id": "1",
+                        "name":"MyCircle Name",
+                        "description":"MyCircle Desc",
+                        "startTime":"2020-03-15T12:00:00.000Z",
+                        "endTime":"2020-03-15T14:00:00.000Z",
+                        "disciplines":[],
+                        "intentions":[],
+                        "minimumSpiritContribution":14,
+                        "language": "Swedish",
+                        "virtualRegistered": 2
+                        }""",
+                false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(200)
+    }
+
+
+    @Test
+    fun editCircle_withVirtualRegisteredPractitionerCannotAfford_400() {
+        setup()
+        val request = testController.testServer.post(
+                "/circle/edit/b",
+                """{
+                        "_id": "1",
+                        "name":"MyCircle Name",
+                        "description":"MyCircle Desc",
+                        "startTime":"2020-03-15T12:00:00.000Z",
+                        "endTime":"2020-03-15T14:00:00.000Z",
+                        "disciplines":[],
+                        "intentions":[],
+                        "minimumSpiritContribution":14,
+                        "language": "Swedish",
+                        "virtualRegistered": 200
                         }""",
                 false)
         val response = testController.testServer.execute(request)

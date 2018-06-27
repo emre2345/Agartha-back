@@ -144,8 +144,17 @@ class CircleController(
         // Check if this circle already exists to this practitioner
         val circleToEdit = practitioner.circles.find { it._id == circle._id }
         return if (circleToEdit != null) {
-            // Exists - Edit circle and return the complete practitioner object
+            // Exists - Check if circle to edit has a new value for virtualRegistered
+            //          and if user cannot afford this many virtualRegistered
+            if (circle.virtualRegistered != circleToEdit.virtualRegistered &&
+                    !mService.checkPractitionerCanAffordVirtualRegistered(practitioner, circle.virtualRegistered)) {
+                //
+                // Cannot afford to edit to this amount of virtualRegistered
+                spark.kotlin.halt(400, "Practitioner cannot afford to have this many virtual registered to this circle")
+            }
+            // Edit circle and return the complete practitioner object
             ControllerUtil.objectToString(mService.editCircle(practitioner._id ?: "", circle))
+
         } else {
             // Does not exist - Store circle and return the complete practitioner object
             ControllerUtil.objectToString(mService.addCircle(practitioner._id ?: "", circle))

@@ -200,16 +200,16 @@ class PractitionerService : IPractitionerService {
      * Makes a new log for the practitioner spirit bank log with the cost
      *
      * @param practitioner the practitioner that wants to add virtual sessions
-     * @param numberOfSessions the number of sessions the practitioner wants to add
+     * @param virtualRegistered the number of sessions the practitioner wants to add
      * @return true if practitioner successfully paid the contributionsPoints
      */
-    override fun payForAddingVirtualSessions(practitioner: PractitionerDBO, numberOfSessions: Long): Boolean {
+    override fun payForAddingVirtualSessions(practitioner: PractitionerDBO, virtualRegistered: Long): Boolean {
         // PractitionerId will never be an empty string, but kotlin wont allow us to access practitioner._id without it maybe being null
         val practitionerId: String = practitioner._id ?: ""
         // Multiply the cost for adding a virtual session with the number of sessions that it wants to add
-        val pointsToPay = COST_ADD_VIRTUAL_SESSION_POINTS * numberOfSessions
+        val pointsToPay = COST_ADD_VIRTUAL_SESSION_POINTS * virtualRegistered
         // Practitioner needs to have pointsToPay in its bank
-        if(practitioner.calculateSpiritBankPointsFromLog() >= pointsToPay){
+        if(checkPractitionerCanAffordVirtualRegistered(practitioner, virtualRegistered)){
             // Add a new log to the practitioners spirit bank log
             pushObjectToPractitionersArray(practitionerId,
                     PractitionersArraysEnum.SPIRIT_BANK_LOG,
@@ -219,6 +219,18 @@ class PractitionerService : IPractitionerService {
             return true
         }
         return false
+    }
+
+    /**
+     * @param practitioner the practitioner that wants to add virtual sessions
+     * @param virtualRegistered the number of sessions the practitioner wants to add
+     * @return true if practitioner can afford this many virtual registered
+     */
+    override fun checkPractitionerCanAffordVirtualRegistered(practitioner: PractitionerDBO, virtualRegistered: Long): Boolean{
+        // Multiply the cost for adding a virtual session with the number of virtualRegistered that it wants to add
+        val pointsToPay = COST_ADD_VIRTUAL_SESSION_POINTS * virtualRegistered
+        // Does the practitioner afford to pay?
+        return practitioner.calculateSpiritBankPointsFromLog() >= pointsToPay
     }
 
 

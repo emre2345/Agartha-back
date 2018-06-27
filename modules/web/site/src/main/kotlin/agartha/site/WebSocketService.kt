@@ -26,7 +26,7 @@ class WebSocketService(private val mService: IPractitionerService) {
      * Adds a list of sessions to the practitionerSessions hashMap
      *
      * @param webSocketSession WebSocket session for a practitioner
-     * @param webSocketMessage message with the practitioners id in data
+     * @param practitionerId practitioners id
      * @return list of sessions
      */
     fun connect(webSocketSession: Session, practitionerId: String): SessionDBO {

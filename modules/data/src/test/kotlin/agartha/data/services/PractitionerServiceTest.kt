@@ -656,4 +656,27 @@ class PractitionerServiceTest : DatabaseHandler() {
         val wentFine = PractitionerService().payForAddingVirtualSessions(practitioner, 3)
         assertThat(wentFine).isFalse()
     }
+
+    /***********************************************
+     * checkPractitionerCanAffordVirtualRegistered *
+     ***********************************************/
+    @Test
+    fun checkPractitionerCanAffordVirtualRegistered_practitionerCanAfford_true() {
+        val practitioner = generatePractitionerWithPoints()
+        PractitionerService().insert(practitioner)
+        val canAfford = PractitionerService().checkPractitionerCanAffordVirtualRegistered(practitioner, 3)
+        assertThat(canAfford).isTrue()
+    }
+    @Test
+    fun checkPractitionerCanAffordVirtualRegistered_practitionerCanNotAfford_false() {
+        val practitioner = PractitionerDBO(
+                _id = "p1",
+                spiritBankLog = listOf(
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50),
+                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.ADD_VIRTUAL_TO_CIRCLE, points = -45)
+                ))
+        PractitionerService().insert(practitioner)
+        val wentFine = PractitionerService().checkPractitionerCanAffordVirtualRegistered(practitioner, 3)
+        assertThat(wentFine).isFalse()
+    }
 }
