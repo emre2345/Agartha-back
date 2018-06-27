@@ -5,5 +5,6 @@ enum class ErrorMessagesEnum(val message: String){
     PRACTITIONER_ID_INCORRECT("Practitioner Id missing or incorrect"),
     PRACTITIONER_NOT_AFFORD_CIRCLE("Practitioner cannot afford to join this circle"),
     DISCIPLINE_NOT_MATCHED("Selected discipline does not match any in Circle"),
-    INTENTION_NOT_MATCHED("Selected intention does not match any in Circle")
+    INTENTION_NOT_MATCHED("Selected intention does not match any in Circle"),
+    EMAIL_NOT_FOUND("Email is not registered in database")
 }

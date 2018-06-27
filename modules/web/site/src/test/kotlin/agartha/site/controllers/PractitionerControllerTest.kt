@@ -794,4 +794,43 @@ class PractitionerControllerTest {
         val history = ControllerUtil.stringToObjectList(responseBody, SpiritBankLogItemDBO::class.java)
         assertThat(history.size).isEqualTo(3)
     }
+
+
+    /*************************
+     * find by Email address *
+     *************************/
+
+    @Test
+    fun findByEmailAddressExists_status_200() {
+        mockedService.insert(PractitionerDBO(_id = "a", email = "someone@agartha.com"))
+        val request = testController.testServer.get("/practitioner/find/email/someone@agartha.com", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(200)
+    }
+
+    @Test
+    fun findByEmailAddressExists_returnedUserId_a() {
+        mockedService.insert(PractitionerDBO(_id = "a", email = "someone@agartha.com"))
+        val request = testController.testServer.get("/practitioner/find/email/someone@agartha.com", false)
+        val response = testController.testServer.execute(request)
+        val responseBody = String(response.body())
+        val practitioner = ControllerUtil.stringToObject(responseBody, PractitionerDBO::class.java)
+        assertThat(practitioner._id).isEqualTo("a")
+    }
+
+    @Test
+    fun findByEmailAddressMissing_status_404() {
+        mockedService.insert(PractitionerDBO(_id = "a", email = "someone@agartha.com"))
+        val request = testController.testServer.get("/practitioner/find/email/someoneelse@agartha.com", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(404)
+    }
+
+    @Test
+    fun findByEmailNoAddress_status_404() {
+        mockedService.insert(PractitionerDBO(_id = "a", email = "someone@agartha.com"))
+        val request = testController.testServer.get("/practitioner/find/email/", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(404)
+    }
 }
