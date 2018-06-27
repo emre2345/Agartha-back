@@ -22,7 +22,8 @@ class CircleDBOTest {
                     DisciplineDBO("Discipline 1", "Discipline 1"),
                     DisciplineDBO("Discipline 2", "Discipline 2")),
             minimumSpiritContribution = 12L,
-            language = "Swedish")
+            language = "Swedish",
+            virtualRegistered = 3)
 
     @Test
     fun circle_name_CircleName() {
@@ -70,17 +71,18 @@ class CircleDBOTest {
     }
 
     @Test
+    fun circle_language_swedish() {
+        assertThat(circle.language).isEqualTo("Swedish")
+    }
+
+    @Test
+    fun circle_virtualRegistered_3() {
+        assertThat(circle.virtualRegistered).isEqualTo(3)
+    }
+
+    @Test
     fun circle_active_false() {
-        val c = CircleDBO(
-                name = "Circle name",
-                description = "Circle description",
-                startTime = DateTimeFormat.localDateTimeUTC().plusHours(4),
-                endTime = DateTimeFormat.localDateTimeUTC().plusHours(6),
-                intentions = listOf(),
-                disciplines = listOf(),
-                minimumSpiritContribution = 12L,
-                language = "Swedish")
-        assertThat(c.active()).isFalse()
+        assertThat(circle.active()).isFalse()
     }
 
     @Test
@@ -93,7 +95,8 @@ class CircleDBOTest {
                 intentions = listOf(),
                 disciplines = listOf(),
                 minimumSpiritContribution = 12L,
-                language = "Swedish")
+                language = "Swedish",
+                virtualRegistered = 3)
         assertThat(c.active()).isTrue()
     }
 }

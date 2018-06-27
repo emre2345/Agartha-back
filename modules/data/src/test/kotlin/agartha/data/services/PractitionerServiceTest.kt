@@ -137,7 +137,8 @@ class PractitionerServiceTest : DatabaseHandler() {
                                         intentions = listOf(),
                                         disciplines = listOf(),
                                         minimumSpiritContribution = 12,
-                                        language = "Swedish"))))
+                                        language = "Swedish",
+                                        virtualRegistered = 3))))
         val practitioner = PractitionerService().getById(user._id!!)
         assertThat(practitioner?.circles?.size).isEqualTo(1)
     }
@@ -301,7 +302,8 @@ class PractitionerServiceTest : DatabaseHandler() {
                 disciplines = listOf(),
                 intentions = listOf(),
                 minimumSpiritContribution = 4,
-                language = "Swedish")
+                language = "Swedish",
+                virtualRegistered = 3)
         // Insert circle to practitioner
         PractitionerService().addCircle("a", circle)
         // Start session with the created circle
@@ -341,7 +343,8 @@ class PractitionerServiceTest : DatabaseHandler() {
                 disciplines = listOf(),
                 intentions = listOf(),
                 minimumSpiritContribution = 3,
-                language = "Swedish")
+                language = "Swedish",
+                virtualRegistered = 3)
         // Insert circle to practitioner
         PractitionerService().addCircle("a", circle)
         // Start session with the created circle
@@ -381,7 +384,8 @@ class PractitionerServiceTest : DatabaseHandler() {
                 disciplines = listOf(),
                 intentions = listOf(),
                 minimumSpiritContribution = 3,
-                language = "Swedish")
+                language = "Swedish",
+                virtualRegistered = 3)
         // Insert circle to practitioner
         PractitionerService().addCircle("a", circle)
         // Start session with the created circle
@@ -443,7 +447,8 @@ class PractitionerServiceTest : DatabaseHandler() {
                 disciplines = listOf(),
                 intentions = listOf(),
                 minimumSpiritContribution = 4,
-                language = "Swedish"))
+                language = "Swedish",
+                virtualRegistered = 3))
 
         assertThat(circlePractitioner!!.circles.size).isEqualTo(1)
     }
@@ -462,7 +467,8 @@ class PractitionerServiceTest : DatabaseHandler() {
                 disciplines = listOf(),
                 intentions = listOf(),
                 minimumSpiritContribution = 4,
-                language = "Swedish")
+                language = "Swedish",
+                virtualRegistered = 3)
         // Insert a new practising user
         val practitioner = PractitionerService().insert(PractitionerDBO())
         // Add Circle
@@ -477,7 +483,8 @@ class PractitionerServiceTest : DatabaseHandler() {
                 disciplines = circle.disciplines,
                 intentions = circle.intentions,
                 minimumSpiritContribution = circle.minimumSpiritContribution,
-                language = circle.language)
+                language = circle.language,
+                virtualRegistered = 3)
 
         val circlePractitioner = PractitionerService().editCircle(practitioner._id!!, editCircle)
 
@@ -550,17 +557,20 @@ class PractitionerServiceTest : DatabaseHandler() {
                                 _id = "c1", name = "", description = "",
                                 startTime = DateTimeFormat.localDateTimeUTC(), endTime = DateTimeFormat.localDateTimeUTC().plusHours(1),
                                 intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 3,
-                                language = "Swedish"),
+                                language = "Swedish",
+                                virtualRegistered = 3),
                         CircleDBO(
                                 _id = "c2", name = "", description = "",
                                 startTime = DateTimeFormat.localDateTimeUTC(), endTime = DateTimeFormat.localDateTimeUTC().plusHours(1),
                                 intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 3,
-                                language = "Swedish"),
+                                language = "Swedish",
+                                virtualRegistered = 3),
                         CircleDBO(
                                 _id = "c3", name = "", description = "",
                                 startTime = DateTimeFormat.localDateTimeUTC(), endTime = DateTimeFormat.localDateTimeUTC().plusHours(1),
                                 intentions = listOf(), disciplines = listOf(), minimumSpiritContribution = 3,
-                                language = "Swedish")))
+                                language = "Swedish",
+                                virtualRegistered = 3)))
     }
 
 

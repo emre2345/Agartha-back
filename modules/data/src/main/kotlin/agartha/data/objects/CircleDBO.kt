@@ -21,7 +21,8 @@ data class CircleDBO(
         val intentions: List<IntentionDBO>,
         val disciplines: List<DisciplineDBO>,
         val minimumSpiritContribution: Long,
-        val language: String) {
+        val language: String,
+        val virtualRegistered: Long = 0) {
 
     /**
      * Function to see if circle is active at this moment

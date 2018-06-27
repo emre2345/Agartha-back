@@ -107,5 +107,5 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      * @return true if practitioner successfully paid the contributionsPoints
      */
     fun payForAddingVirtualSessions(
-            practitioner: PractitionerDBO, numberOfSessions: Int): Boolean
+            practitioner: PractitionerDBO, numberOfSessions: Long): Boolean
 }

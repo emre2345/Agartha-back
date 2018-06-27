@@ -3,7 +3,6 @@ package agartha.site
 import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
-import agartha.site.objects.webSocket.WebSocketMessage
 import org.eclipse.jetty.websocket.api.Session
 
 /**
@@ -21,48 +20,54 @@ class WebSocketService(private val mService: IPractitionerService) {
      */
     private val practitionersSessions = HashMap<Session, MutableList<SessionDBO>>()
 
-    /**
-     * Add a original practitioners latest session to the webSocket map
-     * @return Practitioner's latest session
-     */
-    fun connectOriginal(webSocketSession: Session, webSocketMessage: WebSocketMessage): SessionDBO {
-        // Get the practitioner
-        val practitioner: PractitionerDBO = mService.getById(webSocketMessage.data)!!
-        // Get practitioners last session
-        val practitionersLatestSession: SessionDBO = practitioner.sessions.last()
-        // Put practitioners session and webSocket-session to a map
-        practitionersSessions[webSocketSession] = mutableListOf(practitionersLatestSession)
-        return practitionersLatestSession
-    }
 
     /**
-     * Add a virtual practitioners session to a original practitioners webSocketSession in the map
-     * @return Practitioner's latest session
+     * Checks if the practitioners latest session is in a circle and if the practitioner is the creator of the circle
+     * Adds a list of sessions to the practitionerSessions hashMap
+     *
+     * @param webSocketSession WebSocket session for a practitioner
+     * @param webSocketMessage message with the practitioners id in data
+     * @return list of sessions
      */
-    fun connectVirtual(webSocketSession: Session, practitionerId: String, nrOfVirtualSessions: Int): SessionDBO {
+    fun connect(webSocketSession: Session, practitionerId: String): SessionDBO {
         // Get the practitioner
         val practitioner: PractitionerDBO = mService.getById(practitionerId)!!
         // Get practitioners last session
         val practitionersLatestSession: SessionDBO = practitioner.sessions.last()
-        // get circle of session
         val circle = practitionersLatestSession.circle
-        // Find the practitionerSession from the webSocketSession
-        val sessions = practitionersSessions[webSocketSession]
-        // If there is a session for this practitioners webSocket
-        // And if the session has a circle and if it is the practitioner's circle
-        if (sessions != null &&
-                circle != null &&
+
+        // If practitioner is creator of circle
+        // and the circle has virtualRegistered
+        // and the creator can afford to pay...
+        if (circle != null &&
                 practitioner.creatorOfCircle(circle) &&
-                // Make sure that the practitioner can pay for the added sessions
-                mService.payForAddingVirtualSessions(practitioner, nrOfVirtualSessions)) {
-            // Then add the practitionersSession to the sessionList as many times that the practitioner requested
-            for (i in 1..nrOfVirtualSessions) {
-                sessions.add(practitionersLatestSession)
-            }
-            // Update the hasMap with the webSocketSession and the new sessionList
-            practitionersSessions[webSocketSession] = sessions
+                circle.virtualRegistered > 0 &&
+                mService.payForAddingVirtualSessions(practitioner, circle.virtualRegistered )) {
+            // ...then update the hashMap with the webSocketSession and the new sessionList with both virtual registered and the practitioners session
+            practitionersSessions[webSocketSession] = createListOfSessionsFromVirtual(circle.virtualRegistered, practitionersLatestSession)
+        } else {
+            // Put practitioners session and webSocket-session to a map
+            practitionersSessions[webSocketSession] = mutableListOf(practitionersLatestSession)
         }
         return practitionersLatestSession
+    }
+
+    /**
+     * Adds the practitioner latest session to a list as many times as there is virtual registered to this circle
+     * so that all the virtual registered and practitioner's session will be in the list of sessions
+     *
+     * @param virtualRegistered number of virtual registered for this circle
+     * @param practitionersLatestSession practitioner's latest session
+     * @return list of sessions
+     */
+    private fun createListOfSessionsFromVirtual(virtualRegistered: Long, practitionersLatestSession: SessionDBO): MutableList<SessionDBO> {
+        // Add the virtualRegistered and the practitioner to the webSocket
+        val sessions = mutableListOf<SessionDBO>()
+        for (i in 0..virtualRegistered) {
+            sessions.add(practitionersLatestSession)
+        }
+        // Update the hashMap with the webSocketSession and the new sessionList
+        return sessions
     }
 
     /**

@@ -198,7 +198,7 @@ class MockedPractitionerService : IPractitionerService {
         return false
     }
 
-    override fun payForAddingVirtualSessions(practitioner: PractitionerDBO, numberOfSessions: Int): Boolean {
+    override fun payForAddingVirtualSessions(practitioner: PractitionerDBO, numberOfSessions: Long): Boolean {
         val practitionerId: String = practitioner._id ?: ""
         val pointsToPay = Settings.COST_ADD_VIRTUAL_SESSION_POINTS * numberOfSessions
         val spiritBankLog = practitioner.spiritBankLog.toMutableList()
