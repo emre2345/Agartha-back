@@ -80,6 +80,7 @@ class PractitionerService : IPractitionerService {
      * (we calculate total contribution for a circle by using sessions ended before circle is ended)
      */
     override fun endSession(practitionerId: String, contributionPoints: Long): PractitionerDBO? {
+
         // Get current practitioner
         val practitioner: PractitionerDBO? = getById(practitionerId)
         if (practitioner != null && practitioner.sessions.isNotEmpty()) {
@@ -115,6 +116,31 @@ class PractitionerService : IPractitionerService {
             }
         }
         return practitioner
+    }
+
+    fun es(practitionerId: String, contributionPoints: Long): PractitionerDBO? {
+        val session = getLastSession(practitionerId)
+        if (session != null) {
+            // Update the session with a endTime
+            updateSessionWithEndTimeNow(practitionerId)
+            // Push the points as a ended session to the log
+            pushObjectToPractitionersArray(practitionerId,
+                    PractitionersArraysEnum.SPIRIT_BANK_LOG,
+                    SpiritBankLogItemDBO(
+                            type = SpiritBankLogItemType.ENDED_SESSION,
+                            points = contributionPoints))
+        }
+        // Return the new updated practitioner
+        return getById(practitionerId)
+    }
+
+    fun ec(practitionerId: String) {
+        val practitioner: PractitionerDBO = getById(practitionerId) ?: PractitionerDBO()
+        val session = getLastSession(practitionerId)
+        if (session?.circle != null && practitioner.creatorOfCircle(session.circle)) {
+
+        }
+
     }
 
 
@@ -311,6 +337,10 @@ class PractitionerService : IPractitionerService {
         // will be multiplied by the minimumSpiritContribution
         // then the contributionPoints from the ended sessions will be added
         return (sessionsInCircle.size * circle.minimumSpiritContribution) + contributionPoints
+    }
+
+    private fun getLastSession(practitionerId: String): SessionDBO? {
+        return getById(practitionerId)?.sessions?.lastOrNull()
     }
 
 }
