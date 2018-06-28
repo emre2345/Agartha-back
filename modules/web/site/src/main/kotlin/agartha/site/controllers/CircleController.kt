@@ -5,6 +5,7 @@ import agartha.data.objects.PractitionerDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.*
 import agartha.site.objects.response.CircleReport
+import agartha.site.objects.response.RegisteredReport
 import io.schinzel.basicutils.configvar.IConfigVar
 import spark.Request
 import spark.Response
@@ -176,6 +177,21 @@ class CircleController(
         val sessions = SessionUtil.getAllSessionsInCircle(mService.getAll(), circle._id)
         // Generate and return report/receipt
         return ControllerUtil.objectToString(CircleReport(circle, sessions, logPoints))
+    }
+
+    /**
+     * Get the total nr of registered adn return them in a registeredReport
+     *
+     * @return registeredReport as a string
+     */
+    @Suppress("UNUSED_PARAMETER")
+    private fun totalRegistered(request: Request, response: Response): String {
+        // Get all practitioners
+
+        // Search for those practitioners that has this circle id in their regsiteredCircles
+
+        // Create a report object and return it
+        return ControllerUtil.objectToString(RegisteredReport(1, 2))
     }
 
     /**
