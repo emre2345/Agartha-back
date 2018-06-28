@@ -96,6 +96,8 @@ class PractitionerService : IPractitionerService {
     /**
      * End a practitioners circle by adding points
      * @param practitionerId identity of practitioner
+     * @param creator is above practitioner id creator of circle
+     * @param circle circle to end
      * @param contributionPoints points to be awarded to practitioner
      */
     override fun endCircle(practitionerId: String, creator: Boolean, circle: CircleDBO?, contributionPoints: Long) {

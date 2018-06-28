@@ -204,6 +204,7 @@ class PractitionerController(private val mService: IPractitionerService, private
     private fun endSession(request: Request, response: Response): String {
         // Get practitioner from data source
         val practitioner: PractitionerDBO = getPractitioner(request)
+        // object to calculate points to be awarded to practitioner
         val sessonEnd = EndSession(
                 practitioner,
                 mService.getAll(),
