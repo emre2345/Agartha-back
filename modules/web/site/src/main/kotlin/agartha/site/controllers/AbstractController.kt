@@ -68,6 +68,10 @@ abstract class AbstractController(private val mService: IPractitionerService) {
     fun getCircle(request: Request, checkActive: Boolean): CircleDBO {
         // Get circle id from request
         val circleId: String = request.params(ReqArgument.CIRCLE_ID.value)
+        val emptyCircle = CircleDBO(_id = "", name = "", description = "",
+                startTime = DateTimeFormat.localDateTimeUTC(), endTime = DateTimeFormat.localDateTimeUTC(),
+                disciplines = listOf(), intentions = listOf(), minimumSpiritContribution = 0,
+                language = "")
         // Find the circle
         val circle: CircleDBO? = mService
                 // Get all practitioner
@@ -76,15 +80,15 @@ abstract class AbstractController(private val mService: IPractitionerService) {
                 .flatMap { it.circles }
                 // Find the one with correct id
                 .find { it._id == circleId }
-        // Check if active circles is the one we are looking for
-        return if(checkActive && circle != null && circle.active()){
-            circle
-        }else{
-            // Return the circle even if its not active, or new circle if its null
-            circle ?: CircleDBO(_id = "", name = "", description = "",
-                    startTime = DateTimeFormat.localDateTimeUTC(), endTime = DateTimeFormat.localDateTimeUTC(),
-                    disciplines = listOf(), intentions = listOf(), minimumSpiritContribution = 0,
-                    language = "")
+        // Check if  the one we are looking for should be active
+        if (checkActive && circle != null) {
+            return if (circle.active()) {
+                circle
+            } else {
+                emptyCircle
+            }
         }
+        // Return the circle even if its not active, or empty circle if its null
+        return circle ?: emptyCircle
     }
 }
