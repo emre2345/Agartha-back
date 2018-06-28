@@ -56,7 +56,7 @@ class PractitionerController(private val mService: IPractitionerService, private
             // Start practicing by Joining a Circle
             Spark.before("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validatePractitioner)
             Spark.before("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateSessionStart)
-            Spark.before("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateCircle)
+            Spark.before("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateActiveCircle)
             Spark.before("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateJoinCircle)
             Spark.post("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::joinCircle)
             //
@@ -97,7 +97,7 @@ class PractitionerController(private val mService: IPractitionerService, private
     @Suppress("UNUSED_PARAMETER")
     private fun validateJoinCircle(request: Request, response: Response) {
         // Get the original circle user wants to join
-        val circle = getCircle(request)
+        val circle = getCircle(request, true)
         val sessionInfo: StartSessionInformation =
                 ControllerUtil.stringToObject(request.body(), StartSessionInformation::class.java)
         //
@@ -229,7 +229,7 @@ class PractitionerController(private val mService: IPractitionerService, private
     private fun joinCircle(request: Request, response: Response): String {
         // Get from data source
         val practitioner: PractitionerDBO = getPractitioner(request)
-        val circle: CircleDBO = getCircle(request)
+        val circle: CircleDBO = getCircle(request, true)
         // Get selected geolocation, discipline and intention
         val sessionInfo: StartSessionInformation =
                 ControllerUtil.stringToObject(request.body(), StartSessionInformation::class.java)
@@ -251,7 +251,7 @@ class PractitionerController(private val mService: IPractitionerService, private
     private fun registerToCircle(request: Request, response: Response): String {
         // Get from data source
         val practitioner: PractitionerDBO = getPractitioner(request)
-        val circle: CircleDBO = getCircle(request)
+        val circle: CircleDBO = getCircle(request, false)
         // Add session to practitioner
         return ControllerUtil.objectToString(mService.addRegisteredCircle(practitioner._id!!, circle._id))
     }

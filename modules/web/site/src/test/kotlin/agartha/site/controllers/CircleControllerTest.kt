@@ -6,6 +6,7 @@ import agartha.data.objects.*
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.objects.response.CircleReport
+import agartha.site.objects.response.RegisteredReport
 import io.schinzel.basicutils.configvar.IConfigVar
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
@@ -74,7 +75,8 @@ class CircleControllerTest {
                                 intentions = listOf(),
                                 disciplines = listOf(),
                                 minimumSpiritContribution = 5,
-                                language = "Swedish"),
+                                language = "Swedish",
+                                virtualRegistered = 3),
                         CircleDBO(
                                 name = "",
                                 description = "",
@@ -219,6 +221,35 @@ class CircleControllerTest {
         val response = testController.testServer.execute(request)
         val circles = ControllerUtil.stringToObjectList(String(response.body()), CircleDBO::class.java)
         assertThat(circles.size).isEqualTo(2)
+    }
+
+    /*****************
+     * getTotalRegistered *
+     *****************/
+    @Test
+    fun getTotalRegistered_status_200() {
+        setup()
+        val request = testController.testServer.get("/circle/registered/total/1", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(200)
+    }
+
+    @Test
+    fun getTotalRegistered_virtualRegistered_2() {
+        setup()
+        val request = testController.testServer.get("/circle/registered/total/1", false)
+        val response = testController.testServer.execute(request)
+        val registered = ControllerUtil.stringToObject(String(response.body()), RegisteredReport::class.java)
+        assertThat(registered.virtualRegistered).isEqualTo(3)
+    }
+
+    @Test
+    fun getTotalRegistered_practitionerRegistered_1() {
+        setup()
+        val request = testController.testServer.get("/circle/registered/total/1", false)
+        val response = testController.testServer.execute(request)
+        val registered = ControllerUtil.stringToObject(String(response.body()), RegisteredReport::class.java)
+        assertThat(registered.practitionersRegistered).isEqualTo(1)
     }
 
     /*************
@@ -465,7 +496,7 @@ class CircleControllerTest {
     }
 
     @Test
-    fun receipt_circleDescripition_CDesc() {
+    fun receipt_circleDescription_CDesc() {
         setup()
         val request = testController.testServer.get("/circle/receipt/c/c1", false)
         val response = testController.testServer.execute(request)

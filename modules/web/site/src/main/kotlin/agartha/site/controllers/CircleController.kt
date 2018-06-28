@@ -5,6 +5,7 @@ import agartha.data.objects.PractitionerDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.*
 import agartha.site.objects.response.CircleReport
+import agartha.site.objects.response.RegisteredReport
 import io.schinzel.basicutils.configvar.IConfigVar
 import spark.Request
 import spark.Response
@@ -40,6 +41,10 @@ class CircleController(
             // Get a list of all circles that a user is registered to
             Spark.before("/registered/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
             Spark.get("/registered/${ReqArgument.PRACTITIONER_ID.value}", ::getAllRegisteredForUser)
+            //
+            // Get a report for how many is registered to a specific circle
+            Spark.before("/registered/total/${ReqArgument.CIRCLE_ID.value}", ::validateCircle)
+            Spark.get("/registered/total/${ReqArgument.CIRCLE_ID.value}", ::getTotalRegistered)
             //
             // Add a circle to a practitioner
             Spark.before("/add/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
@@ -169,13 +174,29 @@ class CircleController(
         // Get practitioner from data source
         val practitioner: PractitionerDBO = getPractitioner(request)
         // Validate that practitioner exists and is the circle creator
-        val circle: CircleDBO = getCircle(request)
+        val circle: CircleDBO = getCircle(request, false)
         // Count points generated for this circle
         val logPoints = SpiritBankLogUtil.countLogPointsForCircle(practitioner.spiritBankLog, circle)
         // get all sessions in this circle
         val sessions = SessionUtil.getAllSessionsInCircle(mService.getAll(), circle._id)
         // Generate and return report/receipt
         return ControllerUtil.objectToString(CircleReport(circle, sessions, logPoints))
+    }
+
+    /**
+     * Get the total nr of registered adn return them in a registeredReport
+     *
+     * @return registeredReport as a string
+     */
+    @Suppress("UNUSED_PARAMETER")
+    private fun getTotalRegistered(request: Request, response: Response): String {
+        val circle: CircleDBO = getCircle(request, false)
+        // Get all practitioners
+        val practitioners = mService.getAll()
+        // Search for those practitioners that has this circle id in their registeredCircles
+        val practitionersRegistered = practitioners.filter { it.registeredCircles.contains(circle._id) }.size
+        // Create a report object and return it
+        return ControllerUtil.objectToString(RegisteredReport(circle.virtualRegistered, practitionersRegistered.toLong()))
     }
 
     /**
