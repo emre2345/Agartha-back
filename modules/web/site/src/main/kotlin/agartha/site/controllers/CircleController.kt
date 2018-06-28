@@ -43,9 +43,8 @@ class CircleController(
             Spark.get("/registered/${ReqArgument.PRACTITIONER_ID.value}", ::getAllRegisteredForUser)
             //
             // Get a report for how many is registered to a specific circle
-            Spark.before("/registered/total/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validatePractitioner)
-            Spark.before("/registered/total/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateCircle)
-            Spark.get("/registered/total/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::totalRegistered)
+            Spark.before("/registered/total/${ReqArgument.CIRCLE_ID.value}", ::validateCircle)
+            Spark.get("/registered/total/${ReqArgument.CIRCLE_ID.value}", ::getTotalRegistered)
             //
             // Add a circle to a practitioner
             Spark.before("/add/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
@@ -175,7 +174,7 @@ class CircleController(
         // Get practitioner from data source
         val practitioner: PractitionerDBO = getPractitioner(request)
         // Validate that practitioner exists and is the circle creator
-        val circle: CircleDBO = getCircle(request)
+        val circle: CircleDBO = getCircle(request, false)
         // Count points generated for this circle
         val logPoints = SpiritBankLogUtil.countLogPointsForCircle(practitioner.spiritBankLog, circle)
         // get all sessions in this circle
@@ -190,11 +189,11 @@ class CircleController(
      * @return registeredReport as a string
      */
     @Suppress("UNUSED_PARAMETER")
-    private fun totalRegistered(request: Request, response: Response): String {
-        val circle: CircleDBO = getCircle(request)
+    private fun getTotalRegistered(request: Request, response: Response): String {
+        val circle: CircleDBO = getCircle(request, false)
         // Get all practitioners
         val practitioners = mService.getAll()
-        // Search for those practitioners that has this circle id in their regsiteredCircles
+        // Search for those practitioners that has this circle id in their registeredCircles
         val practitionersRegistered = practitioners.filter { it.registeredCircles.contains(circle._id) }.size
         // Create a report object and return it
         return ControllerUtil.objectToString(RegisteredReport(circle.virtualRegistered, practitionersRegistered.toLong()))

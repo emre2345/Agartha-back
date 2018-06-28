@@ -33,7 +33,18 @@ abstract class AbstractController(private val mService: IPractitionerService) {
      */
     @Suppress("UNUSED_PARAMETER")
     fun validateCircle(request: Request, response: Response) {
-        val circle = getCircle(request)
+        val circle = getCircle(request, false)
+        if (circle._id.isEmpty()) {
+            halt(400, ErrorMessagesEnum.CIRCLE_NOT_ACTIVE_OR_EXIST.message)
+        }
+    }
+
+    /**
+     * Validate that the argument "circleid" does exist in datastore as is active
+     */
+    @Suppress("UNUSED_PARAMETER")
+    fun validateActiveCircle(request: Request, response: Response) {
+        val circle = getCircle(request, true)
         if (circle._id.isEmpty()) {
             halt(400, ErrorMessagesEnum.CIRCLE_NOT_ACTIVE_OR_EXIST.message)
         }
@@ -50,8 +61,11 @@ abstract class AbstractController(private val mService: IPractitionerService) {
 
     /**
      * Get the circle from id (if Exists)
+     * @param request api request
+     * @param checkActive boolean decides if it should check for active circles
+     * @return circle
      */
-    fun getCircle(request: Request): CircleDBO {
+    fun getCircle(request: Request, checkActive: Boolean): CircleDBO {
         // Get circle id from request
         val circleId: String = request.params(ReqArgument.CIRCLE_ID.value)
         // Find the circle
@@ -60,14 +74,17 @@ abstract class AbstractController(private val mService: IPractitionerService) {
                 .getAll()
                 // Get all circles from practitioner
                 .flatMap { it.circles }
-                // Filter out active
-                .filter { it.active() }
                 // Find the one with correct id
                 .find { it._id == circleId }
-
-        return circle ?: CircleDBO(_id = "", name = "", description = "",
-                startTime = DateTimeFormat.localDateTimeUTC(), endTime = DateTimeFormat.localDateTimeUTC(),
-                disciplines = listOf(), intentions = listOf(), minimumSpiritContribution = 0,
-                language = "")
+        // Check if active circles is the one we are looking for
+        return if(checkActive && circle != null && circle.active()){
+            circle
+        }else{
+            // Return the circle even if its not active, or new circle if its null
+            circle ?: CircleDBO(_id = "", name = "", description = "",
+                    startTime = DateTimeFormat.localDateTimeUTC(), endTime = DateTimeFormat.localDateTimeUTC(),
+                    disciplines = listOf(), intentions = listOf(), minimumSpiritContribution = 0,
+                    language = "")
+        }
     }
 }
