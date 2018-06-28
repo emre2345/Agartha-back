@@ -124,16 +124,6 @@ class AdminControllerTest {
     }
 
     @Test
-    fun addSessionExistingUser_storedSessionCount_1() {
-        prepopulate()
-        val request = testController.testServer.post(
-                "/admin/session/add/bbb/Meditation/Love", passPhrase, false)
-         testController.testServer.execute(request)
-        val p = mockedService.getById("bbb")
-        assertThat(mockedService.getById("bbb")!!.sessions.size).isEqualTo(1)
-    }
-
-    @Test
     fun addSessionNonExistingUser_responseStatus_400() {
         prepopulate()
         val request = testController.testServer.post(

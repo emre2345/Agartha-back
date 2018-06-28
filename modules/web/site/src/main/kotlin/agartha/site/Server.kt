@@ -49,10 +49,9 @@ fun startServer(args: Array<String>) {
                 SettingsService())
         // Controller/Service for Practitioners and Practitioners circles
         PractitionerController(
-                PractitionerService())
+                PractitionerService(), config)
         CircleController(
-                PractitionerService(),
-                config)
+                PractitionerService(), config)
         ImageController(
                 ImageService())
         // Controller/Service for Practitioner Companions
@@ -60,8 +59,7 @@ fun startServer(args: Array<String>) {
                 PractitionerService())
         // TODO: Admin stuff, this will manipulate database. Remove before sharp production mode
         AdminController(
-                PractitionerService(),
-                config,
+                PractitionerService(), config,
                 SettingsService().getAll().firstOrNull())
     }
 

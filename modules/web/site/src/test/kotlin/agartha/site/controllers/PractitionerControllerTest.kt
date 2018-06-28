@@ -7,6 +7,7 @@ import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.objects.response.PractitionerReport
+import io.schinzel.basicutils.configvar.IConfigVar
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.BeforeClass
@@ -19,6 +20,13 @@ import org.junit.Test
  */
 class PractitionerControllerTest {
 
+    class MockedConfig: IConfigVar {
+        override fun getValue(p0: String?): String {
+            return "100"
+        }
+
+    }
+
     companion object {
         val mockedService = MockedPractitionerService()
         val testController = ControllerServer()
@@ -26,7 +34,7 @@ class PractitionerControllerTest {
         @BeforeClass
         @JvmStatic
         fun setupClass() {
-            PractitionerController(mockedService)
+            PractitionerController(mockedService, MockedConfig())
             spark.Spark.awaitInitialization()
         }
     }
@@ -98,49 +106,52 @@ class PractitionerControllerTest {
     }
 
     /**
-     *
+     * Create Practitioner
      */
+
     @Test
     fun getInformation_emptyUserId_status200() {
-        val getRequest = testController.testServer.get("/practitioner", false)
-        val httpResponse = testController.testServer.execute(getRequest)
-        assertThat(httpResponse.code()).isEqualTo(200)
+        val request = testController.testServer.get("/practitioner", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(200)
     }
 
-    /**
-     *
-     */
     @Test
     fun getInformation_emptyUserId_userCreated() {
-        val getRequest = testController.testServer.get("/practitioner", false)
-        val httpResponse = testController.testServer.execute(getRequest)
-        val body = String(httpResponse.body())
+        val request = testController.testServer.get("/practitioner", false)
+        val response = testController.testServer.execute(request)
+        val body = String(response.body())
         // Map to Data object
         val data: PractitionerReport = ControllerUtil.stringToObject(body, PractitionerReport::class.java)
         assertThat(data.practitionerId?.length).isEqualTo(24)
     }
 
     /**
-     *
+     * Get By Id
      */
+
     @Test
-    fun getInformation_userId_userExists() {
+    fun getInformationUserExists_status_200() {
         // Setup
         mockedService.insert(PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf()))
         //
-        val getRequest = testController.testServer.get("/practitioner/abc", false)
-        val httpResponse = testController.testServer.execute(getRequest)
-        val body = String(httpResponse.body())
-        // Map to Data object
-        val data: PractitionerReport = ControllerUtil.stringToObject(body, PractitionerReport::class.java)
-        assertThat(data.practitionerId).isEqualTo("abc")
+        val request = testController.testServer.get("/practitioner/abc", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(200)
     }
 
-    /**
-     *
-     */
     @Test
-    fun getInformation_userId_C() {
+    fun getInformationUserMissing_status_400() {
+        // Setup
+        mockedService.insert(PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf()))
+        //
+        val request = testController.testServer.get("/practitioner/def", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
+    }
+
+    @Test
+    fun getInformationUserExists_userId_C() {
         setupReport()
         val getRequest = testController.testServer.get("/practitioner/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
@@ -150,11 +161,8 @@ class PractitionerControllerTest {
         assertThat(data.practitionerId).isEqualTo("c")
     }
 
-    /**
-     *
-     */
     @Test
-    fun getInformation_sessionTime_20() {
+    fun getInformationUserExists_sessionTime_20() {
         setupReport()
         val getRequest = testController.testServer.get("/practitioner/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
@@ -164,11 +172,8 @@ class PractitionerControllerTest {
         assertThat(data.lastSessionMinutes).isEqualTo(20)
     }
 
-    /**
-     *
-     */
     @Test
-    fun getInformation_totalSessionTime_65() {
+    fun getInformationUserExists_totalSessionTime_65() {
         setupReport()
         val getRequest = testController.testServer.get("/practitioner/c", false)
         val httpResponse = testController.testServer.execute(getRequest)
@@ -179,31 +184,68 @@ class PractitionerControllerTest {
     }
 
     /**
-     *
+     * Update Practitioner
      */
+
+
+    @Test
+    fun updatePractitionerUserExists_status_200() {
+        // Setup
+        mockedService.insert(PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf()))
+
+        val request = testController.testServer.post(
+                "/practitioner/abc",
+                """{"fullName":"Santa Claus","email":"santa@agartha.com","description":"Jag gillar yoga!" }""",
+                false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(200)
+    }
+
+    @Test
+    fun updatePractitionerUserDoesNotExists_status_400() {
+        // Setup
+        mockedService.insert(PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf()))
+
+        val request = testController.testServer.post(
+                "/practitioner/def",
+                """{"fullName":"Santa Claus","email":"santa@agartha.com","description":"Jag gillar yoga!" }""",
+                false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
+    }
+
     @Test
     fun updatePractitioner_insertedUser_updatedUserWithInvolvedInformation() {
         // Setup
         mockedService.insert(PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf()))
         //
-        val involvedInformation = PractitionerInvolvedInformation(
-                "Santa Clause",
-                "santa@agartha.com",
-                "Jag gillar yoga!")
-        //
-        val getRequest = testController.testServer.post(
+        val request = testController.testServer.post(
                 "/practitioner/abc",
-                ControllerUtil.objectToString(involvedInformation),
+                """{"fullName":"Santa Claus","email":"santa@agartha.com","description":"Jag gillar yoga!" }""",
                 false)
-        val httpResponse = testController.testServer.execute(getRequest)
-        val body = String(httpResponse.body())
+        val response = testController.testServer.execute(request)
+        val body = String(response.body())
         val data: PractitionerDBO = ControllerUtil.stringToObject(body, PractitionerDBO::class.java)
         assertThat(data._id).isEqualTo("abc")
     }
 
     /**
-     *
+     * Start Session
      */
+
+    @Test
+    fun startSessionValid_status_200() {
+        // Setup
+        mockedService.insert(PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf()))
+        //
+        val request = testController.testServer.post(
+                "/practitioner/session/start/abc",
+                "{\"discipline\":\"Yoga\",\"intention\":\"Salary raise\"}",
+                false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(200)
+    }
+
     @Test
     fun startSession_discipline_Yoga() {
         // Setup
@@ -221,7 +263,7 @@ class PractitionerControllerTest {
     }
 
     @Test
-    fun startSession_emptyDiscipline_status400() {
+    fun startSessionEmptyDiscipline_status_400() {
         // Setup
         mockedService.insert(PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf()))
         //
@@ -234,106 +276,51 @@ class PractitionerControllerTest {
         assertThat(response.code()).isEqualTo(400)
     }
 
-    /**
-     *
-     */
     @Test
-    fun endSession_response_pracSessionsEndTimeIsNotNull() {
+    fun startSessionEmptyIntention_status_400() {
+        // Setup
+        mockedService.insert(PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf()))
+        //
+        val request = testController.testServer.post(
+                "/practitioner/session/start/abc",
+                """{"discipline":"Meditation","intention":""}""",
+                false)
+        val response = testController.testServer.execute(request)
+        //
+        assertThat(response.code()).isEqualTo(400)
+    }
+
+    /**
+     * End Session
+     */
+
+    @Test
+    fun endSessionValid_status_200() {
         // Setup
         mockedService.insert(
                 PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf(
                         SessionDBO(null, "D", "I", DateTimeFormat.localDateTimeUTC()))))
 
-        val postRequest = testController.testServer.post("/practitioner/session/end/abc/8", "", false)
-        val httpResponse = testController.testServer.execute(postRequest)
-        val responseBody = String(httpResponse.body())
-        val prac = ControllerUtil.stringToObject(responseBody, PractitionerDBO::class.java)
-        assertThat(prac.sessions.last().endTime).isNotNull()
+        val request = testController.testServer.post("/practitioner/session/end/abc/8", "", false)
+        val response = testController.testServer.execute(request)
+       assertThat(response.code()).isEqualTo(200)
     }
 
-    /**
-     *
-     */
     @Test
-    fun endSession_response_pracSpiritBankLogHas8PointsInLastLog() {
+    fun endSessionUserMissing_status_400() {
         // Setup
         mockedService.insert(
                 PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf(
                         SessionDBO(null, "D", "I", DateTimeFormat.localDateTimeUTC()))))
 
-        val postRequest = testController.testServer.post("/practitioner/session/end/abc/8", "", false)
-        val httpResponse = testController.testServer.execute(postRequest)
-        val responseBody = String(httpResponse.body())
-        val prac = ControllerUtil.stringToObject(responseBody, PractitionerDBO::class.java)
-        assertThat(prac.spiritBankLog.last().points).isEqualTo(8)
+        val request = testController.testServer.post("/practitioner/session/end/def/8", "", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
     }
 
     /**
-     *
+     * Join Circle
      */
-    @Test
-    fun endSession_response_pracSpiritBankLogHasTypeSESSIONInLastLog() {
-        // Setup
-        mockedService.insert(
-                PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf(
-                        SessionDBO(null, "D", "I", DateTimeFormat.localDateTimeUTC()))))
-
-        val postRequest = testController.testServer.post("/practitioner/session/end/abc/8", "", false)
-        val httpResponse = testController.testServer.execute(postRequest)
-        val responseBody = String(httpResponse.body())
-        val prac = ControllerUtil.stringToObject(responseBody, PractitionerDBO::class.java)
-        assertThat(prac.spiritBankLog.last().type).isEqualTo(SpiritBankLogItemType.ENDED_SESSION)
-    }
-
-    /**
-     *
-     */
-    @Test
-    fun endSession_response_pracSpiritBankLogStoredOneNewLog() {
-        // Setup
-        mockedService.insert(
-                PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf(
-                        SessionDBO(null, "D", "I", DateTimeFormat.localDateTimeUTC()))))
-
-        val postRequest = testController.testServer.post("/practitioner/session/end/abc/8", "", false)
-        val httpResponse = testController.testServer.execute(postRequest)
-        val responseBody = String(httpResponse.body())
-        val prac = ControllerUtil.stringToObject(responseBody, PractitionerDBO::class.java)
-        assertThat(prac.spiritBankLog.size).isEqualTo(2)
-    }
-
-    /**
-     *
-     */
-    @Test
-    fun endSession_endedSessionInOwnCircle_spiritBankLogStoredType() {
-        val circle = CircleDBO(
-                name = "",
-                description = "",
-                startTime = DateTimeFormat.localDateTimeUTC(),
-                endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(15),
-                disciplines = listOf(),
-                intentions = listOf(),
-                minimumSpiritContribution = 4,
-                language = "Swedish")
-        // Setup prac with started session in own circle
-        mockedService.insert(
-                PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf(
-                        SessionDBO(null, "D", "I", DateTimeFormat.localDateTimeUTC(),
-                                circle = circle)),
-                        circles = listOf(circle)))
-        // Setup prac with started session in someone else circle
-        mockedService.insert(
-                PractitionerDBO("dfg", DateTimeFormat.localDateTimeUTC(), mutableListOf(
-                        SessionDBO(null, "D", "I", DateTimeFormat.localDateTimeUTC(),
-                                circle = circle))))
-
-        val postRequest = testController.testServer.post("/practitioner/session/end/abc/8", "", false)
-        val httpResponse = testController.testServer.execute(postRequest)
-        val responseBody = String(httpResponse.body())
-        val prac = ControllerUtil.stringToObject(responseBody, PractitionerDBO::class.java)
-        assertThat(prac.spiritBankLog.last().type).isEqualTo(SpiritBankLogItemType.ENDED_CREATED_CIRCLE)
-    }
 
     @Test
     fun joinCircle_missingParams_404() {
@@ -455,33 +442,6 @@ class PractitionerControllerTest {
         assertThat(response.code()).isEqualTo(400)
     }
 
-    @Test
-    fun joinCircle_sessionAdded_size1() {
-        // Insert the current user
-        mockedService.insert(PractitionerDBO(_id = "a"))
-        // Insert the creator of circle
-        mockedService.insert(PractitionerDBO(
-                _id = "b",
-                circles = listOf(CircleDBO(
-                        _id = "1",
-                        name = "MyCircle",
-                        description = "MyDescription",
-                        disciplines = listOf(DisciplineDBO("D", "D")),
-                        intentions = listOf(IntentionDBO("I", "I")),
-                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
-                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
-                        minimumSpiritContribution = 2,
-                        language = "Swedish"))))
-        // let user id a join session 1 from user b
-        val request = testController.testServer.post(
-                "/practitioner/circle/join/a/1",
-                """{"geolocation":null,"discipline":"D","intention":"I"}""",
-                false)
-        testController.testServer.execute(request)
-        // validate the data source
-        val practitioner = mockedService.getById("a")
-        assertThat(practitioner!!.sessions.size).isEqualTo(1)
-    }
 
     @Test
     fun joinCircle_addedSessionNotFinished_endTimeNull() {
@@ -588,116 +548,6 @@ class PractitionerControllerTest {
     }
 
     @Test
-    fun joinCircle_circleHasNoDiciplinesNoIntention_sessionStored() {
-        // Insert the current user
-        mockedService.insert(PractitionerDBO(_id = "a"))
-        // Insert the creator of circle
-        mockedService.insert(PractitionerDBO(
-                _id = "b",
-                circles = listOf(CircleDBO(
-                        _id = "1",
-                        name = "MyCircle",
-                        description = "MyDescription",
-                        disciplines = listOf(),
-                        intentions = listOf(),
-                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
-                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
-                        minimumSpiritContribution = 2,
-                        language = "Swedish"))))
-        val request = testController.testServer.post(
-                "/practitioner/circle/join/a/1",
-                """{"geolocation":null,"discipline":"D","intention":"I"}""",
-                false)
-        testController.testServer.execute(request)
-        // validate the data source
-        val practitioner = mockedService.getById("a")
-        assertThat(practitioner!!.sessions.size).isEqualTo(1)
-    }
-
-    @Test
-    fun joinCircle_circleHasNoDiciplinesNoIntention_disciplineStored() {
-        // Insert the current user
-        mockedService.insert(PractitionerDBO(_id = "a"))
-        // Insert the creator of circle
-        mockedService.insert(PractitionerDBO(
-                _id = "b",
-                circles = listOf(CircleDBO(
-                        _id = "1",
-                        name = "MyCircle",
-                        description = "MyDescription",
-                        disciplines = listOf(),
-                        intentions = listOf(),
-                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
-                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
-                        minimumSpiritContribution = 2,
-                        language = "Swedish"))))
-        val request = testController.testServer.post(
-                "/practitioner/circle/join/a/1",
-                """{"geolocation":null,"discipline":"D","intention":"I"}""",
-                false)
-        testController.testServer.execute(request)
-        // validate the data source
-        val practitioner = mockedService.getById("a")
-        assertThat(practitioner!!.sessions[0].discipline).isEqualTo("D")
-    }
-
-    @Test
-    fun joinCircle_circleHasNoDisciplinesNoIntention_intentionStored() {
-        // Insert the current user
-        mockedService.insert(PractitionerDBO(_id = "a"))
-        // Insert the creator of circle
-        mockedService.insert(PractitionerDBO(
-                _id = "b",
-                circles = listOf(CircleDBO(
-                        _id = "1",
-                        name = "MyCircle",
-                        description = "MyDescription",
-                        disciplines = listOf(),
-                        intentions = listOf(),
-                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
-                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
-                        minimumSpiritContribution = 2,
-                        language = "Swedish"))))
-        val request = testController.testServer.post(
-                "/practitioner/circle/join/a/1",
-                """{"geolocation":null,"discipline":"D","intention":"I"}""",
-                false)
-        testController.testServer.execute(request)
-        // validate the data source
-        val practitioner = mockedService.getById("a")
-        assertThat(practitioner!!.sessions[0].intention).isEqualTo("I")
-    }
-
-    @Test
-    fun joinCircle_circleCostContributionPointsFromSpiritBank_logItemStoredInSpiritBankLog() {
-        // Insert the current user
-        mockedService.insert(PractitionerDBO(_id = "a",
-                spiritBankLog = listOf(SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = SPIRIT_BANK_START_POINTS))))
-        // Insert the creator of circle
-        mockedService.insert(PractitionerDBO(
-                _id = "b",
-                circles = listOf(CircleDBO(
-                        _id = "1",
-                        name = "MyCircle",
-                        description = "MyDescription",
-                        disciplines = listOf(),
-                        intentions = listOf(),
-                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
-                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
-                        minimumSpiritContribution = 2,
-                        language = "Swedish"))))
-        val request = testController.testServer.post(
-                "/practitioner/circle/join/a/1",
-                """{"geolocation":null,"discipline":"D","intention":"I"}""",
-                false)
-        testController.testServer.execute(request)
-        // validate the data source
-        val practitioner = mockedService.getById("a")
-        assertThat(practitioner!!.spiritBankLog.last().type).isEqualTo(SpiritBankLogItemType.JOINED_CIRCLE)
-    }
-
-
-    @Test
     fun joinCircle_circleCostUserCannotAffordToJoinCircleResponseStatus_400() {
         // Insert the current user
         mockedService.insert(PractitionerDBO(_id = "a",
@@ -726,8 +576,9 @@ class PractitionerControllerTest {
     /**********************
      * register To Circle *
      **********************/
+
     @Test
-    fun registerToCircle_registerNewCircle_3() {
+    fun registerToCircleUserMissing_status_400() {
         // Insert the user with the circle
         mockedService.insert(PractitionerDBO(_id = "b",
                 circles = listOf(CircleDBO(
@@ -740,18 +591,16 @@ class PractitionerControllerTest {
                         endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
                         minimumSpiritContribution = 100,
                         language = "Swedish"))))
-        // Insert the current user
-        mockedService.insert(PractitionerDBO(_id = "a",
-                registeredCircles = listOf("1", "2")))
-
         val request = testController.testServer.post("/practitioner/circle/register/a/3", "", false)
         val response = testController.testServer.execute(request)
-        val responseBody = String(response.body())
-        val practitioner = ControllerUtil.stringToObject(responseBody, PractitionerDBO::class.java)
-        assertThat(practitioner.registeredCircles.size).isEqualTo(3)
+        assertThat(response.code()).isEqualTo(400)
     }
+
     @Test
-    fun registerToCircle_registerNonExistingCircle_2() {
+    fun registerToCircleCircleMissing_status_400() {
+        // Insert current cuser
+        mockedService.insert(PractitionerDBO(_id = "a",
+                registeredCircles = listOf()))
         // Insert the user with the circle
         mockedService.insert(PractitionerDBO(_id = "b",
                 circles = listOf(CircleDBO(
@@ -764,37 +613,103 @@ class PractitionerControllerTest {
                         endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
                         minimumSpiritContribution = 100,
                         language = "Swedish"))))
+        val request = testController.testServer.post("/practitioner/circle/register/a/4", "", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
+    }
+
+    @Test
+    fun registerToCircleValid_status_200() {
         // Insert the current user
         mockedService.insert(PractitionerDBO(_id = "a",
                 registeredCircles = listOf("1", "2")))
+        // Insert the user with the circle
+        mockedService.insert(PractitionerDBO(_id = "b",
+                circles = listOf(CircleDBO(
+                        _id = "3",
+                        name = "TheCircle",
+                        description = "TheDescription",
+                        disciplines = listOf(),
+                        intentions = listOf(),
+                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
+                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
+                        minimumSpiritContribution = 100,
+                        language = "Swedish"))))
+        val request = testController.testServer.post("/practitioner/circle/register/a/3", "", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(200)
+    }
+
+    @Test
+    fun registerToCircleValid_practitionerReturnedWithId_a() {
+        // Insert the current user
+        mockedService.insert(PractitionerDBO(_id = "a",
+                registeredCircles = listOf("1", "2")))
+        // Insert the user with the circle
+        mockedService.insert(PractitionerDBO(_id = "b",
+                circles = listOf(CircleDBO(
+                        _id = "3",
+                        name = "TheCircle",
+                        description = "TheDescription",
+                        disciplines = listOf(),
+                        intentions = listOf(),
+                        startTime = DateTimeFormat.localDateTimeUTC().minusMinutes(10),
+                        endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(10),
+                        minimumSpiritContribution = 100,
+                        language = "Swedish"))))
 
         val request = testController.testServer.post("/practitioner/circle/register/a/3", "", false)
         val response = testController.testServer.execute(request)
         val responseBody = String(response.body())
         val practitioner = ControllerUtil.stringToObject(responseBody, PractitionerDBO::class.java)
-        assertThat(practitioner.registeredCircles.size).isEqualTo(3)
+        assertThat(practitioner._id).isEqualTo("a")
     }
+
 
     /***********************
      * spirit Bank History *
      ***********************/
+
     @Test
-    fun spiritBankHistory_userHas3Logs_size3() {
-        // Insert the current user
-        mockedService.insert(PractitionerDBO(_id = "a",
-                spiritBankLog = listOf(
-                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = SPIRIT_BANK_START_POINTS),
-                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.ENDED_SESSION, points = 20),
-                        SpiritBankLogItemDBO(type = SpiritBankLogItemType.JOINED_CIRCLE, points = -10)
-                )))
+    fun spiritBankHistoryValid_status_200() {
+        // Setup
+        mockedService.insert(
+                PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf(
+                        SessionDBO(null, "D", "I", DateTimeFormat.localDateTimeUTC()))))
+
+        val request = testController.testServer.get("/practitioner/spiritbankhistory/abc", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(200)
+    }
+
+    @Test
+    fun spiritBankHistoryUserMissing_status_400() {
+        // Setup
+        mockedService.insert(
+                PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf(
+                        SessionDBO(null, "D", "I", DateTimeFormat.localDateTimeUTC()))))
 
         val request = testController.testServer.get("/practitioner/spiritbankhistory/a", false)
         val response = testController.testServer.execute(request)
-        val responseBody = String(response.body())
-        val history = ControllerUtil.stringToObjectList(responseBody, SpiritBankLogItemDBO::class.java)
-        assertThat(history.size).isEqualTo(3)
+        assertThat(response.code()).isEqualTo(400)
     }
 
+    @Test
+    fun spiritBankHistory_responseIsListOfSpritLogItemsWithSize_3() {
+        // Setup
+        mockedService.insert(
+                PractitionerDBO(
+                        _id ="abc",
+                        spiritBankLog = listOf(
+                                SpiritBankLogItemDBO(type = SpiritBankLogItemType.ADD_VIRTUAL_TO_CIRCLE, points = 50),
+                                SpiritBankLogItemDBO(type = SpiritBankLogItemType.ENDED_SESSION, points = 40),
+                                SpiritBankLogItemDBO(type = SpiritBankLogItemType.ENDED_CREATED_CIRCLE, points = 30))))
+
+        val request = testController.testServer.get("/practitioner/spiritbankhistory/abc", false)
+        val response = testController.testServer.execute(request)
+        val list = ControllerUtil.stringToObjectList(String(response.body()), SpiritBankLogItemDBO::class.java)
+        assertThat(list.size).isEqualTo(3)
+    }
 
     /*************************
      * find by Email address *

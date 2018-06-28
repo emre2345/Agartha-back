@@ -76,49 +76,10 @@ class PractitionerService : IPractitionerService {
 
     /**
      * End a practitioner session
-     * Observe: Session must be ended before the circle,
-     * (we calculate total contribution for a circle by using sessions ended before circle is ended)
+     * @param practitionerId identity of practitioner
+     * @param contributionPoints points to be awarded to practitioner
      */
-    override fun endSession(practitionerId: String, contributionPoints: Long): PractitionerDBO? {
-
-        // Get current practitioner
-        val practitioner: PractitionerDBO? = getById(practitionerId)
-        if (practitioner != null && practitioner.sessions.isNotEmpty()) {
-            // get the current session
-            val ongoingSession = practitioner.sessions.lastOrNull()
-            // If there is a matching practitioner with the session
-            if (ongoingSession != null) {
-                // Update the session with a endTime
-                updateSessionWithEndTimeNow(practitionerId)
-                // If the practitioner is in a circle that the practitioner is the creator of
-                if (ongoingSession.circle != null && practitioner.creatorOfCircle(ongoingSession.circle)) {
-                    // Calculate the total points for contribution
-                    val totalCalculatedContributionPoints = calculatePointsFromPractitionersJoiningCreatorsCircle(ongoingSession.circle, ongoingSession.startTime, contributionPoints)
-                    // Close the circle
-                    updateCircleWithEndTimeNow(practitionerId, ongoingSession.circle)
-                    // Push the points as a ended circle to the log
-                    pushObjectToPractitionersArray(practitionerId,
-                            PractitionersArraysEnum.SPIRIT_BANK_LOG,
-                            SpiritBankLogItemDBO(
-                                    type = SpiritBankLogItemType.ENDED_CREATED_CIRCLE,
-                                    points = totalCalculatedContributionPoints))
-                } else {
-                    // Push the points as a ended session to the log
-                    pushObjectToPractitionersArray(practitionerId,
-                            PractitionersArraysEnum.SPIRIT_BANK_LOG,
-                            SpiritBankLogItemDBO(
-                                    type = SpiritBankLogItemType.ENDED_SESSION,
-                                    points = contributionPoints))
-                }
-
-                // Return the new updated practitioner
-                return getById(practitionerId)
-            }
-        }
-        return practitioner
-    }
-
-    fun es(practitionerId: String, contributionPoints: Long): PractitionerDBO? {
+    override fun endSession(practitionerId: String, contributionPoints: Long) {
         val session = getLastSession(practitionerId)
         if (session != null) {
             // Update the session with a endTime
@@ -130,17 +91,26 @@ class PractitionerService : IPractitionerService {
                             type = SpiritBankLogItemType.ENDED_SESSION,
                             points = contributionPoints))
         }
-        // Return the new updated practitioner
-        return getById(practitionerId)
     }
 
-    fun ec(practitionerId: String) {
-        val practitioner: PractitionerDBO = getById(practitionerId) ?: PractitionerDBO()
-        val session = getLastSession(practitionerId)
-        if (session?.circle != null && practitioner.creatorOfCircle(session.circle)) {
-
+    /**
+     * End a practitioners circle by adding points
+     * @param practitionerId identity of practitioner
+     * @param contributionPoints points to be awarded to practitioner
+     */
+    override fun endCircle(practitionerId: String, creator: Boolean, circle: CircleDBO?, contributionPoints: Long) {
+        if (creator && circle != null) {
+            updateCircleWithEndTimeNow(practitionerId, circle)
         }
-
+        // if practitioner is creator or circle
+        if (contributionPoints > 0) {
+            // Push the points as a ended circle to the log
+            pushObjectToPractitionersArray(practitionerId,
+                    PractitionersArraysEnum.SPIRIT_BANK_LOG,
+                    SpiritBankLogItemDBO(
+                            type = SpiritBankLogItemType.ENDED_CREATED_CIRCLE,
+                            points = contributionPoints))
+        }
     }
 
 
@@ -219,7 +189,6 @@ class PractitionerService : IPractitionerService {
     }
 
 
-
     /**
      * Calculates the cost for adding virtual sessions to a circle
      * Makes sure the practitioner have those points in its bank
@@ -235,7 +204,7 @@ class PractitionerService : IPractitionerService {
         // Multiply the cost for adding a virtual session with the number of sessions that it wants to add
         val pointsToPay = COST_ADD_VIRTUAL_SESSION_POINTS * virtualRegistered
         // Practitioner needs to have pointsToPay in its bank
-        if(checkPractitionerCanAffordVirtualRegistered(practitioner, virtualRegistered)){
+        if (checkPractitionerCanAffordVirtualRegistered(practitioner, virtualRegistered)) {
             // Add a new log to the practitioners spirit bank log
             pushObjectToPractitionersArray(practitionerId,
                     PractitionersArraysEnum.SPIRIT_BANK_LOG,
@@ -252,7 +221,7 @@ class PractitionerService : IPractitionerService {
      * @param virtualRegistered the number of sessions the practitioner wants to add
      * @return true if practitioner can afford this many virtual registered
      */
-    override fun checkPractitionerCanAffordVirtualRegistered(practitioner: PractitionerDBO, virtualRegistered: Long): Boolean{
+    override fun checkPractitionerCanAffordVirtualRegistered(practitioner: PractitionerDBO, virtualRegistered: Long): Boolean {
         // Multiply the cost for adding a virtual session with the number of virtualRegistered that it wants to add
         val pointsToPay = COST_ADD_VIRTUAL_SESSION_POINTS * virtualRegistered
         // Does the practitioner afford to pay?
@@ -333,22 +302,6 @@ class PractitionerService : IPractitionerService {
                 Document("${MongoOperator.push}",
                         // Create Mongo Document to be added to sessions list
                         Document(objectName.value, item)))
-    }
-
-    /**
-     * Calculates the contribution points gathered from practitioners joining
-     * the circle that is in the ongoingSession for a practitioner
-     * And then adds the contributionPoints from the client(number of points from the endedSessions)
-     *
-     * @return number of contribution points
-     */
-    private fun calculatePointsFromPractitionersJoiningCreatorsCircle(circle: CircleDBO, startTime: LocalDateTime, contributionPoints: Long): Long {
-        // Find all practitioners that has a session with this circle and is started after practitioners session started
-        val sessionsInCircle: List<PractitionerDBO> = getAll().filter { it.hasSessionInCircleAfterStartTime(startTime, circle) }
-        // Number of practitioner that started a session in "my" circle and payed the minimumSpiritContribution
-        // will be multiplied by the minimumSpiritContribution
-        // then the contributionPoints from the ended sessions will be added
-        return (sessionsInCircle.size * circle.minimumSpiritContribution) + contributionPoints
     }
 
     private fun getLastSession(practitionerId: String): SessionDBO? {
