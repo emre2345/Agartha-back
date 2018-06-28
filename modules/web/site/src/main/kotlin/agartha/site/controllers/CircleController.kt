@@ -42,6 +42,11 @@ class CircleController(
             Spark.before("/registered/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
             Spark.get("/registered/${ReqArgument.PRACTITIONER_ID.value}", ::getAllRegisteredForUser)
             //
+            // Get a report for how many is registered to a specific circle
+            Spark.before("/registered/total/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validatePractitioner)
+            Spark.before("/registered/total/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateCircle)
+            Spark.get("/registered/total/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::totalRegistered)
+            //
             // Add a circle to a practitioner
             Spark.before("/add/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
             Spark.before("/add/${ReqArgument.PRACTITIONER_ID.value}", ::validateCreateCircle)
@@ -186,12 +191,13 @@ class CircleController(
      */
     @Suppress("UNUSED_PARAMETER")
     private fun totalRegistered(request: Request, response: Response): String {
+        val circle: CircleDBO = getCircle(request)
         // Get all practitioners
-
+        val practitioners = mService.getAll()
         // Search for those practitioners that has this circle id in their regsiteredCircles
-
+        val practitionersRegistered = practitioners.filter { it.registeredCircles.contains(circle._id) }.size
         // Create a report object and return it
-        return ControllerUtil.objectToString(RegisteredReport(1, 2))
+        return ControllerUtil.objectToString(RegisteredReport(circle.virtualRegistered, practitionersRegistered.toLong()))
     }
 
     /**
