@@ -40,7 +40,8 @@ abstract class AbstractController(private val mService: IPractitionerService) {
     }
 
     /**
-     * Validate that the argument "circleid" does exist in datastore as is active
+     * Validate that the argument "circleid" does exist in datastore
+     * and that the circle is active
      */
     @Suppress("UNUSED_PARAMETER")
     fun validateActiveCircle(request: Request, response: Response) {
@@ -78,16 +79,10 @@ abstract class AbstractController(private val mService: IPractitionerService) {
                 .getAll()
                 // Get all circles from practitioner
                 .flatMap { it.circles }
+                // Filter out active if there is a need to
+                .filter { checkActive && it.active() || !checkActive}
                 // Find the one with correct id
                 .find { it._id == circleId }
-        // Check if  the one we are looking for should be active
-        if (checkActive && circle != null) {
-            return if (circle.active()) {
-                circle
-            } else {
-                emptyCircle
-            }
-        }
         // Return the circle even if its not active, or empty circle if its null
         return circle ?: emptyCircle
     }

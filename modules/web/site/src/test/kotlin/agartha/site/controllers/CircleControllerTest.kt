@@ -496,7 +496,7 @@ class CircleControllerTest {
     }
 
     @Test
-    fun receipt_circleDescripition_CDesc() {
+    fun receipt_circleDescription_CDesc() {
         setup()
         val request = testController.testServer.get("/circle/receipt/c/c1", false)
         val response = testController.testServer.execute(request)
