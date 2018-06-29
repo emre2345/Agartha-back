@@ -63,6 +63,8 @@ fun startServer(args: Array<String>) {
                 PractitionerService(),
                 config,
                 SettingsService().getAll().firstOrNull())
+        // TODO: Experimental
+        AudioController()
     }
 
     // Add Paths for Monitoring - No need to have CORS since this should be called from Monitoring tool fx Pingdom
