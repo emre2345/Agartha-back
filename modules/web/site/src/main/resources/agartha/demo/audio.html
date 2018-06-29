@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>OpenTok Test page</title>
+    <!-- Latest compiled and minified CSS -->
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
+    <!-- JavaScript library -->
+    <script type="text/javascript" src="//unpkg.com/jquery@3.2.1/dist/jquery.js"></script>
+    <script type="text/javascript" src="//unpkg.com/vue@2.5.13/dist/vue.js"></script>
+
+    <script type="text/javascript" src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+    <script type="text/javascript" src="//unpkg.com/tether@latest/dist/js/tether.min.js"></script>
+    <script type="text/javascript" src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+
+    <script src="https://static.opentok.com/v2/js/opentok.min.js"></script>
+
+    <script type="text/javascript">
+
+
+        function BroadCastStuff(obj) {
+            // Initialize an OpenTok Session object
+            var session = OT.initSession(obj.apiKey, obj.sessionId);
+            // Initialize a Publisher, and place it into the element with id="publisher"
+            var publisher = OT.initPublisher('publisher');
+
+            // Attach an event handler for when the session dispatches the 'streamCreated' event.
+            session.on('streamCreated', function(event) {
+                // This function runs when another client publishes a stream (eg. session.publish())
+                // Subscribe to the stream that caused this event, put it inside the DOM element with id='subscribers'
+                session.subscribe(event.stream, 'subscribers', {
+                    insertMode: 'append'
+                }, function(error) {
+                    if (error) {
+                        console.error('Failed to subscribe', error);
+                    }
+                });
+            });
+
+            // Connect to the Session using the 'apiKey' of the application and a 'token' for permission
+            session.connect(obj.token, function(error) {
+                // This function runs when session.connect() asynchronously completes
+
+                // Handle connection errors
+                if (error) {
+                    console.error('Failed to connect', error);
+                } else {
+                    // Publish the publisher we initialzed earlier (this will trigger 'streamCreated' on other clients)
+                    session.publish(publisher, function(error) {
+                        if (error) {
+                            console.error('Failed to publish', error);
+                        }
+                    });
+                }
+            });
+        }
+
+
+        $(document).ready(function (e) {
+
+            var mVue = new Vue({
+                el: "#vue-app",
+                data: function() {
+                    return {
+                        currentChannel: {
+                            apiKey: "",
+                            sessionId: "",
+                            token: ""
+                        },
+                        channelIds: [],
+                        broadcast: null
+                    }
+                },
+                beforeCreate: function() {
+                    this.getChannels();
+                },
+                methods: {
+                    askServer: function() {
+                        $.ajax({
+                            url: url,
+                            type: type,
+                            data: data,
+                            contentType: false,
+                            cache: false,
+                            processData: false,
+                            success: function(response) {
+                                callback(JSON.parse(response));
+                            }
+                        });
+                    },
+                    generateChannel: function(event) {
+                        event.preventDefault();
+                        var that = this;
+
+                        that.askServer(
+                            "http://localhost:5555/v1/audio/generate",
+                            "GET",
+                            {},
+                            function(response) {
+                                that.currentChannel = response;
+                                that.channelIds.push(response.sessionId);
+                                this.broadcast = new BroadCastStuff(response);
+                            });
+                    },
+                    getChannels: function(event) {
+                        event.preventDefault();
+                        var that = this;
+
+                        that.askServer(
+                            "http://localhost:5555/v1/audio/channels",
+                            "GET",
+                            {},
+                            function(response) {
+                                that.channelIds = response;
+                            });
+                    },
+                    getChannel: function(channel) {
+                        //event.preventDefault();
+                        var that = this;
+
+                        that.askServer(
+                            "http://localhost:5555/v1/audio/channel/" + channel,
+                            "GET",
+                            {},
+                            function(response) {
+                                this.broadcast = new BroadCastStuff(response);
+                            });
+                    }
+                }
+
+            });
+        });
+
+    </script>
+</head>
+<body>
+
+<div id="vue-app">
+
+    <b-card-group deck class="mb-3">
+
+        <b-card title="Broadcast" border-variant="primary"
+                header-tag="header" header-bg-variant="primary" header-text-variant="white">
+            <h6 slot="header" class="mb-0">Start sending</h6>
+            <p class="card-text">
+                <div>API Key: {{currentChannel.apiKey}}</div>
+                <div>Session ID: {{currentChannel.sessionId}}</div>
+                <div>Token: {{currentChannel.token}}</div>
+            </p>
+            <b-button @click="generateSession" variant="primary">Start</b-button>
+        </b-card>
+
+        <b-card title="Listen" border-variant="success"
+                header-tag="header" header-bg-variant="success" header-text-variant="white">
+            <h6 slot="header" class="mb-0">Available channels</h6>
+            <p class="card-text">
+                <div v-for="channel in channelIds"><b-button @click="getChannel(channel)" variant="primary">Listen</b-button> {{channel}}</div>
+            </p>
+        </b-card>
+
+    </b-card-group>
+
+    <br/>
+    <h4>Debug stuff</h4>
+    <div id="publisher"></div>
+    <div id="subscribers"></div>
+</div>
+
+</body>
+</html>
