@@ -12,7 +12,6 @@ import agartha.site.controllers.utils.ReqArgument
 import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.objects.request.StartSessionInformation
 import agartha.site.objects.response.PractitionerReport
-import io.schinzel.basicutils.configvar.ConfigVar
 import io.schinzel.basicutils.configvar.IConfigVar
 import org.bson.types.ObjectId
 import spark.Request
@@ -205,21 +204,21 @@ class PractitionerController(private val mService: IPractitionerService, private
         // Get practitioner from data source
         val practitioner: PractitionerDBO = getPractitioner(request)
         // object to calculate points to be awarded to practitioner
-        val sessonEnd = EndSession(
+        val sessionEnd = EndSession(
                 practitioner,
                 mService.getAll(),
                 request.params(ReqArgument.POINTS.value).toLong(),
                 config.getValue("A_CONTRIBUTION_PERCENT").toLong())
         //
         mService.endSession(
-                practitionerId = sessonEnd.practitionerId,
-                contributionPoints = sessonEnd.contributionPoints)
+                practitionerId = sessionEnd.practitionerId,
+                contributionPoints = sessionEnd.contributionPoints)
         mService.endCircle(
-                practitionerId = sessonEnd.practitionerId,
-                creator = sessonEnd.creator,
-                circle = sessonEnd.circle,
-                contributionPoints = sessonEnd.circlePoints)
-        return ControllerUtil.objectToString(mService.getById(sessonEnd.practitionerId))
+                practitionerId = sessionEnd.practitionerId,
+                creator = sessionEnd.creator,
+                circle = sessionEnd.circle,
+                contributionPoints = sessionEnd.circlePoints)
+        return ControllerUtil.objectToString(mService.getById(sessionEnd.practitionerId))
     }
 
     /**
