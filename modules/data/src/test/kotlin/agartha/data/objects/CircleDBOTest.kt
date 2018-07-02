@@ -23,7 +23,8 @@ class CircleDBOTest {
                     DisciplineDBO("Discipline 2", "Discipline 2")),
             minimumSpiritContribution = 12L,
             language = "Swedish",
-            virtualRegistered = 3)
+            virtualRegistered = 3,
+            feedBack = listOf(2,3,4))
 
     @Test
     fun circle_name_CircleName() {
@@ -73,6 +74,11 @@ class CircleDBOTest {
     @Test
     fun circle_language_swedish() {
         assertThat(circle.language).isEqualTo("Swedish")
+    }
+
+    @Test
+    fun circle_feedbackLastValue_4() {
+        assertThat(circle.feedBack.last()).isEqualTo(4)
     }
 
     @Test
