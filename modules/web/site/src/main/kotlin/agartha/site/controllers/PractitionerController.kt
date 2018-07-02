@@ -6,11 +6,14 @@ import agartha.data.objects.PractitionerDBO
 import agartha.data.objects.SessionDBO
 import agartha.data.services.IPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
+import agartha.site.controllers.utils.EndSession
 import agartha.site.controllers.utils.ErrorMessagesEnum
 import agartha.site.controllers.utils.ReqArgument
 import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.objects.request.StartSessionInformation
 import agartha.site.objects.response.PractitionerReport
+import io.schinzel.basicutils.configvar.ConfigVar
+import io.schinzel.basicutils.configvar.IConfigVar
 import org.bson.types.ObjectId
 import spark.Request
 import spark.Response
@@ -24,7 +27,7 @@ import spark.Spark.halt
  *
  * @param mService object for reading data from data source
  */
-class PractitionerController(private val mService: IPractitionerService) : AbstractController(mService) {
+class PractitionerController(private val mService: IPractitionerService, private val config: IConfigVar) : AbstractController(mService) {
 
     init {
         // API path for session
@@ -201,10 +204,22 @@ class PractitionerController(private val mService: IPractitionerService) : Abstr
     private fun endSession(request: Request, response: Response): String {
         // Get practitioner from data source
         val practitioner: PractitionerDBO = getPractitioner(request)
-        val contributionPoints: Long = request.params(ReqArgument.POINTS.value).toLong()
-        // Stop the last session for practitioner with the total gathered contributionPoints
-        // Return the updated practitioner
-        return ControllerUtil.objectToString(mService.endSession(practitioner._id ?: "", contributionPoints))
+        // object to calculate points to be awarded to practitioner
+        val sessonEnd = EndSession(
+                practitioner,
+                mService.getAll(),
+                request.params(ReqArgument.POINTS.value).toLong(),
+                config.getValue("A_CONTRIBUTION_PERCENT").toLong())
+        //
+        mService.endSession(
+                practitionerId = sessonEnd.practitionerId,
+                contributionPoints = sessonEnd.contributionPoints)
+        mService.endCircle(
+                practitionerId = sessonEnd.practitionerId,
+                creator = sessonEnd.creator,
+                circle = sessonEnd.circle,
+                contributionPoints = sessonEnd.circlePoints)
+        return ControllerUtil.objectToString(mService.getById(sessonEnd.practitionerId))
     }
 
     /**

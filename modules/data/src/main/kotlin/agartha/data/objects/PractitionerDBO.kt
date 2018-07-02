@@ -77,7 +77,7 @@ data class PractitionerDBO(
     /**
      * Check if practitioner is a creator of a specific circle
      */
-    fun creatorOfCircle(circle: CircleDBO): Boolean {
+    fun creatorOfCircle(circle: CircleDBO?): Boolean {
         return this.circles.contains(circle)
     }
 
