@@ -27,7 +27,7 @@ fun startServer(args: Array<String>) {
     // Static files for demo and test purpose only
     // Copied from agartha-front project, platforms/browser/www folder on 2018-05-25
     // TODO: Remove this line and all files in resources before production
-    Spark.staticFiles.location("/agartha/www")
+    Spark.staticFiles.location("/agartha/demo")
 
     // Start WebSocket
     webSocket("/websocket", WebSocketHandler::class.java)
@@ -61,6 +61,8 @@ fun startServer(args: Array<String>) {
         AdminController(
                 PractitionerService(), config,
                 SettingsService().getAll().firstOrNull())
+        // TODO: Experimental
+        AudioController()
     }
 
     // Add Paths for Monitoring - No need to have CORS since this should be called from Monitoring tool fx Pingdom
