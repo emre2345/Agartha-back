@@ -23,7 +23,9 @@ data class CircleDBO(
         val minimumSpiritContribution: Long,
         val language: String,
         // Number of virtual registered to this circle
-        val virtualRegistered: Long = 0) {
+        val virtualRegistered: Long = 0,
+        // Feedback in the form of numbers, the range is decided by the client
+        val feedback: List<Long> = emptyList()) {
 
     /**
      * Function to see if circle is active at this moment

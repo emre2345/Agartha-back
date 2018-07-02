@@ -144,6 +144,7 @@ class PractitionerDBOTest {
      * has Session In Circle After Start Time *
      ******************************************/
     val circle = CircleDBO(
+            _id = "1",
             name = "Circle name",
             description = "Circle description",
             startTime = DateTimeFormat.localDateTimeUTC(),
@@ -153,6 +154,7 @@ class PractitionerDBOTest {
             minimumSpiritContribution = 12L,
             language = "Swedish")
     val circle2 = CircleDBO(
+            _id = "2",
             name = "Circle name2",
             description = "Circle description2",
             startTime = DateTimeFormat.localDateTimeUTC(),
@@ -296,7 +298,25 @@ class PractitionerDBOTest {
                                 endTime = DateTimeFormat.localDateTimeUTC())))
         assertThat(practitioner.hasOngoingSession()).isFalse()
     }
-
+    /*********************
+     * creator of circle *
+     *********************/
+    val practitioner = PractitionerDBO(
+            _id = "abc",
+            created = DateTimeFormat.localDateTimeUTC().minusMinutes(21),
+            circles = listOf(circle))
+    @Test
+    fun creatorOfCircle_isCreator_true() {
+        assertThat(practitioner.creatorOfCircle(circle)).isTrue()
+    }
+    @Test
+    fun creatorOfCircle_isNotCreator_false() {
+        assertThat(practitioner.creatorOfCircle(circle2)).isFalse()
+    }
+    @Test
+    fun creatorOfCircle_circleDoesNotExist_false() {
+        assertThat(practitioner.creatorOfCircle(null)).isFalse()
+    }
     /*******************
      * Spirit bank log *
      *******************/
