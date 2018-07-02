@@ -101,10 +101,11 @@ class PractitionerService : IPractitionerService {
      * @param contributionPoints points to be awarded to practitioner
      */
     override fun endCircle(practitionerId: String, creator: Boolean, circle: CircleDBO?, contributionPoints: Long) {
+        // if practitioner is creator or circle
         if (creator && circle != null) {
             updateCircleWithEndTimeNow(practitionerId, circle)
         }
-        // if practitioner is creator or circle
+        // If we are adding points to practitioner for ending circle
         if (contributionPoints > 0) {
             // Push the points as a ended circle to the log
             pushObjectToPractitionersArray(practitionerId,
