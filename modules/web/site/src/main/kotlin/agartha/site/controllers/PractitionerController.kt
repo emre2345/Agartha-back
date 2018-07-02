@@ -221,7 +221,7 @@ class PractitionerController(private val mService: IPractitionerService, private
                 creator = sessionEnd.creator,
                 circle = sessionEnd.circle,
                 contributionPoints = sessionEnd.circlePoints,
-                feedBackPoints = feedBackPoints)
+                feedbackPoints = feedBackPoints)
         return ControllerUtil.objectToString(mService.getById(sessionEnd.practitionerId))
     }
 

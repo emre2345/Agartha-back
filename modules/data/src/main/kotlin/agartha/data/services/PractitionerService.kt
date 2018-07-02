@@ -107,7 +107,7 @@ class PractitionerService : IPractitionerService {
             creator: Boolean,
             circle: CircleDBO?,
             contributionPoints: Long,
-            feedBackPoints: Long?) {
+            feedbackPoints: Long?) {
         // if practitioner is creator or circle
         if (creator && circle != null) {
             updateCircleWithEndTimeNow(practitionerId, circle)
@@ -122,7 +122,7 @@ class PractitionerService : IPractitionerService {
                             points = contributionPoints))
         }
         // If the circle got any feedback then push the feedback to the list
-        if(feedBackPoints != null && circle != null){
+        if(feedbackPoints != null && circle != null){
             // Get creator of circle
             val creatorOfCircle: PractitionerDBO? = getCreatorOfCircle(circle)
             if (creatorOfCircle?._id != null){
@@ -134,7 +134,7 @@ class PractitionerService : IPractitionerService {
                     collection.updateOneById(
                             creatorOfCircle._id,
                             Document("${MongoOperator.push}",
-                                    Document("${PractitionersArraysEnum.CIRCLES.value}.$index.feedback", feedBackPoints)))
+                                    Document("${PractitionersArraysEnum.CIRCLES.value}.$index.feedback", feedbackPoints)))
                 }
             }
         }
@@ -339,7 +339,9 @@ class PractitionerService : IPractitionerService {
      * @return practitioner that is creator of circle
      */
     private fun getCreatorOfCircle(circle: CircleDBO): PractitionerDBO? {
-        return getAll().firstOrNull { it.circles.contains(circle) }
+        return getAll().firstOrNull {
+            // Find the circle with the right _id
+            it.circles.firstOrNull { it._id == circle._id } != null }
     }
 
     /**

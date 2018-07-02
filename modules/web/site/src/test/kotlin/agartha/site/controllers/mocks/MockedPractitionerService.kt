@@ -1,7 +1,6 @@
 package agartha.site.controllers.mocks
 
 import agartha.common.config.Settings
-import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.*
 import agartha.data.services.IPractitionerService
 
@@ -96,7 +95,7 @@ class MockedPractitionerService : IPractitionerService {
     }
 
 
-    override fun endCircle(practitionerId: String, creator: Boolean, circle: CircleDBO?, contributionPoints: Long) {
+    override fun endCircle(practitionerId: String, creator: Boolean, circle: CircleDBO?, contributionPoints: Long, feedbackPoints: Long?) {
 
     }
 
