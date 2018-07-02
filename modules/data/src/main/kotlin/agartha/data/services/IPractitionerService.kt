@@ -40,7 +40,10 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      * @param practitionerId id for user ending a session
      */
     fun endSession(
-            practitionerId: String, contributionPoints: Long): PractitionerDBO?
+            practitionerId: String, contributionPoints: Long)
+
+    fun endCircle(
+            practitionerId: String, creator: Boolean, circle: CircleDBO?, contributionPoints: Long)
 
     /**
      * Add a circle id to a practitioner's registered circles array

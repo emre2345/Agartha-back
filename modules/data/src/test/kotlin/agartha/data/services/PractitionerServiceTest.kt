@@ -147,8 +147,9 @@ class PractitionerServiceTest : DatabaseHandler() {
      ***************/
     @Test
     fun endSession_userIdMissing_false() {
-        val response = PractitionerService().endSession("AnIdNotExisting", 0)
-        assertThat(response).isNull()
+        PractitionerService().endSession("AnIdNotExisting", 0)
+        val item = PractitionerService().getById("AnIdNotExisting")
+        assertThat(item).isNull()
     }
 
     /**
@@ -159,8 +160,9 @@ class PractitionerServiceTest : DatabaseHandler() {
         val user = PractitionerDBO()
         // Insert a new practising user
         val practitioner = PractitionerService().insert(user)
-        val response = PractitionerService().endSession(practitioner._id!!, 0)
-        assertThat(response).isEqualTo(practitioner)
+        PractitionerService().endSession(practitioner._id!!, 0)
+        val item = PractitionerService().getById(practitioner._id!!)
+        assertThat(item).isEqualTo(practitioner)
     }
 
     /**
@@ -173,8 +175,9 @@ class PractitionerServiceTest : DatabaseHandler() {
         val practitioner = PractitionerService().insert(user)
         // Insert sessions
         PractitionerService().startSession(practitioner, SessionDBO(null, "Test 1", "Testing 1"))
-        val response = PractitionerService().endSession(practitioner._id!!, 0)
-        assertThat(response!!.sessions.last().endTime).isNotNull()
+        PractitionerService().endSession(practitioner._id!!, 0)
+        val item = PractitionerService().getById(practitioner._id!!)
+        assertThat(item!!.sessions.last().endTime).isNotNull()
     }
 
     /**
@@ -321,6 +324,7 @@ class PractitionerServiceTest : DatabaseHandler() {
                 circle = circle))
         // End session for circle creator
         PractitionerService().endSession("a", 7)
+        PractitionerService().endCircle("a", true, circle, 40)
         // Get from database
         val item = PractitionerService().getById("a")
         assertThat(item!!.spiritBankLog.last().type).isEqualTo(SpiritBankLogItemType.ENDED_CREATED_CIRCLE)
@@ -362,6 +366,7 @@ class PractitionerServiceTest : DatabaseHandler() {
                 circle = circle))
         // End session for circle creator
         PractitionerService().endSession("a", 7)
+        PractitionerService().endCircle("a", true, circle,10)
         // Get from database
         val item = PractitionerService().getById("a")
         assertThat(item!!.spiritBankLog.last().points).isEqualTo(10)
@@ -395,6 +400,7 @@ class PractitionerServiceTest : DatabaseHandler() {
                 circle = circle))
         // End session for circle creator
         PractitionerService().endSession("a", 7)
+        PractitionerService().endCircle("a", true, circle, 14)
         // Get from database
         val updatedPractitioner = PractitionerService().getById("a")
         assertThat(updatedPractitioner!!.circles[0].endTime).isNotEqualTo(circleEndTime)
@@ -411,6 +417,23 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert sessions
         PractitionerService().startSession(practitioner, SessionDBO(null, "Test 1", "Testing 1"))
         PractitionerService().endSession(practitioner._id!!, 7)
+        // Get from database
+        val item = PractitionerService().getById(practitioner._id!!)
+        assertThat(item!!.spiritBankLog.size).isEqualTo(2)
+    }
+
+    /**
+     *
+     */
+    @Test
+    fun endSession_onlyNonZeroShouldBeStored_storedOneNewLog() {
+        val user = PractitionerDBO()
+        // Insert a new practising user
+        val practitioner = PractitionerService().insert(user)
+        // Insert sessions
+        PractitionerService().startSession(practitioner, SessionDBO(null, "Test 1", "Testing 1"))
+        PractitionerService().endSession(practitioner._id!!, 7)
+        PractitionerService().endCircle(practitioner._id!!, false, null, 0)
         // Get from database
         val item = PractitionerService().getById(practitioner._id!!)
         assertThat(item!!.spiritBankLog.size).isEqualTo(2)
