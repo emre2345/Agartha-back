@@ -125,7 +125,11 @@
                             success: function(response) {
                                 that.lastResponse = response;
                                 console.warn("Response: " + response);
-                                callback(JSON.parse(response));
+                                if (typeof response === "string") {
+                                    callback(response);
+                                } else {
+                                    callback(JSON.parse(response));
+                                }
                             }
                         });
                     },
