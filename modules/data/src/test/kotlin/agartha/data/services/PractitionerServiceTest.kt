@@ -453,16 +453,20 @@ class PractitionerServiceTest : DatabaseHandler() {
                 intentions = listOf(),
                 minimumSpiritContribution = 4,
                 language = "Swedish")
-        val user = PractitionerDBO(circles = listOf(insertCircle))
+        // Insert and start session for Circle Creator
+        val circleCreator = PractitionerDBO(circles = listOf(insertCircle))
+        val insertCircleCreator = PractitionerService().insert(circleCreator)
+        PractitionerService().startSession(insertCircleCreator, SessionDBO(null, "Test 1", "Testing 1", circle = insertCircle))
         // Insert a new practising user
+        val user = PractitionerDBO()
         val insertPractitioner = PractitionerService().insert(user)
-        // Insert sessions
-        PractitionerService().startSession(insertPractitioner, SessionDBO(null, "Test 1", "Testing 1"))
+        // Insert sessions for practising user
+        PractitionerService().startSession(insertPractitioner, SessionDBO(null, "Test 1", "Testing 1", circle = insertCircle))
         PractitionerService().endSession(insertPractitioner._id!!, 7)
         PractitionerService().endCircle(insertPractitioner._id!!, false, insertCircle, 0, 5)
         // Get from database
-        val practitioner = PractitionerService().getById(insertPractitioner._id!!)
-        val circle = practitioner!!.circles.lastOrNull()
+        val creator = PractitionerService().getById(insertCircleCreator._id!!)
+        val circle = creator!!.circles.lastOrNull()
         assertThat(circle!!.feedback.lastOrNull()).isEqualTo(5)
     }
 

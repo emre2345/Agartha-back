@@ -123,15 +123,19 @@ class PractitionerService : IPractitionerService {
         }
         // If the circle got any feedback then push the feedback to the list
         if(feedBackPoints != null && circle != null){
-            // Get index of the circle that we want to push the points to its feedback list
-            val index = getIndexOfCircleForPractitioner(practitionerId, circle)
-            // If we have a the circle we are looking for
-            if (index >= 0) {
-                // Push the points to the feedback list for this circle
-                collection.updateOneById(
-                        practitionerId,
-                        Document("${MongoOperator.push}",
-                                Document("${PractitionersArraysEnum.CIRCLES.value}.$index.feedback", feedBackPoints)))
+            // Get creator of circle
+            val creatorOfCircle: PractitionerDBO? = getCreatorOfCircle(circle)
+            if (creatorOfCircle?._id != null){
+                // Get index of the circle that we want to push the points to its feedback list
+                val index = getIndexOfCircleForPractitioner(creatorOfCircle._id, circle)
+                // If we have a the circle we are looking for
+                if (index >= 0) {
+                    // Push the points to the feedback list for this circle
+                    collection.updateOneById(
+                            creatorOfCircle._id,
+                            Document("${MongoOperator.push}",
+                                    Document("${PractitionersArraysEnum.CIRCLES.value}.$index.feedback", feedBackPoints)))
+                }
             }
         }
     }
@@ -330,7 +334,18 @@ class PractitionerService : IPractitionerService {
     }
 
     /**
+     * Get the creator of a circle
+     * @param circle that the creator should have in its circles
+     * @return practitioner that is creator of circle
+     */
+    private fun getCreatorOfCircle(circle: CircleDBO): PractitionerDBO? {
+        return getAll().firstOrNull { it.circles.contains(circle) }
+    }
+
+    /**
      * Get the index of a circle in the practitioners circle-list
+     * @param practitionerId id of the practitioner that owns the circle
+     * @param circle circle we are looking for index
      * @return int - the circles index in the list
      */
     private fun getIndexOfCircleForPractitioner(practitionerId: String, circle: CircleDBO): Int {

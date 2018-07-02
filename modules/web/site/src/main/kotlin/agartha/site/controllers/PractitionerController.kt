@@ -55,9 +55,9 @@ class PractitionerController(private val mService: IPractitionerService, private
             //
             // Start practicing by Joining a Circle
             Spark.before("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validatePractitioner)
-            //Spark.before("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateSessionStart)
-            //Spark.before("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateActiveCircle)
-            //Spark.before("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateJoinCircle)
+            Spark.before("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateSessionStart)
+            Spark.before("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateActiveCircle)
+            Spark.before("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateJoinCircle)
             Spark.post("/circle/join/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::joinCircle)
             //
             // Registered practitioner interest to a circle
