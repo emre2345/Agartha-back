@@ -93,7 +93,9 @@ class PractitionerService : IPractitionerService {
     }
 
     /**
-     * End a practitioners circle by adding points
+     * End a practitioners circle by adding points to practitioner
+     * and if creator end circle
+     * and push feedback from practitioner to circle-creators circle
      * @param practitionerId identity of practitioner
      * @param creator is above practitioner id creator of circle
      * @param circle circle to end
