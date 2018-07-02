@@ -8,5 +8,6 @@ enum class PractitionersArraysEnum(val value: String) {
     SESSIONS("sessions"),
     SPIRIT_BANK_LOG("spiritBankLog"),
     REGISTERED_CIRCLES("registeredCircles"),
+    // Feedback in the practitioner's circle obj
     FEEDBACK("feedback")
 }

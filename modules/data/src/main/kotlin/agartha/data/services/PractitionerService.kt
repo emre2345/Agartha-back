@@ -339,9 +339,10 @@ class PractitionerService : IPractitionerService {
      * @return practitioner that is creator of circle
      */
     private fun getCreatorOfCircle(circle: CircleDBO): PractitionerDBO? {
+        // Go through all the practitioners
         return getAll().firstOrNull {
-            // Find the circle with the right _id
-            it.circles.firstOrNull { it._id == circle._id } != null }
+            // Is practitioner creator of this circle?
+            it.creatorOfCircle(circle) }
     }
 
     /**
