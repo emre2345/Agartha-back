@@ -24,7 +24,7 @@ class CircleDBOTest {
             minimumSpiritContribution = 12L,
             language = "Swedish",
             virtualRegistered = 3,
-            feedBack = listOf(2,3,4))
+            feedback = listOf(2,3,4))
 
     @Test
     fun circle_name_CircleName() {
@@ -78,7 +78,7 @@ class CircleDBOTest {
 
     @Test
     fun circle_feedbackLastValue_4() {
-        assertThat(circle.feedBack.last()).isEqualTo(4)
+        assertThat(circle.feedback.last()).isEqualTo(4)
     }
 
     @Test

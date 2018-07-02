@@ -8,7 +8,6 @@ import agartha.data.objects.*
 import com.mongodb.client.result.UpdateResult
 import org.bson.Document
 import org.litote.kmongo.*
-import java.time.LocalDateTime
 
 /**
  * Purpose of this implementation is functions for reading/writing practitioner data in storage
@@ -99,8 +98,14 @@ class PractitionerService : IPractitionerService {
      * @param creator is above practitioner id creator of circle
      * @param circle circle to end
      * @param contributionPoints points to be awarded to practitioner
+     * @param feedBackPoints points for feedback to the circle
      */
-    override fun endCircle(practitionerId: String, creator: Boolean, circle: CircleDBO?, contributionPoints: Long) {
+    override fun endCircle(
+            practitionerId: String,
+            creator: Boolean,
+            circle: CircleDBO?,
+            contributionPoints: Long,
+            feedBackPoints: Long?) {
         // if practitioner is creator or circle
         if (creator && circle != null) {
             updateCircleWithEndTimeNow(practitionerId, circle)
@@ -113,6 +118,19 @@ class PractitionerService : IPractitionerService {
                     SpiritBankLogItemDBO(
                             type = SpiritBankLogItemType.ENDED_CREATED_CIRCLE,
                             points = contributionPoints))
+        }
+        // If the circle got any feedback then push the feedback to the list
+        if(feedBackPoints != null && circle != null){
+            // Get index of the circle that we want to push the points to its feedback list
+            val index = getIndexOfCircleForPractitioner(practitionerId, circle)
+            // If we have a the circle we are looking for
+            if (index >= 0) {
+                // Push the points to the feedback list for this circle
+                collection.updateOneById(
+                        practitionerId,
+                        Document("${MongoOperator.push}",
+                                Document("${PractitionersArraysEnum.CIRCLES.value}.$index.feedback", feedBackPoints)))
+            }
         }
     }
 
@@ -278,9 +296,7 @@ class PractitionerService : IPractitionerService {
      */
     private fun updateEditedCircle(practitionerId: String, circleToEdit: CircleDBO) {
         // Get index of the circle that we want to update
-        val circles = getById(practitionerId)?.circles
-        val circleToUpdate = circles?.find { it._id == circleToEdit._id }
-        val index = circles?.indexOf(circleToUpdate) ?: -1
+        val index = getIndexOfCircleForPractitioner(practitionerId, circleToEdit)
         // If we have a the circle we are looking for
         if (index >= 0) {
             // Update and set end time for this index to now
@@ -309,6 +325,16 @@ class PractitionerService : IPractitionerService {
 
     private fun getLastSession(practitionerId: String): SessionDBO? {
         return getById(practitionerId)?.sessions?.lastOrNull()
+    }
+
+    /**
+     * Get the index of a circle in the practitioners circle-list
+     * @return int - the circles index in the list
+     */
+    private fun getIndexOfCircleForPractitioner(practitionerId: String, circle: CircleDBO): Int {
+        val circles = getById(practitionerId)?.circles
+        val circleToUpdate = circles?.find { it._id == circle._id }
+        return circles?.indexOf(circleToUpdate) ?: -1
     }
 
 }

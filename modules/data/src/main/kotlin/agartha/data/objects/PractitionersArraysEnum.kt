@@ -7,5 +7,6 @@ enum class PractitionersArraysEnum(val value: String) {
     CIRCLES("circles"),
     SESSIONS("sessions"),
     SPIRIT_BANK_LOG("spiritBankLog"),
-    REGISTERED_CIRCLES("registeredCircles")
+    REGISTERED_CIRCLES("registeredCircles"),
+    FEEDBACK("feedback")
 }
