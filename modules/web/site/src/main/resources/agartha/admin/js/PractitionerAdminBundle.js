@@ -66,15 +66,15 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./www/ts/ConfirmationLoader.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./www/ts/debug/PractitionerAdminLoader.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-3312cc56\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-3312cc56","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-86b8a890\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/debug/PassPhraseComponent.vue":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-86b8a890","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/debug/PassPhraseComponent.vue ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -83,26 +83,26 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.container[data-v-3312cc56] {\n        position: relative;\n}\n.svg[data-v-3312cc56] {\n        transform: rotate(-90deg);\n        display:block;\n        width: 100%;\n        height: 100%;\n}\n.centerSpace[data-v-3312cc56] {\n        display: flex;\n        flex-flow: row wrap;\n        border-radius: 50%;\n        position: absolute;\n        top: .15em;\n        left: .15em;\n        right: .15em;\n        bottom: .15em;\n}\n\n/*  These colors are copies from css/_resources/_colors.scss\n*   TODO: They should be based on a centralized source; variable or class\n*/\n.roundChart--color-empty[data-v-3312cc56] {\n        fill: #dee5dc; /* beige */\n}\n.roundChart--color1[data-v-3312cc56] {\n        fill: #b07abf; /* violet */\n}\n.roundChart--color2[data-v-3312cc56] {\n        fill: #7189dc; /* indigo */\n}\n.roundChart--color3[data-v-3312cc56] {\n        fill: #6bbfcd; /* blue */\n}\n.roundChart--color4[data-v-3312cc56] {\n        fill: #93bd64; /* green */\n}\n.roundChart--color5[data-v-3312cc56] {\n        fill: #edc74f; /* yellow */\n}\n.roundChart--color6[data-v-3312cc56] {\n        fill: #df7a4b; /* orange */\n}\n.roundChart--color7[data-v-3312cc56] {\n        fill: #da494d; /* red */\n}\n\n\n\n", "", {"version":3,"sources":["/Users/jorgen-kollektiva/code/Agartha-front/www/vue/icon/www/vue/icon/PieAndDonutChartIconComponent.vue"],"names":[],"mappings":";AA8NA;QACA,mBAAA;CACA;AACA;QACA,0BAAA;QACA,cAAA;QACA,YAAA;QACA,aAAA;CACA;AACA;QACA,cAAA;QACA,oBAAA;QACA,mBAAA;QACA,mBAAA;QACA,WAAA;QACA,YAAA;QACA,aAAA;QACA,cAAA;CACA;;AAEA;;EAEA;AACA;QACA,cAAA,CAAA,WAAA;CACA;AACA;QACA,cAAA,CAAA,YAAA;CACA;AACA;QACA,cAAA,CAAA,YAAA;CACA;AACA;QACA,cAAA,CAAA,UAAA;CACA;AACA;QACA,cAAA,CAAA,WAAA;CACA;AACA;QACA,cAAA,CAAA,YAAA;CACA;AACA;QACA,cAAA,CAAA,YAAA;CACA;AACA;QACA,cAAA,CAAA,SAAA;CACA","file":"PieAndDonutChartIconComponent.vue","sourcesContent":["<template>\n    <div class=\"circle container\">\n        <svg viewBox=\"-1 -1 2 2\" class=\"svg\">\n            <!-- Loop all slices and create a path for every one -->\n            <path v-for=\"slice in slices\" :d=\"slice.path\" :class=\"slice.color\"></path>\n        </svg>\n        <div v-if=\"isDonutChart\" class=\"centerSpace backgroundWhite\">\n            <div class=\"circle__content circle__content--main roundChart__centerText roundChart__centerText--main\">{{achievedGoalInHours}}</div>\n            <div class=\"circle__content circle__content--sub roundChart__centerText roundChart__centerText--sub\">reached in {{ reachedInHours }}</div>\n        </div>\n    </div>\n</template>\n\n<script lang=\"ts\">\n    import Vue from \"vue\";\n    import Component from \"vue-class-component\";\n    import TimeUtil from \"../../ts/utils/TimeUtil\";\n\n    @Component({\n        props: {\n            /**\n             * intentions is a object that has intentions in it\n             * and the number of intentions that intentions was used in the session\n             * When this object is present the PieChart will not have a centerSpace\n             * and the slices will be calculated by the intentions,\n             * EX: {WELLBEING: 2, LOVE: 7}\n             */\n            intentions: {\n                type: Object,\n                required: false,\n                default: function () {\n                    return {}\n                }\n            },\n            /**\n             * When these THREE numbers is present the PieChart will become a DonutChart with a centerSpace\n             * and the slices will be calculated by the achieved goal and the goal\n             */\n            /* The number hours that is achieved in the goal */\n            achievedGoal: {\n                type: Number || null,\n                required: false,\n                default: null\n            },\n            /* The number of hours that the goal is */\n            goal: {\n                type: Number || null,\n                required: false,\n                default: null\n            },\n            /* The number of minutes the goal is achieved in */\n            achievedInNumberOfMinutes: {\n                type: Number || null,\n                required: false,\n                default: null\n            }\n        },\n        // Which components that will be used in this component\n        components: {}\n    })\n    export default class PieAndDonutChartIconComponent extends Vue {\n        // Declare properties again for TypeScript\n        intentions: Object;\n        achievedGoal: number | null;\n        goal: number | null;\n        achievedInNumberOfMinutes: number | null;\n\n        // Computed\n        /**\n         * Converts the intentions object to an array with percentage\n         * Loops through the array and creates an object with a path and a color for every value in array\n         * Return an array with the new objects\n         * @returns [\n         *  {\n         *    path:\"M -0.6772815716257414 -0.7357239106731313 A 1 1 0 0 1 0.2454854871407988 -0.9694002659393305 L 0 0\",\n         *    color:\"roundChart--color4\"\n         *  },\n         * ]\n         */\n        get slices() {\n            let cumulativePercent = 0;\n            const percentages: Array<number> = this.getTheRightPercentage();\n\n            // Return a new Array of the intentionsInPercentage-array\n            return percentages.map((value, index) => {\n                // destructuring assignment sets the two variables at once\n                const start = this.getCoordinatesForPercent(cumulativePercent);\n                // each slice starts where the last slice ended, so keep a cumulative percent\n                cumulativePercent += value;\n                const end = this.getCoordinatesForPercent(cumulativePercent);\n                // if the slice is more than 50%, take the large arc (the long way around)\n                const largeArcFlag = value > .5 ? 1 : 0;\n                // Create the pathData string that only the path-tag can read\n                const pathData = `M ${start.x.toPrecision(10)} ${start.y.toPrecision(10)} A 1 1 0 ${largeArcFlag} 1 ${end.x.toPrecision(10)} ${end.y.toPrecision(10)} L 0 0`;\n                // return the new object\n                return {\n                    path: pathData,\n                    color: this.decideColor(index + 1)\n                };\n            });\n        }\n\n        /**\n         * Decides if the center should show, depending on if there is a goal and a achieved part of the goal or not\n         */\n        get isDonutChart(): Boolean {\n            return this.achievedGoal !== null\n                && this.goal !== null\n                && this.achievedInNumberOfMinutes !== null;\n        }\n\n        get reachedInHours(): String {\n            if (this.achievedInNumberOfMinutes) {\n                return TimeUtil.minutesToHours(this.achievedInNumberOfMinutes) + \" hours\";\n            }\n            return \"\";\n        }\n\n        get achievedGoalInHours(): String {\n            if (this.achievedGoal) {\n                return TimeUtil.minutesToHours(this.achievedGoal) + \" h\";\n            }\n            return \"\";\n        }\n\n        // Methods\n        /**\n         * Calculates which data should become the slices\n         * and makes them to a array with percentage\n         *\n         * @returns Array with percentages\n         */\n        getTheRightPercentage(): Array<number> {\n            // If the center should show (= donutChart) then use the goal-data\n            if (this.isDonutChart) {\n                // TypeScript complained about goal and achieved goal could be null even if checks in the if-statement\n                return this.convertGoalToPercentageArray(this.goal as number, this.achievedGoal as number);\n            } else {\n                // Else use the intentions\n                return this.convertObjectToOrderedPercentageArray(this.intentions);\n            }\n        }\n\n        /**\n         * Function to map keys from an Object into percent values in an Array\n         * Orders the array in descending order\n         * ex: input {love: 2, hate: 2} == output [.5, .5]\n         * ex: input {love: 4, hate: 1, fun: 5} == output [0.5, 0.4, 0.1]\n         */\n        convertObjectToOrderedPercentageArray(object: any): Array<number> {\n            // Loop through object and get total for all elements\n            let total = 0;\n            const objectKeys = Object.keys(object);\n            objectKeys.forEach((key) => {\n                total += (<any>object)[key];\n            });\n            // Loop through object and divide all elements with the total\n            // return array with percentage\n            return objectKeys.map((key) => {\n                return (<any>object)[key] / total;\n            }).sort(this.compare);\n        }\n\n        /**\n         * Function to creates an Array with percent values from the goal and achieved goal\n         * Orders the array in descending order\n         * ex: input goal: 10 000, achievedGoal: 3489 == output [0.3489, 0.6511]\n         */\n        convertGoalToPercentageArray(goal: number, achievedGoal: number): Array<number> {\n            let percentageAchieved = achievedGoal / goal;\n            let percentageLeft = 1 - percentageAchieved;\n            return [percentageAchieved, percentageLeft]\n        }\n\n        /**\n         * Return the position the path should start or end with\n         * @param percent\n         * @returns {{x: number, y: number}}\n         */\n        getCoordinatesForPercent(percent: number) {\n            const x = Math.cos(2 * Math.PI * percent);\n            const y = Math.sin(2 * Math.PI * percent);\n            return {x: x, y: y};\n        }\n\n        /**\n         * Compare function that sorts the array with the sort() function in descending order\n         * @param a - number\n         * @param b - number\n         * @returns {number}\n         */\n        compare(a: number, b: number) {\n            if (a > b) {\n                return -1;\n            }\n            if (a < b) {\n                return 1;\n            }\n            return 0;\n        }\n\n        /**\n         * Decides the color on the pie-slices depending on if it is a donutChart or a pieChart\n         * @param index\n         * @returns {number}\n         */\n        decideColor(index: number) {\n            if (this.isDonutChart) {\n                if (index == 2) {\n                    return 'roundChart--color-empty'\n                }\n                return 'roundChart--color' + index;\n            } else {\n                return 'roundChart--color' + index;\n            }\n        }\n\n    }\n</script>\n\n<style scoped>\n\n    .container {\n        position: relative;\n    }\n    .svg {\n        transform: rotate(-90deg);\n        display:block;\n        width: 100%;\n        height: 100%;\n    }\n    .centerSpace {\n        display: flex;\n        flex-flow: row wrap;\n        border-radius: 50%;\n        position: absolute;\n        top: .15em;\n        left: .15em;\n        right: .15em;\n        bottom: .15em;\n    }\n\n/*  These colors are copies from css/_resources/_colors.scss\n*   TODO: They should be based on a centralized source; variable or class\n*/\n    .roundChart--color-empty {\n        fill: #dee5dc; /* beige */\n    }\n    .roundChart--color1 {\n        fill: #b07abf; /* violet */\n    }\n    .roundChart--color2 {\n        fill: #7189dc; /* indigo */\n    }\n    .roundChart--color3 {\n        fill: #6bbfcd; /* blue */\n    }\n    .roundChart--color4 {\n        fill: #93bd64; /* green */\n    }\n    .roundChart--color5 {\n        fill: #edc74f; /* yellow */\n    }\n    .roundChart--color6 {\n        fill: #df7a4b; /* orange */\n    }\n    .roundChart--color7 {\n        fill: #da494d; /* red */\n    }\n\n\n\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"PassPhraseComponent.vue","sourceRoot":""}]);
 
 // exports
 
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-3df8586e\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ConfirmationComponent.vue":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-3df8586e","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ConfirmationComponent.vue ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-9b4e4d8e\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/debug/AdminComponent.vue":
+/*!****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-9b4e4d8e","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/debug/AdminComponent.vue ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(true);
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(true);
 // imports
 
 
 // module
-exports.push([module.i, "\n.wrapper[data-v-3df8586e] {\n    display: flex;\n    flex-flow: column;\n    padding: 1rem;\n}\n.container[data-v-3df8586e] {\n    margin: 1rem auto;\n}\n.container--row[data-v-3df8586e] {\n    display: flex;\n    align-items: center;\n}\n.container--alignBottom[data-v-3df8586e] {\n    align-items: flex-end;\n}\n.container__column[data-v-3df8586e] {\n    margin: 0 auto;\n    padding: 1rem;\n    box-sizing: border-box;\n    flex: 0 0 50%;\n    max-width: 50%;\n}\n.container__column--first[data-v-3df8586e] {\n    order: 1;\n}\n.container__column--second[data-v-3df8586e] {\n    order: 2;\n}\n.maxWidth[data-v-3df8586e] {\n    max-width: 13rem;\n}\n.marginTop[data-v-3df8586e] {\n    margin-top: .5rem;\n}\n.textLarger[data-v-3df8586e] {\n    font-size: 1.5em;\n}\n\n", "", {"version":3,"sources":["/Users/jorgen-kollektiva/code/Agartha-front/www/vue/www/vue/ConfirmationComponent.vue"],"names":[],"mappings":";AAmJA;IACA,cAAA;IACA,kBAAA;IACA,cAAA;CACA;AAEA;IACA,kBAAA;CACA;AAEA;IACA,cAAA;IACA,oBAAA;CACA;AAEA;IACA,sBAAA;CACA;AAEA;IACA,eAAA;IACA,cAAA;IACA,uBAAA;IACA,cAAA;IACA,eAAA;CACA;AAEA;IACA,SAAA;CACA;AAEA;IACA,SAAA;CACA;AAEA;IACA,iBAAA;CACA;AAEA;IACA,kBAAA;CACA;AAEA;IACA,iBAAA;CACA","file":"ConfirmationComponent.vue","sourcesContent":["<template>\n    <div>\n        <div class=\"wrapper\">\n            <h2 class=\"headline alignCenter\">Your contribution</h2>\n\n            <div class=\"container maxWidth\">\n                <div class=\"circle white backgroundRed\"></div>\n                <div class=\"smallText alignCenter marginTop\">\n                    <span class=\"bold\">{{discipline}}</span> with the intention of\n                    <span class=\"bold\">{{intention}}</span>\n                </div>\n            </div>\n\n            <div class=\"container container--row container--alignBottom\">\n\n                <div class=\"container__column container__column--first smallText alignCenter marginTop\">\n                    <div>Session lasted</div>\n                    <div class=\"textLarger bold\">{{ transformedSessionLasted }}</div>\n                </div>\n\n                <div class=\"container__column container__column--second smallText alignCenter marginTop\">\n                    <div>Total contribution</div>\n                    <div class=\"textLarger bold\">{{ transformedUserTotalContribution }}</div>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"wrapper\">\n            <h2 class=\"headline alignCenter\">Your session</h2>\n\n            <div class=\"container container--row\">\n                <div class=\"container__column\">\n                    <div class=\"circle white backgroundGreen\">\n                        <div class=\"circle__content circle__content--main\">{{ sessionCompanionCount }}</div>\n                        <div class=\"circle__content circle__content--sub\">companions online</div>\n                    </div>\n                    <div class=\"smallText alignCenter marginTop\">During your session</div>\n                </div>\n                <div class=\"container__column\">\n                    <div class=\"smallText alignCenter marginTop\">\n                        <div>Collective contribution</div>\n                        <div class=\"textLarger bold\">{{ transformedCollectiveContribution }}</div>\n                    </div>\n                </div>\n            </div>\n\n\n            <div class=\"container container--row\" v-show=\"numberOfIntentions > 0\">\n\n                <div class=\"container__column container__column--second\">\n                    <pie-chart :intentions=\"sessionCompanionIntentions\"></pie-chart>\n                </div>\n\n                <div class=\"container__column container__column--first maxWidth smallText alignCenter marginTop\">\n                    <span class=\"bold alignRight\">{{numberOfIntentions}}</span>\n                    intentions<br/>\n                    in your session\n                </div>\n\n            </div>\n\n        </div>\n        <!-- If user is not ready involved show the 'get involved' button -->\n        <div class=\"wrapper\">\n            <button v-if=\"!isInvolved\" @click=\"onParticipate\" class=\"button borderRed red\">\n                Participate in Agartha\n            </button>\n\n            <button @click=\"onRestart\" class=\"button borderBlack black\">\n                Restart\n            </button>\n        </div>\n\n    </div>\n</template>\n\n<script lang=\"ts\">\n    import Vue from \"vue\";\n    import Component from \"vue-class-component\";\n    import PieChart from \"./icon/PieAndDonutChartIconComponent.vue\";\n    import TimeUtil from \"../ts/utils/TimeUtil\";\n\n    @Component({\n        // Which properties that is passed to the component\n        props: {\n            //The discipline that the user did in this session\n            discipline: String,\n            //The intention that the user did in this session\n            intention: String,\n            // Minutes the session lasted\n            sessionLastedMinutes: Number,\n            // Minutes the user has contributed with\n            userContributionMinutes: Number,\n            // Number of companions online at the same time as the session\n            sessionCompanionCount: Number,\n            // Minutes that all in the users session has contributed with\n            collectiveContributionMinutes: Number,\n            // Object of the intentions that was used by the users in the session\n            sessionCompanionIntentions: Object,\n            // Is the user already involved in Agartha, changes the appearance of the button\n            isInvolved: Boolean,\n            // Event for button click participate\n            onParticipate: Function,\n            // Event for button click restart\n            onRestart: Function\n        },\n        components: {\n            PieChart\n        }\n    })\n    export default class ConfirmationComponent extends Vue {\n        // Declare properties again for TypeScript\n        discipline: string;\n        intention: string;\n        sessionLastedMinutes: number;\n        userContributionMinutes: number;\n        sessionCompanionCount: number;\n        collectiveContributionMinutes: number;\n        sessionCompanionIntentions: Map<String, number>;\n        isInvolved: boolean;\n        onParticipate: Function;\n        onRestart: Function;\n\n        //\n        get numberOfIntentions() {\n            // Return the number on object in the object\n            return Object.keys(this.sessionCompanionIntentions).length\n        }\n\n        // Computed value: Makes fx. 650 minutes to 10:50\n        get transformedUserTotalContribution() {\n            return TimeUtil.minutesToHoursAndMinutes(this.userContributionMinutes);\n        }\n\n        // Computed value: Makes fx. 650 minutes to 10:50\n        get transformedSessionLasted() {\n            return TimeUtil.minutesToHoursAndMinutes(this.sessionLastedMinutes);\n        }\n\n        // Computed value: Makes fx. 650 minutes to 10:50\n        get transformedCollectiveContribution() {\n            return TimeUtil.minutesToHoursAndMinutes(this.collectiveContributionMinutes);\n        }\n    }\n</script>\n\n<style scoped>\n    .wrapper {\n        display: flex;\n        flex-flow: column;\n        padding: 1rem;\n    }\n\n    .container {\n        margin: 1rem auto;\n    }\n\n    .container--row {\n        display: flex;\n        align-items: center;\n    }\n\n    .container--alignBottom {\n        align-items: flex-end;\n    }\n\n    .container__column {\n        margin: 0 auto;\n        padding: 1rem;\n        box-sizing: border-box;\n        flex: 0 0 50%;\n        max-width: 50%;\n    }\n\n    .container__column--first {\n        order: 1;\n    }\n\n    .container__column--second {\n        order: 2;\n    }\n\n    .maxWidth {\n        max-width: 13rem;\n    }\n\n    .marginTop {\n        margin-top: .5rem;\n    }\n\n    .textLarger {\n        font-size: 1.5em;\n    }\n\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"AdminComponent.vue","sourceRoot":""}]);
 
 // exports
 
@@ -192,6 +192,25 @@ function toComment(sourceMap) {
 
 	return '/*# ' + data + ' */';
 }
+
+
+/***/ }),
+
+/***/ "./node_modules/node-fetch/browser.js":
+/*!********************************************!*\
+  !*** ./node_modules/node-fetch/browser.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = exports = window.fetch;
+
+// Needed for TypeScript and Webpack.
+exports.default = window.fetch.bind(window);
+
+exports.Headers = window.Headers;
+exports.Request = window.Request;
+exports.Response = window.Response;
 
 
 /***/ }),
@@ -664,10 +683,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
-/***/ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/ConfirmationComponent.vue":
-/*!**********************************************************************************************************************************!*\
-  !*** ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/ConfirmationComponent.vue ***!
-  \**********************************************************************************************************************************/
+/***/ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/debug/AdminComponent.vue":
+/*!*********************************************************************************************************************************!*\
+  !*** ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/debug/AdminComponent.vue ***!
+  \*********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -692,230 +711,138 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var vue_1 = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 var vue_class_component_1 = __webpack_require__(/*! vue-class-component */ "./node_modules/vue-class-component/dist/vue-class-component.common.js");
-var PieAndDonutChartIconComponent_vue_1 = __webpack_require__(/*! ./icon/PieAndDonutChartIconComponent.vue */ "./www/vue/icon/PieAndDonutChartIconComponent.vue");
-var TimeUtil_1 = __webpack_require__(/*! ../ts/utils/TimeUtil */ "./www/ts/utils/TimeUtil.ts");
-var ConfirmationComponent = (function (_super) {
-    __extends(ConfirmationComponent, _super);
-    function ConfirmationComponent() {
-        return _super !== null && _super.apply(this, arguments) || this;
+var Practitioner_1 = __webpack_require__(/*! ../../ts/objects/Practitioner */ "./www/ts/objects/Practitioner.ts");
+var Session_1 = __webpack_require__(/*! ../../ts/objects/Session */ "./www/ts/objects/Session.ts");
+var AdminComponent = (function (_super) {
+    __extends(AdminComponent, _super);
+    function AdminComponent() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.addPractitioners = "";
+        _this.chosenDiscipline = "Random Discipline";
+        _this.chosenIntention = "Random Intention";
+        return _this;
     }
-    Object.defineProperty(ConfirmationComponent.prototype, "numberOfIntentions", {
+    Object.defineProperty(AdminComponent.prototype, "practitionerKeys", {
         get: function () {
-            return Object.keys(this.sessionCompanionIntentions).length;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ConfirmationComponent.prototype, "transformedUserTotalContribution", {
-        get: function () {
-            return TimeUtil_1.default.minutesToHoursAndMinutes(this.userContributionMinutes);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ConfirmationComponent.prototype, "transformedSessionLasted", {
-        get: function () {
-            return TimeUtil_1.default.minutesToHoursAndMinutes(this.sessionLastedMinutes);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(ConfirmationComponent.prototype, "transformedCollectiveContribution", {
-        get: function () {
-            return TimeUtil_1.default.minutesToHoursAndMinutes(this.collectiveContributionMinutes);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ConfirmationComponent = __decorate([
-        vue_class_component_1.default({
-            props: {
-                discipline: String,
-                intention: String,
-                sessionLastedMinutes: Number,
-                userContributionMinutes: Number,
-                sessionCompanionCount: Number,
-                collectiveContributionMinutes: Number,
-                sessionCompanionIntentions: Object,
-                isInvolved: Boolean,
-                onParticipate: Function,
-                onRestart: Function
-            },
-            components: {
-                PieChart: PieAndDonutChartIconComponent_vue_1.default
-            }
-        })
-    ], ConfirmationComponent);
-    return ConfirmationComponent;
-}(vue_1.default));
-exports.default = ConfirmationComponent;
-
-
-/***/ }),
-
-/***/ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue":
-/*!***********************************************************************************************************************************************!*\
-  !*** ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue ***!
-  \***********************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var vue_1 = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-var vue_class_component_1 = __webpack_require__(/*! vue-class-component */ "./node_modules/vue-class-component/dist/vue-class-component.common.js");
-var TimeUtil_1 = __webpack_require__(/*! ../../ts/utils/TimeUtil */ "./www/ts/utils/TimeUtil.ts");
-var PieAndDonutChartIconComponent = (function (_super) {
-    __extends(PieAndDonutChartIconComponent, _super);
-    function PieAndDonutChartIconComponent() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Object.defineProperty(PieAndDonutChartIconComponent.prototype, "slices", {
-        get: function () {
-            var _this = this;
-            var cumulativePercent = 0;
-            var percentages = this.getTheRightPercentage();
-            return percentages.map(function (value, index) {
-                var start = _this.getCoordinatesForPercent(cumulativePercent);
-                cumulativePercent += value;
-                var end = _this.getCoordinatesForPercent(cumulativePercent);
-                var largeArcFlag = value > .5 ? 1 : 0;
-                var pathData = "M " + start.x.toPrecision(10) + " " + start.y.toPrecision(10) + " A 1 1 0 " + largeArcFlag + " 1 " + end.x.toPrecision(10) + " " + end.y.toPrecision(10) + " L 0 0";
-                return {
-                    path: pathData,
-                    color: _this.decideColor(index + 1)
-                };
+            var practitioner = new Practitioner_1.Practitioner("", "", [], "", "", "");
+            return Object.keys(practitioner).filter(function (key) {
+                return key != "sessions" && key != "_id";
             });
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(PieAndDonutChartIconComponent.prototype, "isDonutChart", {
+    Object.defineProperty(AdminComponent.prototype, "sessionKeys", {
         get: function () {
-            return this.achievedGoal !== null
-                && this.goal !== null
-                && this.achievedInNumberOfMinutes !== null;
+            var session = new Session_1.default({
+                geolocation: null,
+                discipline: "D",
+                intention: "I",
+                startTime: "",
+                endTime: ""
+            });
+            return Object.keys(session).filter(function (it) {
+                return (it !== "points");
+            });
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(PieAndDonutChartIconComponent.prototype, "reachedInHours", {
-        get: function () {
-            if (this.achievedInNumberOfMinutes) {
-                return TimeUtil_1.default.minutesToHours(this.achievedInNumberOfMinutes) + " hours";
-            }
-            return "";
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(PieAndDonutChartIconComponent.prototype, "achievedGoalInHours", {
-        get: function () {
-            if (this.achievedGoal) {
-                return TimeUtil_1.default.minutesToHours(this.achievedGoal) + " h";
-            }
-            return "";
-        },
-        enumerable: true,
-        configurable: true
-    });
-    PieAndDonutChartIconComponent.prototype.getTheRightPercentage = function () {
-        if (this.isDonutChart) {
-            return this.convertGoalToPercentageArray(this.goal, this.achievedGoal);
-        }
-        else {
-            return this.convertObjectToOrderedPercentageArray(this.intentions);
-        }
+    AdminComponent.prototype.isSessionNotDoneAndLastInLine = function (practitioner, session) {
+        var length = practitioner.sessions.length - 1;
+        var isLastSession = practitioner.sessions[length].startTime === session.startTime;
+        var isSessionNotDone = session.endTime === null;
+        return isSessionNotDone && isLastSession;
     };
-    PieAndDonutChartIconComponent.prototype.convertObjectToOrderedPercentageArray = function (object) {
-        var total = 0;
-        var objectKeys = Object.keys(object);
-        objectKeys.forEach(function (key) {
-            total += object[key];
-        });
-        return objectKeys.map(function (key) {
-            return object[key] / total;
-        }).sort(this.compare);
+    AdminComponent.prototype.isGeneratedPractitioner = function (practitioner) {
+        return practitioner.description === "Generated Practitioner";
     };
-    PieAndDonutChartIconComponent.prototype.convertGoalToPercentageArray = function (goal, achievedGoal) {
-        var percentageAchieved = achievedGoal / goal;
-        var percentageLeft = 1 - percentageAchieved;
-        return [percentageAchieved, percentageLeft];
-    };
-    PieAndDonutChartIconComponent.prototype.getCoordinatesForPercent = function (percent) {
-        var x = Math.cos(2 * Math.PI * percent);
-        var y = Math.sin(2 * Math.PI * percent);
-        return { x: x, y: y };
-    };
-    PieAndDonutChartIconComponent.prototype.compare = function (a, b) {
-        if (a > b) {
-            return -1;
+    AdminComponent.prototype.toReadable = function (geo) {
+        if (geo) {
+            return geo.latitude + " / " + geo.longitude;
         }
-        if (a < b) {
-            return 1;
-        }
-        return 0;
+        return "";
     };
-    PieAndDonutChartIconComponent.prototype.decideColor = function (index) {
-        if (this.isDonutChart) {
-            if (index == 2) {
-                return 'roundChart--color-empty';
-            }
-            return 'roundChart--color' + index;
-        }
-        else {
-            return 'roundChart--color' + index;
-        }
+    AdminComponent.prototype.addSessionToPractitioner = function (practitioner) {
+        this.addSession(practitioner, this.chosenDiscipline, this.chosenIntention);
     };
-    PieAndDonutChartIconComponent = __decorate([
+    AdminComponent.prototype.generate = function () {
+        this.generatePractitioners(this.addPractitioners);
+    };
+    AdminComponent.prototype.collapseAndRemove = function (prac, id) {
+        $('#practitioner' + id).removeClass("show");
+        this.removePractitioner(prac);
+    };
+    AdminComponent = __decorate([
         vue_class_component_1.default({
             props: {
-                intentions: {
-                    type: Object,
-                    required: false,
-                    default: function () {
-                        return {};
-                    }
-                },
-                achievedGoal: {
-                    type: Number || null,
-                    required: false,
-                    default: null
-                },
-                goal: {
-                    type: Number || null,
-                    required: false,
-                    default: null
-                },
-                achievedInNumberOfMinutes: {
-                    type: Number || null,
-                    required: false,
-                    default: null
-                }
-            },
-            components: {}
+                disciplines: Array,
+                intentions: Array,
+                practitioners: Array,
+                addSession: Function,
+                generatePractitioners: Function,
+                endSession: Function,
+                removePractitioner: Function,
+                removeAll: Function,
+                removeGenerated: Function
+            }
         })
-    ], PieAndDonutChartIconComponent);
-    return PieAndDonutChartIconComponent;
+    ], AdminComponent);
+    return AdminComponent;
 }(vue_1.default));
-exports.default = PieAndDonutChartIconComponent;
+exports.default = AdminComponent;
+
+
+/***/ }),
+
+/***/ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/debug/PassPhraseComponent.vue":
+/*!**************************************************************************************************************************************!*\
+  !*** ./node_modules/ts-loader!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/debug/PassPhraseComponent.vue ***!
+  \**************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var vue_1 = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+var vue_class_component_1 = __webpack_require__(/*! vue-class-component */ "./node_modules/vue-class-component/dist/vue-class-component.common.js");
+var PassPhraseComponent = (function (_super) {
+    __extends(PassPhraseComponent, _super);
+    function PassPhraseComponent() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.passPhrase = "";
+        return _this;
+    }
+    PassPhraseComponent.prototype.onSetPhrase = function () {
+        this.validatePhrase(this.passPhrase);
+    };
+    PassPhraseComponent = __decorate([
+        vue_class_component_1.default({
+            props: {
+                validatePhrase: Function
+            }
+        })
+    ], PassPhraseComponent);
+    return PassPhraseComponent;
+}(vue_1.default));
+exports.default = PassPhraseComponent;
 
 
 /***/ }),
@@ -1278,64 +1205,10 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3312cc56\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue":
-/*!************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-3312cc56","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue ***!
-  \************************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "circle container" }, [
-    _c(
-      "svg",
-      { staticClass: "svg", attrs: { viewBox: "-1 -1 2 2" } },
-      _vm._l(_vm.slices, function(slice) {
-        return _c("path", { class: slice.color, attrs: { d: slice.path } })
-      })
-    ),
-    _vm._v(" "),
-    _vm.isDonutChart
-      ? _c("div", { staticClass: "centerSpace backgroundWhite" }, [
-          _c(
-            "div",
-            {
-              staticClass:
-                "circle__content circle__content--main roundChart__centerText roundChart__centerText--main"
-            },
-            [_vm._v(_vm._s(_vm.achievedGoalInHours))]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "circle__content circle__content--sub roundChart__centerText roundChart__centerText--sub"
-            },
-            [_vm._v("reached in " + _vm._s(_vm.reachedInHours))]
-          )
-        ])
-      : _vm._e()
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-
-if (false) {}
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3df8586e\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/ConfirmationComponent.vue":
-/*!***********************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-3df8586e","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/ConfirmationComponent.vue ***!
-  \***********************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-86b8a890\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/debug/PassPhraseComponent.vue":
+/*!***************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-86b8a890","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/debug/PassPhraseComponent.vue ***!
+  \***************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1348,204 +1221,717 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "wrapper" }, [
-      _c("h2", { staticClass: "headline alignCenter" }, [
-        _vm._v("Your contribution")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "container maxWidth" }, [
-        _c("div", { staticClass: "circle white backgroundRed" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "smallText alignCenter marginTop" }, [
-          _c("span", { staticClass: "bold" }, [_vm._v(_vm._s(_vm.discipline))]),
-          _vm._v(" with the intention of\n                "),
-          _c("span", { staticClass: "bold" }, [_vm._v(_vm._s(_vm.intention))])
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "container container--row container--alignBottom" },
-        [
-          _c(
-            "div",
-            {
-              staticClass:
-                "container__column container__column--first smallText alignCenter marginTop"
-            },
-            [
-              _c("div", [_vm._v("Session lasted")]),
+    _c(
+      "div",
+      { staticClass: "container", staticStyle: { "margin-bottom": "30px" } },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "row border-success",
+            staticStyle: { border: "1px solid" }
+          },
+          [
+            _c("div", { staticClass: "container" }, [
+              _vm._m(0),
               _vm._v(" "),
-              _c("div", { staticClass: "textLarger bold" }, [
-                _vm._v(_vm._s(_vm.transformedSessionLasted))
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.passPhrase,
+                        expression: "passPhrase"
+                      }
+                    ],
+                    staticStyle: { width: "100%" },
+                    attrs: { type: "text", min: "10", max: "100" },
+                    domProps: { value: _vm.passPhrase },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.passPhrase = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      staticStyle: { width: "100%" },
+                      attrs: { type: "button" },
+                      on: { click: _vm.onSetPhrase }
+                    },
+                    [
+                      _vm._v(
+                        "\n                            Validate\n                        "
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" })
               ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "container__column container__column--second smallText alignCenter marginTop"
-            },
-            [
-              _c("div", [_vm._v("Total contribution")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "textLarger bold" }, [
-                _vm._v(_vm._s(_vm.transformedUserTotalContribution))
-              ])
-            ]
-          )
-        ]
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "wrapper" }, [
-      _c("h2", { staticClass: "headline alignCenter" }, [
-        _vm._v("Your session")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "container container--row" }, [
-        _c("div", { staticClass: "container__column" }, [
-          _c("div", { staticClass: "circle white backgroundGreen" }, [
-            _c(
-              "div",
-              { staticClass: "circle__content circle__content--main" },
-              [_vm._v(_vm._s(_vm.sessionCompanionCount))]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "circle__content circle__content--sub" }, [
-              _vm._v("companions online")
             ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "smallText alignCenter marginTop" }, [
-            _vm._v("During your session")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "container__column" }, [
-          _c("div", { staticClass: "smallText alignCenter marginTop" }, [
-            _c("div", [_vm._v("Collective contribution")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "textLarger bold" }, [
-              _vm._v(_vm._s(_vm.transformedCollectiveContribution))
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.numberOfIntentions > 0,
-              expression: "numberOfIntentions > 0"
-            }
-          ],
-          staticClass: "container container--row"
-        },
-        [
-          _c(
-            "div",
-            { staticClass: "container__column container__column--second" },
-            [
-              _c("pie-chart", {
-                attrs: { intentions: _vm.sessionCompanionIntentions }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "container__column container__column--first maxWidth smallText alignCenter marginTop"
-            },
-            [
-              _c("span", { staticClass: "bold alignRight" }, [
-                _vm._v(_vm._s(_vm.numberOfIntentions))
-              ]),
-              _vm._v("\n                intentions"),
-              _c("br"),
-              _vm._v("\n                in your session\n            ")
-            ]
-          )
-        ]
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "wrapper" }, [
-      !_vm.isInvolved
-        ? _c(
-            "button",
-            {
-              staticClass: "button borderRed red",
-              on: { click: _vm.onParticipate }
-            },
-            [_vm._v("\n            Participate in Agartha\n        ")]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "button borderBlack black",
-          on: { click: _vm.onRestart }
-        },
-        [_vm._v("\n            Restart\n        ")]
-      )
-    ])
+          ]
+        )
+      ]
+    )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("h5", [_vm._v("Enter your Pass-phrase")])
+    ])
+  }
+]
 render._withStripped = true
 
 if (false) {}
 
 /***/ }),
 
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-3312cc56\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue":
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-style-loader!./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-3312cc56","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-9b4e4d8e\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/debug/AdminComponent.vue":
+/*!**********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/template-compiler?{"id":"data-v-9b4e4d8e","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/debug/AdminComponent.vue ***!
+  \**********************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "container", staticStyle: { "margin-bottom": "30px" } },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "row border-success",
+            staticStyle: { border: "1px solid" }
+          },
+          [
+            _c("div", { staticClass: "container" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.addPractitioners,
+                        expression: "addPractitioners"
+                      }
+                    ],
+                    staticClass: "slider",
+                    staticStyle: { width: "100%" },
+                    attrs: { type: "text", min: "1", max: "50", id: "myRange" },
+                    domProps: { value: _vm.addPractitioners },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.addPractitioners = $event.target.value
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      staticStyle: { width: "100%" },
+                      attrs: { type: "button" },
+                      on: { click: _vm.generate }
+                    },
+                    [_vm._v("Add\n                        ")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" })
+              ])
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "container", staticStyle: { "margin-bottom": "30px" } },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "row border-danger",
+            staticStyle: { border: "1px solid" }
+          },
+          [
+            _c("div", { staticClass: "container" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      staticStyle: { width: "100%" },
+                      attrs: { type: "button" },
+                      on: { click: _vm.removeAll }
+                    },
+                    [
+                      _vm._v(
+                        "\n                            Remove All\n                        "
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      staticStyle: { width: "100%" },
+                      attrs: { type: "button" },
+                      on: { click: _vm.removeGenerated }
+                    },
+                    [
+                      _vm._v(
+                        "\n                            Remove Generated\n                        "
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col" })
+              ])
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "container" },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "row border-info",
+            staticStyle: { border: "1px solid" }
+          },
+          [
+            _vm._m(2),
+            _vm._v(" "),
+            _c("div", { staticClass: "w-100" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "col bg-info border-info" }),
+            _vm._v(" "),
+            _vm._l(_vm.practitionerKeys, function(key) {
+              return _c("div", { staticClass: "col bg-info border-info" }, [
+                _vm._v("\n                " + _vm._s(key) + "\n            ")
+              ])
+            })
+          ],
+          2
+        ),
+        _vm._v(" "),
+        _vm._l(_vm.practitioners, function(practitioner, index) {
+          return _c(
+            "div",
+            {
+              staticClass: "row border-info",
+              staticStyle: { border: "1px solid" }
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass: "container accordion-toggle",
+                  class: {
+                    "text-info": !_vm.isGeneratedPractitioner(practitioner),
+                    "text-muted": _vm.isGeneratedPractitioner(practitioner)
+                  }
+                },
+                [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          staticStyle: { width: "65%" },
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              _vm.collapseAndRemove(practitioner, index)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                            Remove\n                        "
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "col accordion-toggle",
+                        staticStyle: { "word-break": "break-all" },
+                        attrs: {
+                          "data-toggle": "collapse",
+                          "data-target": "#practitioner" + index
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(practitioner.created) +
+                            "\n                    "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "col accordion-toggle",
+                        attrs: {
+                          "data-toggle": "collapse",
+                          "data-target": "#practitioner" + index
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(practitioner.fullName) +
+                            "\n                    "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "col accordion-toggle",
+                        attrs: {
+                          "data-toggle": "collapse",
+                          "data-target": "#practitioner" + index
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(practitioner.email) +
+                            "\n                    "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "col accordion-toggle",
+                        attrs: {
+                          "data-toggle": "collapse",
+                          "data-target": "#practitioner" + index
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(practitioner.description) +
+                            "\n                    "
+                        )
+                      ]
+                    )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "w-100" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "col hiddenRow" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "container accordian-body collapse",
+                    attrs: { id: "practitioner" + index }
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "row border-warning",
+                        staticStyle: { border: "1px solid" }
+                      },
+                      [
+                        _vm._l(_vm.sessionKeys, function(key) {
+                          return _c("div", { staticClass: "col bg-warning" }, [
+                            _vm._v(_vm._s(key))
+                          ])
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col bg-warning" }, [
+                          _vm._v(" ")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "container" },
+                          [
+                            _vm._l(practitioner.sessions, function(session) {
+                              return _c(
+                                "div",
+                                {
+                                  staticClass: "row border-warning",
+                                  staticStyle: { border: "1px solid" }
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass: "col",
+                                      staticStyle: { "word-break": "break-all" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm.toReadable(session.geolocation)
+                                        ) + "\n                                "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col" }, [
+                                    _vm._v(_vm._s(session.discipline))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col" }, [
+                                    _vm._v(_vm._s(session.intention))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col" }, [
+                                    _vm._v(_vm._s(session.startTime))
+                                  ]),
+                                  _vm._v(" "),
+                                  _vm.isSessionNotDoneAndLastInLine(
+                                    practitioner,
+                                    session
+                                  )
+                                    ? _c("div", { staticClass: "col" }, [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass: "btn btn-warning",
+                                            attrs: { type: "button" },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.endSession(practitioner)
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                        End\n                                    "
+                                            )
+                                          ]
+                                        )
+                                      ])
+                                    : _c("div", { staticClass: "col" }, [
+                                        _vm._v(_vm._s(session.endTime))
+                                      ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col" }, [
+                                    _vm._v(" ")
+                                  ])
+                                ]
+                              )
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "row border-warning",
+                                staticStyle: { border: "1px solid" }
+                              },
+                              [
+                                _c("div", { staticClass: "col" }, [
+                                  _vm._v(" ")
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col" }, [
+                                  _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.chosenDiscipline,
+                                          expression: "chosenDiscipline"
+                                        }
+                                      ],
+                                      staticClass:
+                                        "custom-select custom-select-s",
+                                      on: {
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
+                                            )
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.chosenDiscipline = $event.target
+                                            .multiple
+                                            ? $$selectedVal
+                                            : $$selectedVal[0]
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "option",
+                                        { attrs: { selected: "" } },
+                                        [_vm._v("Random Discipline")]
+                                      ),
+                                      _vm._v(" "),
+                                      _vm._l(_vm.disciplines, function(
+                                        discipline
+                                      ) {
+                                        return _c("option", [
+                                          _vm._v(_vm._s(discipline.title))
+                                        ])
+                                      })
+                                    ],
+                                    2
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col" }, [
+                                  _c(
+                                    "select",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.chosenIntention,
+                                          expression: "chosenIntention"
+                                        }
+                                      ],
+                                      staticClass:
+                                        "custom-select custom-select-s",
+                                      on: {
+                                        change: function($event) {
+                                          var $$selectedVal = Array.prototype.filter
+                                            .call(
+                                              $event.target.options,
+                                              function(o) {
+                                                return o.selected
+                                              }
+                                            )
+                                            .map(function(o) {
+                                              var val =
+                                                "_value" in o
+                                                  ? o._value
+                                                  : o.value
+                                              return val
+                                            })
+                                          _vm.chosenIntention = $event.target
+                                            .multiple
+                                            ? $$selectedVal
+                                            : $$selectedVal[0]
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "option",
+                                        { attrs: { selected: "" } },
+                                        [_vm._v("Random Intention")]
+                                      ),
+                                      _vm._v(" "),
+                                      _vm._l(_vm.intentions, function(
+                                        intention
+                                      ) {
+                                        return _c("option", [
+                                          _vm._v(_vm._s(intention.title))
+                                        ])
+                                      })
+                                    ],
+                                    2
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col" }, [
+                                  _vm._v(" ")
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col" }, [
+                                  _vm._v(" ")
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col" }, [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-info",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.addSessionToPractitioner(
+                                            practitioner
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "Add new\n                                    "
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ]
+                            )
+                          ],
+                          2
+                        )
+                      ],
+                      2
+                    )
+                  ]
+                )
+              ])
+            ]
+          )
+        })
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("h5", [
+        _vm._v("Slide to choose how many practitioner that should be generated")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("h5", [_vm._v("Remove practitioners")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col" }, [
+      _c("h5", [_vm._v("Practitioners")])
+    ])
+  }
+]
+render._withStripped = true
+
+if (false) {}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-86b8a890\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/debug/PassPhraseComponent.vue":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-style-loader!./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-86b8a890","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/debug/PassPhraseComponent.vue ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(/*! !../../../node_modules/css-loader?sourceMap!../../../node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-3312cc56","scoped":true,"sourceMap":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./PieAndDonutChartIconComponent.vue */ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-3312cc56\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue");
+var content = __webpack_require__(/*! !../../../node_modules/css-loader?sourceMap!../../../node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-86b8a890","scoped":true,"sourceMap":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./PassPhraseComponent.vue */ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-86b8a890\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/debug/PassPhraseComponent.vue");
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = __webpack_require__(/*! ../../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
-var update = add("7c57f844", content, false, {});
+var update = add("ddcb3b00", content, false, {});
 // Hot Module Replacement
 if(false) {}
 
 /***/ }),
 
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-3df8586e\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ConfirmationComponent.vue":
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-style-loader!./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-3df8586e","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ConfirmationComponent.vue ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-9b4e4d8e\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/debug/AdminComponent.vue":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-style-loader!./node_modules/css-loader?sourceMap!./node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-9b4e4d8e","scoped":true,"sourceMap":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/debug/AdminComponent.vue ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(/*! !../../node_modules/css-loader?sourceMap!../../node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-3df8586e","scoped":true,"sourceMap":true}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ConfirmationComponent.vue */ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-3df8586e\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ConfirmationComponent.vue");
+var content = __webpack_require__(/*! !../../../node_modules/css-loader?sourceMap!../../../node_modules/vue-loader/lib/style-compiler?{"optionsId":"0","vue":true,"id":"data-v-9b4e4d8e","scoped":true,"sourceMap":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AdminComponent.vue */ "./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-9b4e4d8e\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/debug/AdminComponent.vue");
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var add = __webpack_require__(/*! ../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
-var update = add("63a1b254", content, false, {});
+var add = __webpack_require__(/*! ../../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
+var update = add("f49f7c9a", content, false, {});
 // Hot Module Replacement
 if(false) {}
 
@@ -12819,10 +13205,10 @@ module.exports = g;
 
 /***/ }),
 
-/***/ "./www/ts/ConfirmationLoader.ts":
-/*!**************************************!*\
-  !*** ./www/ts/ConfirmationLoader.ts ***!
-  \**************************************/
+/***/ "./www/ts/debug/PractitionerAdminLoader.ts":
+/*!*************************************************!*\
+  !*** ./www/ts/debug/PractitionerAdminLoader.ts ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12830,34 +13216,104 @@ module.exports = g;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var vue_1 = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-var ConfirmationComponent_vue_1 = __webpack_require__(/*! ../vue/ConfirmationComponent.vue */ "./www/vue/ConfirmationComponent.vue");
-var Settings_1 = __webpack_require__(/*! ./objects/Settings */ "./www/ts/objects/Settings.ts");
+var AdminComponent_vue_1 = __webpack_require__(/*! ../../vue/debug/AdminComponent.vue */ "./www/vue/debug/AdminComponent.vue");
+var PassPhraseComponent_vue_1 = __webpack_require__(/*! ../../vue/debug/PassPhraseComponent.vue */ "./www/vue/debug/PassPhraseComponent.vue");
+var RequestInformation_1 = __webpack_require__(/*! ../utils/RequestUtils/RequestInformation */ "./www/ts/utils/RequestUtils/RequestInformation.ts");
+var Request_1 = __webpack_require__(/*! ../utils/RequestUtils/Request */ "./www/ts/utils/RequestUtils/Request.ts");
+var ServerCaller_1 = __webpack_require__(/*! ../utils/ServerCaller */ "./www/ts/utils/ServerCaller.ts");
 new vue_1.default({
-    el: "#main",
-    template: "\n        <div id=\"main\">\n            <header>\n                <h3>Current practitioner</h3>\n                <div>\n                    Last session minutes:<br/>\n                    <input type=\"range\" min=\"0\" max=\"180\" v-model.number=\"sessionLastedMinutes\"/>\n                </div>            \n                <div>\n                    Total contribution:<br/>\n                    <input type=\"range\" min=\"0\" max=\"10000\" v-model.number=\"userContributionMinutes\"/>\n                </div> \n                <h3>Companion practitioners</h3>\n                <div>\n                    Number:<br/>\n                    <input type=\"range\" min=\"0\" max=\"100\" v-model.number=\"sessionCompanionCount\"/>\n                </div> \n                <div>\n                    Session contribution:<br/>\n                    <input type=\"range\" min=\"0\" max=\"10000\" v-model.number=\"collectiveContributionMinutes\"/>\n                </div>\n            </header>\n            <div class=\"toggleContainer toggleContainer--active\">\n                <confirmation \n                    :discipline=\"selectedDiscipline ? selectedDiscipline.title : ''\"\n                    :intention=\"selectedIntention ? selectedIntention.title : ''\"\n                    :session-lasted-minutes=\"sessionLastedMinutes\"\n                    :user-contribution-minutes=\"userContributionMinutes\" \n                    :session-companion-count=\"sessionCompanionCount\" \n                    :collective-contribution-minutes=\"collectiveContributionMinutes\"\n                    :session-companion-intentions=\"sessionCompanionIntentions\"\n                    :is-involved=\"userIsInvolved\"\n                    :on-participate=\"nextStep\"\n                    :on-restart=\"restart\"></confirmation>\n            </div>\n    </div>",
+    el: "#adminMain",
+    template: "\n    <div id=\"main\">\n        <h1>Admin</h1>\n        \n        <pass-phrase v-if=\"!isAuth\"\n                :validate-phrase=\"validatePassPhrase\"></pass-phrase>\n                \n        <admin v-if=\"isAuth\"\n                :disciplines=\"disciplines\" \n                :intentions=\"intentions\" \n                :practitioners=\"practitioners\" \n                :add-session=\"addSession\" \n                :generate-practitioners=\"generatePractitioners\" \n                :end-session=\"endSession\" \n                :remove-practitioner=\"removePractitioner\"  \n                :remove-all=\"removeAll\" \n                :remove-generated=\"removeGenerated\"></admin>\n    </div>",
     components: {
-        Confirmation: ConfirmationComponent_vue_1.default
+        Admin: AdminComponent_vue_1.default, PassPhrase: PassPhraseComponent_vue_1.default
     },
     data: function () {
         return {
-            selectedDiscipline: new Settings_1.Discipline("Meditation", "...."),
-            selectedIntention: new Settings_1.Intention("Love", "...."),
-            sessionLastedMinutes: 42,
-            userContributionMinutes: 1653,
-            sessionCompanionCount: 14,
-            collectiveContributionMinutes: 413,
-            sessionCompanionIntentions: {},
-            userIsInvolved: false
+            disciplines: Array(),
+            intentions: Array(),
+            practitioners: Array(),
+            isAuth: false,
+            enteredPhrase: ""
         };
     },
+    beforeMount: function () {
+    },
     methods: {
-        nextStep: function () {
-            alert("Participate is clicked");
-            window.location.href = "example.html";
+        validatePassPhrase: function (passPhrase) {
+            var _this = this;
+            this.enteredPhrase = passPhrase;
+            var validateRequest = new Request_1.default(RequestInformation_1.REQUEST_ADMIN_VALIDATION, [], function (response) {
+                if (response) {
+                    _this.isAuth = true;
+                    _this.requestBasics();
+                }
+            }, this.enteredPhrase);
+            new ServerCaller_1.default([validateRequest]).callServer();
         },
-        restart: function () {
-            alert("Restart is clicked");
-            window.location.href = "example.html";
+        requestBasics: function () {
+            var _this = this;
+            var settingsRequest = new Request_1.default(RequestInformation_1.REQUEST_SETTINGS, [], function (settings) {
+                _this.disciplines = settings.disciplines;
+                _this.intentions = settings.intentions;
+            });
+            var practitionersRequest = new Request_1.default(RequestInformation_1.REQUEST_ADMIN_PRACTITIONERS, [], function (practitioners) {
+                _this.practitioners = practitioners;
+            }, this.enteredPhrase);
+            new ServerCaller_1.default([settingsRequest, practitionersRequest]).callServer();
+        },
+        addSession: function (practitioner, discipline, intention) {
+            var _this = this;
+            var addSessionRequest = new Request_1.default(RequestInformation_1.REQUEST_ADMIN_ADD_SESSION, [practitioner._id, discipline, intention], function (session) {
+                practitioner.sessions.push(session);
+                _this.practitioners.map(function (prac) {
+                    if (prac._id === practitioner._id)
+                        return practitioner;
+                });
+            }, this.enteredPhrase);
+            new ServerCaller_1.default([addSessionRequest]).callServer();
+        },
+        generatePractitioners: function (count) {
+            var _this = this;
+            var generateRequest = new Request_1.default(RequestInformation_1.REQUEST_ADMIN_GENERATE, [count], function (practitioners) {
+                _this.practitioners = _this.practitioners.concat(practitioners);
+            }, this.enteredPhrase);
+            new ServerCaller_1.default([generateRequest]).callServer();
+        },
+        endSession: function (practitioner) {
+            var _this = this;
+            var endSessionRequest = new Request_1.default(RequestInformation_1.REQUEST_SESSION_END, [practitioner._id], function (updatedPrac) {
+                _this.practitioners.map(function (prac) {
+                    if (prac._id === updatedPrac._id) {
+                        prac.sessions = updatedPrac.sessions;
+                    }
+                });
+            }, this.enteredPhrase);
+            new ServerCaller_1.default([endSessionRequest]).callServer();
+        },
+        removePractitioner: function (practitioner) {
+            var _this = this;
+            var removeAllRequest = new Request_1.default(RequestInformation_1.REQUEST_ADMIN_REMOVE_PRACTITIONER, [practitioner._id], function (response) {
+                if (response)
+                    _this.practitioners = _this.practitioners.filter(function (it) {
+                        return (it._id !== practitioner._id);
+                    });
+            }, this.enteredPhrase);
+            new ServerCaller_1.default([removeAllRequest]).callServer();
+        },
+        removeAll: function () {
+            var _this = this;
+            var removeAllRequest = new Request_1.default(RequestInformation_1.REQUEST_ADMIN_REMOVE_ALL, [], function (response) {
+                if (response)
+                    _this.practitioners = Array();
+            }, this.enteredPhrase);
+            new ServerCaller_1.default([removeAllRequest]).callServer();
+        },
+        removeGenerated: function () {
+            var _this = this;
+            var removeAllRequest = new Request_1.default(RequestInformation_1.REQUEST_ADMIN_REMOVE_GENERATED, [], function (practitioners) {
+                _this.practitioners = practitioners;
+            }, this.enteredPhrase);
+            new ServerCaller_1.default([removeAllRequest]).callServer();
         }
     }
 });
@@ -12865,92 +13321,582 @@ new vue_1.default({
 
 /***/ }),
 
-/***/ "./www/ts/objects/Settings.ts":
-/*!************************************!*\
-  !*** ./www/ts/objects/Settings.ts ***!
-  \************************************/
+/***/ "./www/ts/objects/Practitioner.ts":
+/*!****************************************!*\
+  !*** ./www/ts/objects/Practitioner.ts ***!
+  \****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Intention = (function () {
-    function Intention(title, description) {
-        this.title = title;
+var Practitioner = (function () {
+    function Practitioner(_id, created, sessions, fullName, email, description) {
+        this._id = _id;
+        this.created = created;
+        this.sessions = sessions;
+        this.fullName = fullName;
+        this.email = email;
         this.description = description;
     }
-    return Intention;
+    return Practitioner;
 }());
-exports.Intention = Intention;
-var Discipline = (function () {
-    function Discipline(title, description) {
-        this.title = title;
-        this.description = description;
-    }
-    return Discipline;
-}());
-exports.Discipline = Discipline;
-var Settings = (function () {
-    function Settings(id, intentions, disciplines, companionMinutes, companionGoalMinutes) {
-        this.id = id;
-        this.intentions = intentions;
-        this.disciplines = disciplines;
-        this.companionMinutes = companionMinutes;
-        this.companionGoalMinutes = companionGoalMinutes;
-    }
-    return Settings;
-}());
-exports.default = Settings;
+exports.Practitioner = Practitioner;
 
 
 /***/ }),
 
-/***/ "./www/ts/utils/TimeUtil.ts":
-/*!**********************************!*\
-  !*** ./www/ts/utils/TimeUtil.ts ***!
-  \**********************************/
+/***/ "./www/ts/objects/Session.ts":
+/*!***********************************!*\
+  !*** ./www/ts/objects/Session.ts ***!
+  \***********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = {
-    minutesToHours: function (minutes) {
-        return Math.round(minutes / 60);
-    },
-    minutesToDays: function (minutes) {
-        return Math.round(minutes / 60 / 24);
-    },
-    minutesToHoursAndMinutes: function (minutes) {
-        var hours = Math.floor(minutes / 60);
-        minutes = (minutes - (hours * 60));
-        return hours + ":" + ("00" + minutes.toString()).slice(-2);
+var VariousUtil_1 = __webpack_require__(/*! ../utils/VariousUtil */ "./www/ts/utils/VariousUtil.ts");
+var Session = (function () {
+    function Session(session) {
+        if (session === void 0) { session = {}; }
+        this.points = 0;
+        Object.assign(this, session);
+    }
+    Session.prototype.match = function (discipline, intention) {
+        this.points = 0;
+        if (discipline.title.toLowerCase() == this.discipline.toLowerCase()) {
+            this.points++;
+        }
+        if (intention.title.toLowerCase() == this.intention.toLowerCase()) {
+            this.points++;
+        }
+        return this.points;
+    };
+    Session.prototype.distance = function (geolocation) {
+        if (geolocation == null || this.geolocation == null) {
+            return -1;
+        }
+        return VariousUtil_1.VariousUtil.distance(geolocation, this.geolocation);
+    };
+    Session.prototype.distanceAsString = function (geolocation) {
+        return VariousUtil_1.VariousUtil.roundDistance(this.distance(geolocation));
+    };
+    Session.prototype.duration = function () {
+        return VariousUtil_1.VariousUtil.dateDiffMinutes(new Date(Date.parse(this.startTime)), new Date());
+    };
+    return Session;
+}());
+exports.default = Session;
+
+
+/***/ }),
+
+/***/ "./www/ts/utils/ConsoleLogger.ts":
+/*!***************************************!*\
+  !*** ./www/ts/utils/ConsoleLogger.ts ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var ConsoleLogger = (function () {
+    function ConsoleLogger() {
+    }
+    ConsoleLogger.init = function (mockedConsole) {
+        this.mConsole = mockedConsole;
+    };
+    ConsoleLogger.log = function (logText) {
+        if (this.mIsDevEnvironment) {
+            this.mConsole.log(logText);
+        }
+    };
+    ConsoleLogger.warn = function (logText) {
+        if (this.mIsDevEnvironment) {
+            this.mConsole.warn(logText);
+        }
+    };
+    ConsoleLogger.error = function (logText) {
+        if (this.mIsDevEnvironment) {
+            this.mConsole.error(logText);
+        }
+    };
+    ConsoleLogger.logGreen = function (logText) {
+        if (this.mIsDevEnvironment) {
+            this.mConsole.log("%c" + logText, "color:#73af83;");
+        }
+    };
+    ConsoleLogger.logPurple = function (logText) {
+        if (this.mIsDevEnvironment) {
+            this.mConsole.log("%c" + logText, "color:#c33fff;");
+        }
+    };
+    ConsoleLogger.mIsDevEnvironment = 'development' === "development";
+    ConsoleLogger.mConsole = window.console;
+    return ConsoleLogger;
+}());
+exports.ConsoleLogger = ConsoleLogger;
+
+
+/***/ }),
+
+/***/ "./www/ts/utils/RequestUtils/Request.ts":
+/*!**********************************************!*\
+  !*** ./www/ts/utils/RequestUtils/Request.ts ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Request = (function () {
+    function Request(requestInfo, params, callback, body) {
+        if (params === void 0) { params = []; }
+        if (callback === void 0) { callback = function () { }; }
+        if (body === void 0) { body = null; }
+        this.requestInfo = requestInfo;
+        this.params = params;
+        this.body = body;
+        this.callback = callback;
+    }
+    Request.prototype.getMethod = function () {
+        return this.requestInfo.method;
+    };
+    Request.prototype.getBody = function () {
+        return this.body;
+    };
+    Request.prototype.getRequestPath = function () {
+        return this.requestInfo.path + this.joinParams();
+    };
+    Request.prototype.joinParams = function () {
+        var response = this.params.join("/");
+        return response === "" ? "" : "/" + response;
+    };
+    return Request;
+}());
+exports.default = Request;
+
+
+/***/ }),
+
+/***/ "./www/ts/utils/RequestUtils/RequestEnums.ts":
+/*!***************************************************!*\
+  !*** ./www/ts/utils/RequestUtils/RequestEnums.ts ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var RequestPath;
+(function (RequestPath) {
+    RequestPath["ROOT"] = "";
+    RequestPath["PRACTITIONER"] = "/v1/practitioner";
+    RequestPath["PRACTITIONER_START_SESSION"] = "/v1/practitioner/session/start";
+    RequestPath["PRACTITIONER_END_SESSION"] = "/v1/practitioner/session/end";
+    RequestPath["PRACTITIONER_JOIN_CIRCLE"] = "/v1/practitioner/circle/join";
+    RequestPath["PRACTITIONER_BANK_HISTORY"] = "/v1/practitioner/spiritbankhistory/";
+    RequestPath["CIRCLE"] = "/v1/circle";
+    RequestPath["COMPANION"] = "/v1/companion";
+    RequestPath["COMPANION_ONGOING"] = "/v1/companion/ongoing";
+    RequestPath["ADMIN_VALIDATION"] = "/v1/admin/auth";
+    RequestPath["ADMIN_PRACTITIONERS"] = "/v1/admin/practitioners";
+    RequestPath["ADMIN_ADD_SESSION"] = "/v1/admin/session/add";
+    RequestPath["ADMIN_GENERATE"] = "/v1/admin/generate";
+    RequestPath["ADMIN_REMOVE_ALL"] = "/v1/admin/remove/all";
+    RequestPath["ADMIN_REMOVE_GENERATED"] = "/v1/admin/remove/generated";
+    RequestPath["ADMIN_REMOVE_PRACTITIONER"] = "/v1/admin/remove/practitioner";
+    RequestPath["ADMIN_REMOVE_CIRCLE"] = "/v1/admin/remove/circle";
+    RequestPath["SETTINGS"] = "/v1/settings";
+    RequestPath["SETTINGS_INTENTION"] = "/v1/settings/intention";
+    RequestPath["MONITOR_STATUS"] = "/monitoring/status";
+    RequestPath["MONITOR_DB_WRITE"] = "/monitoring/db/write";
+    RequestPath["MONITOR_DB_READ"] = "/monitoring/db/read";
+    RequestPath["REPOPULATE"] = "/v1/dev/dbsetup";
+})(RequestPath = exports.RequestPath || (exports.RequestPath = {}));
+var RequestMethod;
+(function (RequestMethod) {
+    RequestMethod["GET"] = "GET";
+    RequestMethod["UPDATE"] = "POST";
+    RequestMethod["INSERT"] = "POST";
+    RequestMethod["DELETE"] = "DELETE";
+})(RequestMethod = exports.RequestMethod || (exports.RequestMethod = {}));
+
+
+/***/ }),
+
+/***/ "./www/ts/utils/RequestUtils/RequestInformation.ts":
+/*!*********************************************************!*\
+  !*** ./www/ts/utils/RequestUtils/RequestInformation.ts ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var RequestEnums_1 = __webpack_require__(/*! ./RequestEnums */ "./www/ts/utils/RequestUtils/RequestEnums.ts");
+var RequestInformationMonitorStatus = (function () {
+    function RequestInformationMonitorStatus() {
+        this.path = RequestEnums_1.RequestPath.MONITOR_STATUS;
+        this.method = RequestEnums_1.RequestMethod.GET;
+    }
+    return RequestInformationMonitorStatus;
+}());
+exports.REQUEST_MONITOR = new RequestInformationMonitorStatus();
+var RequestRepopulation = (function () {
+    function RequestRepopulation() {
+        this.path = RequestEnums_1.RequestPath.REPOPULATE;
+        this.method = RequestEnums_1.RequestMethod.GET;
+    }
+    return RequestRepopulation;
+}());
+exports.REQUEST_REPOPULATE = new RequestRepopulation();
+var RequestSettings = (function () {
+    function RequestSettings() {
+        this.path = RequestEnums_1.RequestPath.SETTINGS;
+        this.method = RequestEnums_1.RequestMethod.GET;
+    }
+    return RequestSettings;
+}());
+exports.REQUEST_SETTINGS = new RequestSettings();
+var RequestAdminValidation = (function () {
+    function RequestAdminValidation() {
+        this.path = RequestEnums_1.RequestPath.ADMIN_VALIDATION;
+        this.method = RequestEnums_1.RequestMethod.INSERT;
+    }
+    return RequestAdminValidation;
+}());
+exports.REQUEST_ADMIN_VALIDATION = new RequestAdminValidation();
+var RequestAdminPractitioners = (function () {
+    function RequestAdminPractitioners() {
+        this.path = RequestEnums_1.RequestPath.ADMIN_PRACTITIONERS;
+        this.method = RequestEnums_1.RequestMethod.INSERT;
+    }
+    return RequestAdminPractitioners;
+}());
+exports.REQUEST_ADMIN_PRACTITIONERS = new RequestAdminPractitioners();
+var RequestAdminAddSession = (function () {
+    function RequestAdminAddSession() {
+        this.path = RequestEnums_1.RequestPath.ADMIN_ADD_SESSION;
+        this.method = RequestEnums_1.RequestMethod.INSERT;
+    }
+    return RequestAdminAddSession;
+}());
+exports.REQUEST_ADMIN_ADD_SESSION = new RequestAdminAddSession();
+var RequestAdminGenerate = (function () {
+    function RequestAdminGenerate() {
+        this.path = RequestEnums_1.RequestPath.ADMIN_GENERATE;
+        this.method = RequestEnums_1.RequestMethod.INSERT;
+    }
+    return RequestAdminGenerate;
+}());
+exports.REQUEST_ADMIN_GENERATE = new RequestAdminGenerate();
+var RequestAdminRemoveAll = (function () {
+    function RequestAdminRemoveAll() {
+        this.path = RequestEnums_1.RequestPath.ADMIN_REMOVE_ALL;
+        this.method = RequestEnums_1.RequestMethod.INSERT;
+    }
+    return RequestAdminRemoveAll;
+}());
+exports.REQUEST_ADMIN_REMOVE_ALL = new RequestAdminRemoveAll();
+var RequestAdminRemoveGenerated = (function () {
+    function RequestAdminRemoveGenerated() {
+        this.path = RequestEnums_1.RequestPath.ADMIN_REMOVE_GENERATED;
+        this.method = RequestEnums_1.RequestMethod.INSERT;
+    }
+    return RequestAdminRemoveGenerated;
+}());
+exports.REQUEST_ADMIN_REMOVE_GENERATED = new RequestAdminRemoveGenerated();
+var RequestAdminRemovePractitioner = (function () {
+    function RequestAdminRemovePractitioner() {
+        this.path = RequestEnums_1.RequestPath.ADMIN_REMOVE_PRACTITIONER;
+        this.method = RequestEnums_1.RequestMethod.INSERT;
+    }
+    return RequestAdminRemovePractitioner;
+}());
+exports.REQUEST_ADMIN_REMOVE_PRACTITIONER = new RequestAdminRemovePractitioner();
+var RequestAdminRemoveCircle = (function () {
+    function RequestAdminRemoveCircle() {
+        this.path = RequestEnums_1.RequestPath.ADMIN_REMOVE_CIRCLE;
+        this.method = RequestEnums_1.RequestMethod.INSERT;
+    }
+    return RequestAdminRemoveCircle;
+}());
+exports.REQUEST_ADMIN_REMOVE_CIRCLE = new RequestAdminRemoveCircle();
+var RequestPractitioner = (function () {
+    function RequestPractitioner() {
+        this.path = RequestEnums_1.RequestPath.PRACTITIONER;
+        this.method = RequestEnums_1.RequestMethod.GET;
+    }
+    return RequestPractitioner;
+}());
+exports.REQUEST_PRACTITIONER = new RequestPractitioner();
+var RequestUpdatePractitioner = (function () {
+    function RequestUpdatePractitioner() {
+        this.path = RequestEnums_1.RequestPath.PRACTITIONER;
+        this.method = RequestEnums_1.RequestMethod.UPDATE;
+    }
+    return RequestUpdatePractitioner;
+}());
+exports.REQUEST_UPDATE_PRACTITIONER = new RequestUpdatePractitioner();
+var RequestStartSession = (function () {
+    function RequestStartSession() {
+        this.path = RequestEnums_1.RequestPath.PRACTITIONER_START_SESSION;
+        this.method = RequestEnums_1.RequestMethod.INSERT;
+    }
+    return RequestStartSession;
+}());
+exports.REQUEST_SESSION_START = new RequestStartSession();
+var RequestEndSession = (function () {
+    function RequestEndSession() {
+        this.path = RequestEnums_1.RequestPath.PRACTITIONER_END_SESSION;
+        this.method = RequestEnums_1.RequestMethod.INSERT;
+    }
+    return RequestEndSession;
+}());
+exports.REQUEST_SESSION_END = new RequestEndSession();
+var RequestBankHistory = (function () {
+    function RequestBankHistory() {
+        this.path = RequestEnums_1.RequestPath.PRACTITIONER_BANK_HISTORY;
+        this.method = RequestEnums_1.RequestMethod.GET;
+    }
+    return RequestBankHistory;
+}());
+exports.REQUEST_BANK_HISTORY = new RequestBankHistory();
+var RequestJoinCircle = (function () {
+    function RequestJoinCircle() {
+        this.path = RequestEnums_1.RequestPath.PRACTITIONER_JOIN_CIRCLE;
+        this.method = RequestEnums_1.RequestMethod.INSERT;
+    }
+    return RequestJoinCircle;
+}());
+exports.REQUEST_JOIN_CIRCLE = new RequestJoinCircle();
+var RequestCreateCircle = (function () {
+    function RequestCreateCircle() {
+        this.path = RequestEnums_1.RequestPath.CIRCLE;
+        this.method = RequestEnums_1.RequestMethod.INSERT;
+    }
+    return RequestCreateCircle;
+}());
+exports.REQUEST_CREATE_CIRCLE = new RequestCreateCircle();
+var RequestAllCircles = (function () {
+    function RequestAllCircles() {
+        this.path = RequestEnums_1.RequestPath.CIRCLE;
+        this.method = RequestEnums_1.RequestMethod.GET;
+    }
+    return RequestAllCircles;
+}());
+exports.REQUEST_ALL_CIRCLES = new RequestAllCircles();
+var RequestCompanion = (function () {
+    function RequestCompanion() {
+        this.path = RequestEnums_1.RequestPath.COMPANION;
+        this.method = RequestEnums_1.RequestMethod.GET;
+    }
+    return RequestCompanion;
+}());
+exports.REQUEST_COMPANION = new RequestCompanion();
+var RequestOngoingCompanion = (function () {
+    function RequestOngoingCompanion() {
+        this.path = RequestEnums_1.RequestPath.COMPANION_ONGOING;
+        this.method = RequestEnums_1.RequestMethod.GET;
+    }
+    return RequestOngoingCompanion;
+}());
+exports.REQUEST_COMPANION_ONGOING = new RequestOngoingCompanion();
+var RequestAddIntention = (function () {
+    function RequestAddIntention() {
+        this.path = RequestEnums_1.RequestPath.SETTINGS_INTENTION;
+        this.method = RequestEnums_1.RequestMethod.INSERT;
+    }
+    return RequestAddIntention;
+}());
+exports.REQUEST_ADD_INTENTION = new RequestAddIntention();
+
+
+/***/ }),
+
+/***/ "./www/ts/utils/ServerCaller.ts":
+/*!**************************************!*\
+  !*** ./www/ts/utils/ServerCaller.ts ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+Object.defineProperty(exports, "__esModule", { value: true });
+var ConsoleLogger_1 = __webpack_require__(/*! ./ConsoleLogger */ "./www/ts/utils/ConsoleLogger.ts");
+var node_fetch_1 = __webpack_require__(/*! node-fetch */ "./node_modules/node-fetch/browser.js");
+var ServerCaller = (function () {
+    function ServerCaller(requests) {
+        this.url = 'http://192.168.136.122:5555';
+        this.requests = [];
+        this.requests = requests;
+    }
+    ServerCaller.prototype.fetchAPI = function (requestPath, requestMethod, requestBody) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, node_fetch_1.default(requestPath, {
+                            method: requestMethod,
+                            body: requestBody
+                        })];
+                    case 1:
+                        res = _a.sent();
+                        if (!res.ok) return [3, 3];
+                        return [4, res.json()];
+                    case 2: return [2, _a.sent()];
+                    case 3: throw res.statusText;
+                }
+            });
+        });
+    };
+    ServerCaller.prototype.callServer = function () {
+        var _this = this;
+        this.requests.forEach(function (request) {
+            var requestPath = _this.buildRequestPath(request.getRequestPath());
+            var requestMethod = request.getMethod();
+            var requestBody = request.getBody();
+            ConsoleLogger_1.ConsoleLogger.logPurple("Requesting path '" + requestPath + "' with method '" + requestMethod + "'");
+            _this.fetchAPI(requestPath, requestMethod, requestBody)
+                .then(function (response) {
+                ConsoleLogger_1.ConsoleLogger.logGreen("Fetch went fine with response: " + JSON.stringify(response));
+                request.callback(response);
+            })
+                .catch(function (errorMsg) {
+                ConsoleLogger_1.ConsoleLogger.error('Fetch exception: ' + errorMsg);
+            });
+        });
+    };
+    ServerCaller.prototype.buildRequestPath = function (apiPath) {
+        return this.url + apiPath;
+    };
+    return ServerCaller;
+}());
+exports.default = ServerCaller;
 
 
 /***/ }),
 
-/***/ "./www/vue/ConfirmationComponent.vue":
-/*!*******************************************!*\
-  !*** ./www/vue/ConfirmationComponent.vue ***!
-  \*******************************************/
+/***/ "./www/ts/utils/VariousUtil.ts":
+/*!*************************************!*\
+  !*** ./www/ts/utils/VariousUtil.ts ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var VariousUtil = (function () {
+    function VariousUtil() {
+    }
+    VariousUtil.dateDiffMinutes = function (first, second) {
+        var value = Math.abs(first.getTime() - second.getTime());
+        return Math.round(value / (1000 * 60));
+    };
+    VariousUtil.roundDistance = function (value) {
+        return value.toFixed(1);
+    };
+    VariousUtil.distance = function (geolocation1, geolocation2) {
+        var theta = geolocation1.longitude - geolocation2.longitude;
+        var distance = Math.sin(this.degree2radians(geolocation1.latitude)) *
+            Math.sin(this.degree2radians(geolocation2.latitude)) +
+            Math.cos(this.degree2radians(geolocation1.latitude)) *
+                Math.cos(this.degree2radians(geolocation2.latitude)) *
+                Math.cos(this.degree2radians(theta));
+        distance = Math.acos(distance);
+        distance = this.radians2degree(distance);
+        return distance * 60 * 1.1515 * 1.609344;
+    };
+    VariousUtil.degree2radians = function (degree) {
+        return (degree * Math.PI / 180.0);
+    };
+    VariousUtil.radians2degree = function (radians) {
+        return (radians * 180 / Math.PI);
+    };
+    VariousUtil.MapToArrayAndSort = function (json) {
+        return Object.keys(json)
+            .map(function (key) {
+            return { key: key, value: json[key] };
+        })
+            .sort(function (item1, item2) {
+            if (item1.value > item2.value) {
+                return 1;
+            }
+            if (item1.value < item2.value) {
+                return -1;
+            }
+            return 0;
+        });
+    };
+    return VariousUtil;
+}());
+exports.VariousUtil = VariousUtil;
+
+
+/***/ }),
+
+/***/ "./www/vue/debug/AdminComponent.vue":
+/*!******************************************!*\
+  !*** ./www/vue/debug/AdminComponent.vue ***!
+  \******************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ConfirmationComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !ts-loader!../../node_modules/vue-loader/lib/selector?type=script&index=0!./ConfirmationComponent.vue */ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/ConfirmationComponent.vue");
-/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ConfirmationComponent_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ConfirmationComponent_vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ConfirmationComponent_vue__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ConfirmationComponent_vue__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_template_compiler_index_id_data_v_3df8586e_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_ConfirmationComponent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../node_modules/vue-loader/lib/template-compiler/index?{"id":"data-v-3df8586e","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!../../node_modules/vue-loader/lib/selector?type=template&index=0!./ConfirmationComponent.vue */ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3df8586e\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/ConfirmationComponent.vue");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../node_modules/vue-loader/lib/runtime/component-normalizer */ "./node_modules/vue-loader/lib/runtime/component-normalizer.js");
+/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AdminComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !ts-loader!../../../node_modules/vue-loader/lib/selector?type=script&index=0!./AdminComponent.vue */ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/debug/AdminComponent.vue");
+/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AdminComponent_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AdminComponent_vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AdminComponent_vue__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AdminComponent_vue__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_template_compiler_index_id_data_v_9b4e4d8e_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_AdminComponent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/template-compiler/index?{"id":"data-v-9b4e4d8e","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!../../../node_modules/vue-loader/lib/selector?type=template&index=0!./AdminComponent.vue */ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-9b4e4d8e\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/debug/AdminComponent.vue");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/component-normalizer */ "./node_modules/vue-loader/lib/runtime/component-normalizer.js");
 var disposed = false
 function injectStyle (context) {
   if (disposed) return
-  __webpack_require__(/*! !vue-style-loader!css-loader?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index?{"optionsId":"0","vue":true,"id":"data-v-3df8586e","scoped":true,"sourceMap":true}!../../node_modules/vue-loader/lib/selector?type=styles&index=0!./ConfirmationComponent.vue */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-3df8586e\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/ConfirmationComponent.vue")
+  __webpack_require__(/*! !vue-style-loader!css-loader?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index?{"optionsId":"0","vue":true,"id":"data-v-9b4e4d8e","scoped":true,"sourceMap":true}!../../../node_modules/vue-loader/lib/selector?type=styles&index=0!./AdminComponent.vue */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-9b4e4d8e\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/debug/AdminComponent.vue")
 }
 /* script */
 
@@ -12962,20 +13908,20 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-3df8586e"
+var __vue_scopeId__ = "data-v-9b4e4d8e"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 
 var Component = Object(_node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ConfirmationComponent_vue__WEBPACK_IMPORTED_MODULE_0___default.a,
-  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_3df8586e_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_ConfirmationComponent_vue__WEBPACK_IMPORTED_MODULE_1__["render"],
-  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_3df8586e_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_ConfirmationComponent_vue__WEBPACK_IMPORTED_MODULE_1__["staticRenderFns"],
+  _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_AdminComponent_vue__WEBPACK_IMPORTED_MODULE_0___default.a,
+  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_9b4e4d8e_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_AdminComponent_vue__WEBPACK_IMPORTED_MODULE_1__["render"],
+  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_9b4e4d8e_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_AdminComponent_vue__WEBPACK_IMPORTED_MODULE_1__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "www/vue/ConfirmationComponent.vue"
+Component.options.__file = "www/vue/debug/AdminComponent.vue"
 
 /* hot reload */
 if (false) {}
@@ -12985,24 +13931,24 @@ if (false) {}
 
 /***/ }),
 
-/***/ "./www/vue/icon/PieAndDonutChartIconComponent.vue":
-/*!********************************************************!*\
-  !*** ./www/vue/icon/PieAndDonutChartIconComponent.vue ***!
-  \********************************************************/
+/***/ "./www/vue/debug/PassPhraseComponent.vue":
+/*!***********************************************!*\
+  !*** ./www/vue/debug/PassPhraseComponent.vue ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PieAndDonutChartIconComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !ts-loader!../../../node_modules/vue-loader/lib/selector?type=script&index=0!./PieAndDonutChartIconComponent.vue */ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue");
-/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PieAndDonutChartIconComponent_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PieAndDonutChartIconComponent_vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PieAndDonutChartIconComponent_vue__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PieAndDonutChartIconComponent_vue__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_template_compiler_index_id_data_v_3312cc56_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_PieAndDonutChartIconComponent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/template-compiler/index?{"id":"data-v-3312cc56","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!../../../node_modules/vue-loader/lib/selector?type=template&index=0!./PieAndDonutChartIconComponent.vue */ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3312cc56\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue");
+/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PassPhraseComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !ts-loader!../../../node_modules/vue-loader/lib/selector?type=script&index=0!./PassPhraseComponent.vue */ "./node_modules/ts-loader/index.js!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./www/vue/debug/PassPhraseComponent.vue");
+/* harmony import */ var _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PassPhraseComponent_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PassPhraseComponent_vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PassPhraseComponent_vue__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PassPhraseComponent_vue__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_template_compiler_index_id_data_v_86b8a890_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_PassPhraseComponent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/template-compiler/index?{"id":"data-v-86b8a890","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!../../../node_modules/vue-loader/lib/selector?type=template&index=0!./PassPhraseComponent.vue */ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-86b8a890\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./www/vue/debug/PassPhraseComponent.vue");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/component-normalizer */ "./node_modules/vue-loader/lib/runtime/component-normalizer.js");
 var disposed = false
 function injectStyle (context) {
   if (disposed) return
-  __webpack_require__(/*! !vue-style-loader!css-loader?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index?{"optionsId":"0","vue":true,"id":"data-v-3312cc56","scoped":true,"sourceMap":true}!../../../node_modules/vue-loader/lib/selector?type=styles&index=0!./PieAndDonutChartIconComponent.vue */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-3312cc56\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/icon/PieAndDonutChartIconComponent.vue")
+  __webpack_require__(/*! !vue-style-loader!css-loader?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index?{"optionsId":"0","vue":true,"id":"data-v-86b8a890","scoped":true,"sourceMap":true}!../../../node_modules/vue-loader/lib/selector?type=styles&index=0!./PassPhraseComponent.vue */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-86b8a890\",\"scoped\":true,\"sourceMap\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./www/vue/debug/PassPhraseComponent.vue")
 }
 /* script */
 
@@ -13014,20 +13960,20 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-3312cc56"
+var __vue_scopeId__ = "data-v-86b8a890"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 
 var Component = Object(_node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PieAndDonutChartIconComponent_vue__WEBPACK_IMPORTED_MODULE_0___default.a,
-  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_3312cc56_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_PieAndDonutChartIconComponent_vue__WEBPACK_IMPORTED_MODULE_1__["render"],
-  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_3312cc56_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_PieAndDonutChartIconComponent_vue__WEBPACK_IMPORTED_MODULE_1__["staticRenderFns"],
+  _ts_loader_node_modules_vue_loader_lib_selector_type_script_index_0_PassPhraseComponent_vue__WEBPACK_IMPORTED_MODULE_0___default.a,
+  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_86b8a890_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_PassPhraseComponent_vue__WEBPACK_IMPORTED_MODULE_1__["render"],
+  _node_modules_vue_loader_lib_template_compiler_index_id_data_v_86b8a890_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_PassPhraseComponent_vue__WEBPACK_IMPORTED_MODULE_1__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "www/vue/icon/PieAndDonutChartIconComponent.vue"
+Component.options.__file = "www/vue/debug/PassPhraseComponent.vue"
 
 /* hot reload */
 if (false) {}
@@ -13038,4 +13984,4 @@ if (false) {}
 /***/ })
 
 /******/ });
-//# sourceMappingURL=ConfirmationBundle.js.map
+//# sourceMappingURL=PractitionerAdminBundle.js.map

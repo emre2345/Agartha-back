@@ -24,10 +24,8 @@ fun startServer(args: Array<String>) {
     // Set Connection to database
     MongoConnection.setConnection(Database.RUNTIME)
 
-    // Static files for demo and test purpose only
-    // Copied from agartha-front project, platforms/browser/www folder on 2018-05-25
-    // TODO: Remove this line and all files in resources before production
-    Spark.staticFiles.location("/agartha/demo")
+    // TODO: These files manipulates database and should only be accessible until dev and testing phase is over
+    Spark.staticFiles.location("/agartha/admin")
 
     // Start WebSocket
     webSocket("/websocket", WebSocketHandler::class.java)

@@ -85,7 +85,6 @@ class EndSessionTest {
 
     @Test
     fun circleNotCreator_creator_false() {
-        val start = LocalDateTime.now().minusMinutes(10)
         val session = EndSession(
                 currentCirclePractitioner,
                 circlePractitioners,
@@ -96,7 +95,6 @@ class EndSessionTest {
 
     @Test
     fun circleCreator_circlePoints_36() {
-        val start = LocalDateTime.now().minusMinutes(10)
         val session = EndSession(
                 currentCirclePractitioner,
                 circlePractitioners,
@@ -108,7 +106,6 @@ class EndSessionTest {
 
     @Test
     fun circleCreator_circlePoints_32() {
-        val start = LocalDateTime.now().minusMinutes(10)
         val session = EndSession(
                 currentCirclePractitioner,
                 circlePractitioners,

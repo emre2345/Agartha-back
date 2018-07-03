@@ -32,14 +32,14 @@ class MockedPractitionerService : IPractitionerService {
     }
 
     override fun updatePractitionerWithInvolvedInformation(
-            user: PractitionerDBO,
+            practitioner: PractitionerDBO,
             fullName: String,
             email: String,
             description: String): PractitionerDBO {
-        val index = practitionerList.indexOf(user)
-        user.addInvolvedInformation(fullName, email, description)
-        practitionerList[index] = user
-        return user
+        val index = practitionerList.indexOf(practitioner)
+        practitioner.addInvolvedInformation(fullName, email, description)
+        practitionerList[index] = practitioner
+        return practitioner
     }
 
     override fun startSession(
