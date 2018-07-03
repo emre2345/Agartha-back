@@ -9,10 +9,10 @@ import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.controllers.utils.EndSession
 import agartha.site.controllers.utils.ErrorMessagesEnum
 import agartha.site.controllers.utils.ReqArgument
+import agartha.site.objects.request.Feedback
 import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.objects.request.StartSessionInformation
 import agartha.site.objects.response.PractitionerReport
-import io.schinzel.basicutils.configvar.ConfigVar
 import io.schinzel.basicutils.configvar.IConfigVar
 import org.bson.types.ObjectId
 import spark.Request
@@ -204,22 +204,25 @@ class PractitionerController(private val mService: IPractitionerService, private
     private fun endSession(request: Request, response: Response): String {
         // Get practitioner from data source
         val practitioner: PractitionerDBO = getPractitioner(request)
+        // Get feedback for the circle if there is any in the body
+        val feedBackPoints: Long? = getFeedback(request.body())
         // object to calculate points to be awarded to practitioner
-        val sessonEnd = EndSession(
+        val sessionEnd = EndSession(
                 practitioner,
                 mService.getAll(),
                 request.params(ReqArgument.POINTS.value).toLong(),
                 config.getValue("A_CONTRIBUTION_PERCENT").toLong())
         //
         mService.endSession(
-                practitionerId = sessonEnd.practitionerId,
-                contributionPoints = sessonEnd.contributionPoints)
+                practitionerId = sessionEnd.practitionerId,
+                contributionPoints = sessionEnd.contributionPoints)
         mService.endCircle(
-                practitionerId = sessonEnd.practitionerId,
-                creator = sessonEnd.creator,
-                circle = sessonEnd.circle,
-                contributionPoints = sessonEnd.circlePoints)
-        return ControllerUtil.objectToString(mService.getById(sessonEnd.practitionerId))
+                practitionerId = sessionEnd.practitionerId,
+                creator = sessionEnd.creator,
+                circle = sessionEnd.circle,
+                contributionPoints = sessionEnd.circlePoints,
+                feedbackPoints = feedBackPoints)
+        return ControllerUtil.objectToString(mService.getById(sessionEnd.practitionerId))
     }
 
     /**
@@ -277,5 +280,15 @@ class PractitionerController(private val mService: IPractitionerService, private
             halt(404, ErrorMessagesEnum.EMAIL_NOT_FOUND.message)
         }
         return ControllerUtil.objectToString(practitioner)
+    }
+
+    /**
+     * If the body has any feedback then return the feedback points
+     * If the body is empty return null
+     * @param body - the body to get the Feedback class from
+     * @return feedback points or null
+     */
+    private fun getFeedback(body: String): Long? {
+        return if (!body.isEmpty()) ControllerUtil.stringToObject(body, Feedback::class.java).feedback else null
     }
 }

@@ -43,7 +43,11 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
             practitionerId: String, contributionPoints: Long)
 
     fun endCircle(
-            practitionerId: String, creator: Boolean, circle: CircleDBO?, contributionPoints: Long)
+            practitionerId: String,
+            creator: Boolean,
+            circle: CircleDBO?,
+            contributionPoints: Long,
+            feedbackPoints: Long?)
 
     /**
      * Add a circle id to a practitioner's registered circles array

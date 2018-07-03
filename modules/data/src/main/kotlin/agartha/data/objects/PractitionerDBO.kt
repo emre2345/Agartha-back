@@ -76,9 +76,11 @@ data class PractitionerDBO(
 
     /**
      * Check if practitioner is a creator of a specific circle
+     * by looking at all the practitioners circles and looking for the one with the right id
      */
     fun creatorOfCircle(circle: CircleDBO?): Boolean {
-        return this.circles.contains(circle)
+        val hej = this.circles.firstOrNull{ it._id == circle?._id }
+        return hej != null
     }
 
     /**
