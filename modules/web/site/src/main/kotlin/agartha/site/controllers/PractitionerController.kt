@@ -9,7 +9,6 @@ import agartha.site.controllers.utils.ControllerUtil
 import agartha.site.controllers.utils.EndSession
 import agartha.site.controllers.utils.ErrorMessagesEnum
 import agartha.site.controllers.utils.ReqArgument
-import agartha.site.objects.request.Feedback
 import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.objects.request.StartSessionInformation
 import agartha.site.objects.response.PractitionerReport
@@ -204,8 +203,6 @@ class PractitionerController(private val mService: IPractitionerService, private
     private fun endSession(request: Request, response: Response): String {
         // Get practitioner from data source
         val practitioner: PractitionerDBO = getPractitioner(request)
-        // Get feedback for the circle if there is any in the body
-        val feedBackPoints: Long? = getFeedback(request.body())
         // object to calculate points to be awarded to practitioner
         val sessionEnd = EndSession(
                 practitioner,
@@ -220,8 +217,7 @@ class PractitionerController(private val mService: IPractitionerService, private
                 practitionerId = sessionEnd.practitionerId,
                 creator = sessionEnd.creator,
                 circle = sessionEnd.circle,
-                contributionPoints = sessionEnd.circlePoints,
-                feedbackPoints = feedBackPoints)
+                contributionPoints = sessionEnd.circlePoints)
         return ControllerUtil.objectToString(mService.getById(sessionEnd.practitionerId))
     }
 
@@ -280,15 +276,5 @@ class PractitionerController(private val mService: IPractitionerService, private
             halt(404, ErrorMessagesEnum.EMAIL_NOT_FOUND.message)
         }
         return ControllerUtil.objectToString(practitioner)
-    }
-
-    /**
-     * If the body has any feedback then return the feedback points
-     * If the body is empty return null
-     * @param body - the body to get the Feedback class from
-     * @return feedback points or null
-     */
-    private fun getFeedback(body: String): Long? {
-        return if (!body.isEmpty()) ControllerUtil.stringToObject(body, Feedback::class.java).feedback else null
     }
 }

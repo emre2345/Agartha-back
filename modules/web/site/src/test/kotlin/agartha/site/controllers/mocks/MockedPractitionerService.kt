@@ -95,7 +95,7 @@ class MockedPractitionerService : IPractitionerService {
     }
 
 
-    override fun endCircle(practitionerId: String, creator: Boolean, circle: CircleDBO?, contributionPoints: Long, feedbackPoints: Long?) {
+    override fun endCircle(practitionerId: String, creator: Boolean, circle: CircleDBO?, contributionPoints: Long) {
 
     }
 

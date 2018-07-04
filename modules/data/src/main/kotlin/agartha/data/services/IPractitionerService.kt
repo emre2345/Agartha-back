@@ -46,8 +46,7 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
             practitionerId: String,
             creator: Boolean,
             circle: CircleDBO?,
-            contributionPoints: Long,
-            feedbackPoints: Long?)
+            contributionPoints: Long)
 
     /**
      * Add a circle id to a practitioner's registered circles array
