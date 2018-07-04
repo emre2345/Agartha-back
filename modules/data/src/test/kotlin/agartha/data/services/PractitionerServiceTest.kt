@@ -762,10 +762,10 @@ class PractitionerServiceTest : DatabaseHandler() {
         PractitionerService().insert(PractitionerDBO(_id = "reciever"))
         PractitionerService().insert(PractitionerDBO(_id = "giver"))
         // donate
-        PractitionerService().donatePoints("reciever", "giver", 7)
+        PractitionerService().donatePoints("giver", "reciever", 7)
         // Get giver
         val practitioner: PractitionerDBO = PractitionerService().getById("giver") ?: PractitionerDBO()
-        assertThat(practitioner.calculateSpiritBankPointsFromLog()).isEqualTo(-7)
+        assertThat(practitioner.calculateSpiritBankPointsFromLog()).isEqualTo(50-7)
     }
 
     @Test
@@ -773,9 +773,9 @@ class PractitionerServiceTest : DatabaseHandler() {
         PractitionerService().insert(PractitionerDBO(_id = "reciever"))
         PractitionerService().insert(PractitionerDBO(_id = "giver"))
         // donate
-        PractitionerService().donatePoints("reciever", "giver", 7)
+        PractitionerService().donatePoints("giver", "reciever", 7)
         // Get giver
         val practitioner: PractitionerDBO = PractitionerService().getById("reciever") ?: PractitionerDBO()
-        assertThat(practitioner.calculateSpiritBankPointsFromLog()).isEqualTo(7)
+        assertThat(practitioner.calculateSpiritBankPointsFromLog()).isEqualTo(50+7)
     }
 }
