@@ -71,6 +71,10 @@ class PractitionerController(private val mService: IPractitionerService, private
             //
             // Get practitioner from email address
             Spark.get("/find/email/${ReqArgument.USER_EMAIL.value}", ::getFromEmail)
+            //
+            // Donate points to a practitioner
+            Spark.before("/donate/${ReqArgument.FROM_ID.value}/${ReqArgument.TO_ID.value}/${ReqArgument.POINTS.value}", ::validateDonate)
+            Spark.post("/donate/${ReqArgument.FROM_ID.value}/${ReqArgument.TO_ID.value}/${ReqArgument.POINTS.value}", ::donatePoints)
         }
     }
 
@@ -121,6 +125,30 @@ class PractitionerController(private val mService: IPractitionerService, private
                 if (circle.intentions.find { it.title == sessionInfo.intention } == null) {
                     Spark.halt(400, ErrorMessagesEnum.INTENTION_NOT_MATCHED.message)
                 }
+            }
+        }
+    }
+
+    /**
+     * Validate that a practitioner can donate to another practitioner
+     */
+    @Suppress("UNUSED_PARAMETER")
+    private fun validateDonate(request: Request, response: Response) {
+        val fromPractitioner = getPractitioner(request, ReqArgument.FROM_ID.value)
+        val toPractitioner = getPractitioner(request, ReqArgument.TO_ID.value)
+        val points = request.params("").toLong()
+
+        // Either of practitioner is missing in database
+        if (fromPractitioner._id.isNullOrEmpty() || toPractitioner._id.isNullOrEmpty()) {
+            halt(400, ErrorMessagesEnum.PRACTITIONER_ID_INCORRECT.message)
+        } else {
+            // Points is zero or less
+            if (points <= 0) {
+                halt(400, ErrorMessagesEnum.NEGATIVE_INTEGER_VALUE.message)
+            }
+            // Giver has not enough points to give
+            if(fromPractitioner.calculateSpiritBankPointsFromLog() < points) {
+                halt(400, ErrorMessagesEnum.PRACTITIONER_OUT_OF_FUNDS.message)
             }
         }
     }
@@ -282,6 +310,20 @@ class PractitionerController(private val mService: IPractitionerService, private
         return ControllerUtil.objectToString(practitioner)
     }
 
+    @Suppress("UNUSED_PARAMETER")
+    private fun donatePoints(request: Request, response: Response): String {
+        val fromPractitioner = getPractitioner(request, ReqArgument.FROM_ID.value)
+        val toPractitioner = getPractitioner(request, ReqArgument.TO_ID.value)
+        val points = request.params("").toLong()
+        // Store
+        mService.donatePoints(
+                fromPractitionerId = fromPractitioner._id ?: "",
+                toPractitionerId = toPractitioner._id ?: "",
+                points = points)
+
+        return "true"
+    }
+
     /**
      * If the body has any feedback then return the feedback points
      * If the body is empty return null
@@ -291,4 +333,5 @@ class PractitionerController(private val mService: IPractitionerService, private
     private fun getFeedback(body: String): Long? {
         return if (!body.isEmpty()) ControllerUtil.stringToObject(body, Feedback::class.java).feedback else null
     }
+
 }

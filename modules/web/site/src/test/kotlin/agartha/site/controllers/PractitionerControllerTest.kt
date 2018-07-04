@@ -748,4 +748,67 @@ class PractitionerControllerTest {
         val response = testController.testServer.execute(request)
         assertThat(response.code()).isEqualTo(404)
     }
+
+    /*************************
+     * donate                *
+     *************************/
+
+    @Test
+    fun donateGiverMissing_status_400() {
+        mockedService.insert(PractitionerDBO(_id = "b"))
+
+        val request = testController.testServer.get("/practitioner/donate/a/b/7", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
+    }
+
+    @Test
+    fun donateRecieverMissing_status_400() {
+        mockedService.insert(PractitionerDBO(_id = "a"))
+
+        val request = testController.testServer.get("/practitioner/donate/a/b/7", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
+    }
+
+    @Test
+    fun donateNegativeValue_status_400() {
+        mockedService.insert(PractitionerDBO(_id = "a"))
+        mockedService.insert(PractitionerDBO(_id = "b"))
+
+        val request = testController.testServer.get("/practitioner/donate/a/b/-7", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
+    }
+
+    @Test
+    fun donateValueNotAnNumber_status_400() {
+        mockedService.insert(PractitionerDBO(_id = "a"))
+        mockedService.insert(PractitionerDBO(_id = "b"))
+
+        val request = testController.testServer.get("/practitioner/donate/a/b/seven", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
+    }
+
+    @Test
+    fun donateGiverOutOfFunds_status_400() {
+        mockedService.insert(PractitionerDBO(_id = "a", spiritBankLog = listOf(SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 5))))
+        mockedService.insert(PractitionerDBO(_id = "b"))
+
+        val request = testController.testServer.get("/practitioner/donate/a/b/7", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
+    }
+
+
+    @Test
+    fun donateSuccessful_status_200() {
+        mockedService.insert(PractitionerDBO(_id = "a", spiritBankLog = listOf(SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 10))))
+        mockedService.insert(PractitionerDBO(_id = "b"))
+
+        val request = testController.testServer.get("/practitioner/donate/a/b/7", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(200)
+    }
 }

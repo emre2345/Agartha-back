@@ -28,5 +28,7 @@ enum class SpiritBankLogItemType {
     // When a circle creator ends his/her session in circle
     ENDED_CREATED_CIRCLE,
     // When a circle creator wants to add virtual sessions to its circle
-    ADD_VIRTUAL_TO_CIRCLE
+    ADD_VIRTUAL_TO_CIRCLE,
+    // Points donated from user to user
+    DONATE
 }

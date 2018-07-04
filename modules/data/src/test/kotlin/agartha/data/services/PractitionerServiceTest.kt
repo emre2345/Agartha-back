@@ -752,4 +752,30 @@ class PractitionerServiceTest : DatabaseHandler() {
         val canAfford = PractitionerService().checkPractitionerCanAffordVirtualRegistered(practitioner, 3)
         assertThat(canAfford).isFalse()
     }
+
+    /***********************************************
+     * donate points                               *
+     ***********************************************/
+
+    @Test
+    fun donatePoints_giverPoints_neg7() {
+        PractitionerService().insert(PractitionerDBO(_id = "reciever"))
+        PractitionerService().insert(PractitionerDBO(_id = "giver"))
+        // donate
+        PractitionerService().donatePoints("reciever", "giver", 7)
+        // Get giver
+        val practitioner: PractitionerDBO = PractitionerService().getById("giver") ?: PractitionerDBO()
+        assertThat(practitioner.calculateSpiritBankPointsFromLog()).isEqualTo(-7)
+    }
+
+    @Test
+    fun donatePoints_recieverPoints_pos7() {
+        PractitionerService().insert(PractitionerDBO(_id = "reciever"))
+        PractitionerService().insert(PractitionerDBO(_id = "giver"))
+        // donate
+        PractitionerService().donatePoints("reciever", "giver", 7)
+        // Get giver
+        val practitioner: PractitionerDBO = PractitionerService().getById("reciever") ?: PractitionerDBO()
+        assertThat(practitioner.calculateSpiritBankPointsFromLog()).isEqualTo(7)
+    }
 }

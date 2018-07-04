@@ -126,4 +126,14 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      */
     fun checkPractitionerCanAffordVirtualRegistered(
             practitioner: PractitionerDBO, virtualRegistered: Long): Boolean
+
+
+    /**
+     * Donate points from one practitioner to another
+     * @param fromPractitionerId practitioner to remove points from
+     * @param toPractitionerId practitioner to add points to
+     * @param points number of ponts
+     */
+    fun donatePoints(
+            fromPractitionerId: String, toPractitionerId: String, points: Long)
 }

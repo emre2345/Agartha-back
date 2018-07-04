@@ -11,6 +11,7 @@ import agartha.data.services.IPractitionerService
  * Created by Jorgen Andersson on 2018-04-09.
  */
 class MockedPractitionerService : IPractitionerService {
+
     /**
      * Overloading a new function to the list
      */
@@ -175,6 +176,9 @@ class MockedPractitionerService : IPractitionerService {
     override fun checkPractitionerCanAffordVirtualRegistered(practitioner: PractitionerDBO, virtualRegistered: Long): Boolean {
         val pointsToPay = Settings.COST_ADD_VIRTUAL_SESSION_POINTS * virtualRegistered
         return practitioner.calculateSpiritBankPointsFromLog() >= pointsToPay
+    }
+
+    override fun donatePoints(fromPractitionerId: String, toPractitionerId: String, points: Long) {
     }
 
     /**

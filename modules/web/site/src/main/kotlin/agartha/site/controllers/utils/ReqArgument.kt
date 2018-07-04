@@ -8,6 +8,8 @@ package agartha.site.controllers.utils
 enum class ReqArgument(val value: String) {
     USER_EMAIL(":userEmail"),
     PRACTITIONER_ID(":userId"),
+    FROM_ID(":fromId"),
+    TO_ID(":toId"),
     CIRCLE_ID(":circleId"),
     IMAGE_ID(":imageId"),
     POINTS(":points"),

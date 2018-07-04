@@ -8,6 +8,7 @@ import agartha.data.objects.*
 import com.mongodb.client.result.UpdateResult
 import org.bson.Document
 import org.litote.kmongo.*
+import kotlin.math.absoluteValue
 
 /**
  * Purpose of this implementation is functions for reading/writing practitioner data in storage
@@ -122,10 +123,10 @@ class PractitionerService : IPractitionerService {
                             points = contributionPoints))
         }
         // If the circle got any feedback then push the feedback to the list
-        if(feedbackPoints != null && circle != null){
+        if (feedbackPoints != null && circle != null) {
             // Get creator of circle
             val creatorOfCircle: PractitionerDBO? = getCreatorOfCircle(circle)
-            if (creatorOfCircle?._id != null){
+            if (creatorOfCircle?._id != null) {
                 // Get index of the circle that we want to push the points to its feedback list
                 val index = getIndexOfCircleForPractitioner(creatorOfCircle._id, circle)
                 // If we have a the circle we are looking for
@@ -255,6 +256,28 @@ class PractitionerService : IPractitionerService {
         return practitioner.calculateSpiritBankPointsFromLog() >= pointsToPay
     }
 
+    /**
+     * Donate points from one practitioner to another
+     * @param fromPractitionerId practitioner to remove points from
+     * @param toPractitionerId practitioner to add points to
+     * @param points number of ponts
+     * @return true if successful
+     */
+    override fun donatePoints(fromPractitionerId: String, toPractitionerId: String, points: Long) {
+        // Take from practitioner
+        pushObjectToPractitionersArray(fromPractitionerId,
+                PractitionersArraysEnum.SPIRIT_BANK_LOG,
+                SpiritBankLogItemDBO(
+                        type = SpiritBankLogItemType.DONATE,
+                        points = points.absoluteValue * -1))
+        // Give to practitioner
+        pushObjectToPractitionersArray(toPractitionerId,
+                PractitionersArraysEnum.SPIRIT_BANK_LOG,
+                SpiritBankLogItemDBO(
+                        type = SpiritBankLogItemType.DONATE,
+                        points = points.absoluteValue))
+    }
+
 
     /**
      * Update the last session for a user by setting endTime to now
@@ -342,7 +365,8 @@ class PractitionerService : IPractitionerService {
         // Go through all the practitioners
         return getAll().firstOrNull {
             // Is practitioner creator of this circle?
-            it.creatorOfCircle(circle) }
+            it.creatorOfCircle(circle)
+        }
     }
 
     /**
