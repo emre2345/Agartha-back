@@ -11,7 +11,6 @@ import agartha.data.services.IPractitionerService
  * Created by Jorgen Andersson on 2018-04-09.
  */
 class MockedPractitionerService : IPractitionerService {
-
     /**
      * Overloading a new function to the list
      */
@@ -96,7 +95,7 @@ class MockedPractitionerService : IPractitionerService {
     }
 
 
-    override fun endCircle(practitionerId: String, creator: Boolean, circle: CircleDBO?, contributionPoints: Long, feedbackPoints: Long?) {
+    override fun endCircle(practitionerId: String, creator: Boolean, circle: CircleDBO?, contributionPoints: Long) {
 
     }
 
@@ -176,6 +175,15 @@ class MockedPractitionerService : IPractitionerService {
     override fun checkPractitionerCanAffordVirtualRegistered(practitioner: PractitionerDBO, virtualRegistered: Long): Boolean {
         val pointsToPay = Settings.COST_ADD_VIRTUAL_SESSION_POINTS * virtualRegistered
         return practitioner.calculateSpiritBankPointsFromLog() >= pointsToPay
+    }
+
+    override fun giveFeedback(circle: CircleDBO, feedbackPoints: Long): Boolean {
+        // Go through all the practitioners
+        val creator = getAll().firstOrNull {
+            // Is practitioner creator of this circle?
+            it.creatorOfCircle(circle) }
+        // Return true if circle exist/has creator
+        return creator != null
     }
 
     override fun donatePoints(fromPractitionerId: String, toPractitionerId: String, points: Long) {

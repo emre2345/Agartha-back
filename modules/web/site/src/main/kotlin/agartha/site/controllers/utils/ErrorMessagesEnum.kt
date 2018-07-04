@@ -10,5 +10,6 @@ enum class ErrorMessagesEnum(val message: String){
     INTENTION_NOT_MATCHED("Selected intention does not match any in Circle"),
     EMAIL_NOT_FOUND("Email is not registered in database"),
     NEGATIVE_INTEGER_VALUE("Value cannot be negative"),
-    PRACTITIONER_NOT_AFFORD_ADD_VIRTUAL("Practitioner cannot afford to have this many virtual registered to this circle")
+    PRACTITIONER_NOT_AFFORD_ADD_VIRTUAL("Practitioner cannot afford to have this many virtual registered to this circle"),
+    GIVE_FEEDBACK("Something went wrong and the feedback did not register")
 }

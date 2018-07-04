@@ -101,14 +101,12 @@ class PractitionerService : IPractitionerService {
      * @param creator is above practitioner id creator of circle
      * @param circle circle to end
      * @param contributionPoints points to be awarded to practitioner
-     * @param feedBackPoints points for feedback to the circle
      */
     override fun endCircle(
             practitionerId: String,
             creator: Boolean,
             circle: CircleDBO?,
-            contributionPoints: Long,
-            feedbackPoints: Long?) {
+            contributionPoints: Long) {
         // if practitioner is creator or circle
         if (creator && circle != null) {
             updateCircleWithEndTimeNow(practitionerId, circle)
@@ -121,23 +119,6 @@ class PractitionerService : IPractitionerService {
                     SpiritBankLogItemDBO(
                             type = SpiritBankLogItemType.ENDED_CREATED_CIRCLE,
                             points = contributionPoints))
-        }
-        // If the circle got any feedback then push the feedback to the list
-        if (feedbackPoints != null && circle != null) {
-            // Get creator of circle
-            val creatorOfCircle: PractitionerDBO? = getCreatorOfCircle(circle)
-            if (creatorOfCircle?._id != null) {
-                // Get index of the circle that we want to push the points to its feedback list
-                val index = getIndexOfCircleForPractitioner(creatorOfCircle._id, circle)
-                // If we have a the circle we are looking for
-                if (index >= 0) {
-                    // Push the points to the feedback list for this circle
-                    collection.updateOneById(
-                            creatorOfCircle._id,
-                            Document("${MongoOperator.push}",
-                                    Document("${PractitionersArraysEnum.CIRCLES.value}.$index.feedback", feedbackPoints)))
-                }
-            }
         }
     }
 
@@ -257,12 +238,38 @@ class PractitionerService : IPractitionerService {
     }
 
     /**
-     * Donate points from one practitioner to another
-     * @param fromPractitionerId practitioner to remove points from
-     * @param toPractitionerId practitioner to add points to
-     * @param points number of ponts
-     * @return true if successful
+     * Pushes a new feedback number to the circle's feedback list
+     *
+     * @param circle the circle that should get the feedback
+     * @param feedbackPoints
+     * @return true if push went fine
      */
+    override fun giveFeedback(circle: CircleDBO, feedbackPoints: Long): Boolean {
+        // Get creator of circle
+        val creatorOfCircle: PractitionerDBO? = getCreatorOfCircle(circle)
+        var updateOneByIdCount = 0L
+        if (creatorOfCircle?._id != null) {
+            // Get index of the circle that we want to push the points to its feedback list
+            val index = getIndexOfCircleForPractitioner(creatorOfCircle._id, circle)
+            // If we have a the circle we are looking for
+            if (index >= 0) {
+                // Push the points to the feedback list for this circle
+                updateOneByIdCount = collection.updateOneById(
+                        creatorOfCircle._id,
+                        Document("${MongoOperator.push}",
+                                Document("${PractitionersArraysEnum.CIRCLES.value}.$index.feedback", feedbackPoints))).modifiedCount
+            }
+        }
+        return updateOneByIdCount == 1L
+    }
+
+    /*
+    * Donate points from one practitioner to another
+    * @param fromPractitionerId practitioner to remove points from
+    * @param toPractitionerId practitioner to add points to
+    * @param points number of ponts
+    * @return true if successful
+    */
     override fun donatePoints(fromPractitionerId: String, toPractitionerId: String, points: Long) {
         // Take from practitioner
         pushObjectToPractitionersArray(fromPractitionerId,

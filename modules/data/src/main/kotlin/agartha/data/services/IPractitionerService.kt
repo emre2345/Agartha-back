@@ -46,8 +46,7 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
             practitionerId: String,
             creator: Boolean,
             circle: CircleDBO?,
-            contributionPoints: Long,
-            feedbackPoints: Long?)
+            contributionPoints: Long)
 
     /**
      * Add a circle id to a practitioner's registered circles array
@@ -127,6 +126,14 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
     fun checkPractitionerCanAffordVirtualRegistered(
             practitioner: PractitionerDBO, virtualRegistered: Long): Boolean
 
+    /**
+     * Gives feedback to the circle
+     *
+     * @param circle the circle that should get the feedback
+     * @param feedbackPoints
+     * @return true if push went fine
+     */
+    fun giveFeedback(circle: CircleDBO, feedbackPoints: Long): Boolean
 
     /**
      * Donate points from one practitioner to another
