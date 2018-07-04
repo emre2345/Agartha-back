@@ -223,9 +223,9 @@ class CircleControllerTest {
         assertThat(circles.size).isEqualTo(2)
     }
 
-    /*****************
+    /**********************
      * getTotalRegistered *
-     *****************/
+     **********************/
     @Test
     fun getTotalRegistered_status_200() {
         setup()
@@ -250,6 +250,32 @@ class CircleControllerTest {
         val response = testController.testServer.execute(request)
         val registered = ControllerUtil.stringToObject(String(response.body()), RegisteredReport::class.java)
         assertThat(registered.practitionersRegistered).isEqualTo(1)
+    }
+
+    /****************
+     * giveFeedback *
+     ****************/
+    @Test
+    fun giveFeedback_status_200() {
+        setup()
+        val request = testController.testServer.post("/circle/feedback/1/99", "", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(200)
+    }
+    @Test
+    fun giveFeedback_circleDoesNotExistStatus_400() {
+        setup()
+        val request = testController.testServer.post("/circle/feedback/99/99", "",false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
+    }
+    @Test
+    fun giveFeedback_response_circle() {
+        setup()
+        val request = testController.testServer.post("/circle/feedback/1/99", "",false)
+        val response = testController.testServer.execute(request)
+        val circle = ControllerUtil.stringToObject(String(response.body()), CircleDBO::class.java)
+        assertThat(circle._id).isEqualTo("1")
     }
 
     /*************
