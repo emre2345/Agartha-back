@@ -111,7 +111,7 @@ class EndSessionTest {
                 circlePractitioners,
                 12,
                 90)
-        // 3 practitioner * 12 points * 100 percent
+        // 3 practitioner * 12 points * 90 percent
         assertThat(session.circlePoints).isEqualTo(32)
     }
 }
