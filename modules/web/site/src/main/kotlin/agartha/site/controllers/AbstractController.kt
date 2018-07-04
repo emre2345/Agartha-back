@@ -56,16 +56,8 @@ abstract class AbstractController(private val mService: IPractitionerService) {
      * The null should not happen since Spark.before should catch these
      */
     fun getPractitioner(request: Request): PractitionerDBO {
-        return getPractitioner(request, request.params(ReqArgument.PRACTITIONER_ID.value))
-    }
-
-    /**
-     * Get practitioner from datasource
-     */
-    fun getPractitioner(request: Request, param: String): PractitionerDBO {
-        val practitionerId = request.params(param)
+        val practitionerId = request.params(ReqArgument.PRACTITIONER_ID.value)
         return mService.getById(practitionerId) ?: PractitionerDBO(_id = "")
-
     }
 
     /**

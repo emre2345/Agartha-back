@@ -757,7 +757,7 @@ class PractitionerControllerTest {
     fun donateGiverMissing_status_400() {
         mockedService.insert(PractitionerDBO(_id = "b"))
 
-        val request = testController.testServer.get("/practitioner/donate/a/b/7", false)
+        val request = testController.testServer.post("/practitioner/donate/a/b/7", "", false)
         val response = testController.testServer.execute(request)
         assertThat(response.code()).isEqualTo(400)
     }
@@ -766,7 +766,7 @@ class PractitionerControllerTest {
     fun donateRecieverMissing_status_400() {
         mockedService.insert(PractitionerDBO(_id = "a"))
 
-        val request = testController.testServer.get("/practitioner/donate/a/b/7", false)
+        val request = testController.testServer.post("/practitioner/donate/a/b/7", "", false)
         val response = testController.testServer.execute(request)
         assertThat(response.code()).isEqualTo(400)
     }
@@ -776,19 +776,19 @@ class PractitionerControllerTest {
         mockedService.insert(PractitionerDBO(_id = "a"))
         mockedService.insert(PractitionerDBO(_id = "b"))
 
-        val request = testController.testServer.get("/practitioner/donate/a/b/-7", false)
+        val request = testController.testServer.post("/practitioner/donate/a/b/-7", "", false)
         val response = testController.testServer.execute(request)
         assertThat(response.code()).isEqualTo(400)
     }
 
     @Test
-    fun donateValueNotAnNumber_status_400() {
+    fun donateValueNotAnNumber_status_500() {
         mockedService.insert(PractitionerDBO(_id = "a"))
         mockedService.insert(PractitionerDBO(_id = "b"))
 
-        val request = testController.testServer.get("/practitioner/donate/a/b/seven", false)
+        val request = testController.testServer.post("/practitioner/donate/a/b/seven", "", false)
         val response = testController.testServer.execute(request)
-        assertThat(response.code()).isEqualTo(400)
+        assertThat(response.code()).isEqualTo(500)
     }
 
     @Test
@@ -796,7 +796,7 @@ class PractitionerControllerTest {
         mockedService.insert(PractitionerDBO(_id = "a", spiritBankLog = listOf(SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 5))))
         mockedService.insert(PractitionerDBO(_id = "b"))
 
-        val request = testController.testServer.get("/practitioner/donate/a/b/7", false)
+        val request = testController.testServer.post("/practitioner/donate/a/b/7", "", false)
         val response = testController.testServer.execute(request)
         assertThat(response.code()).isEqualTo(400)
     }
@@ -807,7 +807,7 @@ class PractitionerControllerTest {
         mockedService.insert(PractitionerDBO(_id = "a", spiritBankLog = listOf(SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 10))))
         mockedService.insert(PractitionerDBO(_id = "b"))
 
-        val request = testController.testServer.get("/practitioner/donate/a/b/7", false)
+        val request = testController.testServer.post("/practitioner/donate/a/b/7", "", false)
         val response = testController.testServer.execute(request)
         assertThat(response.code()).isEqualTo(200)
     }

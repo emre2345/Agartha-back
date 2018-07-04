@@ -134,9 +134,9 @@ class PractitionerController(private val mService: IPractitionerService, private
      */
     @Suppress("UNUSED_PARAMETER")
     private fun validateDonate(request: Request, response: Response) {
-        val fromPractitioner = getPractitioner(request, ReqArgument.FROM_ID.value)
-        val toPractitioner = getPractitioner(request, ReqArgument.TO_ID.value)
-        val points = request.params("").toLong()
+        val fromPractitioner = mService.getById(request.params(ReqArgument.FROM_ID.value)) ?: PractitionerDBO(_id = "")
+        val toPractitioner = mService.getById(request.params(ReqArgument.TO_ID.value)) ?: PractitionerDBO(_id = "")
+        val points = request.params(ReqArgument.POINTS.value).toLong()
 
         // Either of practitioner is missing in database
         if (fromPractitioner._id.isNullOrEmpty() || toPractitioner._id.isNullOrEmpty()) {
@@ -312,9 +312,9 @@ class PractitionerController(private val mService: IPractitionerService, private
 
     @Suppress("UNUSED_PARAMETER")
     private fun donatePoints(request: Request, response: Response): String {
-        val fromPractitioner = getPractitioner(request, ReqArgument.FROM_ID.value)
-        val toPractitioner = getPractitioner(request, ReqArgument.TO_ID.value)
-        val points = request.params("").toLong()
+        val fromPractitioner = mService.getById(request.params(ReqArgument.FROM_ID.value)) ?: PractitionerDBO(_id = "")
+        val toPractitioner = mService.getById(request.params(ReqArgument.TO_ID.value)) ?: PractitionerDBO(_id = "")
+        val points = request.params(ReqArgument.POINTS.value).toLong()
         // Store
         mService.donatePoints(
                 fromPractitionerId = fromPractitioner._id ?: "",
