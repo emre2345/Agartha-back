@@ -229,7 +229,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         val practitioner = PractitionerService().insert(user)
         // Start three session
         PractitionerService().startSession(practitioner, SessionDBO(null, "Test 1", "Testing 1"))
-        PractitionerService().startSession(practitioner,SessionDBO( null, "Test 1", "Testing 1"))
+        PractitionerService().startSession(practitioner, SessionDBO(null, "Test 1", "Testing 1"))
         PractitionerService().startSession(practitioner, SessionDBO(null, "Test 1", "Testing 1"))
         // End session (should end the last
         PractitionerService().endSession(practitioner._id!!, 0)
@@ -366,7 +366,7 @@ class PractitionerServiceTest : DatabaseHandler() {
                 circle = circle))
         // End session for circle creator
         PractitionerService().endSession("a", 7)
-        PractitionerService().endCircle("a", true, circle,10)
+        PractitionerService().endCircle("a", true, circle, 10)
         // Get from database
         val item = PractitionerService().getById("a")
         assertThat(item!!.spiritBankLog.last().points).isEqualTo(10)
@@ -637,6 +637,7 @@ class PractitionerServiceTest : DatabaseHandler() {
                 spiritBankLog = listOf(
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50)))
     }
+
     @Test
     fun payForAddingVirtualSessions_practitionerCanAfford_true() {
         val practitioner = generatePractitionerWithPoints()
@@ -644,6 +645,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         val wentFine = PractitionerService().payForAddingVirtualSessions(practitioner, 3)
         assertThat(wentFine).isTrue()
     }
+
     @Test
     fun payForAddingVirtualSessions_practitionerCanAfford_practitionerSpiritBankPoints35() {
         val practitioner = generatePractitionerWithPoints()
@@ -652,6 +654,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         val points = PractitionerService().getById(practitioner._id!!)!!.calculateSpiritBankPointsFromLog()
         assertThat(points).isEqualTo(35)
     }
+
     @Test
     fun payForAddingVirtualSessions_practitionerCanAfford_newLogInSpiritBankType() {
         val practitioner = generatePractitionerWithPoints()
@@ -660,6 +663,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         val logItem = PractitionerService().getById(practitioner._id!!)!!.spiritBankLog.last()
         assertThat(logItem.type).isEqualTo(SpiritBankLogItemType.ADD_VIRTUAL_TO_CIRCLE)
     }
+
     @Test
     fun payForAddingVirtualSessions_practitionerCanNotAfford_false() {
         val practitioner = PractitionerDBO(
@@ -667,7 +671,7 @@ class PractitionerServiceTest : DatabaseHandler() {
                 spiritBankLog = listOf(
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.START, points = 50),
                         SpiritBankLogItemDBO(type = SpiritBankLogItemType.ADD_VIRTUAL_TO_CIRCLE, points = -45)
-                        ))
+                ))
         PractitionerService().insert(practitioner)
         val wentFine = PractitionerService().payForAddingVirtualSessions(practitioner, 3)
         assertThat(wentFine).isFalse()
@@ -683,6 +687,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         val canAfford = PractitionerService().checkPractitionerCanAffordVirtualRegistered(practitioner, 3)
         assertThat(canAfford).isTrue()
     }
+
     @Test
     fun checkPractitionerCanAffordVirtualRegistered_practitionerCanNotAfford_false() {
         val practitioner = PractitionerDBO(
@@ -699,11 +704,10 @@ class PractitionerServiceTest : DatabaseHandler() {
     /****************
      * giveFeedback *
      ****************/
-    @Test
-    fun giveFeedback_circleHasCreator_true() {
+    fun setupPracToFeedbackFunctions(): CircleDBO {
         val circle = CircleDBO(
                 _id = "123",
-                name  = "Name",
+                name = "Name",
                 description = "",
                 startTime = LocalDateTime.now(),
                 endTime = LocalDateTime.now().plusHours(1),
@@ -715,14 +719,30 @@ class PractitionerServiceTest : DatabaseHandler() {
                 _id = "p1",
                 circles = listOf(circle))
         PractitionerService().insert(practitioner)
+        return circle
+    }
+
+    fun getCircleFromId(circleId: String): CircleDBO? {
+        return PractitionerService()
+                // Get all practitioner
+                .getAll()
+                // Get all circles from practitioner
+                .flatMap { it.circles }
+                // Find the one with correct id
+                .find { it._id == "123" }
+    }
+    @Test
+    fun giveFeedback_circleHasCreator_true() {
+        val circle = setupPracToFeedbackFunctions()
         val wentFine = PractitionerService().giveFeedback(circle, 3)
         assertThat(wentFine).isTrue()
     }
+
     @Test
     fun giveFeedback_circleDoesNotHasCreator_false() {
         val circle = CircleDBO(
                 _id = "123",
-                name  = "Name",
+                name = "Name",
                 description = "",
                 startTime = LocalDateTime.now(),
                 endTime = LocalDateTime.now().plusHours(1),
@@ -732,5 +752,23 @@ class PractitionerServiceTest : DatabaseHandler() {
                 language = "")
         val wentFine = PractitionerService().giveFeedback(circle, 3)
         assertThat(wentFine).isFalse()
+    }
+
+    @Test
+    fun giveFeedback_circleFeedbackSize_1() {
+        val circle = setupPracToFeedbackFunctions()
+        PractitionerService().giveFeedback(circle, 3)
+        // Find the circle
+        val circleWithFeedback: CircleDBO? = getCircleFromId("123")
+        assertThat(circleWithFeedback!!.feedback.last()).isEqualTo(3)
+    }
+
+    @Test
+    fun giveFeedback_circleFeedbackValue_3() {
+        val circle = setupPracToFeedbackFunctions()
+        PractitionerService().giveFeedback(circle, 3)
+        // Find the circle
+        val circleWithFeedback: CircleDBO? = getCircleFromId("123")
+        assertThat(circleWithFeedback!!.feedback.last()).isEqualTo(3)
     }
 }
