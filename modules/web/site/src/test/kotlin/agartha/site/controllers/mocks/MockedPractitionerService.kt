@@ -177,6 +177,11 @@ class MockedPractitionerService : IPractitionerService {
         return practitioner.calculateSpiritBankPointsFromLog() >= pointsToPay
     }
 
+    override fun giveFeedback(circle: CircleDBO, feedbackPoints: Long): Boolean {
+        //TODO: implement
+        return false
+    }
+
     /**
      * Clear database
      */

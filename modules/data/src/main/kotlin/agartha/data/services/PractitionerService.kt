@@ -255,6 +255,32 @@ class PractitionerService : IPractitionerService {
         return practitioner.calculateSpiritBankPointsFromLog() >= pointsToPay
     }
 
+    /**
+     * Pushes a new feedback number to the circle's feedback list
+     *
+     * @param circle the circle that should get the feedback
+     * @param feedbackPoints
+     * @return true if push went fine
+     */
+    override fun giveFeedback(circle: CircleDBO, feedbackPoints: Long): Boolean {
+        // Get creator of circle
+        val creatorOfCircle: PractitionerDBO? = getCreatorOfCircle(circle)
+        var updateOneByIdCount = 0L
+        if (creatorOfCircle?._id != null){
+            // Get index of the circle that we want to push the points to its feedback list
+            val index = getIndexOfCircleForPractitioner(creatorOfCircle._id, circle)
+            // If we have a the circle we are looking for
+            if (index >= 0) {
+                // Push the points to the feedback list for this circle
+                updateOneByIdCount = collection.updateOneById(
+                        creatorOfCircle._id,
+                        Document("${MongoOperator.push}",
+                                Document("${PractitionersArraysEnum.CIRCLES.value}.$index.feedback", feedbackPoints))).modifiedCount
+            }
+        }
+        return  updateOneByIdCount == 1L
+    }
+
 
     /**
      * Update the last session for a user by setting endTime to now

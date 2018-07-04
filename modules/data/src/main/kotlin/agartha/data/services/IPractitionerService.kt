@@ -126,4 +126,13 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      */
     fun checkPractitionerCanAffordVirtualRegistered(
             practitioner: PractitionerDBO, virtualRegistered: Long): Boolean
+
+    /**
+     * Gives feedback to the circle
+     *
+     * @param circle the circle that should get the feedback
+     * @param feedbackPoints
+     * @return true if push went fine
+     */
+    fun giveFeedback(circle: CircleDBO, feedbackPoints: Long): Boolean
 }

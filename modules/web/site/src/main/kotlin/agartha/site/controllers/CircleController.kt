@@ -46,6 +46,9 @@ class CircleController(
             Spark.before("/registered/total/${ReqArgument.CIRCLE_ID.value}", ::validateCircle)
             Spark.get("/registered/total/${ReqArgument.CIRCLE_ID.value}", ::getTotalRegistered)
             //
+            // Give feedback to a circle
+            Spark.post("/feedback/${ReqArgument.CIRCLE_ID.value}/${ReqArgument.POINTS.value}", ::giveFeedback)
+            //
             // Add a circle to a practitioner
             Spark.before("/add/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
             Spark.before("/add/${ReqArgument.PRACTITIONER_ID.value}", ::validateCreateCircle)
@@ -197,6 +200,22 @@ class CircleController(
         val practitionersRegistered = practitioners.filter { it.registeredCircles.contains(circle._id) }.size
         // Create a report object and return it
         return ControllerUtil.objectToString(RegisteredReport(circle.virtualRegistered, practitionersRegistered.toLong()))
+    }
+
+    /**
+     * Gives feedback to a circle
+     *
+     * @return registeredReport as a string
+     */
+    @Suppress("UNUSED_PARAMETER")
+    private fun giveFeedback(request: Request, response: Response): String {
+        val circle: CircleDBO = getCircle(request, false)
+        val feedback = request.params(ReqArgument.POINTS.value).toLong()
+        val wentFine = mService.giveFeedback(circle, feedback)
+        if(!wentFine){
+            spark.kotlin.halt(400, ErrorMessagesEnum.GIVE_FEEDBACK.message)
+        }
+        return ControllerUtil.objectToString(getCircle(request, false))
     }
 
     /**
