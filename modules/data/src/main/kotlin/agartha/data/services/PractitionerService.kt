@@ -100,7 +100,6 @@ class PractitionerService : IPractitionerService {
      * @param creator is above practitioner id creator of circle
      * @param circle circle to end
      * @param contributionPoints points to be awarded to practitioner
-     * @param feedBackPoints points for feedback to the circle
      */
     override fun endCircle(
             practitionerId: String,

@@ -324,7 +324,7 @@ class PractitionerServiceTest : DatabaseHandler() {
                 circle = circle))
         // End session for circle creator
         PractitionerService().endSession("a", 7)
-        PractitionerService().endCircle("a", true, circle, 40, 1)
+        PractitionerService().endCircle("a", true, circle, 40)
         // Get from database
         val item = PractitionerService().getById("a")
         assertThat(item!!.spiritBankLog.last().type).isEqualTo(SpiritBankLogItemType.ENDED_CREATED_CIRCLE)
@@ -366,7 +366,7 @@ class PractitionerServiceTest : DatabaseHandler() {
                 circle = circle))
         // End session for circle creator
         PractitionerService().endSession("a", 7)
-        PractitionerService().endCircle("a", true, circle,10, 1)
+        PractitionerService().endCircle("a", true, circle,10)
         // Get from database
         val item = PractitionerService().getById("a")
         assertThat(item!!.spiritBankLog.last().points).isEqualTo(10)
@@ -400,7 +400,7 @@ class PractitionerServiceTest : DatabaseHandler() {
                 circle = circle))
         // End session for circle creator
         PractitionerService().endSession("a", 7)
-        PractitionerService().endCircle("a", true, circle, 14, 1)
+        PractitionerService().endCircle("a", true, circle, 14)
         // Get from database
         val updatedPractitioner = PractitionerService().getById("a")
         assertThat(updatedPractitioner!!.circles[0].endTime).isNotEqualTo(circleEndTime)
@@ -433,69 +433,12 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Insert sessions
         PractitionerService().startSession(practitioner, SessionDBO(null, "Test 1", "Testing 1"))
         PractitionerService().endSession(practitioner._id!!, 7)
-        PractitionerService().endCircle(practitioner._id!!, false, null, 0, 1)
+        PractitionerService().endCircle(practitioner._id!!, false, null, 0)
         // Get from database
         val item = PractitionerService().getById(practitioner._id!!)
         assertThat(item!!.spiritBankLog.size).isEqualTo(2)
     }
 
-    /**
-     *
-     */
-    @Test
-    fun endSessionAndEndCircle_feedbackPointsStored_storedOneNewLog() {
-        val insertCircle = CircleDBO(
-                name = "",
-                description = "",
-                startTime = DateTimeFormat.localDateTimeUTC(),
-                endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(15),
-                disciplines = listOf(),
-                intentions = listOf(),
-                minimumSpiritContribution = 4,
-                language = "Swedish")
-        // Insert and start session for Circle Creator
-        val circleCreator = PractitionerDBO(circles = listOf(insertCircle))
-        val insertCircleCreator = PractitionerService().insert(circleCreator)
-        PractitionerService().startSession(insertCircleCreator, SessionDBO(null, "Test 1", "Testing 1", circle = insertCircle))
-        // Insert a new practising user
-        val user = PractitionerDBO()
-        val insertPractitioner = PractitionerService().insert(user)
-        // Insert sessions for practising user
-        PractitionerService().startSession(insertPractitioner, SessionDBO(null, "Test 1", "Testing 1", circle = insertCircle))
-        PractitionerService().endSession(insertPractitioner._id!!, 7)
-        PractitionerService().endCircle(insertPractitioner._id!!, false, insertCircle, 0, 5)
-        // Get from database
-        val creator = PractitionerService().getById(insertCircleCreator._id!!)
-        val circle = creator!!.circles.lastOrNull()
-        assertThat(circle!!.feedback.lastOrNull()).isEqualTo(5)
-    }
-
-    /**
-     *
-     */
-    @Test
-    fun endSessionAndEndCircle_onlyNonNullShouldBeStored_storedNoNewLog() {
-        val insertCircle = CircleDBO(
-                name = "",
-                description = "",
-                startTime = DateTimeFormat.localDateTimeUTC(),
-                endTime = DateTimeFormat.localDateTimeUTC().plusMinutes(15),
-                disciplines = listOf(),
-                intentions = listOf(),
-                minimumSpiritContribution = 4,
-                language = "Swedish")
-        val user = PractitionerDBO(circles = listOf(insertCircle))
-        // Insert a new practising user
-        val insertPractitioner = PractitionerService().insert(user)
-        // Insert sessions
-        PractitionerService().startSession(insertPractitioner, SessionDBO(null, "Test 1", "Testing 1"))
-        PractitionerService().endSession(insertPractitioner._id!!, 7)
-        PractitionerService().endCircle(insertPractitioner._id!!, false, insertCircle, 0, null)
-        // Get from database
-        val practitioner = PractitionerService().getById(insertPractitioner._id!!)
-        val circle = practitioner!!.circles.lastOrNull()
-        assertThat(circle!!.feedback.size).isEqualTo(0)
-    }
 
     /*************************
      * add registered circle *
@@ -751,5 +694,43 @@ class PractitionerServiceTest : DatabaseHandler() {
         PractitionerService().insert(practitioner)
         val canAfford = PractitionerService().checkPractitionerCanAffordVirtualRegistered(practitioner, 3)
         assertThat(canAfford).isFalse()
+    }
+
+    /****************
+     * giveFeedback *
+     ****************/
+    @Test
+    fun giveFeedback_circleHasCreator_true() {
+        val circle = CircleDBO(
+                _id = "123",
+                name  = "Name",
+                description = "",
+                startTime = LocalDateTime.now(),
+                endTime = LocalDateTime.now().plusHours(1),
+                disciplines = listOf(),
+                intentions = listOf(),
+                minimumSpiritContribution = 1,
+                language = "")
+        val practitioner = PractitionerDBO(
+                _id = "p1",
+                circles = listOf(circle))
+        PractitionerService().insert(practitioner)
+        val wentFine = PractitionerService().giveFeedback(circle, 3)
+        assertThat(wentFine).isTrue()
+    }
+    @Test
+    fun giveFeedback_circleDoesNotHasCreator_false() {
+        val circle = CircleDBO(
+                _id = "123",
+                name  = "Name",
+                description = "",
+                startTime = LocalDateTime.now(),
+                endTime = LocalDateTime.now().plusHours(1),
+                disciplines = listOf(),
+                intentions = listOf(),
+                minimumSpiritContribution = 1,
+                language = "")
+        val wentFine = PractitionerService().giveFeedback(circle, 3)
+        assertThat(wentFine).isFalse()
     }
 }

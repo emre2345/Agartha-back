@@ -178,8 +178,12 @@ class MockedPractitionerService : IPractitionerService {
     }
 
     override fun giveFeedback(circle: CircleDBO, feedbackPoints: Long): Boolean {
-        //TODO: implement
-        return false
+        // Go through all the practitioners
+        val creator = getAll().firstOrNull {
+            // Is practitioner creator of this circle?
+            it.creatorOfCircle(circle) }
+        // Return true if circle exist/has creator
+        return creator != null
     }
 
     /**
