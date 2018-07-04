@@ -63,6 +63,12 @@ class CircleController(
             Spark.before("/receipt/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateCircle)
             Spark.before("/receipt/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateCircleCreator)
             Spark.get("/receipt/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::circleReceipt)
+
+            // Remove a circle
+            Spark.before("/remove/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validatePractitioner)
+            Spark.before("/remove/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateCircle)
+            Spark.before("/remove/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::validateCircleCreator)
+            Spark.post("/remove/${ReqArgument.PRACTITIONER_ID.value}/${ReqArgument.CIRCLE_ID.value}", ::removeCircle)
         }
     }
 
@@ -216,6 +222,17 @@ class CircleController(
             spark.kotlin.halt(400, ErrorMessagesEnum.GIVE_FEEDBACK.message)
         }
         return ControllerUtil.objectToString(getCircle(request, false))
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    private fun removeCircle(request: Request, response: Response): String {
+        val practitioner: PractitionerDBO = getPractitioner(request)
+        val circle: CircleDBO = getCircle(request, false)
+        // Remove the circle
+        return ControllerUtil.objectToString(
+                mService.removeCircleById(
+                        practitionerId = practitioner?._id ?: "", circleId = circle._id))
+
     }
 
     /**

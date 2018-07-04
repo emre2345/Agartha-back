@@ -547,4 +547,44 @@ class CircleControllerTest {
         val report = ControllerUtil.stringToObject(String(response.body()), CircleReport::class.java)
         assertThat(report.generatedPoints).isEqualTo(3)
     }
+
+    @Test
+    fun removeCircleWhenPractitionerMissing_status_400() {
+        setup()
+        val request = testController.testServer.post("/circle/remove/q/c1", "", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
+    }
+
+    @Test
+    fun removeCircleWhenCircleMissing_status_400() {
+        setup()
+        val request = testController.testServer.post("/circle/remove/c/c9", "", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
+    }
+
+    @Test
+    fun removeCircleWhenPractitionerIsNotCreator_status_400() {
+        setup()
+        val request = testController.testServer.post("/circle/remove/b/c1", "", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
+    }
+
+    @Test
+    fun removeCircleSuccessfully_status_200() {
+        setup()
+        val request = testController.testServer.post("/circle/remove/c/c1", "", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(200)
+    }
+
+    @Test
+    fun removeCircleSuccessfully_responseIs_true() {
+        setup()
+        val request = testController.testServer.post("/circle/remove/c/c1", "", false)
+        val response = testController.testServer.execute(request)
+        assertThat(String(response.body())).isEqualTo("true")
+    }
 }
