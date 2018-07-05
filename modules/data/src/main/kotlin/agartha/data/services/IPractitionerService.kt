@@ -134,4 +134,13 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
      * @return true if push went fine
      */
     fun giveFeedback(circle: CircleDBO, feedbackPoints: Long): Boolean
+
+    /**
+     * Donate points from one practitioner to another
+     * @param fromPractitionerId practitioner to remove points from
+     * @param toPractitionerId practitioner to add points to
+     * @param points number of ponts
+     */
+    fun donatePoints(
+            fromPractitionerId: String, toPractitionerId: String, points: Long)
 }

@@ -186,6 +186,9 @@ class MockedPractitionerService : IPractitionerService {
         return creator != null
     }
 
+    override fun donatePoints(fromPractitionerId: String, toPractitionerId: String, points: Long) {
+    }
+
     /**
      * Clear database
      */

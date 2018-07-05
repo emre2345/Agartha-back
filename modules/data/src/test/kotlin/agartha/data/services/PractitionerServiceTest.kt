@@ -771,4 +771,30 @@ class PractitionerServiceTest : DatabaseHandler() {
         val circleWithFeedback: CircleDBO? = getCircleFromId("123")
         assertThat(circleWithFeedback!!.feedback.last()).isEqualTo(3)
     }
+
+    /***********************************************
+     * donate points                               *
+     ***********************************************/
+
+    @Test
+    fun donatePoints_giverPoints_neg7() {
+        PractitionerService().insert(PractitionerDBO(_id = "reciever"))
+        PractitionerService().insert(PractitionerDBO(_id = "giver"))
+        // donate
+        PractitionerService().donatePoints("giver", "reciever", 7)
+        // Get giver
+        val practitioner: PractitionerDBO = PractitionerService().getById("giver") ?: PractitionerDBO()
+        assertThat(practitioner.calculateSpiritBankPointsFromLog()).isEqualTo(50-7)
+    }
+
+    @Test
+    fun donatePoints_recieverPoints_pos7() {
+        PractitionerService().insert(PractitionerDBO(_id = "reciever"))
+        PractitionerService().insert(PractitionerDBO(_id = "giver"))
+        // donate
+        PractitionerService().donatePoints("giver", "reciever", 7)
+        // Get giver
+        val practitioner: PractitionerDBO = PractitionerService().getById("reciever") ?: PractitionerDBO()
+        assertThat(practitioner.calculateSpiritBankPointsFromLog()).isEqualTo(50 + 7)
+    }
 }
