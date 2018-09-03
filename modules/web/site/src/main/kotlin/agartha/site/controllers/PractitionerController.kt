@@ -34,7 +34,7 @@ class PractitionerController(private val mService: IPractitionerService, private
 
             //
             // Where we have no practitionerId set yet - return info for the practitioner
-            Spark.get("", ::createPractitioner)
+            Spark.get("/create/${ReqArgument.PRACTITIONER_ID.value}", ::createPractitioner)
             //
             //
             Spark.before("/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
@@ -158,8 +158,9 @@ class PractitionerController(private val mService: IPractitionerService, private
      */
     @Suppress("UNUSED_PARAMETER")
     private fun createPractitioner(request: Request, response: Response): String {
+        val deviceId: String = request.params(ReqArgument.PRACTITIONER_ID.value)
         // Get practitioner from data source
-        val practitioner = mService.insert(PractitionerDBO(_id = ObjectId().toHexString()))
+        val practitioner = mService.insert(PractitionerDBO(_id = deviceId))
         // Create Report for current practitioner
         val report = PractitionerReport(practitioner)
         // Return
