@@ -5,7 +5,6 @@ import agartha.common.utils.DateTimeFormat
 import agartha.data.objects.*
 import agartha.site.controllers.mocks.MockedPractitionerService
 import agartha.site.controllers.utils.ControllerUtil
-import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.objects.response.PractitionerReport
 import io.schinzel.basicutils.configvar.IConfigVar
 import org.assertj.core.api.Assertions.assertThat
@@ -109,7 +108,7 @@ class PractitionerControllerTest {
      */
 
     @Test
-    fun getInformationUserDoesNotExists_status_200() {
+    fun getPractitionerReportUserDoesNotExists_status_200() {
         // Setup
         mockedService.insert(PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf()))
         //
@@ -119,7 +118,7 @@ class PractitionerControllerTest {
     }
 
     @Test
-    fun getInformationUserDoesNotExists_userId_1234() {
+    fun getPractitionerReportUserDoesNotExists_userId_1234() {
         // Setup
         mockedService.insert(PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf()))
         //
@@ -129,7 +128,7 @@ class PractitionerControllerTest {
     }
 
     @Test
-    fun getInformationUserExists_status_200() {
+    fun getPractitionerReportUserExists_status_200() {
         // Setup
         mockedService.insert(PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf()))
         //
