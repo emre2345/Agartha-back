@@ -110,20 +110,20 @@ class PractitionerControllerTest {
      */
 
     @Test
-    fun getInformation_emptyUserId_status200() {
-        val request = testController.testServer.get("/practitioner", false)
+    fun getInformation_customizedUserId_status200() {
+        val request = testController.testServer.get("/practitioner/create/1234", false)
         val response = testController.testServer.execute(request)
         assertThat(response.code()).isEqualTo(200)
     }
 
     @Test
-    fun getInformation_emptyUserId_userCreated() {
-        val request = testController.testServer.get("/practitioner", false)
+    fun getInformation_customizedUserId_userCreated() {
+        val request = testController.testServer.get("/practitioner/create/1234", false)
         val response = testController.testServer.execute(request)
         val body = String(response.body())
         // Map to Data object
         val data: PractitionerReport = ControllerUtil.stringToObject(body, PractitionerReport::class.java)
-        assertThat(data.practitionerId?.length).isEqualTo(24)
+        assertThat(data.practitionerId?.length).isEqualTo(4)
     }
 
     /**
