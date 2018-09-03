@@ -13,7 +13,6 @@ import agartha.site.objects.request.PractitionerInvolvedInformation
 import agartha.site.objects.request.StartSessionInformation
 import agartha.site.objects.response.PractitionerReport
 import io.schinzel.basicutils.configvar.IConfigVar
-import org.bson.types.ObjectId
 import spark.Request
 import spark.Response
 import spark.Spark
@@ -33,8 +32,8 @@ class PractitionerController(private val mService: IPractitionerService, private
         Spark.path("/practitioner") {
 
             //
-            // When creating new practitioner send a customized id - return info for the practitioner
-            Spark.get("/create/${ReqArgument.PRACTITIONER_ID.value}", ::createPractitioner)
+            // When creating new practitioner send a customized id from device - return info for the practitioner
+            Spark.get("/create/${ReqArgument.DEVICE_ID.value}", ::createPractitioner)
             //
             //
             Spark.before("/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
@@ -69,7 +68,7 @@ class PractitionerController(private val mService: IPractitionerService, private
             Spark.get("/spiritbankhistory/${ReqArgument.PRACTITIONER_ID.value}", ::getSpiritBankHistory)
             //
             // Get practitioner from email address
-            Spark.get("/find/email/${ReqArgument.USER_EMAIL.value}", ::getFromEmail)
+            Spark.get("/find/email/${ReqArgument.PRACTITIONER_EMAIL.value}", ::getFromEmail)
             //
             // Donate points to a practitioner
             Spark.before("/donate/${ReqArgument.FROM_ID.value}/${ReqArgument.TO_ID.value}/${ReqArgument.POINTS.value}", ::validateDonate)
@@ -160,7 +159,7 @@ class PractitionerController(private val mService: IPractitionerService, private
     @Suppress("UNUSED_PARAMETER")
     private fun createPractitioner(request: Request, response: Response): String {
         // Get unique identifier for practitioner from request parameters
-        val uniqueIdentifier: String = request.params(ReqArgument.PRACTITIONER_ID.value)
+        val uniqueIdentifier: String = request.params(ReqArgument.DEVICE_ID.value)
         // Get practitioner from data source and set Id to the identifier
         val practitioner = mService.insert(PractitionerDBO(_id = uniqueIdentifier))
         // Create Report for current practitioner
@@ -299,7 +298,7 @@ class PractitionerController(private val mService: IPractitionerService, private
 
     @Suppress("UNUSED_PARAMETER")
     private fun getFromEmail(request: Request, response: Response): String {
-        val email: String = request.params(ReqArgument.USER_EMAIL.value)
+        val email: String = request.params(ReqArgument.PRACTITIONER_EMAIL.value)
         val practitioner = mService
                 .getAll()
                 .firstOrNull { it.email == email }
