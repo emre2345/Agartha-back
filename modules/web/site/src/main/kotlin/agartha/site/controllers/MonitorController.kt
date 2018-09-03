@@ -20,19 +20,19 @@ class MonitorController(private val mService: IBaseService<MonitorDBO>) {
     init {
         Spark.path("/monitoring") {
             Spark.get("/status") { _, _ ->
-                "{\"text\": \"Still alive\"}"
+                """{"status":"Still alive"}"""
             }
             // Monitoring DB is read/writable
             Spark.path("/db") {
                 // Write monitoring
                 Spark.post("/write") { _, _ ->
                     val insert = mService.insert(MonitorDBO("Item to insert"))
-                    insert._id?.isNotEmpty().toString()
+                    """{"status":"${insert._id?.isNotEmpty()}"}"""
                 }
                 // Read monitoring
                 Spark.get("/read") { _, _ ->
                     val list = mService.getAll()
-                    list.isNotEmpty().toString()
+                    """{"status":"${list.isNotEmpty()}"}"""
                 }
             }
         }

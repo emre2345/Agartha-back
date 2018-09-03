@@ -89,7 +89,7 @@ class PractitionerController(private val mService: IPractitionerService, private
 
         // If required info is missing
         if (sessionInfo.discipline.isEmpty() || sessionInfo.intention.isEmpty()) {
-            halt(400, "Discipline and Intention cannot be empty")
+            halt(400, ErrorMessagesEnum.DISCIPLINE_INTENTION_EMPTY.getAsJson())
         }
     }
 
@@ -105,23 +105,23 @@ class PractitionerController(private val mService: IPractitionerService, private
         //
         // Validate that the practitioner can afford joining circle
         if (getPractitioner(request).calculateSpiritBankPointsFromLog() < circle.minimumSpiritContribution) {
-            Spark.halt(400, ErrorMessagesEnum.PRACTITIONER_NOT_AFFORD_CIRCLE.name)
+            halt(400, ErrorMessagesEnum.PRACTITIONER_NOT_AFFORD_CIRCLE.getAsJson())
         }
         //
         // Validate that circle is active and the selected discipline and intention matching
         if (circle._id.isEmpty()) {
-            halt(400, ErrorMessagesEnum.CIRCLE_NOT_ACTIVE_OR_EXIST.message)
+            halt(400, ErrorMessagesEnum.CIRCLE_NOT_ACTIVE_OR_EXIST.getAsJson())
         } else {
             // Only try to match if circle has disciplines
             if (circle.disciplines.isNotEmpty()) {
                 if (circle.disciplines.find { it.title == sessionInfo.discipline } == null) {
-                    Spark.halt(400, ErrorMessagesEnum.DISCIPLINE_NOT_MATCHED.message)
+                    halt(400, ErrorMessagesEnum.DISCIPLINE_NOT_MATCHED.getAsJson())
                 }
             }
             // Only try to match if circle has intentions
             if (circle.intentions.isNotEmpty()) {
                 if (circle.intentions.find { it.title == sessionInfo.intention } == null) {
-                    Spark.halt(400, ErrorMessagesEnum.INTENTION_NOT_MATCHED.message)
+                    halt(400, ErrorMessagesEnum.INTENTION_NOT_MATCHED.getAsJson())
                 }
             }
         }
@@ -138,15 +138,15 @@ class PractitionerController(private val mService: IPractitionerService, private
 
         // Either of practitioner is missing in database
         if (fromPractitioner._id.isNullOrEmpty() || toPractitioner._id.isNullOrEmpty()) {
-            halt(400, ErrorMessagesEnum.PRACTITIONER_ID_INCORRECT.message)
+            halt(400, ErrorMessagesEnum.PRACTITIONER_ID_INCORRECT.getAsJson())
         } else {
             // Points is zero or less
             if (points <= 0) {
-                halt(400, ErrorMessagesEnum.NEGATIVE_INTEGER_VALUE.message)
+                halt(400, ErrorMessagesEnum.NEGATIVE_INTEGER_VALUE.getAsJson())
             }
             // Giver has not enough points to give
             if(fromPractitioner.calculateSpiritBankPointsFromLog() < points) {
-                halt(400, ErrorMessagesEnum.PRACTITIONER_OUT_OF_FUNDS.message)
+                halt(400, ErrorMessagesEnum.PRACTITIONER_OUT_OF_FUNDS.getAsJson())
             }
         }
     }
@@ -303,7 +303,7 @@ class PractitionerController(private val mService: IPractitionerService, private
                 .getAll()
                 .firstOrNull { it.email == email }
         if (practitioner == null) {
-            halt(404, ErrorMessagesEnum.EMAIL_NOT_FOUND.message)
+            halt(404, ErrorMessagesEnum.EMAIL_NOT_FOUND.getAsJson())
         }
         return ControllerUtil.objectToString(practitioner)
     }
@@ -319,7 +319,7 @@ class PractitionerController(private val mService: IPractitionerService, private
                 toPractitionerId = toPractitioner._id ?: "",
                 points = points)
 
-        return "true"
+        return """{"status":true}"""
     }
 
 }

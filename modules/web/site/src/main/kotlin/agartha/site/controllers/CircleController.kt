@@ -81,7 +81,7 @@ class CircleController(
         val practitioner: PractitionerDBO = getPractitioner(request)
         // Practitioner cannot create a circle if less then 50 points in spiritBank
         if (practitioner.calculateSpiritBankPointsFromLog() < minConfigCircleCreate) {
-            Spark.halt(400, "Practitioner cannot create circle with less than $minConfigCircleCreate contribution points")
+            Spark.halt(400, """{"error":"Practitioner cannot create circle with less than $minConfigCircleCreate contribution points"}""")
         }
     }
 
@@ -96,7 +96,7 @@ class CircleController(
                 .circles.firstOrNull { it._id == circleId }
         // Make sure we exit if practitioner is not creator of circle
         if (circle == null) {
-            spark.kotlin.halt(400, ErrorMessagesEnum.PRACTITIONER_NOT_CREATOR_CIRCLE.message)
+            spark.kotlin.halt(400, ErrorMessagesEnum.PRACTITIONER_NOT_CREATOR_CIRCLE.getAsJson())
         }
     }
 
@@ -161,7 +161,7 @@ class CircleController(
                     !mService.checkPractitionerCanAffordVirtualRegistered(practitioner, circle.virtualRegistered)) {
                 //
                 // Cannot afford to edit to this amount of virtualRegistered
-                spark.kotlin.halt(400, ErrorMessagesEnum.PRACTITIONER_NOT_AFFORD_ADD_VIRTUAL.message)
+                spark.kotlin.halt(400, ErrorMessagesEnum.PRACTITIONER_NOT_AFFORD_ADD_VIRTUAL.getAsJson())
             }
             // Edit circle and return the complete practitioner object
             ControllerUtil.objectToString(mService.editCircle(practitioner._id ?: "", circle))
@@ -219,7 +219,7 @@ class CircleController(
         val feedback = request.params(ReqArgument.POINTS.value).toLong()
         val wentFine = mService.giveFeedback(circle, feedback)
         if(!wentFine){
-            spark.kotlin.halt(400, ErrorMessagesEnum.GIVE_FEEDBACK.message)
+            spark.kotlin.halt(400, ErrorMessagesEnum.GIVE_FEEDBACK.getAsJson())
         }
         return ControllerUtil.objectToString(getCircle(request, false))
     }
@@ -229,9 +229,9 @@ class CircleController(
         val practitioner: PractitionerDBO = getPractitioner(request)
         val circle: CircleDBO = getCircle(request, false)
         // Remove the circle
-        return ControllerUtil.objectToString(
-                mService.removeCircleById(
-                        practitionerId = practitioner?._id ?: "", circleId = circle._id))
+        val status = mService.removeCircleById(
+                practitionerId = practitioner?._id ?: "", circleId = circle._id)
+        return """{"status":$status}"""
 
     }
 

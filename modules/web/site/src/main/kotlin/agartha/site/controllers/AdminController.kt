@@ -122,7 +122,7 @@ class AdminController(private val mService: IPractitionerService,
         }
 
         response.status(400)
-        return "Practitioner id $practitionerId does not exist in database"
+        return """{"error":"Practitioner id $practitionerId does not exist in database"}"""
     }
 
     /**
@@ -130,7 +130,7 @@ class AdminController(private val mService: IPractitionerService,
      */
     @Suppress("UNUSED_PARAMETER")
     private fun removeAll(request: Request, response: Response): String {
-        return "${mService.removeAll()}"
+        return """{"status":${mService.removeAll()}}"""
     }
 
     /**

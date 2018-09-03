@@ -2,6 +2,7 @@ package agartha.site.controllers
 
 import agartha.data.objects.ImageDBO
 import agartha.data.services.IBaseService
+import agartha.site.controllers.utils.ErrorMessagesEnum
 import agartha.site.controllers.utils.ReqArgument
 import spark.Request
 import spark.Response
@@ -40,7 +41,7 @@ class ImageController(private val mService: IBaseService<ImageDBO>) {
         // Get image from database
         val image = mService.getById(imageId)
         if (image == null) {
-            halt(404)
+            halt(404, """{"error":"image id $imageId missing"}""")
         }
         // If exists from database
         if (image != null) {
@@ -51,7 +52,7 @@ class ImageController(private val mService: IBaseService<ImageDBO>) {
             raw.outputStream.flush()
             raw.outputStream.close()
         }
-        return ""
+        return """{}"""
     }
 
     /**
@@ -89,13 +90,13 @@ class ImageController(private val mService: IBaseService<ImageDBO>) {
                 // Return path to image
                 return request.pathInfo()
             } else {
-                halt(400, "Image missing or not of type jpg, jpeg or png")
+                halt(400, ErrorMessagesEnum.IMAGE_MISSING.getAsJson())
             }
         } else {
-            halt(400, "Image missing or not of type jpg, jpeg or png")
+            halt(400, ErrorMessagesEnum.IMAGE_MISSING.getAsJson())
         }
 
-        return ""
+        return """{"status":true}"""
 
     }
 }

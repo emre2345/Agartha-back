@@ -139,7 +139,7 @@ class AdminControllerTest {
                 "/admin/session/add/sss/Meditation/Love", passPhrase, false)
         val httpResponse = testController.testServer.execute(request)
         val body = String(httpResponse.body())
-        assertThat(body).isEqualTo("Practitioner id sss does not exist in database")
+        assertThat(body).isEqualTo("""{"error":"Practitioner id sss does not exist in database"}""")
     }
 
     /**
@@ -189,7 +189,7 @@ class AdminControllerTest {
                 "/admin/remove/all", passPhrase,false)
         val httpResponse = testController.testServer.execute(request)
         val body = String(httpResponse.body())
-        assertThat(body).isEqualTo("true")
+        assertThat(body).isEqualTo("""{"status":true}""")
     }
 
     @Test
