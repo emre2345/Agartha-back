@@ -229,9 +229,9 @@ class CircleController(
         val practitioner: PractitionerDBO = getPractitioner(request)
         val circle: CircleDBO = getCircle(request, false)
         // Remove the circle
-        return ControllerUtil.objectToString(
-                mService.removeCircleById(
-                        practitionerId = practitioner?._id ?: "", circleId = circle._id))
+        val status = mService.removeCircleById(
+                practitionerId = practitioner?._id ?: "", circleId = circle._id)
+        return """{"status":$status}"""
 
     }
 

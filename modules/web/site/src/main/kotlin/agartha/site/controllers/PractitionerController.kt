@@ -301,7 +301,7 @@ class PractitionerController(private val mService: IPractitionerService, private
                 .getAll()
                 .firstOrNull { it.email == email }
         if (practitioner == null) {
-            halt(404, ErrorMessagesEnum.EMAIL_NOT_FOUND.message)
+            halt(404, ErrorMessagesEnum.EMAIL_NOT_FOUND.getAsJson())
         }
         return ControllerUtil.objectToString(practitioner)
     }

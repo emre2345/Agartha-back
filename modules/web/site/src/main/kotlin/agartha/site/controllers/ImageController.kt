@@ -96,7 +96,7 @@ class ImageController(private val mService: IBaseService<ImageDBO>) {
             halt(400, ErrorMessagesEnum.IMAGE_MISSING.getAsJson())
         }
 
-        return """{}"""
+        return """{"status":true}"""
 
     }
 }
