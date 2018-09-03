@@ -41,7 +41,7 @@ class MonitorControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         Assertions.assertThat(httpResponse.code()).isEqualTo(200)
         val body = String(httpResponse.body())
-        Assertions.assertThat(body).isEqualTo("{\"text\": \"Still alive\"}")
+        Assertions.assertThat(body).isEqualTo("""{"status":"Still alive"}""")
     }
 
 
@@ -52,7 +52,7 @@ class MonitorControllerTest {
         val httpResponse = testController.testServer.execute(request)
         Assertions.assertThat(httpResponse.code()).isEqualTo(200)
         val body = String(httpResponse.body())
-        Assertions.assertThat(body).isEqualTo("true")
+        Assertions.assertThat(body).isEqualTo("""{"status":"true"}""")
     }
 
     @Test
@@ -64,6 +64,6 @@ class MonitorControllerTest {
         val httpResponse = testController.testServer.execute(getRequest)
         Assertions.assertThat(httpResponse.code()).isEqualTo(200)
         val body = String(httpResponse.body())
-        Assertions.assertThat(body).isEqualTo("true")
+        Assertions.assertThat(body).isEqualTo("""{"status":"true"}""")
     }
 }

@@ -585,6 +585,6 @@ class CircleControllerTest {
         setup()
         val request = testController.testServer.post("/circle/remove/c/c1", "", false)
         val response = testController.testServer.execute(request)
-        assertThat(String(response.body())).isEqualTo("true")
+        assertThat(String(response.body())).isEqualTo("""{"status":true}""")
     }
 }
