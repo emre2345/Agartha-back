@@ -33,7 +33,7 @@ class PractitionerController(private val mService: IPractitionerService, private
         Spark.path("/practitioner") {
 
             //
-            // Where we have no practitionerId set yet - return info for the practitioner
+            // When creating new practitioner send a customized id - return info for the practitioner
             Spark.get("/create/${ReqArgument.PRACTITIONER_ID.value}", ::createPractitioner)
             //
             //
@@ -153,14 +153,16 @@ class PractitionerController(private val mService: IPractitionerService, private
     }
 
     /**
+     * Create new practitioner with customized id
      * Get information about current practitioner
      * @return Object with general information
      */
     @Suppress("UNUSED_PARAMETER")
     private fun createPractitioner(request: Request, response: Response): String {
-        val deviceId: String = request.params(ReqArgument.PRACTITIONER_ID.value)
-        // Get practitioner from data source
-        val practitioner = mService.insert(PractitionerDBO(_id = deviceId))
+        // Get unique identifier for practitioner from request parameters
+        val uniqueIdentifier: String = request.params(ReqArgument.PRACTITIONER_ID.value)
+        // Get practitioner from data source and set Id to the identifier
+        val practitioner = mService.insert(PractitionerDBO(_id = uniqueIdentifier))
         // Create Report for current practitioner
         val report = PractitionerReport(practitioner)
         // Return
