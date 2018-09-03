@@ -24,7 +24,7 @@ abstract class AbstractController(private val mService: IPractitionerService) {
     fun validatePractitioner(request: Request, response: Response) {
         val practitioner = getPractitioner(request)
         if (practitioner._id.isNullOrEmpty()) {
-            halt(400, ErrorMessagesEnum.PRACTITIONER_ID_INCORRECT.message)
+            halt(400, ErrorMessagesEnum.PRACTITIONER_ID_INCORRECT.getAsJson())
         }
     }
 
@@ -35,7 +35,7 @@ abstract class AbstractController(private val mService: IPractitionerService) {
     fun validateCircle(request: Request, response: Response) {
         val circle = getCircle(request, false)
         if (circle._id.isEmpty()) {
-            halt(400, ErrorMessagesEnum.CIRCLE_NOT_ACTIVE_OR_EXIST.message)
+            halt(400, ErrorMessagesEnum.CIRCLE_NOT_ACTIVE_OR_EXIST.getAsJson())
         }
     }
 
@@ -47,7 +47,7 @@ abstract class AbstractController(private val mService: IPractitionerService) {
     fun validateActiveCircle(request: Request, response: Response) {
         val circle = getCircle(request, true)
         if (circle._id.isEmpty()) {
-            halt(400, ErrorMessagesEnum.CIRCLE_NOT_ACTIVE_OR_EXIST.message)
+            halt(400, ErrorMessagesEnum.CIRCLE_NOT_ACTIVE_OR_EXIST.getAsJson())
         }
     }
 
