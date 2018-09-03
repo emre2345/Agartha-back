@@ -104,31 +104,29 @@ class PractitionerControllerTest {
                 SessionDBO(null, "Meditation", "Love",
                         DateTimeFormat.localDateTimeUTC().minusMinutes(25)))))
     }
-
     /**
-     * Create Practitioner
+     * Get By Id
      */
 
     @Test
-    fun getInformation_customizedUserId_status200() {
-        val request = testController.testServer.get("/practitioner/create/1234", false)
+    fun getInformationUserDoesNotExists_status_200() {
+        // Setup
+        mockedService.insert(PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf()))
+        //
+        val request = testController.testServer.get("/practitioner/abc", false)
         val response = testController.testServer.execute(request)
         assertThat(response.code()).isEqualTo(200)
     }
 
     @Test
-    fun getInformation_customizedUserId_userCreated() {
-        val request = testController.testServer.get("/practitioner/create/1234", false)
+    fun getInformationUserDoesNotExists_userId_1234() {
+        // Setup
+        mockedService.insert(PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf()))
+        //
+        val request = testController.testServer.get("/practitioner/1234", false)
         val response = testController.testServer.execute(request)
-        val body = String(response.body())
-        // Map to Data object
-        val data: PractitionerReport = ControllerUtil.stringToObject(body, PractitionerReport::class.java)
-        assertThat(data.practitionerId?.length).isEqualTo(4)
+        assertThat(response.code()).isEqualTo(200)
     }
-
-    /**
-     * Get By Id
-     */
 
     @Test
     fun getInformationUserExists_status_200() {
@@ -140,15 +138,6 @@ class PractitionerControllerTest {
         assertThat(response.code()).isEqualTo(200)
     }
 
-    @Test
-    fun getInformationUserMissing_status_400() {
-        // Setup
-        mockedService.insert(PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf()))
-        //
-        val request = testController.testServer.get("/practitioner/def", false)
-        val response = testController.testServer.execute(request)
-        assertThat(response.code()).isEqualTo(400)
-    }
 
     @Test
     fun getInformationUserExists_userId_C() {
@@ -199,19 +188,6 @@ class PractitionerControllerTest {
                 false)
         val response = testController.testServer.execute(request)
         assertThat(response.code()).isEqualTo(200)
-    }
-
-    @Test
-    fun updatePractitionerUserDoesNotExists_status_400() {
-        // Setup
-        mockedService.insert(PractitionerDBO("abc", DateTimeFormat.localDateTimeUTC(), mutableListOf()))
-
-        val request = testController.testServer.post(
-                "/practitioner/def",
-                """{"fullName":"Santa Claus","email":"santa@agartha.com","description":"Jag gillar yoga!" }""",
-                false)
-        val response = testController.testServer.execute(request)
-        assertThat(response.code()).isEqualTo(400)
     }
 
     @Test
