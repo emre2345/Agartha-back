@@ -146,7 +146,7 @@ class CircleController(
 
     /**
      * Get creator/owner of a circle by its Id
-     * @return list of circles as a string
+     * @return creating practitioner of the circle
      */
     @Suppress("UNUSED_PARAMETER")
     private fun getOwnerForCircle(request: Request, response: Response): String {

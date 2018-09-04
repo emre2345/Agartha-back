@@ -24,6 +24,16 @@ class PractitionerServiceTest : DatabaseHandler() {
         dropCollection(CollectionNames.PRACTITIONER_SERVICE)
     }
 
+    private fun getCircleFromId(circleId: String): CircleDBO? {
+        return PractitionerService()
+                // Get all practitioner
+                .getAll()
+                // Get all circles from practitioner
+                .flatMap { it.circles }
+                // Find the one with correct id
+                .find { it._id == circleId }
+    }
+
     /**
      * Find
      */
@@ -704,7 +714,7 @@ class PractitionerServiceTest : DatabaseHandler() {
     /****************
      * giveFeedback *
      ****************/
-    fun setupPracToFeedbackFunctions(): CircleDBO {
+    private fun setupPracToFeedbackFunctions(): CircleDBO {
         val circle = CircleDBO(
                 _id = "123",
                 name = "Name",
@@ -722,15 +732,7 @@ class PractitionerServiceTest : DatabaseHandler() {
         return circle
     }
 
-    fun getCircleFromId(circleId: String): CircleDBO? {
-        return PractitionerService()
-                // Get all practitioner
-                .getAll()
-                // Get all circles from practitioner
-                .flatMap { it.circles }
-                // Find the one with correct id
-                .find { it._id == circleId }
-    }
+
     @Test
     fun giveFeedback_circleHasCreator_true() {
         val circle = setupPracToFeedbackFunctions()
@@ -796,5 +798,47 @@ class PractitionerServiceTest : DatabaseHandler() {
         // Get giver
         val practitioner: PractitionerDBO = PractitionerService().getById("reciever") ?: PractitionerDBO()
         assertThat(practitioner.calculateSpiritBankPointsFromLog()).isEqualTo(50 + 7)
+    }
+
+    /***********************************************
+     * get circle creator                          *
+     ***********************************************/
+
+    @Test
+    fun getCreator_circleExists_practitionerIsNotNull() {
+        val circle = CircleDBO(
+                _id = "123",
+                name = "Name",
+                description = "",
+                startTime = LocalDateTime.now(),
+                endTime = LocalDateTime.now().plusHours(1),
+                disciplines = listOf(),
+                intentions = listOf(),
+                minimumSpiritContribution = 1,
+                language = "")
+        val practitioner = PractitionerDBO(
+                _id = "p1",
+                circles = listOf(circle))
+        PractitionerService().insert(practitioner)
+
+        val creator = PractitionerService().getCreatorOfCircle(circle)
+        assertThat(creator).isNotNull()
+    }
+
+    @Test
+    fun getCreator_circleDoesNotExists_practitionerIsNull() {
+        val circle = CircleDBO(
+                _id = "",
+                name = "",
+                description = "",
+                startTime = LocalDateTime.now(),
+                endTime = LocalDateTime.now().plusHours(1),
+                disciplines = listOf(),
+                intentions = listOf(),
+                minimumSpiritContribution = 1,
+                language = "")
+        
+        val creator = PractitionerService().getCreatorOfCircle(circle)
+        assertThat(creator).isNull()
     }
 }
