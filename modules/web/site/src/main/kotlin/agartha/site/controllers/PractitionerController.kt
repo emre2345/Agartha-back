@@ -31,16 +31,13 @@ class PractitionerController(private val mService: IPractitionerService, private
         // API path for session
         Spark.path("/practitioner") {
 
+            // Get info for the practitioner and about practitioner
+            // If practitioner isn't yet a practitioner then create one with the given practitioner_id
+            Spark.get("/${ReqArgument.PRACTITIONER_ID.value}", ::getPractitionerReport)
             //
-            // When creating new practitioner send a customized id from device - return info for the practitioner
-            Spark.get("/create/${ReqArgument.DEVICE_ID.value}", ::createPractitioner)
-            //
-            //
-            Spark.before("/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
-            // Where practitionerId has been set - return info for the practitioner and about practitioner
-            Spark.get("/${ReqArgument.PRACTITIONER_ID.value}", ::getInformation)
             // Update practitioner data
-            Spark.post("/${ReqArgument.PRACTITIONER_ID.value}", ::updatePractitioner)
+            Spark.before("/update/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
+            Spark.post("/update/${ReqArgument.PRACTITIONER_ID.value}", ::updatePractitioner)
             //
             // Start a Session
             Spark.before("/session/start/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
@@ -151,31 +148,23 @@ class PractitionerController(private val mService: IPractitionerService, private
         }
     }
 
-    /**
-     * Create new practitioner with customized id
-     * Get information about current practitioner
-     * @return Object with general information
-     */
-    @Suppress("UNUSED_PARAMETER")
-    private fun createPractitioner(request: Request, response: Response): String {
-        // Get unique identifier for practitioner from request parameters
-        val uniqueIdentifier: String = request.params(ReqArgument.DEVICE_ID.value)
-        // Get practitioner from data source and set Id to the identifier
-        val practitioner = mService.insert(PractitionerDBO(_id = uniqueIdentifier))
-        // Create Report for current practitioner
-        val report = PractitionerReport(practitioner)
-        // Return
-        return ControllerUtil.objectToString(report)
-    }
 
     /**
-     * Get information about current practitioner
+     * Get Practitioner with given unique id
+     * If practitioner does not exist then create a new practitioner with customized id
+     * Return information about current practitioner
      * @return Object with general information
      */
     @Suppress("UNUSED_PARAMETER")
-    private fun getInformation(request: Request, response: Response): String {
+    private fun getPractitionerReport(request: Request, response: Response): String {
+        // Get unique identifier for practitioner from request parameters
+        val uniqueIdentifier: String = request.params(ReqArgument.PRACTITIONER_ID.value)
         // Get practitioner from data source
-        val practitioner: PractitionerDBO = getPractitioner(request)
+        var practitioner: PractitionerDBO = getPractitioner(request)
+        // If practitioner does not exist, then create it with the given id
+        if (practitioner._id.isNullOrEmpty()) {
+            practitioner = mService.insert(PractitionerDBO(_id = uniqueIdentifier))
+        }
         // Create Report for current practitioner
         val report = PractitionerReport(practitioner)
         // Return
