@@ -34,8 +34,10 @@ class PractitionerController(private val mService: IPractitionerService, private
             // Get info for the practitioner and about practitioner
             // If practitioner isn't yet a practitioner then create one with the given practitioner_id
             Spark.get("/${ReqArgument.PRACTITIONER_ID.value}", ::getPractitionerReport)
+            //
             // Update practitioner data
-            Spark.post("/${ReqArgument.PRACTITIONER_ID.value}", ::updatePractitioner)
+            Spark.before("/update/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
+            Spark.post("/update/${ReqArgument.PRACTITIONER_ID.value}", ::updatePractitioner)
             //
             // Start a Session
             Spark.before("/session/start/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
