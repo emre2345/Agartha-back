@@ -11,6 +11,8 @@ import agartha.data.services.IPractitionerService
  * Created by Jorgen Andersson on 2018-04-09.
  */
 class MockedPractitionerService : IPractitionerService {
+
+
     /**
      * Overloading a new function to the list
      */
@@ -69,6 +71,13 @@ class MockedPractitionerService : IPractitionerService {
         }
         return practitioner
     }
+
+
+    override fun getCreatorOfCircle(circle: CircleDBO): PractitionerDBO? {
+        return getAll().firstOrNull {
+            // Is practitioner creator of this circle?
+            it.creatorOfCircle(circle)
+        }    }
 
     override fun addCircle(practitionerId: String, circle: CircleDBO): PractitionerDBO? {
         val practitioner = getById(practitionerId)

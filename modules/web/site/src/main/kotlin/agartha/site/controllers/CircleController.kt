@@ -34,6 +34,10 @@ class CircleController(
             // Get a list of all currently active circles
             Spark.get("/active", ::getAllActive)
             //
+            // Get owner/creator of a circle
+            Spark.before("/creator/${ReqArgument.CIRCLE_ID.value}", ::validateOwner)
+            Spark.get("/creator/${ReqArgument.CIRCLE_ID.value}", ::getOwnerForCircle)
+            //
             // Get a list of all circles for a user
             Spark.before("/created/${ReqArgument.PRACTITIONER_ID.value}", ::validatePractitioner)
             Spark.get("/created/${ReqArgument.PRACTITIONER_ID.value}", ::getAllForUser)
@@ -86,6 +90,18 @@ class CircleController(
     }
 
     /**
+     * Validate that a circle with this id exists
+     */
+    @Suppress("UNUSED_PARAMETER")
+    private fun validateOwner(request: Request, response: Response) {
+        val circleId: String = request.params(ReqArgument.CIRCLE_ID.value)
+        val circle: CircleDBO = getCircle(request, false)
+        if (circle._id.isEmpty()) {
+            Spark.halt(400, """{"error":"There is no circle with id $circleId"}""")
+        }
+    }
+
+    /**
      * Validate that the argument "circleid" is created by the argument "userid"
      */
     @Suppress("UNUSED_PARAMETER")
@@ -126,6 +142,17 @@ class CircleController(
     private fun getAllForUser(request: Request, response: Response): String {
         val practitioner = getPractitioner(request)
         return ControllerUtil.objectListToString(practitioner.circles)
+    }
+
+    /**
+     * Get creator/owner of a circle by its Id
+     * @return list of circles as a string
+     */
+    @Suppress("UNUSED_PARAMETER")
+    private fun getOwnerForCircle(request: Request, response: Response): String {
+        val circle = getCircle(request, false)
+        val practitioner = mService.getCreatorOfCircle(circle)
+        return ControllerUtil.objectToString(practitioner)
     }
 
     /**
@@ -230,7 +257,7 @@ class CircleController(
         val circle: CircleDBO = getCircle(request, false)
         // Remove the circle
         val status = mService.removeCircleById(
-                practitionerId = practitioner?._id ?: "", circleId = circle._id)
+                practitionerId = practitioner._id ?: "", circleId = circle._id)
         return """{"status":$status}"""
 
     }

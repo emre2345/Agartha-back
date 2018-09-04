@@ -95,6 +95,12 @@ interface IPractitionerService : IBaseService<PractitionerDBO> {
             practitionerId: String): Boolean
 
     /**
+     * Get the creator of a Circle
+     * @param circle circle to get creator from
+     */
+    fun getCreatorOfCircle(circle: CircleDBO): PractitionerDBO?
+
+    /**
      * Remove a circle from practitioner
      * @param practitionerId id for practitioner to remove from
      * @param circleId id for circle to remove

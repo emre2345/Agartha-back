@@ -368,7 +368,7 @@ class PractitionerService : IPractitionerService {
      * @param circle that the creator should have in its circles
      * @return practitioner that is creator of circle
      */
-    private fun getCreatorOfCircle(circle: CircleDBO): PractitionerDBO? {
+    override fun getCreatorOfCircle(circle: CircleDBO): PractitionerDBO? {
         // Go through all the practitioners
         return getAll().firstOrNull {
             // Is practitioner creator of this circle?

@@ -24,6 +24,7 @@ class WebSocketHandler {
      * When a practitioner has connected to the WebSocket
      */
     @OnWebSocketConnect
+    @Suppress("UNUSED_PARAMETER")
     fun connected(webSocketSession: Session) = println("session connected")
 
     /**
@@ -89,6 +90,7 @@ class WebSocketHandler {
      * - Broadcast to everybody else that a companion with its virtual sessions left
      */
     @OnWebSocketClose
+    @Suppress("UNUSED_PARAMETER")
     fun disconnect(webSocketSession: Session, code: Int, reason: String?) {
         // Remove the practitioner from the hashMap
         val practitionersSessions = service.disconnect(webSocketSession)

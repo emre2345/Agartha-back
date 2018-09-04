@@ -729,7 +729,7 @@ class PractitionerServiceTest : DatabaseHandler() {
                 // Get all circles from practitioner
                 .flatMap { it.circles }
                 // Find the one with correct id
-                .find { it._id == "123" }
+                .find { it._id == circleId }
     }
     @Test
     fun giveFeedback_circleHasCreator_true() {
