@@ -145,6 +145,7 @@ class CircleControllerTest {
                 )))
 
     }
+
     /**********
      * getAll *
      **********/
@@ -262,21 +263,52 @@ class CircleControllerTest {
         val response = testController.testServer.execute(request)
         assertThat(response.code()).isEqualTo(200)
     }
+
     @Test
     fun giveFeedback_circleDoesNotExistStatus_400() {
         setup()
-        val request = testController.testServer.post("/circle/feedback/99/99", "",false)
+        val request = testController.testServer.post("/circle/feedback/99/99", "", false)
         val response = testController.testServer.execute(request)
         assertThat(response.code()).isEqualTo(400)
     }
+
     @Test
     fun giveFeedback_response_circle() {
         setup()
-        val request = testController.testServer.post("/circle/feedback/1/99", "",false)
+        val request = testController.testServer.post("/circle/feedback/1/99", "", false)
         val response = testController.testServer.execute(request)
         val circle = ControllerUtil.stringToObject(String(response.body()), CircleDBO::class.java)
         assertThat(circle._id).isEqualTo("1")
     }
+
+    /*************
+     * owner *
+     *************/
+    @Test
+    fun creator_circleExists_status200() {
+        setup()
+        val request = testController.testServer.get("/circle/creator/1", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(200)
+    }
+
+    @Test
+    fun creator_circleDoesNotExists_status400() {
+        setup()
+        val request = testController.testServer.get("/circle/creator/tomten", false)
+        val response = testController.testServer.execute(request)
+        assertThat(response.code()).isEqualTo(400)
+    }
+
+    @Test
+    fun creator_circleExistsMapToPractitioner_idIsb() {
+        setup()
+        val request = testController.testServer.get("/circle/creator/1", false)
+        val response = testController.testServer.execute(request)
+        val practitioner = ControllerUtil.stringToObject(String(response.body()), PractitionerDBO::class.java)
+        assertThat(practitioner._id).isEqualTo("b")
+    }
+
 
     /*************
      * addCircle *
@@ -412,7 +444,7 @@ class CircleControllerTest {
                 false)
         val response = testController.testServer.execute(request)
         val practitioner = ControllerUtil.stringToObject(String(response.body()), PractitionerDBO::class.java)
-        val circle =  practitioner.circles.find { it._id == "1" }
+        val circle = practitioner.circles.find { it._id == "1" }
         assertThat(circle!!.name).isEqualTo("MyCircle Name")
     }
 
@@ -497,7 +529,7 @@ class CircleControllerTest {
     }
 
     @Test
-    fun receipt_practitionerMissing_400(){
+    fun receipt_practitionerMissing_400() {
         setup()
         val request = testController.testServer.get("/circle/receipt/s/c1", false)
         val response = testController.testServer.execute(request)
@@ -505,7 +537,7 @@ class CircleControllerTest {
     }
 
     @Test
-    fun receipt_practitionerNotCreator_400(){
+    fun receipt_practitionerNotCreator_400() {
         setup()
         val request = testController.testServer.get("/circle/receipt/a/c1", false)
         val response = testController.testServer.execute(request)
