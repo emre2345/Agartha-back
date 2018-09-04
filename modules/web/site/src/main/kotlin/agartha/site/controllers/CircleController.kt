@@ -92,6 +92,7 @@ class CircleController(
     /**
      * Validate that a circle with this id exists
      */
+    @Suppress("UNUSED_PARAMETER")
     private fun validateOwner(request: Request, response: Response) {
         val circleId: String = request.params(ReqArgument.CIRCLE_ID.value)
         val circle: CircleDBO = getCircle(request, false)
@@ -256,7 +257,7 @@ class CircleController(
         val circle: CircleDBO = getCircle(request, false)
         // Remove the circle
         val status = mService.removeCircleById(
-                practitionerId = practitioner?._id ?: "", circleId = circle._id)
+                practitionerId = practitioner._id ?: "", circleId = circle._id)
         return """{"status":$status}"""
 
     }
