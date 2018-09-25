@@ -61,6 +61,18 @@ fun startServer(args: Array<String>) {
                 SettingsService().getAll().firstOrNull())
     }
 
+    Spark.path("/v2") {
+        val config = ConfigVar.create(".env")
+        /*
+         * CORS (Cross Origin stuff)
+         * Allow requests from any origin, needed to be able to access this path
+         */
+        Spark.before("/*", { _, response -> response.header("Access-Control-Allow-Origin", "*") })
+        //
+        CirclesController(
+                PractitionerService(), config)
+    }
+
     // Add Paths for Monitoring - No need to have CORS since this should be called from Monitoring tool fx Pingdom
     MonitorController(MonitorService())
 
